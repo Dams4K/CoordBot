@@ -1,5 +1,6 @@
 import json
 import typing
+import os
 
 class _References:
     BOT_PATH: str = "datas/bot.json"
@@ -8,6 +9,7 @@ class _References:
     BOT_PREFIX: str
     VERSION: str
     COGS_FOLDER: str
+    LOGS_FOLDER: str
 
     BETA_GUILDS: typing.List[int]
 
@@ -20,6 +22,7 @@ class _References:
             self.VERSION = data["version"]
             
             self.COGS_FOLDER = data["cogs_folder"]
+            self.LOGS_FOLDER = os.path.join(data["logs_folder"], 'discord.log')
 
             self.BETA_GUILDS = data["beta_guilds"]
 
