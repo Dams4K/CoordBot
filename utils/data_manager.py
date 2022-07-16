@@ -36,4 +36,16 @@ class BaseData:
 
 
 class MemberData(BaseData):
-    pass
+    def __init__(self, member_id):
+        self.xp = 0
+
+    def add_xp(self, amount):
+        self.xp += amount
+    def set_xp(self, amount):
+        self.xp = amount
+    
+    """
+    calcul level of the member based of his xp amount
+    """
+    def get_level(self):
+        pass
