@@ -11,6 +11,5 @@ class GlobalCog(commands.Cog):
         pass
 
 
-
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

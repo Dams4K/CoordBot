@@ -5,14 +5,6 @@ import os
 class _References:
     BOT_PATH: str = "datas/bot.json"
 
-    BOT_TOKEN: str
-    BOT_PREFIX: str
-    VERSION: str
-    COGS_FOLDER: str
-    LOGS_FOLDER: str
-
-    BETA_GUILDS: typing.List[int]
-
     def __init__(self) -> None:
         with open(self.BOT_PATH, "r") as f:
             data = json.load(f)
@@ -25,5 +17,7 @@ class _References:
             self.LOGS_FOLDER = os.path.join(data["logs_folder"], 'discord.log')
 
             self.BETA_GUILDS = data["beta_guilds"]
+
+            self.DEBUG_MODE = data["debug_mode"]
 
 References: _References = _References()

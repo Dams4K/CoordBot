@@ -1,5 +1,6 @@
 import os
 import json
+from utils.references import References
 
 BASE_GUILD_FOLDER = "datas/guilds/"
 
@@ -59,8 +60,18 @@ class BaseData:
 class GuildData(BaseData):
     def __init__(self, guild_id):
         self.guild_id = guild_id
-        self.data = {}
         super().__init__(get_guild_path(f"{self.guild_id}/global.json"))
+    
+    def load_base_data(self):
+        self.data.setdefault("prefix", References.BOT_PREFIX)
+
+    @BaseData.manage_data
+    def set_prefix(self, new_prefix: str):
+        self.data["prefix"] = new_prefix
+    
+
+    def get_prefix(self):
+        return self.data.get("prefix", References.BOT_PREFIX)
 
 
 class MemberData(BaseData):

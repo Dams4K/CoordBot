@@ -1,9 +1,10 @@
 import discord
 import logging
 import os
+from discord.ext import bridge
 from utils.references import References
 from utils.bot_contexts import *
-from discord.ext import bridge
+from utils.data_manager import GuildData
 
 class GDCPBot(bridge.Bot):
     def __init__(self):
@@ -22,18 +23,20 @@ class GDCPBot(bridge.Bot):
         os.system("clear||cls")
         print(self.user, "is now ready")
         print("version:", References.VERSION)
-        print(self.extensions_path())
+        print("extensions:", end="")
+        print("\n  - ".join([""] + self.extensions_path()))
 
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
 
-    async def get_context(self, message, *, cls = BotContext):
+    async def get_context(self, message, cls = BotContext):
         return await super().get_context(message, cls=cls)
 
 
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
+            if "debug" in cog_file and not References.DEBUG_MODE: continue 
             self.load_extension(cog_file.replace("/", ".")[:-3])
 
 
@@ -55,4 +58,5 @@ class GDCPBot(bridge.Bot):
 
 
     async def get_prefix(bot, message):
-        return References.BOT_PREFIX
+        guild_data = GuildData(message.guild.id)
+        return guild_data.get_prefix()
