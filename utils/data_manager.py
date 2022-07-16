@@ -20,6 +20,9 @@ class BaseData:
             os.makedirs(dirname)
 
 
+    def load_base_data(self): pass
+
+
     def load(self):
         self.create_dirs()
         if os.path.exists(self.file_path):
@@ -43,6 +46,7 @@ class BaseData:
     def manage_data(func):
         def decorator(self, *args, **kwargs):
             self.load()
+            self.load_base_data()
 
             result = func(self, *args, **kwargs)
             
@@ -58,9 +62,24 @@ class GuildData(BaseData):
         self.data = {}
         super().__init__(get_guild_path(f"{self.guild_id}/global.json"))
 
+
 class MemberData(BaseData):
     def __init__(self, guild_id, member_id):
         self.guild_id = guild_id
         self.member_id = member_id
-        self.data = {}
         super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}.json"))
+    
+    def load_base_data(self):
+        self.data.setdefault("xp", 0)
+
+    @BaseData.manage_data
+    def add_xp(self, amount: int):
+        self.data["xp"] += amount
+    
+    @BaseData.manage_data
+    def remove_xp(self, amount: int):
+        self.data["xp"] -= amount
+    
+    @BaseData.manage_data
+    def set_xp(self, amount: int):
+        self.data["xp"] = amount

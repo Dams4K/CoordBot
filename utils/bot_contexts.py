@@ -8,7 +8,7 @@ class BotApplicationContext(ApplicationContext):
     def guild_data(self):
         return GuildData(self.guild_id)
     @property
-    def member_data(self):
+    def author_data(self):
         return MemberData(self.guild_id, self.user.id)
 
 class BotContext(Context):
@@ -16,5 +16,5 @@ class BotContext(Context):
     def guild_data(self):
         return GuildData(self.guild.id)
     @property
-    def member_data(self):
+    def author_data(self):
         return MemberData(self.guild.id, self.author.id)

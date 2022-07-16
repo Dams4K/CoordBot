@@ -22,6 +22,7 @@ class GDCPBot(bridge.Bot):
         os.system("clear||cls")
         print(self.user, "is now ready")
         print("version:", References.VERSION)
+        print(self.extensions_path())
 
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
@@ -48,6 +49,9 @@ class GDCPBot(bridge.Bot):
                 cogs_file += self.get_cogs_file(path + "/" + filename)
 
         return cogs_file
+
+    def extensions_path(self):
+        return [str(ext.__name__).replace(".", "/") + ".py" for ext in self.extensions.values()]
 
 
     async def get_prefix(bot, message):
