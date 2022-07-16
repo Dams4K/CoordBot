@@ -8,7 +8,7 @@ class GlobalCog(commands.Cog):
     
     @bridge.bridge_command(name="profil")
     async def profil(self, ctx):
-        pass
+        print(ctx.member_data)
 
 
 

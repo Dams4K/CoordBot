@@ -1,4 +1,5 @@
 import os
+import json
 
 BASE_GUILD_FOLDER = "datas/guilds/"
 
@@ -10,12 +11,12 @@ class BaseData:
         self.file_path = file_path
 
         self.data = base_data if not hasattr(self, "data") else self.data
-        self.load_data()
+        self.load()
 
 
     def create_dirs(self):
-        if not os.path.exists(self.file_path):
-            dirname = os.path.dirname(self.file_path)
+        dirname = os.path.dirname(self.file_path)
+        if not os.path.exists(dirname):
             os.makedirs(dirname)
 
 
@@ -25,7 +26,7 @@ class BaseData:
             with open(self.file_path, "r") as f:
                 self.data = json.load(f)
         else:
-            self.save_data()
+            self.save()
 
 
     def save(self):
@@ -62,4 +63,4 @@ class MemberData(BaseData):
         self.guild_id = guild_id
         self.member_id = member_id
         self.data = {}
-        super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}"))
+        super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}.json"))

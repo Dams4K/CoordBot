@@ -2,6 +2,7 @@ import discord
 import logging
 import os
 from utils.references import References
+from utils.bot_contexts import *
 from discord.ext import bridge
 
 class GDCPBot(bridge.Bot):
@@ -21,6 +22,13 @@ class GDCPBot(bridge.Bot):
         os.system("clear||cls")
         print(self.user, "is now ready")
         print("version:", References.VERSION)
+
+
+    async def get_application_context(self, interaction, cls = BotApplicationContext):
+        return await super().get_application_context(interaction, cls=cls)
+
+    async def get_context(self, message, *, cls = BotContext):
+        return await super().get_context(message, cls=cls)
 
 
     def load_cogs(self, path: str):
