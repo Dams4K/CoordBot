@@ -1,11 +1,26 @@
+import os
+
+BASE_GUILD_FOLDER = "datas/guilds/"
+
+def get_guild_path(*end):
+    return os.path.join(BASE_GUILD_FOLDER, *end)
+
 class BaseData:
     def __init__(self, file_path, base_data = {}):
         self.file_path = file_path
+
         self.data = base_data if not hasattr(self, "data") else self.data
         self.load_data()
 
 
+    def create_dirs(self):
+        if not os.path.exists(self.file_path):
+            dirname = os.path.dirname(self.file_path)
+            os.makedirs(dirname)
+
+
     def load(self):
+        self.create_dirs()
         if os.path.exists(self.file_path):
             with open(self.file_path, "r") as f:
                 self.data = json.load(f)
@@ -15,6 +30,7 @@ class BaseData:
 
     def save(self):
         data = self.get_data()
+        self.create_dirs()
         if data != None:
             with open(self.file_path, "w") as f:
                 json.dump(data, f, indent=4)
@@ -35,17 +51,15 @@ class BaseData:
         return decorator
 
 
-class MemberData(BaseData):
-    def __init__(self, member_id):
-        self.xp = 0
+class GuildData(BaseData):
+    def __init__(self, guild_id):
+        self.guild_id = guild_id
+        self.data = {}
+        super().__init__(get_guild_path(f"{self.guild_id}/global.json"))
 
-    def add_xp(self, amount):
-        self.xp += amount
-    def set_xp(self, amount):
-        self.xp = amount
-    
-    """
-    calcul level of the member based of his xp amount
-    """
-    def get_level(self):
-        pass
+class MemberData(BaseData):
+    def __init__(self, guild_id, member_id):
+        self.guild_id = guild_id
+        self.member_id = member_id
+        self.data = {}
+        super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}"))
