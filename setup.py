@@ -23,6 +23,10 @@ def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 def create_file(filepath, filedata):
     dirname = os.path.dirname(filepath)
+    if os.path.exists(filepath):
+        print(f"{filepath} already exist - skipped")
+        return
+
     if not os.path.exists(dirname): os.makedirs(dirname)
 
     with open(filepath, "w") as f:
