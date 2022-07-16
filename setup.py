@@ -23,9 +23,9 @@ def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 def create_file(filepath, filedata):
     dirname = os.path.dirname(filepath)
-    os.mkdirs(dirname)
+    if not os.path.exists(dirname): os.makedirs(dirname)
 
-    with open(os.path.basename(filedata), "w") as f:
+    with open(filepath, "w") as f:
         json.dump(filedata, f, indent=4)
 
 
@@ -34,4 +34,6 @@ if __name__ == "__main__":
         install(package)
     for filepath in files:
         create_file(filepath, files[filepath])
+    
+    print("check datas/bot.json file to configure your bot token and other stuff")
     
