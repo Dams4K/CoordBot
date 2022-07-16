@@ -9,7 +9,6 @@ class DebugCog(commands.Cog):
     
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
-        print(ctx.guild_data)
         embed = BotEmbed(title="Test")
         await ctx.respond(embed=embed)
     
