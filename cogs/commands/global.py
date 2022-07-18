@@ -11,13 +11,13 @@ class GlobalCog(commands.Cog):
     
     @commands.slash_command(name="profil")
     async def slash_profil(self, ctx, member: Option(discord.Member, "member", required=False) = None):
-        await ctx.respond(**self.profil(ctx, member))
+        await ctx.respond(**await self.profil(ctx, member))
 
     @commands.command(name="profil")
     async def cmd_profil(self, ctx, member: discord.Member = None):
-        await ctx.send(**self.profil(ctx, member))
+        await ctx.send(**await self.profil(ctx, member))
 
-    def profil(self, ctx, member):
+    async def profil(self, ctx, member):
         member = ctx.author if member == None else member
         member_data = MemberData(ctx.guild.id, member.id)
 

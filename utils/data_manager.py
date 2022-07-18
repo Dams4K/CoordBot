@@ -77,7 +77,7 @@ class GuildData(BaseData):
 
 
     def get_prefix(self):
-        return self.data.get("prefix", References.BOT_PREFIX)
+        return self.data["prefix"]
 
 
 class MemberData(BaseData):
@@ -104,6 +104,11 @@ class MemberData(BaseData):
     @BaseData.manage_data
     def set_coins(self, amount: int):
         self.data["coins"] = amount
+
+
+    @BaseData.manage_data
+    def reset(self):
+        self.data = {}
 
 
     @property
