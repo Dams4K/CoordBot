@@ -29,18 +29,18 @@ class LevelsCog(commands.Cog):
         amount: Option(int, "amount", required=True),
     ):
         member_data = MemberData(ctx.guild.id, member.id)
-        member_data.remove_xp(amount)
+        member_data.add_xp(-amount)
         await ctx.respond("qsdqsdqsdqsd")
     
 
     @xp.command(name="set")
-    async def remove_xp(self, ctx,
+    async def set_xp(self, ctx,
         member: Option(discord.Member, "member", required=True),
         amount: Option(int, "amount", required=True),
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.set_xp(amount)
-        await ctx.respond("qsdqsdqsdqsd")
+        await ctx.respond("qsdqsdqsdqsd2")
 
 
     @commands.Cog.listener()

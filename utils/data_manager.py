@@ -64,11 +64,17 @@ class GuildData(BaseData):
     
     def load_base_data(self):
         self.data.setdefault("prefix", References.BOT_PREFIX)
+        self.data.setdefault("xp_calculation", "{words}")
 
     @BaseData.manage_data
     def set_prefix(self, new_prefix: str):
         self.data["prefix"] = new_prefix
     
+
+    @BaseData.manage_data
+    def set_xp_calculation(self, new_calculation):
+        self.data["xp_calculation"] = new_calculation
+
 
     def get_prefix(self):
         return self.data.get("prefix", References.BOT_PREFIX)
@@ -82,20 +88,29 @@ class MemberData(BaseData):
     
     def load_base_data(self):
         self.data.setdefault("xp", 0)
+        self.data.setdefault("coins", 0)
 
     @BaseData.manage_data
     def add_xp(self, amount: int):
         self.data["xp"] += amount
-    
-    @BaseData.manage_data
-    def remove_xp(self, amount: int):
-        self.data["xp"] -= amount
-    
     @BaseData.manage_data
     def set_xp(self, amount: int):
         self.data["xp"] = amount
     
 
-    def get_xp(self):
+    @BaseData.manage_data
+    def add_coins(self, amount: int):
+        self.data["coins"] += amount
+    @BaseData.manage_data
+    def set_coins(self, amount: int):
+        self.data["coins"] = amount
+
+
+    @property
+    def xp(self):
         self.load_base_data()
         return self.data["xp"]
+    @property
+    def coins(self):
+        self.load_base_data()
+        return self.data["coins"]

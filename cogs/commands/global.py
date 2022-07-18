@@ -22,7 +22,9 @@ class GlobalCog(commands.Cog):
         member_data = MemberData(ctx.guild.id, member.id)
 
         embed = BotEmbed(ctx, title="Profil de " + str(member))
-        embed.add_field(name="XP", value=str(member_data.get_xp()))
+        embed.add_field(name="XP", value=str(member_data.xp))
+        embed.add_field(name="Coins", value=str(member_data.coins))
+
         return {"embed": embed}
     
     @bridge.bridge_command(name="utip")
