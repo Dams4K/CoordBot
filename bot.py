@@ -37,7 +37,7 @@ class GDCPBot(bridge.Bot):
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
             if "debug" in cog_file and not References.DEBUG_MODE: continue 
-            self.load_extension(cog_file.replace("/", ".")[:-3])
+            print(self.load_extension(cog_file.replace("/", ".")[:-3]))
 
 
     def get_cogs_file(self, path: str) -> list:
