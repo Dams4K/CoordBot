@@ -10,14 +10,14 @@ class _References:
             data = json.load(f)
 
             self.BOT_TOKEN = data["bot_token"]
-            self.BOT_PREFIX = data["default_prefix"]
-            self.VERSION = data["version"]
+            self.BOT_PREFIX = data.get("default_prefix", "!")
+            self.VERSION = data.get("version", "1.0.0")
             
             self.COGS_FOLDER = data["cogs_folder"]
             self.LOGS_FOLDER = os.path.join(data["logs_folder"], 'discord.log')
 
-            self.BETA_GUILDS = data["beta_guilds"]
+            self.BETA_GUILDS = data.get("beta_guilds", [])
 
-            self.DEBUG_MODE = data["debug_mode"]
+            self.DEBUG_MODE = data.get("debug_mode", False)
 
 References: _References = _References()

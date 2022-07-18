@@ -43,5 +43,11 @@ class LevelsCog(commands.Cog):
         await ctx.respond("qsdqsdqsdqsd")
 
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        member_data = MemberData(message.guild.id, message.author.id)
+        member_data.add_xp(len(message.content))
+
+
 def setup(bot):
     bot.add_cog(LevelsCog(bot))

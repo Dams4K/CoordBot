@@ -94,3 +94,8 @@ class MemberData(BaseData):
     @BaseData.manage_data
     def set_xp(self, amount: int):
         self.data["xp"] = amount
+    
+
+    def get_xp(self):
+        self.load_base_data()
+        return self.data["xp"]

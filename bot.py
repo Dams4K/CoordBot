@@ -57,6 +57,6 @@ class GDCPBot(bridge.Bot):
         return [str(ext.__name__).replace(".", "/") + ".py" for ext in self.extensions.values()]
 
 
-    async def get_prefix(bot, message):
+    async def get_prefix(self, message):
         guild_data = GuildData(message.guild.id)
         return guild_data.get_prefix()

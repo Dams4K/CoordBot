@@ -7,12 +7,12 @@ class ErrorHandling(commands.Cog):
     
     @commands.Cog.listener()
     async def on_application_command_error(self, ctx, exception):
-        embed=discord.Embed(title="Application Error", description=exception, color=0xff0000)
+        embed=discord.Embed(title="Application Error", description=exception, color=discord.Colour.red())
         await ctx.respond(embed=embed)
     
     @commands.Cog.listener()
     async def on_command_error(self, ctx, exception):
-        embed=discord.Embed(title="Command Error", description=exception, color=0xff0000)
+        embed=discord.Embed(title="Command Error", description=exception, color=discord.Colour.red())
         await ctx.send(embed=embed)
 
 
