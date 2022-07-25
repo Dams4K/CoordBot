@@ -2,6 +2,7 @@ import discord
 import logging
 import os
 from discord.ext import bridge
+from utils.help import BotHelpCommand
 from utils.references import References
 from utils.bot_contexts import *
 from utils.data_manager import GuildData
@@ -9,7 +10,7 @@ from utils.data_manager import GuildData
 class GDCPBot(bridge.Bot):
     def __init__(self):
         super().__init__(
-            self.get_prefix, case_insensitive=True, help_command=None, intents=discord.Intents.all(), debug_guilds=References.BETA_GUILDS
+            self.get_prefix, case_insensitive=True, intents=discord.Intents.all(), debug_guilds=References.BETA_GUILDS
         )
 
         self.logger = logging.getLogger('discord')

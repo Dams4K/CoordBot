@@ -1,5 +1,6 @@
 import os
 import json
+import random
 from utils.references import References
 
 BASE_GUILD_FOLDER = "datas/guilds/"
@@ -88,7 +89,7 @@ class MemberData(BaseData):
     
     def load_base_data(self):
         self.data.setdefault("xp", 0)
-        self.data.setdefault("coins", 0)
+        self.data.setdefault("money", 0)
 
     @BaseData.manage_data
     def add_xp(self, amount: int):
@@ -99,16 +100,15 @@ class MemberData(BaseData):
     
 
     @BaseData.manage_data
-    def add_coins(self, amount: int):
-        self.data["coins"] += amount
+    def add_money(self, amount: int):
+        self.data["money"] += amount
     @BaseData.manage_data
-    def set_coins(self, amount: int):
-        self.data["coins"] = amount
+    def set_money(self, amount: int):
+        self.data["money"] = amount
 
 
-    @BaseData.manage_data
     def reset(self):
-        self.data = {}
+        os.remove(self.file_path)
 
 
     @property
@@ -116,9 +116,9 @@ class MemberData(BaseData):
         self.load_base_data()
         return self.data["xp"]
     @property
-    def coins(self):
+    def money(self):
         self.load_base_data()
-        return self.data["coins"]
+        return self.data["money"]
 
 
 class ChestData(BaseData):
@@ -142,10 +142,39 @@ class ChestData(BaseData):
     def set_name(self, new_name):
         self.data["name"] = new_name
 
+    @BaseData.manage_data
+    def add_loot(self, loot):
+        pass
+    
+    @BaseData.manage_data
+    def remove_loot(self, loot):
+        pass
+
+
     @property
     def name(self):
         self.load_base_data()
         return self.data["name"]
 
+    @property
+    def loots(self):
+        pass
+
+
+    def open(self):
+        pass
+
     def delete(self):
         os.remove(self.file_path)
+
+
+class Loot:
+    def __init__(self, loot_id: int):
+        self.loot_id = loot_id
+        
+    def add_item(self, item, weight):
+        pass
+
+
+class Item:
+    pass
