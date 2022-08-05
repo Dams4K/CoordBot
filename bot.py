@@ -26,6 +26,8 @@ class GDCPBot(bridge.Bot):
         print("version:", References.VERSION)
         print("extensions:", end="")
         print("\n  - ".join([""] + self.extensions_path()))
+        
+        await self.change_presence(status=discord.Status.idle)
 
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
@@ -38,7 +40,10 @@ class GDCPBot(bridge.Bot):
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
             if "debug" in cog_file and not References.DEBUG_MODE: continue 
-            print(self.load_extension(cog_file.replace("/", ".")[:-3]))
+            err = self.load_extension(cog_file.replace("/", ".")[:-3])
+            
+            if list(err.values())[0] != True:
+                print(err)
 
 
     def get_cogs_file(self, path: str) -> list:

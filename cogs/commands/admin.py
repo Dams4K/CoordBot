@@ -24,5 +24,14 @@ class AdminCog(commands.Cog):
         embed.description = f"{member} a été reset"
         return {"embed": embed}
 
+    @bridge.bridge_command(name="say")
+    async def say(self, ctx, *, message):
+        if hasattr(ctx, "message"):
+            print("qsd")
+            await ctx.message.delete()
+        # else:
+        #     print(ctx)
+        await ctx.respond(message)
+
 def setup(bot):
     bot.add_cog(AdminCog(bot))
