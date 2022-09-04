@@ -23,7 +23,7 @@ class GlobalCog(commands.Cog):
 
         embed = BotEmbed(ctx, title="Profil de " + str(member))
         embed.add_field(name="XP", value=str(member_data.xp))
-        embed.add_field(name="Coins", value=str(member_data.coins))
+        embed.add_field(name="Coins", value=str(member_data.money))
 
         return {"embed": embed}
     
@@ -37,7 +37,12 @@ class GlobalCog(commands.Cog):
 """
 
         await ctx.respond(embed=embed)
+        
+    @bridge.bridge_command(name="user")
+    async def user_info(self, ctx, user: discord.User = None):
+        if user == None: user = ctx.author
 
+        await ctx.respond(user.created_at)
 
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

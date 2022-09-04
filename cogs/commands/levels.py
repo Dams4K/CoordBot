@@ -45,6 +45,9 @@ class LevelsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author.bot:
+            return
+
         member_data = MemberData(message.guild.id, message.author.id)
         member_data.add_xp(len(message.content))
 

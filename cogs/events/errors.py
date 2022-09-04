@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from utils.lang.lang import Lang
 
 class ErrorHandling(commands.Cog):
     def __init__(self, bot):
@@ -7,14 +8,27 @@ class ErrorHandling(commands.Cog):
     
     @commands.Cog.listener()
     async def on_application_command_error(self, ctx, exception):
-        embed=discord.Embed(title="Application Error", description=exception, color=discord.Colour.red())
-        await ctx.respond(embed=embed)
-    
+        await ctx.respond(embed=self.errors(ctx, exception))
     @commands.Cog.listener()
     async def on_command_error(self, ctx, exception):
-        embed=discord.Embed(title="Command Error", description=exception, color=discord.Colour.red())
-        await ctx.send(embed=embed)
+        embed = self.errors(ctx, exception)
+        if embed:
+            await ctx.send(embed=embed)
 
+
+    def errors(self, ctx, exception):
+        lang = ctx.guild_data.lang
+        embed = discord.Embed(title="Command Error", description=exception, color=discord.Colour.red())
+
+        if type(exception) is commands.errors.CommandError:
+            embed.description = Lang.get_text("E_CommandError", lang)
+        elif type(exception) is commands.errors.CommandNotFound:
+            return None
+        elif type(exception) is commands.errors.MissingRequiredArgument:
+            embed.description = Lang.get_text("E_MissingRequiredArgument", lang)
+        
+
+        return embed
 
 
 def setup(bot):

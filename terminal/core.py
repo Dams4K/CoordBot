@@ -2,7 +2,8 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 class Terminal:
-    def __init__(self):
+    def __init__(self, prefix = " > "):
+        self.prefix = prefix
         self.commands = {}
         self.loop = asyncio.get_event_loop()
 
@@ -10,8 +11,12 @@ class Terminal:
         await self.loop.run_until_complete(await self.entry_loop())
     async def entry_loop(self):
         while True:
-            cmd_name = await self.ainput("qsd > ")
+            cmd_name = await self.ainput(self.prefix)
             command = self.commands.get(cmd_name)
+            if command is None:
+                for cmd in self.commands.values():
+                    if cmd_name in cmd.aliases:
+                        command = cmd
             if command is None: continue
 
             await command.call_func()
@@ -26,9 +31,9 @@ class Terminal:
     def add_command(self, command):
         self.commands[command.name] = command
 
-    def command(self, name):
+    def command(self, name, **kwargs):
         def decorator(func):
-            result = Command(name, func)
+            result = Command(name, func, **kwargs)
             self.add_command(result)
             return result
         return decorator
@@ -38,8 +43,7 @@ class Command:
     def __init__(self, name, func, *args, **kwargs):
         self.name = name
         self.func = func
-        self.args = args
-        self.kwargs = kwargs
+        self.aliases = kwargs.get("aliases", [])
         self.cog = None
     
     async def call_func(self):

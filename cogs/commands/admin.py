@@ -5,9 +5,19 @@ from utils.data_manager import MemberData
 from utils.bot_customization import BotEmbed
 
 class AdminCog(commands.Cog):
+    LANGS = [
+        "en",
+        "fr"
+    ]
+
     def __init__(self, bot):
         self.bot = bot
-    
+
+
+    async def get_langs(self, ctx: discord.AutocompleteContext):
+        return self.LANGS
+
+
     @commands.slash_command(name="reset")
     async def slash_reset(self, ctx, member: discord.Option(discord.Member, "member", required=True)):
         await ctx.respond(**await self.reset(ctx, member))
@@ -26,12 +36,16 @@ class AdminCog(commands.Cog):
 
     @bridge.bridge_command(name="say")
     async def say(self, ctx, *, message):
-        if hasattr(ctx, "message"):
-            print("qsd")
+        if hasattr(ctx, "message") and ctx.message != None:
             await ctx.message.delete()
-        # else:
-        #     print(ctx)
-        await ctx.respond(message)
+        await ctx.send(message)
+
+    @bridge.bridge_command(name="set_lang")
+    async def set_lang(self, ctx, lang: discord.Option(str, "lang", required=True, autocomplete=get_langs)):
+        pass
+    
+
+
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))

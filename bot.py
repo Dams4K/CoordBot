@@ -2,7 +2,6 @@ import discord
 import logging
 import os
 from discord.ext import bridge
-from utils.help import BotHelpCommand
 from utils.references import References
 from utils.bot_contexts import *
 from utils.data_manager import GuildData
@@ -39,13 +38,18 @@ class GDCPBot(bridge.Bot):
 
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
-            if "debug" in cog_file and not References.DEBUG_MODE: continue 
+            if "debug" in cog_file and not References.DEBUG_MODE: continue
             err = self.load_extension(cog_file.replace("/", ".")[:-3])
-            
-            if list(err.values())[0] != True:
-                print(err)
+            print(err)
+            # if list(err.values())[0] != True:
+            #     print(err)
 
-
+    def reload_cogs(self, path: str):
+        for cog_file in self.get_cogs_file(path):
+            if "debug" in cog_file and not References.DEBUG_MODE: continue
+            self.reload_extension(cog_file.replace("/", ".")[:-3])
+    
+    
     def get_cogs_file(self, path: str) -> list:
         cogs_file = []
 
@@ -65,4 +69,4 @@ class GDCPBot(bridge.Bot):
 
     async def get_prefix(self, message):
         guild_data = GuildData(message.guild.id)
-        return guild_data.get_prefix()
+        return guild_data.prefix

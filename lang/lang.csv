@@ -1,0 +1,4 @@
+KEYS,en,fr
+TEST_MSG,This message is in english,Ce message est en français
+E_CommandError,en command error,fr command error
+E_MissingRequiredArgument,en missing required arg,fr missing required arg

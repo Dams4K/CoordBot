@@ -66,6 +66,7 @@ class GuildData(BaseData):
     def load_base_data(self):
         self.data.setdefault("prefix", References.BOT_PREFIX)
         self.data.setdefault("xp_calculation", "{words}")
+        self.data.setdefault("language", "en")
 
     @BaseData.manage_data
     def set_prefix(self, new_prefix: str):
@@ -77,8 +78,19 @@ class GuildData(BaseData):
         self.data["xp_calculation"] = new_calculation
 
 
-    def get_prefix(self):
+    @BaseData.manage_data
+    def set_language(self, new_language):
+        self.data["language"] = new_language
+
+    @property
+    def prefix(self):
+        self.load_base_data()
         return self.data["prefix"]
+    
+    @property
+    def lang(self):
+        self.load_base_data()
+        return self.data["language"]
 
 
 class MemberData(BaseData):
@@ -86,6 +98,7 @@ class MemberData(BaseData):
         self.guild_id = guild_id
         self.member_id = member_id
         super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}.json"))
+        self.load_base_data()
     
     def load_base_data(self):
         self.data.setdefault("xp", 0)

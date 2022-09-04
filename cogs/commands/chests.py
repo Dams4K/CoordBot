@@ -1,4 +1,6 @@
 import discord
+import aiohttp
+from io import BytesIO
 from discord import Option
 from discord.ext import bridge
 from discord.ext import commands
@@ -18,7 +20,17 @@ class ChestsCog(commands.Cog):
 
     @bridge.bridge_command(name="open_chest")
     async def open_chest(self, ctx, id: int):
-        pass
+        #-- BAD
+        #
+        # avatar_r = requests.get(ctx.author.avatar)
+        # webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=avatar_r.content)
+        # await webhook.send("qszduqjshds oujdo")
+
+        #- BETTER
+        async with aiohttp.ClientSession() as session:
+            async with session.get(str(ctx.author.avatar)) as resp:
+                webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=await resp.read())
+                await webhook.send("qszduqjshds oujdo")
 
     @chests.command(name="create")
     async def create_chest(self, ctx, chest_name: str):

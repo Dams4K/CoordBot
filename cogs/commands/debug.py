@@ -35,5 +35,16 @@ class DebugCog(commands.Cog):
             await ctx.send(embed=embed)
 
 
+    @bridge.bridge_command(name="image")
+    async def image(self, ctx, user: discord.Option(discord.Member, "user", required=False) = None):
+        embed = discord.Embed(title="QSD")
+
+        file = discord.File("/home/damien/tux.png", filename="tux.png")
+
+        embed.set_image(url="attachment://tux.png")
+
+        await ctx.respond(user.mention if user != None else None, file=file, embed=embed, ephemeral=True)
+    
+
 def setup(bot):
     bot.add_cog(DebugCog(bot))
