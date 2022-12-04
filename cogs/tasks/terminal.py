@@ -32,4 +32,5 @@ class TerminalCog(commands.Cog):
 
 
 def setup(bot):
+    return
     bot.add_cog(TerminalCog(bot))
