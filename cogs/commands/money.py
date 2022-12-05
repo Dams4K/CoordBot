@@ -4,7 +4,7 @@ from discord.commands import slash_command, SlashCommandGroup
 from discord.ext import commands
 from discord.ext import bridge
 from utils.permissions import is_admin
-from utils.data_manager import MemberData
+from utils.data_management import MemberData
 
 class MoneyCog(commands.Cog):
     def __init__(self, bot):

@@ -4,7 +4,7 @@ import os
 from discord.ext import bridge
 from utils.references import References
 from utils.bot_contexts import *
-from utils.data_manager import GuildData
+from utils.data_management import GuildData
 
 class GDCPBot(bridge.Bot):
     def __init__(self):
@@ -40,7 +40,7 @@ class GDCPBot(bridge.Bot):
         for cog_file in self.get_cogs_file(path):
             if "debug" in cog_file and not References.DEBUG_MODE: continue
             err = self.load_extension(cog_file.replace("/", ".")[:-3])
-            print(err)
+            # print(err)
             # if list(err.values())[0] != True:
             #     print(err)
 
