@@ -10,33 +10,34 @@ class MoneyCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    money = SlashCommandGroup("money", "money management")
-    money.checks = [is_admin]
 
-    @money.command(name="add")
+    @bridge.bridge_group(name="money", checks=[is_admin])
+    async def money_group(self, ctx): pass
+
+    @money_group.command(name="add")
     async def add_money(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_money(amount)
         await ctx.respond("qsdqsdqsdqsd")
         
 
-    @money.command(name="remove")
+    @money_group.command(name="remove")
     async def remove_money(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_money(-amount)
         await ctx.respond("qsdqsdqsdqsd")
     
 
-    @money.command(name="set")
+    @money_group.command(name="set")
     async def set_money(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.set_money(amount)

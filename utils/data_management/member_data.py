@@ -11,7 +11,6 @@ class MemberData(BaseData):
     def load_base_data(self):
         self.data.setdefault("xp", 0)
         self.data.setdefault("money", 0)
-        # self.data.setdefault("inventory", Inventory())
 
     @BaseData.manage_data
     def add_xp(self, amount: int):

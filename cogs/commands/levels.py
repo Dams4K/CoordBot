@@ -10,33 +10,34 @@ class LevelsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    xp = SlashCommandGroup("xp", "xp management")
-    xp.checks = [is_admin]
 
-    @xp.command(name="add")
+    @bridge.bridge_group(name="xp", checks=[is_admin])
+    async def xp_group(self, ctx): pass
+
+    @xp_group.command(name="add")
     async def add_xp(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_xp(amount)
         await ctx.respond("qsdqsdqsdqsd")
         
 
-    @xp.command(name="remove")
+    @xp_group.command(name="remove")
     async def remove_xp(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_xp(-amount)
         await ctx.respond("qsdqsdqsdqsd")
     
 
-    @xp.command(name="set")
+    @xp_group.command(name="set")
     async def set_xp(self, ctx,
-        member: Option(discord.Member, "member", required=True),
-        amount: Option(int, "amount", required=True),
+        member: discord.Member,
+        amount: int,
     ):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.set_xp(amount)
