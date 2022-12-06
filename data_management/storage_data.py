@@ -57,12 +57,38 @@ class Loot:
 
 
 class Item:
+    @staticmethod
+    def from_data(data):
+        item = Item(data["name"])
+        return item
+
     def __init__(self, name):
         self.name = name
+    
+    def __repr__(self): # same style as discord.py
+        attrs = [
+            ("item_name", self.name),
+        ]
+        inner = ' '.join("%s=%r" % t for t in attrs)
+        return f'<{self.__class__.__name__} {inner}>'
+
+    def as_data(self):
+        return {
+            "name": self.name
+        }
 
 
 class Inventory:
-    def __init__(self, max_size: int, items: list = []):
+    @staticmethod
+    def from_data(data):
+        inventory = Inventory(data["max_size"], [])
+        for item_data in data["items"]:
+            item = Item(item_data["name"])
+            inventory.add_item(item)
+
+        return inventory
+
+    def __init__(self, max_size: int, items: list):
         self.max_size = max_size
         self.items = items
 
@@ -74,3 +100,18 @@ class Inventory:
 
         self.items.append(item)
     
+    def __repr__(self): # same style as discord.py
+        attrs = [
+            ("max_size", self.max_size),
+            ("items", self.items)
+        ]
+        inner = ' '.join("%s=%r" % t for t in attrs)
+        return f'<{self.__class__.__name__} {inner}>'
+
+    def as_data(self):
+        return {
+            "max_size": self.max_size,
+            "items": [item.as_data() for item in self.items]
+        }
+
+

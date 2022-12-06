@@ -1,6 +1,6 @@
 import discord
 from discord.ext.bridge import BridgeExtContext, BridgeApplicationContext
-from utils.data_management import GuildData, MemberData
+from data_management import GuildData, MemberData
 
 class BotApplicationContext(BridgeApplicationContext):
     @property

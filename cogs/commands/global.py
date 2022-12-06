@@ -2,7 +2,7 @@ import discord
 from discord import Option
 from discord.ext import bridge
 from discord.ext import commands
-from utils.data_management import MemberData
+from data_management import MemberData
 from utils.bot_customization import BotEmbed
 
 class GlobalCog(commands.Cog):

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext import bridge
-from utils.data_management import MemberData
+from data_management import MemberData
 from utils.bot_customization import BotEmbed
 
 class AdminCog(commands.Cog):

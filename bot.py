@@ -4,7 +4,7 @@ import os
 from discord.ext import bridge
 from utils.references import References
 from utils.bot_contexts import *
-from utils.data_management import GuildData
+from data_management import GuildData
 
 class GDCPBot(bridge.Bot):
     def __init__(self):

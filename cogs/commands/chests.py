@@ -6,7 +6,7 @@ from discord.ext import bridge
 from discord.ext import commands
 from discord.commands import slash_command, SlashCommandGroup
 from utils.permissions import *
-from utils.data_management import ChestData
+from data_management import ChestData
 from utils.bot_customization import BotEmbed
 
 class ChestsCog(commands.Cog):
