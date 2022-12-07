@@ -1,35 +1,29 @@
 import discord
-from discord import Option
+from discord import option
 from discord.ext import bridge
 from discord.ext import commands
 from data_management import MemberData
-from utils.bot_customization import BotEmbed
+from utils.bot_embeds import NormalEmbed
 
 class GlobalCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @commands.slash_command(name="profil")
-    async def slash_profil(self, ctx, member: Option(discord.Member, "member", required=False) = None):
-        await ctx.respond(**await self.profil(ctx, member))
-
-    @commands.command(name="profil")
-    async def cmd_profil(self, ctx, member: discord.Member = None):
-        await ctx.send(**await self.profil(ctx, member))
-
-    async def profil(self, ctx, member):
+    @bridge.bridge_command(name="profil")
+    @option("member", type=discord.Member, required=False, default=None)
+    async def profil(self, ctx, member = None):
         member = ctx.author if member == None else member
         member_data = MemberData(ctx.guild.id, member.id)
 
-        embed = BotEmbed(ctx, title="Profil de " + str(member))
+        embed = NormalEmbed(ctx, title="Profil de " + str(member))
         embed.add_field(name="XP", value=str(member_data.xp))
         embed.add_field(name="Coins", value=str(member_data.money))
 
-        return {"embed": embed}
+        await ctx.respond(embed=embed)
     
     @bridge.bridge_command(name="utip")
     async def utip(self, ctx):
-        embed = BotEmbed(ctx, title="UTIP")
+        embed = NormalEmbed(ctx, title="UTIP")
         embed.description = """
 [INSERER TEXT COOL]
 
@@ -37,12 +31,7 @@ class GlobalCog(commands.Cog):
 """
 
         await ctx.respond(embed=embed)
-        
-    @bridge.bridge_command(name="user")
-    async def user_info(self, ctx, user: discord.User = None):
-        if user == None: user = ctx.author
 
-        await ctx.respond(user.created_at)
 
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

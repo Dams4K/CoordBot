@@ -1,8 +1,10 @@
 import discord
+from discord import option
 from discord.ext import commands
 from discord.ext import bridge
 from data_management import MemberData
-from utils.bot_customization import BotEmbed
+from utils.bot_embeds import DangerEmbed, NormalEmbed
+from utils.bot_views import ConfirmView
 
 class AdminCog(commands.Cog):
     LANGS = [
@@ -18,33 +20,41 @@ class AdminCog(commands.Cog):
         return self.LANGS
 
 
-    @commands.slash_command(name="reset")
-    async def slash_reset(self, ctx, member: discord.Option(discord.Member, "member", required=True)):
-        await ctx.respond(**await self.reset(ctx, member))
-
-    @commands.command(name="reset")
-    async def cmd_reset(self, ctx, member: discord.Member):
-        await ctx.send(**await self.reset(ctx, member))
-
+    @bridge.bridge_command(name="reset")
+    @option("member", type=discord.Member, required=True)
     async def reset(self, ctx, member):
-        member_data = MemberData(ctx.guild.id, member.id)
-        member_data.reset()
+        confirm_view = ConfirmView()
+        confirm_embed = DangerEmbed(ctx, title="ATTENTION")
+        confirm_embed.description = f"Êtes-vous sur de vouloir reset {member} ?"
+
+        await ctx.respond(embed=confirm_embed, view=confirm_view)
+        await confirm_view.wait()
         
-        embed = BotEmbed(ctx, title="Reset")
-        embed.description = f"{member} a été reset"
-        return {"embed": embed}
+        embed = NormalEmbed(ctx, title="Reset")
+        if confirm_view.confirmed:
+            member_data = MemberData(ctx.guild.id, member.id)
+            member_data.reset()
+            
+            embed.title += " effectué"
+            embed.description = f"{member} a été reset"
+
+        else:
+            embed.title += " annulé"
+            embed.description = f"{member} n'a pas été reset"
+        await ctx.respond(embed=embed)
 
     @bridge.bridge_command(name="say")
     async def say(self, ctx, *, message):
         if hasattr(ctx, "message") and ctx.message != None:
             await ctx.message.delete()
+        else:
+            await ctx.respond("message sent", ephemeral=True)
         await ctx.send(message)
 
     @bridge.bridge_command(name="set_lang")
-    async def set_lang(self, ctx, lang: discord.Option(str, "lang", required=True, autocomplete=get_langs)):
+    @option("lang", type=str, required=True, autocomplete=get_langs)
+    async def set_lang(self, ctx, lang):
         pass
-    
-
 
 
 def setup(bot):

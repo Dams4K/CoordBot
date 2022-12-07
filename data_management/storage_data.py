@@ -59,21 +59,24 @@ class Loot:
 class Item:
     @staticmethod
     def from_data(data):
-        item = Item(data["name"])
+        item = Item(data["id"], data["name"])
         return item
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, item_id: str, item_name: str):
+        self.id = item_id
+        self.name = item_name
     
     def __repr__(self): # same style as discord.py
         attrs = [
-            ("item_name", self.name),
+            ("id", self.id),
+            ("name", self.name),
         ]
         inner = ' '.join("%s=%r" % t for t in attrs)
         return f'<{self.__class__.__name__} {inner}>'
 
     def as_data(self):
         return {
+            "id": self.id,
             "name": self.name
         }
 
@@ -83,27 +86,30 @@ class Inventory:
     def from_data(data):
         inventory = Inventory(data["max_size"], [])
         for item_data in data["items"]:
-            item = Item(item_data["name"])
+            item = Item.from_data(item_data)
             inventory.add_item(item)
 
         return inventory
 
     def __init__(self, max_size: int, items: list):
         self.max_size = max_size
-        self.items = items
+        self._items = items
 
     def is_full(self):
-        return len(self.items) >= self.max_size
+        return len(self._items) >= self.max_size
 
     def add_item(self, item: Item):
         if self.is_full(): return
 
-        self.items.append(item)
+        self._items.append(item)
     
+    def get_items(self):
+        return self._items[:]
+
     def __repr__(self): # same style as discord.py
         attrs = [
             ("max_size", self.max_size),
-            ("items", self.items)
+            ("items", self._items)
         ]
         inner = ' '.join("%s=%r" % t for t in attrs)
         return f'<{self.__class__.__name__} {inner}>'
@@ -111,7 +117,7 @@ class Inventory:
     def as_data(self):
         return {
             "max_size": self.max_size,
-            "items": [item.as_data() for item in self.items]
+            "items": [item.as_data() for item in self._items]
         }
 
 

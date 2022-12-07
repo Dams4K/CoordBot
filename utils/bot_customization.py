@@ -1,8 +1,0 @@
-import discord
-
-class BotEmbed(discord.Embed):
-    def __init__(self, ctx, **kwargs):
-        super().__init__(**kwargs)
-        prefix = ctx.guild_data.prefix
-        self.set_footer(text=f"{prefix}utip")
-        self.color = discord.Colour.brand_green()

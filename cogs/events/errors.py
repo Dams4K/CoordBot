@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from utils.lang.lang import Lang
+from utils.bot_embeds import DangerEmbed
 
 class ErrorHandling(commands.Cog):
     def __init__(self, bot):
@@ -17,8 +18,8 @@ class ErrorHandling(commands.Cog):
 
 
     def errors(self, ctx, exception):
-        lang = ctx.guild_data.lang
-        embed = discord.Embed(title="Command Error", description=exception, color=discord.Colour.red())
+        lang = ctx.guild_config.lang
+        embed = DangerEmbed(ctx, title="Command Error", description=exception)
 
         if type(exception) is commands.errors.CommandError:
             embed.description = Lang.get_text("E_CommandError", lang)
@@ -26,7 +27,6 @@ class ErrorHandling(commands.Cog):
             return None
         elif type(exception) is commands.errors.MissingRequiredArgument:
             embed.description = Lang.get_text("E_MissingRequiredArgument", lang)
-        
 
         return embed
 

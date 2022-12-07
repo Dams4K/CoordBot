@@ -1,5 +1,5 @@
 from .main import *
-from .guild_data import GuildData
+from .guild_data import GuildDefaultMemberData
 from .storage_data import Inventory
 
 class MemberData(BaseData):
@@ -11,10 +11,10 @@ class MemberData(BaseData):
         self.load_base_data() # load default data (after init because self.data did not exist before)
     
     def load_base_data(self):
-        guild_data = GuildData(self.guild_id)
-        self.data.setdefault("xp", guild_data.default_xp)
-        self.data.setdefault("money", guild_data.default_money)
-        self.data.setdefault("inventory", Inventory(guild_data.default_inventory_size, []).as_data())
+        guild_default_member_data = GuildDefaultMemberData(self.guild_id)
+        self.data.setdefault("xp", guild_default_member_data.default_xp)
+        self.data.setdefault("money", guild_default_member_data.default_money)
+        self.data.setdefault("inventory", Inventory(guild_default_member_data.default_inventory_size, []).as_data())
 
     @BaseData.manage_data
     def add_xp(self, amount: int):

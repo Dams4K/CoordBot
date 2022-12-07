@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord.commands import slash_command, SlashCommandGroup
 from utils.permissions import *
 from data_management import ChestData
-from utils.bot_customization import BotEmbed
+from utils.bot_embeds import NormalEmbed
 
 class ChestsCog(commands.Cog):
     def __init__(self, bot):

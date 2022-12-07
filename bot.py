@@ -4,7 +4,7 @@ import os
 from discord.ext import bridge
 from utils.references import References
 from utils.bot_contexts import *
-from data_management import GuildData
+from data_management import GuildConfig
 
 class GDCPBot(bridge.Bot):
     def __init__(self):
@@ -68,5 +68,5 @@ class GDCPBot(bridge.Bot):
 
 
     async def get_prefix(self, message):
-        guild_data = GuildData(message.guild.id)
-        return guild_data.prefix
+        guild_config = GuildConfig(message.guild.id)
+        return guild_config.prefix

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext import bridge
-from utils.bot_customization import BotEmbed
+from utils.bot_embeds import NormalEmbed
 
 class DebugCog(commands.Cog):
     def __init__(self, bot):
@@ -9,7 +9,7 @@ class DebugCog(commands.Cog):
     
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
-        embed = BotEmbed(ctx, title="Test")
+        embed = NormalEmbed(ctx, title="Test")
         await ctx.respond(embed=embed)
     
     @bridge.bridge_command(name="gen_error")
@@ -18,11 +18,11 @@ class DebugCog(commands.Cog):
     
     @commands.command(name="only_command")
     async def only_command(self, ctx):
-        await ctx.send(ctx.guild_data.get_prefix())
+        await ctx.send(ctx.guild_config.get_prefix())
     
     @commands.slash_command(name="only_slash")
     async def only_slash(self, ctx):
-        await ctx.respond(ctx.guild_data.get_prefix())
+        await ctx.respond(ctx.guild_config.get_prefix())
 
     @commands.command(name="colors")
     async def colors(self, ctx):
