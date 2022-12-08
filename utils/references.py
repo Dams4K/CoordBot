@@ -20,4 +20,7 @@ class _References:
 
             self.DEBUG_MODE = data.get("debug_mode", False)
 
+            self.SUGGESTS_CHANNEL_ID = data.get("suggests_channel_id", None)
+            self.REPORTS_CHANNEL_ID = data.get("reports_channel_id", None)
+
 References: _References = _References()

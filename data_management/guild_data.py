@@ -97,3 +97,6 @@ class GuildStorageConfig(BaseData):
     @BaseData.manage_data
     def create_item(self, item: Item):
         self.data["items"].append(item.as_data())
+    @BaseData.manage_data
+    def delete_item(self, item: Item):
+        self.data["items"].remove(item.as_data())

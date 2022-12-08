@@ -84,10 +84,7 @@ class Item:
 class Inventory:
     @staticmethod
     def from_data(data):
-        inventory = Inventory(data["max_size"], [])
-        for item_data in data["items"]:
-            item = Item.from_data(item_data)
-            inventory.add_item(item)
+        inventory = Inventory(data["max_size"], data["items"])
 
         return inventory
 
@@ -98,14 +95,14 @@ class Inventory:
     def is_full(self):
         return len(self._items) >= self.max_size
 
-    def add_item(self, item: Item):
+    def add_item(self, item: Item, amount: int):
         if self.is_full(): return
 
-        self._items.append(item)
+        self._items.extend([item.id] * amount)
     
-    def get_items(self):
-        return self._items[:]
-
+    def get_items_ids(self):
+        return self._items
+    
     def __repr__(self): # same style as discord.py
         attrs = [
             ("max_size", self.max_size),
@@ -117,7 +114,7 @@ class Inventory:
     def as_data(self):
         return {
             "max_size": self.max_size,
-            "items": [item.as_data() for item in self._items]
+            "items": self._items
         }
 
 
