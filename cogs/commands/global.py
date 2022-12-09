@@ -15,7 +15,7 @@ class GlobalCog(commands.Cog):
         member = ctx.author if member == None else member
         member_data = MemberData(ctx.guild.id, member.id)
 
-        embed = NormalEmbed(ctx, title="Profil de " + str(member))
+        embed = NormalEmbed(ctx.guild_config, title="Profil de " + str(member))
         embed.add_field(name="XP", value=str(member_data.xp))
         embed.add_field(name="Coins", value=str(member_data.money))
 
@@ -23,7 +23,7 @@ class GlobalCog(commands.Cog):
     
     @bridge.bridge_command(name="utip")
     async def utip(self, ctx):
-        embed = NormalEmbed(ctx, title="UTIP")
+        embed = NormalEmbed(ctx.guild_config, title="UTIP")
         embed.description = """
 [INSERER TEXT COOL]
 

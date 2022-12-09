@@ -24,13 +24,13 @@ class AdminCog(commands.Cog):
     @option("member", type=discord.Member, required=True)
     async def reset(self, ctx, member):
         confirm_view = ConfirmView()
-        confirm_embed = DangerEmbed(ctx, title="ATTENTION")
+        confirm_embed = DangerEmbed(ctx.guild_config, title="ATTENTION")
         confirm_embed.description = f"Êtes-vous sur de vouloir reset {member} ?"
 
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
         
-        embed = NormalEmbed(ctx, title="Reset")
+        embed = NormalEmbed(ctx.guild_config, title="Reset")
         if confirm_view.confirmed:
             member_data = MemberData(ctx.guild.id, member.id)
             member_data.reset()

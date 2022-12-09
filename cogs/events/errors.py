@@ -19,7 +19,7 @@ class ErrorHandling(commands.Cog):
 
     def errors(self, ctx, exception):
         lang = ctx.guild_config.lang
-        embed = DangerEmbed(ctx, title="Command Error", description=exception)
+        embed = DangerEmbed(ctx.guild_config, title="Command Error", description=exception)
 
         if type(exception) is commands.errors.CommandError:
             embed.description = Lang.get_text("E_CommandError", lang)

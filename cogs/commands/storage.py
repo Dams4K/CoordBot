@@ -29,7 +29,7 @@ class StorageCog(commands.Cog):
 
         description = "\n".join(f"{item.name} | {player_items[item]}" for item in player_items)
 
-        embed = NormalEmbed(ctx, title=f"Inventory of {member}")
+        embed = NormalEmbed(ctx.guild_config, title=f"Inventory of {member}")
         embed.description = description
 
         await ctx.respond(embed=embed)
@@ -80,7 +80,7 @@ class StorageCog(commands.Cog):
             await ctx.respond("Cet item n'existe pas")
         else:
             confirm_view = ConfirmView()
-            confirm_embed = DangerEmbed(ctx, title="Suppression de d'item", description=f"Êtes vous vraiment sûr de vouloir supprimer l`item {item.name}")
+            confirm_embed = DangerEmbed(ctx.guild_config, title="Suppression de d'item", description=f"Êtes vous vraiment sûr de vouloir supprimer l`item {item.name}")
             await ctx.respond(embed=confirm_embed, view=confirm_view)
             await confirm_view.wait()
             if confirm_view.confirmed:

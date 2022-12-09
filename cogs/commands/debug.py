@@ -9,7 +9,7 @@ class DebugCog(commands.Cog):
     
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
-        embed = NormalEmbed(ctx, title="Test")
+        embed = NormalEmbed(ctx.guild_config, title="Test")
         await ctx.respond(embed=embed)
     
     @bridge.bridge_command(name="gen_error")
