@@ -7,7 +7,7 @@ def get_guild_path(*end):
     return os.path.join(BASE_GUILD_FOLDER, *end)
 
 class BaseData:
-    def __init__(self, file_path, base_data = {}):
+    def __init__(self, file_path, base_data):
         self.file_path = file_path
 
         self.data = base_data if not hasattr(self, "data") else self.data

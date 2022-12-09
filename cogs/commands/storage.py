@@ -12,7 +12,10 @@ class StorageCog(commands.Cog):
     
     async def get_items(self, ctx):
         guild_storage_config = GuildStorageConfig(ctx.interaction.guild_id)
-        return [item.id for item in guild_storage_config.get_items()]
+        items = {guild_storage_config.find_item(item.id) for item in guild_storage_config.get_items()}
+        if None in items:
+            items.remove(None)
+        return [f"{item.name} ({item.id})" for item in items]
 
     @bridge.bridge_group(name="inventory", invoke_without_command=True)
     @bridge.map_to("show")
@@ -40,9 +43,10 @@ class StorageCog(commands.Cog):
     
     @inventory.command()
     @option("member", type=discord.Member, description="pick a member", required=True)
-    @option("item_id", type=str, description="pick an item", required=True, autocomplete=get_items)
+    @option("item_name", type=str, description="pick an item", required=True, autocomplete=get_items)
     @option("amount", type=int, required=True, default=1)
-    async def give(self, ctx, member: discord.Member, item_id: str, amount: int):
+    async def give(self, ctx, member: discord.Member, item_name: str, amount: int):
+        item_id = item_name[item_name.find("(")+1:item_name.find(")")]
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
         member_data = MemberData(ctx.guild.id, member.id)
         member_inventory = member_data.get_inventory()
@@ -72,8 +76,9 @@ class StorageCog(commands.Cog):
         await ctx.respond("item created")
     
     @items.command(name="delete")
-    @option("item_id", type=str, required=True, autocomplete=get_items)
-    async def delete_item(self, ctx, item_id: str):
+    @option("item_name", type=str, required=True, autocomplete=get_items)
+    async def delete_item(self, ctx, item_name: str):
+        item_id = item_name[item_name.find("(")+1:item_name.find(")")]
         guild_storage_config = GuildStorageConfig(ctx.guild_id)
         item = guild_storage_config.find_item(item_id)
         if item is None:
@@ -85,6 +90,11 @@ class StorageCog(commands.Cog):
             await confirm_view.wait()
             if confirm_view.confirmed:
                 guild_storage_config.delete_item(item)
+                for member in ctx.guild.members:
+                    member_data = MemberData(ctx.guild.id, member.id)
+                    member_inventory = member_data.get_inventory()
+                    member_inventory.remove_item(item_id, -1)
+
                 await ctx.respond(f"L'item {item.name} a bien été supprimé")
             else:
                 await ctx.respond("Suppression annulé")

@@ -5,7 +5,8 @@ from utils.references import References
 class GuildConfig(BaseData):
     def __init__(self, guild_id):
         self.guild_id = guild_id
-        super().__init__(get_guild_path(f"{self.guild_id}/global.json"))
+        super().__init__(get_guild_path(f"{self.guild_id}/global.json"), {})
+        self.load_base_data()
     
     def load_base_data(self):
         self.data.setdefault("prefix", References.BOT_PREFIX)
@@ -42,7 +43,8 @@ class GuildConfig(BaseData):
 class GuildDefaultMemberData(BaseData):
     def __init__(self, guild_id):
         self.guild_id = guild_id
-        super().__init__(get_guild_path(f"{self.guild_id}/default_member.json"))
+        super().__init__(get_guild_path(f"{self.guild_id}/default_member.json"), {})
+        self.load_base_data()
 
     def load_base_data(self):
         self.data.setdefault("xp", 0)
@@ -78,7 +80,8 @@ class GuildDefaultMemberData(BaseData):
 class GuildStorageConfig(BaseData):
     def __init__(self, guild_id):
         self.guild_id = guild_id
-        super().__init__(get_guild_path(f"{self.guild_id}/storage_config.json"))
+        super().__init__(get_guild_path(f"{self.guild_id}/storage_config.json"), {})
+        self.load_base_data()
 
     def load_base_data(self):
         self.data.setdefault("items", [])

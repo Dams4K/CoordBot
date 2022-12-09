@@ -13,7 +13,7 @@ class ChestData(BaseData):
             chest_id = sorted(chests_id)[-1]+1
 
         self.chest_id = chest_id
-        super().__init__(get_guild_path(f"{self.guild_id}/chests/{self.chest_id}.json"))
+        super().__init__(get_guild_path(f"{self.guild_id}/chests/{self.chest_id}.json"), {})
 
     def load_base_data(self):
         self.data.setdefault("name", "no name")
@@ -100,6 +100,16 @@ class Inventory:
 
         self._items.extend([item.id] * amount)
     
+    def remove_item(self, item_id, amount: int):
+        if amount == -1:
+            amount == len(self._items)
+        n = 0
+        while n < amount:
+            if not item_id in self._items: break
+            self._items.remove(item_id)
+            n += 1
+
+
     def get_items_ids(self):
         return self._items
     

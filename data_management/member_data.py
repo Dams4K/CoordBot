@@ -7,7 +7,7 @@ class MemberData(BaseData):
         self.guild_id = guild_id
         self.member_id = member_id
 
-        super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}.json")) # load stored data
+        super().__init__(get_guild_path(f"{self.guild_id}/members/{self.member_id}.json"), {}) # load stored data
         self.load_base_data() # load default data (after init because self.data did not exist before)
     
     def load_base_data(self):
