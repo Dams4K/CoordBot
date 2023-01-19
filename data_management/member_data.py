@@ -12,9 +12,9 @@ class MemberData(BaseData):
     
     def load_base_data(self):
         guild_default_member_data = GuildDefaultMemberData(self.guild_id)
-        self.data.setdefault("xp", guild_default_member_data.default_xp)
-        self.data.setdefault("money", guild_default_member_data.default_money)
-        self.data.setdefault("inventory", Inventory(guild_default_member_data.default_inventory_size, []).as_data())
+        self.data.setdefault("xp", guild_default_member_data.xp)
+        self.data.setdefault("money", guild_default_member_data.money)
+        self.data.setdefault("inventory", Inventory(guild_default_member_data.inventory_size, []).as_data())
 
     @BaseData.manage_data
     def add_xp(self, amount: int):

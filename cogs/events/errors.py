@@ -18,15 +18,15 @@ class ErrorHandling(commands.Cog):
 
 
     def errors(self, ctx, exception):
-        lang = ctx.guild_config.lang
+        language = ctx.guild_config.language
         embed = DangerEmbed(ctx.guild_config, title="Command Error", description=exception)
 
         if type(exception) is commands.errors.CommandError:
-            embed.description = Lang.get_text("E_CommandError", lang)
+            embed.description = Lang.get_text("E_CommandError", language)
         elif type(exception) is commands.errors.CommandNotFound:
             return None
         elif type(exception) is commands.errors.MissingRequiredArgument:
-            embed.description = Lang.get_text("E_MissingRequiredArgument", lang)
+            embed.description = Lang.get_text("E_MissingRequiredArgument", language)
 
         return embed
 
