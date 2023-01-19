@@ -1,0 +1,3 @@
+[submodule "ddm"]
+	path = ddm
+	url = https://github.com/Dams4K/DiscordDataManager.git
