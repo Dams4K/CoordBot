@@ -6,12 +6,12 @@ from ddm import *
 
 class GuildConfig(Saveable):
     def __init__(self, guild_id):
-        self.guild_id = guild_id
+        self._guild_id = guild_id
         self.prefix = References.BOT_PREFIX
         self.xp_calculation = "{words}"
         self.language = "en"
 
-        super().__init__(get_guild_path(f"{self.guild_id}/global.json"))
+        super().__init__(get_guild_path(f"{self._guild_id}/global.json"))
     
 
     #- SETTERS
@@ -31,48 +31,43 @@ class GuildConfig(Saveable):
 
 class GuildDefaultMemberData(Saveable):
     def __init__(self, guild_id):
-        self.guild_id = guild_id
+        self._guild_id = guild_id
         self.xp = 0
         self.money = 0
         self.inventory_size = 10
 
-        super().__init__(get_guild_path(f"{self.guild_id}/default_member.json"))
+        super().__init__(get_guild_path(f"{self._guild_id}/default_member.json"))
 
     @Saveable.update()
-    def set_default_xp(self, value: int):
+    def set_xp(self, value: int):
         self.xp = value
     @Saveable.update()
-    def set_default_money(self, value: int):
+    def set_money(self, value: int):
         self.money = value
     
     @Saveable.update()
-    def set_default_inventory_size(self, value: int):
+    def set_inventory_size(self, value: int):
         self.inventory_size = value
 
 
-class GuildStorageConfig(BaseData):
+class GuildStorageConfig(Saveable):
     def __init__(self, guild_id):
-        self.guild_id = guild_id
-        super().__init__(get_guild_path(f"{self.guild_id}/storage_config.json"), {})
-        self.load_base_data()
+        self._guild_id = guild_id
+        self.items = []
+        self._items_type = Item()
 
-    def load_base_data(self):
-        self.data.setdefault("items", [])
-    
-    def get_items(self):
-        items = []
-        for item_data in self.data["items"]:
-            items.append(Item.from_data(item_data))
-        return items
+        super().__init__(get_guild_path(f"{self._guild_id}/storage_config.json"))
+
     
     def find_item(self, item_id: str):
-        for item_data in self.data["items"]:
-            if item_data["id"] == item_id:
-                return Item.from_data(item_data)
+        for item in self.items:
+            if item.id == item_id:
+                return item
 
-    @BaseData.manage_data
+    @Saveable.update()
     def create_item(self, item: Item):
-        self.data["items"].append(item.as_data())
-    @BaseData.manage_data
+        self.items.append(item)
+    
+    @Saveable.update()
     def delete_item(self, item: Item):
-        self.data["items"].remove(item.as_data())
+        self.items.remove(item)

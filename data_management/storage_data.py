@@ -1,45 +1,36 @@
 import random
 from .main import *
 
-class ChestData(BaseData):
-    def __init__(self, guild_id, chest_id = -1):
-        self.guild_id = guild_id
+from ddm import *
 
+class ChestData(Saveable):
+    def __init__(self, guild_id, chest_id = -1):
+        self._guild_id = guild_id
+
+        # create the next id usable
         if chest_id == -1:
-            dirname = get_guild_path(f"{self.guild_id}/chests")
+            dirname = get_guild_path(f"{self._guild_id}/chests")
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
             chests_id = [-1] + [int(i.split(".")[0]) for i in os.listdir(dirname)]
             chest_id = sorted(chests_id)[-1]+1
 
         self.chest_id = chest_id
-        super().__init__(get_guild_path(f"{self.guild_id}/chests/{self.chest_id}.json"), {})
+        self.name = name
 
-    def load_base_data(self):
-        self.data.setdefault("name", "no name")
+        super().__init__(get_guild_path(f"{self._guild_id}/chests/{self.chest_id}.json"))
 
-    @BaseData.manage_data
+    @Saveable.update()
     def set_name(self, new_name):
-        self.data["name"] = new_name
+        self.name = new_name
 
-    @BaseData.manage_data
+    @Saveable.update()
     def add_loot(self, loot):
         pass
     
-    @BaseData.manage_data
+    @Saveable.update()
     def remove_loot(self, loot):
         pass
-
-
-    @property
-    def name(self):
-        self.load_base_data()
-        return self.data["name"]
-
-    @property
-    def loots(self):
-        pass
-
 
     def open(self):
         pass
@@ -48,83 +39,46 @@ class ChestData(BaseData):
         os.remove(self.file_path)
 
 
-class Loot:
+class Loot(Data):
     def __init__(self, loot_id: int):
         self.loot_id = loot_id
+
+        super().__init__()
         
     def add_item(self, item, weight):
         pass
 
 
-class Item:
-    @staticmethod
-    def from_data(data):
-        item = Item(data["id"], data["name"])
-        return item
-
-    def __init__(self, item_id: str, item_name: str):
+class Item(Data):
+    def __init__(self, item_id: str = "no_id", item_name: str = "no_name"):
         self.id = item_id
         self.name = item_name
-    
-    def __repr__(self): # same style as discord.py
-        attrs = [
-            ("id", self.id),
-            ("name", self.name),
-        ]
-        inner = ' '.join("%s=%r" % t for t in attrs)
-        return f'<{self.__class__.__name__} {inner}>'
 
-    def as_data(self):
-        return {
-            "id": self.id,
-            "name": self.name
-        }
+        super().__init__()
 
 
-class Inventory:
-    @staticmethod
-    def from_data(data):
-        inventory = Inventory(data["max_size"], data["items"])
-
-        return inventory
-
+class Inventory(Data):
     def __init__(self, max_size: int, items: list):
         self.max_size = max_size
-        self._items = items
+        self.items = items
+        self._items_type = Item()
 
     def is_full(self):
-        return len(self._items) >= self.max_size
+        return len(self.items) >= self.max_size
 
     def add_item(self, item: Item, amount: int):
         if self.is_full(): return
-
-        self._items.extend([item.id] * amount)
+        
+        self.items.extend([item] * amount)
     
     def remove_item(self, item_id, amount: int):
         if amount == -1:
-            amount = len(self._items)
+            amount = len(self.items)
         n = 0
         while n < amount:
-            if not item_id in self._items: break
-            self._items.remove(item_id)
+            if not item_id in self.items: break
+            self.items.remove(item_id)
             n += 1
 
-
-    def get_items_ids(self):
-        return self._items
-    
-    def __repr__(self): # same style as discord.py
-        attrs = [
-            ("max_size", self.max_size),
-            ("items", self._items)
-        ]
-        inner = ' '.join("%s=%r" % t for t in attrs)
-        return f'<{self.__class__.__name__} {inner}>'
-
-    def as_data(self):
-        return {
-            "max_size": self.max_size,
-            "items": self._items
-        }
-
-
+    def get_items(self):
+        return self.items

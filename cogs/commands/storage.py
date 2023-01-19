@@ -12,7 +12,7 @@ class StorageCog(commands.Cog):
     
     async def get_items(self, ctx):
         guild_storage_config = GuildStorageConfig(ctx.interaction.guild_id)
-        items = {guild_storage_config.find_item(item.id) for item in guild_storage_config.get_items()}
+        items = {guild_storage_config.find_item(item.id) for item in guild_storage_config.items}
         if None in items:
             items.remove(None)
         return [f"{item.name} ({item.id})" for item in items]
@@ -26,8 +26,8 @@ class StorageCog(commands.Cog):
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
         
         inventory = member_data.get_inventory()
-        items_ids = inventory.get_items_ids()
-        player_items = {guild_storage_config.find_item(item_id): items_ids.count(item_id) for item_id in set(items_ids)}
+        items = inventory.get_items()
+        player_items = {item: items.count(item) for item in set(items)} # dict {item: quantity of that item}
         if None in player_items: player_items.pop(None)
 
         description = "\n".join(f"{item.name} | {player_items[item]}" for item in player_items)
@@ -41,11 +41,11 @@ class StorageCog(commands.Cog):
     async def sell(self, ctx):
         await ctx.respond("sell item")
     
-    @inventory.command()
+    @inventory.command(name="give")
     @option("member", type=discord.Member, description="pick a member", required=True)
     @option("item_name", type=str, description="pick an item", required=True, autocomplete=get_items)
     @option("amount", type=int, required=True, default=1)
-    async def give(self, ctx, member: discord.Member, item_name: str, amount: int):
+    async def give_item(self, ctx, member: discord.Member, item_name: str, amount: int):
         item_id = item_name[item_name.find("(")+1:item_name.find(")")]
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
         member_data = MemberData(ctx.guild.id, member.id)
@@ -56,7 +56,9 @@ class StorageCog(commands.Cog):
             await ctx.respond(f"L'item avec l'id `{item_id}` n'existe pas")
         else:
             member_inventory.add_item(item, amount)
+            print(member_inventory)
             member_data.set_inventory(member_inventory)
+            print(member_inventory)
 
             await ctx.respond(f"L'item {item.name} a été donné à {member}")
     
