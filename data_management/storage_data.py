@@ -102,7 +102,7 @@ class Inventory:
     
     def remove_item(self, item_id, amount: int):
         if amount == -1:
-            amount == len(self._items)
+            amount = len(self._items)
         n = 0
         while n < amount:
             if not item_id in self._items: break

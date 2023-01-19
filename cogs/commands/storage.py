@@ -94,6 +94,7 @@ class StorageCog(commands.Cog):
                     member_data = MemberData(ctx.guild.id, member.id)
                     member_inventory = member_data.get_inventory()
                     member_inventory.remove_item(item_id, -1)
+                    member_data.set_inventory(member_inventory)
 
                 await ctx.respond(f"L'item {item.name} a bien été supprimé")
             else:

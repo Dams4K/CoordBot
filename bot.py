@@ -40,9 +40,6 @@ class GDCPBot(bridge.Bot):
         for cog_file in self.get_cogs_file(path):
             if "debug" in cog_file and not References.DEBUG_MODE: continue
             err = self.load_extension(cog_file.replace("/", ".")[:-3])
-            # print(err)
-            # if list(err.values())[0] != True:
-            #     print(err)
 
     def reload_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
