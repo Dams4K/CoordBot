@@ -56,9 +56,7 @@ class StorageCog(commands.Cog):
             await ctx.respond(f"L'item avec l'id `{item_id}` n'existe pas")
         else:
             member_inventory.add_item(item, amount)
-            print(member_inventory)
             member_data.set_inventory(member_inventory)
-            print(member_inventory)
 
             await ctx.respond(f"L'item {item.name} a été donné à {member}")
     

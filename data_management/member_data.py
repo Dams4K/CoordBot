@@ -1,3 +1,5 @@
+import copy
+
 from .main import *
 from .guild_data import GuildDefaultMemberData
 from .storage_data import Inventory
@@ -34,9 +36,9 @@ class MemberData(Saveable):
         self.money = amount
 
     def get_inventory(self) -> Inventory:
-        return self.inventory
+        return copy.copy(self.inventory)
     
-    @Saveable.update(load=False)
+    @Saveable.update()
     def set_inventory(self, new_inventory: Inventory):
         self.inventory = new_inventory
 
