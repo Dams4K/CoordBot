@@ -23,4 +23,9 @@ class _References:
             self.SUGGESTS_CHANNEL_ID = data.get("suggests_channel_id", None)
             self.REPORTS_CHANNEL_ID = data.get("reports_channel_id", None)
 
+            self.GUILDS_FOLDER = "datas/guilds/"
+    
+    def get_guild_folder(self, *end):
+        return os.path.join(self.GUILDS_FOLDER, *end)
+
 References: _References = _References()

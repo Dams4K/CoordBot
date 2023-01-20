@@ -1,7 +1,6 @@
 import random
-from .main import *
-
 from ddm import *
+from utils.references import References
 
 class ChestData(Saveable):
     def __init__(self, guild_id, chest_id = -1):
@@ -9,7 +8,7 @@ class ChestData(Saveable):
 
         # create the next id usable
         if chest_id == -1:
-            dirname = get_guild_path(f"{self._guild_id}/chests")
+            dirname = References.get_guild_folder(f"{self._guild_id}/chests")
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
             chests_id = [-1] + [int(i.split(".")[0]) for i in os.listdir(dirname)]
@@ -18,7 +17,7 @@ class ChestData(Saveable):
         self.chest_id = chest_id
         self.name = name
 
-        super().__init__(get_guild_path(f"{self._guild_id}/chests/{self.chest_id}.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/chests/{self.chest_id}.json"))
 
     @Saveable.update()
     def set_name(self, new_name):

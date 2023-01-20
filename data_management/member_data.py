@@ -1,10 +1,7 @@
-import copy
-
-from .main import *
+from ddm import *
 from .guild_data import GuildDefaultMemberData
 from .storage_data import Inventory
-
-from ddm import *
+from utils.references import References
 
 class MemberData(Saveable):
     def __init__(self, guild_id, member_id):
@@ -16,7 +13,7 @@ class MemberData(Saveable):
         self.money = guild_default_member.xp
         self.inventory = Inventory(guild_default_member.inventory_size, [])
 
-        super().__init__(get_guild_path(f"{self._guild_id}/members/{self._member_id}.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/members/{self._member_id}.json"))
     
     @Saveable.update()
     def add_xp(self, amount: int):

@@ -1,8 +1,6 @@
-from .main import *
+from ddm import *
 from .storage_data import Item
 from utils.references import References
-
-from ddm import *
 
 class GuildConfig(Saveable):
     def __init__(self, guild_id):
@@ -11,7 +9,7 @@ class GuildConfig(Saveable):
         self.xp_calculation = "{words}"
         self.language = "en"
 
-        super().__init__(get_guild_path(f"{self._guild_id}/global.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/global.json"))
     
 
     #- SETTERS
@@ -36,7 +34,7 @@ class GuildDefaultMemberData(Saveable):
         self.money = 0
         self.inventory_size = 10
 
-        super().__init__(get_guild_path(f"{self._guild_id}/default_member.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/default_member.json"))
 
     @Saveable.update()
     def set_xp(self, value: int):
@@ -56,7 +54,7 @@ class GuildStorageConfig(Saveable):
         self.items = []
         self._items_type = Item()
 
-        super().__init__(get_guild_path(f"{self._guild_id}/storage_config.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/storage_config.json"))
 
     
     def find_item(self, item_id: str):
