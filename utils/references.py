@@ -4,8 +4,26 @@ import os
 
 class _References:
     BOT_PATH: str = "datas/bot.json"
+    DEFAULT_LOGS_FOLDER = "datas/logs"
 
     def __init__(self) -> None:
+        if not os.path.exists(self.BOT_PATH):
+            os.makedirs(os.path.dirname(self.BOT_PATH))
+            with open(self.BOT_PATH, "w") as f:
+                data = {
+                    "bot_token": input("Bot token > "),
+                    "default_prefix": input("Default prefix > "),
+                    "version": input("Bot version > "),
+                    "cogs_folder": input("Cogs folder > "),
+                    "logs_folder": input("Logs folder > "),
+                    "debug_mode": input("Enable debug mode (y|N) > "),
+                    "suggests_channel_id": input("suggests_channel_id"),
+                    "reports_channel_id": input("reports_channel_id"),
+                }
+
+                json.dump(data, f, indent=4)
+
+
         with open(self.BOT_PATH, "r") as f:
             data = json.load(f)
 
@@ -13,8 +31,8 @@ class _References:
             self.BOT_PREFIX = data.get("default_prefix", "!")
             self.VERSION = data.get("version", "1.0.0")
             
-            self.COGS_FOLDER = data["cogs_folder"]
-            self.LOGS_FOLDER = os.path.join(data["logs_folder"], 'discord.log')
+            self.COGS_FOLDER = data.get("cogs_folder", "cogs")
+            self.LOGS_FOLDER = os.path.join(data.get("logs_folder", "datas/logs"), 'discord.log')
 
             self.BETA_GUILDS = data.get("beta_guilds", [])
 
