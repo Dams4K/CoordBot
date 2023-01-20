@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from utils.lang.lang import Lang
+from lang import Lang
 from utils.bot_embeds import DangerEmbed
 
 class ErrorHandling(commands.Cog):

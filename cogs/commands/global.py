@@ -15,7 +15,7 @@ class GlobalCog(commands.Cog):
         member = ctx.author if member == None else member
         member_data = MemberData(ctx.guild.id, member.id)
 
-        embed = NormalEmbed(ctx.guild_config, title="Profil de " + str(member))
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("PROFIL_OF", member=member))
         embed.add_field(name="XP", value=str(member_data.xp))
         embed.add_field(name="Coins", value=str(member_data.money))
 

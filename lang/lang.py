@@ -6,7 +6,7 @@ class FormatDict(dict):
         return "{" + key + "}"
 
 class _Lang:
-    def __init__(self, file_path="utils/lang/lang.csv") -> None:
+    def __init__(self, file_path="lang/lang.csv") -> None: #TODO: globalize path
         self.file_path = file_path
 
         with open(self.file_path, newline='') as f:
@@ -15,12 +15,16 @@ class _Lang:
 
     def get_text(self, text_key: str, lang: str, **options) -> str:
         try:
+            options.setdefault("lang", lang)
+
             key_row: int = [row for row in range(len(self.rows)) if self.rows[row][0].upper() == text_key.upper()][0]
-            lang_col: int = [col for col in range(len(self.rows[0])) if self.rows[0][col].lower() == lang.lower()][0]
+            if lang not in self.rows[0]:
+                lang = "en"
+            lang_col: int = self.rows[0].index(lang.lower())
             text: str = self.rows[key_row][lang_col]
 
             formatter = string.Formatter()
-            mapping = FormatDict(**options)
+            mapping = FormatDict({str(k): str(v) for k, v in options.items()})
 
             return formatter.vformat(text, (), mapping)
         except Exception as e:

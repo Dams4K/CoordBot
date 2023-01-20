@@ -1,4 +1,7 @@
 KEYS,en,fr
 TEST_MSG,This message is in english,Ce message est en français
-E_CommandError,en command error,fr command error
-E_MissingRequiredArgument,en missing required arg,fr missing required arg
+E_CommandError,En E_CommandError,Fr E_CommandError
+E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
+PROFIL_OF,Profil of {member},Profil de {member}
+CHANGE_LANGUAGE,({lang}) Change language to english,({lang}) Change la langue en français
+LANGUAGE_CHANGED,Language changed to english,Langage changé en français

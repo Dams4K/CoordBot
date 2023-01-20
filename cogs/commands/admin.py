@@ -7,18 +7,8 @@ from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
 
 class AdminCog(commands.Cog):
-    LANGS = [
-        "en",
-        "fr"
-    ]
-
     def __init__(self, bot):
         self.bot = bot
-
-
-    async def get_langs(self, ctx: discord.AutocompleteContext):
-        return self.LANGS
-
 
     @bridge.bridge_command(name="reset")
     @option("member", type=discord.Member, required=True)
@@ -50,11 +40,6 @@ class AdminCog(commands.Cog):
         else:
             await ctx.respond("message sent", ephemeral=True)
         await ctx.send(message)
-
-    @bridge.bridge_command(name="set_lang")
-    @option("lang", type=str, required=True, autocomplete=get_langs)
-    async def set_lang(self, ctx, lang):
-        pass
 
 
 def setup(bot):
