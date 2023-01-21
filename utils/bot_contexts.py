@@ -11,7 +11,7 @@ class BotBridgeContext(BridgeContext):
     def author_data(self):
         return MemberData(self.guild.id, self.user.id)
     
-    def translate(self, text_key: str, *args, **kwargs):
+    async def translate(self, text_key: str, *args, **kwargs):
         return Lang.get_text(text_key, self.guild_config.language, *args, **kwargs)
     
     async def translate_message(self, *args, **kwargs):
