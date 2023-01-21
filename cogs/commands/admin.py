@@ -41,7 +41,7 @@ class AdminCog(commands.Cog):
         else:
             await ctx.message.delete()
         
-        await ctx.send(message)
+        await ctx.send(message, text_key="MESSAGE_SENT")
 
 
 def setup(bot):
