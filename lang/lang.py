@@ -13,9 +13,10 @@ class _Lang:
             self.rows = [row for row in csv.reader(f, delimiter=",", quotechar='"')]
 
 
-    def get_text(self, text_key: str, lang: str, **options) -> str:
+    def get_text(self, text_key: str, lang: str, *args, **kwargs) -> str:
         try:
-            options.setdefault("lang", lang)
+            lang = lang.lower()
+            kwargs.setdefault("lang", lang)
 
             key_row: int = [row for row in range(len(self.rows)) if self.rows[row][0].upper() == text_key.upper()][0]
             if lang not in self.rows[0]:
@@ -24,17 +25,23 @@ class _Lang:
             text: str = self.rows[key_row][lang_col]
 
             formatter = string.Formatter()
-            mapping = FormatDict({str(k): str(v) for k, v in options.items()})
+            mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
 
-            return formatter.vformat(text, (), mapping)
+            return formatter.vformat(text, args, mapping)
         except Exception as e:
             print(e)
             return "message not found"
+    
+    def get_languages(self):
+        return self.rows[0][1:]
+    
+    def language_is_translated(self, lang: str):
+        return lang.lower() in self.rows[0]
 
 
 Lang: _Lang = _Lang()
 
 if __name__ == "__main__":
-    print(Lang.get_text("PLAYER_REMOVED_FROM_WHITELIST", "fr"))
-    print(Lang.get_text("PLAYER_REMOVED_FROM_WHITELIST", "en"))
+    print(Lang.get_text("TEST_MSG", "fr"))
+    print(Lang.get_text("TEST_MSG", "en"))
     print(Lang.get_text("qd", "en"))

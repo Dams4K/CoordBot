@@ -6,11 +6,6 @@ from utils.permissions import is_admin
 from lang import Lang
 
 class GuildConfigCog(commands.Cog):
-    LANGUAGES = [
-        "en",
-        "fr"
-    ]
-
     def __init__(self, bot):
         self.bot = bot
     
@@ -18,20 +13,26 @@ class GuildConfigCog(commands.Cog):
         return is_admin(ctx)
 
     async def get_languages(self, ctx: discord.AutocompleteContext):
-        return [Lang.get_text("CHANGE_LANGUAGE", lang) for lang in self.LANGUAGES]
+        return [Lang.get_text("CHANGE_LANGUAGE", lang) for lang in Lang.get_languages()]
 
     @bridge.bridge_command(name="setprefix")
     @option("prefix", type=str, required=True)
     async def set_prefix(self, ctx, prefix: str):
         ctx.guild_config.set_prefix(prefix)
-        await ctx.respond("Prefix changed to " + prefix)
+
+        await ctx.respond(ctx.translate("PREFIX_CHANGED", prefix=prefix))
     
 
-    @bridge.bridge_command(name="set_lang")
-    @option("new_language", type=str, required=True, autocomplete=get_languages)
-    async def set_lang(self, ctx, new_language: str):
-        new_language = new_language[new_language.find("(")+1:new_language.find(")")]
-        ctx.guild_config.set_language(new_language)
+    @bridge.bridge_command(name="setlang")
+    @option("lang", type=str, required=True, autocomplete=get_languages)
+    async def set_lang(self, ctx, lang: str):
+        lang = lang[lang.find("(")+1:lang.find(")")]
+        
+        if not Lang.language_is_translated(lang):
+            await ctx.respond(ctx.translate("NO_TRANSLATION"))
+            return
+
+        ctx.guild_config.set_language(lang)
         await ctx.respond(ctx.translate("LANGUAGE_CHANGED"))
 
 
