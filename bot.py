@@ -32,7 +32,7 @@ class GDCPBot(bridge.Bot):
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
 
-    async def get_context(self, message, cls = BotContext):
+    async def get_context(self, message, *, cls = BotContext):
         return await super().get_context(message, cls=cls)
 
 
