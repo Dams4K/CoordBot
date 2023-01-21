@@ -31,16 +31,16 @@ class BotBridgeContext(BridgeContext):
         
         return args, kwargs
 
-class BotApplicationContext(BridgeApplicationContext, BotBridgeContext):
+    async def send(self, *args, **kwargs):
+        args, kwargs = await self.translate_message(*args, **kwargs)
+        await super().send(*args, **kwargs)
+    
     async def respond(self, *args, **kwargs):
         args, kwargs = await self.translate_message(*args, **kwargs)
         await super().respond(*args, **kwargs)
-    
-    async def send(self, *args, **kwargs):
-        args, kwargs = await self.translate_message(*args, **kwargs)
-        await super().send(*args, **kwargs)
+
+class BotApplicationContext(BridgeApplicationContext, BotBridgeContext):
+    pass
 
 class BotContext(BridgeExtContext, BotBridgeContext):
-    async def send(self, *args, **kwargs):
-        args, kwargs = await self.translate_message(*args, **kwargs)
-        await super().send(*args, **kwargs)
+    pass
