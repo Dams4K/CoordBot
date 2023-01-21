@@ -20,7 +20,7 @@ class GuildConfigCog(commands.Cog):
     async def set_prefix(self, ctx, prefix: str):
         ctx.guild_config.set_prefix(prefix)
 
-        await ctx.respond(ctx.translate("PREFIX_CHANGED", prefix=prefix))
+        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": prefix})
     
 
     @bridge.bridge_command(name="setlang")
@@ -29,11 +29,11 @@ class GuildConfigCog(commands.Cog):
         lang = lang[lang.find("(")+1:lang.find(")")]
         
         if not Lang.language_is_translated(lang):
-            await ctx.respond(ctx.translate("NO_TRANSLATION"))
+            await ctx.respond(text_key="NO_TRANSLATION")
             return
 
         ctx.guild_config.set_language(lang)
-        await ctx.respond(ctx.translate("LANGUAGE_CHANGED"))
+        await ctx.respond(text_key="LANGUAGE_CHANGED")
 
 
 def setup(bot):

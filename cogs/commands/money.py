@@ -20,7 +20,7 @@ class MoneyCog(commands.Cog):
     async def add_money(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_money(amount)
-        await ctx.respond("qsdqsdqsdqsd")
+        await ctx.respond(text_key="MONEY_ADDED", text_args={"amount": amount, "member": member})
         
 
     @money_group.command(name="remove")
@@ -29,7 +29,7 @@ class MoneyCog(commands.Cog):
     async def remove_money(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_money(-amount)
-        await ctx.respond("qsdqsdqsdqsd")
+        await ctx.respond(text_key="MONEY_REMOVED", text_args={"amount": amount, "member": member})
     
 
     @money_group.command(name="set")
@@ -38,7 +38,7 @@ class MoneyCog(commands.Cog):
     async def set_money(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.set_money(amount)
-        await ctx.respond("qsdqsdqsdqsd2")
+        await ctx.respond(text_key="MONEY_SET", text_args={"amount": amount, "member": member})
 
         
 

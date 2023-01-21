@@ -14,3 +14,9 @@ RESET_CANCELED,Reset canceled,Réinitialiser annulé
 MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
 MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
 MESSAGE_SENT,Message sent,Message envoyé
+XP_ADDED,You have added `{amount}` xp to {member},Vous avez ajouté `{amount}` xp à {member}
+XP_REMOVED,You have removed `{amount}` xp from {member},Vous avez retiré `{amount}` xp à {member}
+XP_SET,You have set the {member} xp to `{amount}`,Vous avez définit l'xp de {member} à `{amount}`
+MONEY_ADDED,You have added `{amount}` money to {member},Vous avez ajouté `{amount}` money à {member}
+MONEY_REMOVED,You have removed `{amount}` money from {member},Vous avez retiré `{amount}` money à {member}
+MONEY_SET,You have set the {member} money to `{amount}`,Vous avez définit la money de {member} à `{amount}`

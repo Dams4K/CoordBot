@@ -20,7 +20,7 @@ class LevelsCog(commands.Cog):
     async def add_xp(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_xp(amount)
-        await ctx.respond("qsdqsdqsdqsd")
+        await ctx.respond(text_key="XP_ADDED", text_args={"amount": amount, "member": member})
         
 
     @xp_group.command(name="remove")
@@ -29,7 +29,7 @@ class LevelsCog(commands.Cog):
     async def remove_xp(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.add_xp(-amount)
-        await ctx.respond("qsdqsdqsdqsd")
+        await ctx.respond(text_key="XP_REMOVED", text_args={"amount": amount, "member": member})
     
 
     @xp_group.command(name="set")
@@ -38,7 +38,7 @@ class LevelsCog(commands.Cog):
     async def set_xp(self, ctx, member, amount):
         member_data = MemberData(ctx.guild.id, member.id)
         member_data.set_xp(amount)
-        await ctx.respond("qsdqsdqsdqsd2")
+        await ctx.respond(text_key="XP_SET", text_args={"amount": amount, "member": member})
 
 
     @commands.Cog.listener()
