@@ -41,4 +41,4 @@ class MemberData(Saveable):
 
 
     def reset(self):
-        os.remove(self.file_path)
+        os.remove(self._path)

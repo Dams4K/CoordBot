@@ -9,20 +9,19 @@ class ErrorHandling(commands.Cog):
     
     @commands.Cog.listener()
     async def on_application_command_error(self, ctx, exception):
-        await ctx.respond(embed=self.errors(ctx, exception))
+        await ctx.respond(embed=await self.errors(ctx, exception))
     @commands.Cog.listener()
     async def on_command_error(self, ctx, exception):
-        embed = self.errors(ctx, exception)
+        embed = await self.errors(ctx, exception)
         if embed:
             await ctx.send(embed=embed)
 
 
-    def errors(self, ctx, exception):
-        language = ctx.guild_config.language
+    async def errors(self, ctx, exception):
         embed = DangerEmbed(ctx.guild_config, title="Command Error", description=exception)
-
+        
         if type(exception) is commands.errors.CommandError:
-            embed.description = Lang.get_text("E_CommandError", language)
+            embed.description = await ctx.translate("E_CommandError")
         elif type(exception) is commands.errors.CommandNotFound:
             return None
         elif type(exception) is commands.errors.MissingRequiredArgument:
