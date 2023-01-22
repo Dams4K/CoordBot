@@ -37,12 +37,11 @@ class AdminCog(commands.Cog):
     @bridge.bridge_command(name="say")
     async def say(self, ctx, *, message: str):
         if ctx.is_app:
-            await ctx.respond(text_key="MESSAGE_SENT", ephemeral=True)
+            await ctx.respond(ephemeral=True)
         else:
             await ctx.message.delete()
         
-        await ctx.send(message, text_key="MESSAGE_SENT")
-
+        await ctx.send(message)
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))

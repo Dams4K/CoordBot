@@ -17,7 +17,7 @@ class StorageCog(commands.Cog):
             items.remove(None)
         return [f"{item.name} ({item.id})" for item in items]
 
-    @bridge.bridge_group(name="inventory", invoke_without_command=True)
+    @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("show")
     @option("member", type=discord.Member, required=False)
     async def inventory(self, ctx, member=None):
@@ -61,7 +61,7 @@ class StorageCog(commands.Cog):
             await ctx.respond(f"L'item {item.name} a été donné à {member}")
     
 
-    @bridge.bridge_group(name="items", invoke_without_command=True)
+    @bridge.bridge_group(invoke_without_command=True)
     async def items(self, ctx):
         pass
 

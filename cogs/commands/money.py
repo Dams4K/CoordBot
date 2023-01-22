@@ -11,10 +11,10 @@ class MoneyCog(commands.Cog):
         self.bot = bot
     
 
-    @bridge.bridge_group(name="money", checks=[is_admin])
-    async def money_group(self, ctx): pass
+    @bridge.bridge_group(checks=[is_admin])
+    async def money(self, ctx): pass
 
-    @money_group.command(name="add")
+    @money.command(name="add")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def add_money(self, ctx, member, amount):
@@ -23,7 +23,7 @@ class MoneyCog(commands.Cog):
         await ctx.respond(text_key="MONEY_ADDED", text_args={"amount": amount, "member": member})
         
 
-    @money_group.command(name="remove")
+    @money.command(name="remove")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def remove_money(self, ctx, member, amount):
@@ -32,7 +32,7 @@ class MoneyCog(commands.Cog):
         await ctx.respond(text_key="MONEY_REMOVED", text_args={"amount": amount, "member": member})
     
 
-    @money_group.command(name="set")
+    @money.command(name="set")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def set_money(self, ctx, member, amount):

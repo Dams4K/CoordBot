@@ -11,10 +11,10 @@ class LevelsCog(commands.Cog):
         self.bot = bot
 
 
-    @bridge.bridge_group(name="xp", checks=[is_admin])
-    async def xp_group(self, ctx): pass
+    @bridge.bridge_group(checks=[is_admin])
+    async def xp(self, ctx): pass
 
-    @xp_group.command(name="add")
+    @xp.command(name="add")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def add_xp(self, ctx, member, amount):
@@ -23,7 +23,7 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="XP_ADDED", text_args={"amount": amount, "member": member})
         
 
-    @xp_group.command(name="remove")
+    @xp.command(name="remove")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def remove_xp(self, ctx, member, amount):
@@ -32,7 +32,7 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="XP_REMOVED", text_args={"amount": amount, "member": member})
     
 
-    @xp_group.command(name="set")
+    @xp.command(name="set")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def set_xp(self, ctx, member, amount):
