@@ -33,11 +33,11 @@ class BotBridgeContext(BridgeContext):
 
     async def send(self, *args, **kwargs):
         args, kwargs = await self.translate_message(*args, **kwargs)
-        await super().send(*args, **kwargs)
+        return await super().send(*args, **kwargs)
     
     async def respond(self, *args, **kwargs):
         args, kwargs = await self.translate_message(*args, **kwargs)
-        await super().respond(*args, **kwargs)
+        return await super().respond(*args, **kwargs)
 
 class BotApplicationContext(BridgeApplicationContext, BotBridgeContext):
     pass
