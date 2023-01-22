@@ -3,7 +3,7 @@ from ddm import *
 from utils.references import References
 
 class ChestData(Saveable):
-    def __init__(self, guild_id, chest_id = -1):
+    def __init__(self, guild_id, chest_name: str = "No name", chest_id = -1):
         self._guild_id = guild_id
 
         # create the next id usable
@@ -11,13 +11,14 @@ class ChestData(Saveable):
             dirname = References.get_guild_folder(f"{self._guild_id}/chests")
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
+            
             chests_id = [-1] + [int(i.split(".")[0]) for i in os.listdir(dirname)]
             chest_id = sorted(chests_id)[-1]+1
 
-        self.chest_id = chest_id
-        self.name = name
+        self._chest_id = chest_id
+        self.name = chest_name
 
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/chests/{self.chest_id}.json"))
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/chests/{self._chest_id}.json"))
 
     @Saveable.update()
     def set_name(self, new_name):
@@ -38,11 +39,11 @@ class ChestData(Saveable):
         os.remove(self.file_path)
 
 
-class Loot(Data):
-    def __init__(self, loot_id: int):
-        self.loot_id = loot_id
+class Loot(Saveable):
+    def __init__(self, guild_id: int, loot_id: int):
+        self._loot_id = loot_id
 
-        super().__init__()
+        super().__init__(References.get_guild_folder(f"{guild_id}/loots/{loot_id}.json"))
         
     def add_item(self, item, weight):
         pass

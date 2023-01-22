@@ -1,7 +1,7 @@
 import discord
 import aiohttp
 from io import BytesIO
-from discord import Option
+from discord import option
 from discord.ext import bridge
 from discord.ext import commands
 from discord.commands import slash_command, SlashCommandGroup
@@ -28,11 +28,14 @@ class ChestsCog(commands.Cog):
 
         #- BETTER
         async with aiohttp.ClientSession() as session:
-            async with session.get(str(ctx.author.avatar)) as resp:
-                webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=await resp.read())
-                await webhook.send("qszduqjshds oujdo")
+            print(ctx.author.avatar)
+            webhook = await ctx.channel.create_webhook(name="qsdqsdsq")
+            # async with session.get("https://i.pinimg.com/originals/3d/4c/74/3d4c74196be6a034b30d5c94bb46c221.gif") as resp:
+            #     webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=await resp.read())
+            #     await webhook.send("qszduqjshds oujdo")
 
     @chests.command(name="create")
+    @option("chest_name", type=str, required=True)
     async def create_chest(self, ctx, chest_name: str):
         chest = ChestData(ctx.guild.id)
         chest.set_name(chest_name)
