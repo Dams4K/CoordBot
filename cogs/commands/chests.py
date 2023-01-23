@@ -13,11 +13,6 @@ class ChestsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-
-    chests = SlashCommandGroup("chests", "chests settings")
-    chests.checks = [is_admin]
-
-
     @bridge.bridge_command(name="open_chest")
     async def open_chest(self, ctx, id: int):
         #-- BAD
@@ -33,6 +28,10 @@ class ChestsCog(commands.Cog):
             # async with session.get("https://i.pinimg.com/originals/3d/4c/74/3d4c74196be6a034b30d5c94bb46c221.gif") as resp:
             #     webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=await resp.read())
             #     await webhook.send("qszduqjshds oujdo")
+
+    @bridge.bridge_group(checks=[is_admin])
+    async def chests(self, ctx):
+        pass
 
     @chests.command(name="create")
     @option("chest_name", type=str, required=True)

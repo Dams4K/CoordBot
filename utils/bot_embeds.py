@@ -15,3 +15,8 @@ class DangerEmbed(BotEmbed):
     def __init__(self, guild_config, **kwargs):
         super().__init__(guild_config, **kwargs)
         self.color = discord.Colour.brand_red()
+
+class InformativeEmbed(BotEmbed):
+    def __init__(self, guild_config, **kwargs):
+        super().__init__(guild_config, **kwargs)
+        self.color = discord.Colour.blurple()

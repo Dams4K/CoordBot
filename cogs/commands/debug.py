@@ -45,6 +45,16 @@ class DebugCog(commands.Cog):
 
         await ctx.respond(user.mention if user != None else None, file=file, embed=embed, ephemeral=True)
     
+    @bridge.bridge_command(name="tab_in_embed")
+    async def tab_in_embed(self, ctx):
+        embed = NormalEmbed(ctx.guild_config, title="Tab In Embed")
+
+        embed.description = """Hi
+Just a little test
+>       i hope it will work
+        """
+
+        await ctx.respond(embed=embed)
 
 def setup(bot):
     bot.add_cog(DebugCog(bot))

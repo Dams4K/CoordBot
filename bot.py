@@ -4,12 +4,14 @@ import os
 from discord.ext import bridge
 from utils.references import References
 from utils.bot_contexts import *
+from utils.help_command import BotHelpCommand
 from data_management import GuildConfig
 
 class GDCPBot(bridge.Bot):
     def __init__(self):
         super().__init__(
-            self.get_prefix, case_insensitive=True, intents=discord.Intents.all(), debug_guilds=References.BETA_GUILDS
+            self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
+            debug_guilds=References.BETA_GUILDS, help_command=BotHelpCommand()
         )
 
         self.logger = logging.getLogger('discord')
@@ -22,7 +24,8 @@ class GDCPBot(bridge.Bot):
     async def on_ready(self):
         os.system("clear||cls")
         print(self.user, "is now ready")
-        print("version:", References.VERSION)
+        print("bot version:", References.VERSION)
+        print("py-cord version:", discord.__version__)
         print("extensions:", end="")
         print("\n  - ".join([""] + self.extensions_path()))
         
