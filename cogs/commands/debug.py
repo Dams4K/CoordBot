@@ -6,6 +6,8 @@ from utils.bot_embeds import NormalEmbed
 class DebugCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
+        # self.bot.add_application_command(self.a)
     
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
@@ -55,6 +57,13 @@ Just a little test
         """
 
         await ctx.respond(embed=embed)
+        
+    a = discord.SlashCommandGroup("a")
+    b = a.create_subgroup("b")
+
+    @b.command()
+    async def c(self, ctx):
+        await ctx.respond("d")
 
 def setup(bot):
     bot.add_cog(DebugCog(bot))
