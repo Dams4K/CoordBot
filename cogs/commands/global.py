@@ -15,8 +15,10 @@ class GlobalCog(commands.Cog):
         member = ctx.author if member == None else member
         member_data = MemberData(ctx.guild.id, member.id)
 
+        xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
         embed = NormalEmbed(ctx.guild_config, title=await ctx.translate("PROFIL_OF", member=member))
-        embed.add_field(name="XP", value=str(member_data.xp))
+        embed.add_field(name="LEVEL", value=str(member_data.level))
+        embed.add_field(name="XP", value=f"{member_data.xp}/{xp_goal}")
         embed.add_field(name="Coins", value=str(member_data.money))
 
         await ctx.respond(embed=embed)

@@ -14,9 +14,14 @@ RESET_CANCELED,Reset canceled,Réinitialiser annulé
 MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
 MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
 MESSAGE_SENT,Message sent,Message envoyé
-XP_ADDED,You have added `{amount}` xp to {member},Vous avez ajouté `{amount}` xp à {member}
-XP_REMOVED,You have removed `{amount}` xp from {member},Vous avez retiré `{amount}` xp à {member}
+LEVEL_ADDED,You have increased the level of {member} by `{amount}`,Vous avez augmenté le niveau de {member} de `{amount}`
+LEVEL_REMOVED,You have decreased the level of {member} by `{amount}`,Vous avez diminué le niveau de {member} de `{amount}`
+LEVEL_SET,You have set the {member} level to `{amount}`,Vous avez définit le niveau de {member} à `{amount}`
+XP_ADDED,You have increased the xp of {member} by `{amount}`,Vous avez augmenté l'xp de {member} de `{amount}`
+XP_REMOVED,You have decreased the xp of {member} by `{amount}`,Vous avez diminué l'xp de {member} de `{amount}`
 XP_SET,You have set the {member} xp to `{amount}`,Vous avez définit l'xp de {member} à `{amount}`
 MONEY_ADDED,You have added `{amount}` money to {member},Vous avez ajouté `{amount}` money à {member}
 MONEY_REMOVED,You have removed `{amount}` money from {member},Vous avez retiré `{amount}` money à {member}
 MONEY_SET,You have set the {member} money to `{amount}`,Vous avez définit la money de {member} à `{amount}`
+ENABLE_LEVEL_SYSTEM,The level system is now enabled,Le système de niveau est maintenant activé
+DISABLE_LEVEL_SYSTEM,The level system is now disabled,Le système de niveau est maintenant désactivé

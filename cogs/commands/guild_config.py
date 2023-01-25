@@ -35,6 +35,15 @@ class GuildConfigCog(commands.Cog):
         ctx.guild_config.set_language(lang)
         await ctx.respond(text_key="LANGUAGE_CHANGED")
 
+    @bridge.bridge_group()
+    async def level_system(self, ctx):
+        pass
+
+    @level_system.command(name="enabled")
+    async def activate(self, ctx, activated: bool):
+        ctx.guild_config.enable_level_system(activated)
+        await ctx.respond(text_key="ENABLE_LEVEL_SYSTEM" if activated else "DISABLE_LEVEL_SYSTEM")
+
 
 def setup(bot):
     bot.add_cog(GuildConfigCog(bot))

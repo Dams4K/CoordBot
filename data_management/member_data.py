@@ -10,6 +10,7 @@ class MemberData(Saveable):
 
         guild_default_member = GuildDefaultMemberData(self._guild_id)
         self.xp = guild_default_member.xp
+        self.level = guild_default_member.level
         self.money = guild_default_member.xp
         self.inventory = Inventory(guild_default_member.inventory_size, [])
 
@@ -23,6 +24,24 @@ class MemberData(Saveable):
     def set_xp(self, amount: int):
         self.xp = amount
     
+    def get_xp_goal(self, leveling_formula):
+        return eval(leveling_formula.format(l=self.level)) #TODO: check if `leveling_formula` have only number and {level} inside, else python injection can be done
+
+    def refresh_level(self, leveling_formula) -> int:
+        xp_needed = self.get_xp_goal(leveling_formula)
+        if self.xp >= xp_needed:
+            self.add_level(1)
+            self.add_xp(-xp_needed)
+            return self.refresh_level(leveling_formula)
+        return self.level
+
+    @Saveable.update()
+    def add_level(self, amount: int):
+        self.level += amount
+    
+    @Saveable.update()
+    def set_level(self, amount: int):
+        self.level = amount
 
     @Saveable.update()
     def add_money(self, amount: int):

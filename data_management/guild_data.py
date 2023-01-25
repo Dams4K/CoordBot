@@ -8,6 +8,9 @@ class GuildConfig(Saveable):
         self.prefix = References.BOT_PREFIX
         self.xp_calculation = "{words}"
         self.language = "en"
+        self.level_system_enabled = True
+        self.leveling_formula = "20*({l}+1)" #maybe later, level**2+C
+        self.level_up_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
 
         super().__init__(References.get_guild_folder(f"{self._guild_id}/global.json"))
     
@@ -25,12 +28,24 @@ class GuildConfig(Saveable):
     def set_language(self, new_language):
         self.language = new_language
 
+    @Saveable.update()
+    def enable_level_system(self, value):
+        self.level_system_enabled = value
+    @Saveable.update()
+    def set_leveling_formula(self, formula):
+        self.leveling_formula = formula
+    
+
+    def send_level_up_message(self, m, lb, la):
+        return self.level_up_message.format(member=m, level_before=lb, level_after=la)
+
 
 
 class GuildDefaultMemberData(Saveable):
     def __init__(self, guild_id):
         self._guild_id = guild_id
         self.xp = 0
+        self.level = 0
         self.money = 0
         self.inventory_size = 10
 
@@ -39,6 +54,9 @@ class GuildDefaultMemberData(Saveable):
     @Saveable.update()
     def set_xp(self, value: int):
         self.xp = value
+    @Saveable.update()
+    def set_level(self, value: int):
+        self.level = level
     @Saveable.update()
     def set_money(self, value: int):
         self.money = value
