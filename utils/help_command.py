@@ -12,51 +12,63 @@ class CommandCompatibility:
 
 class BotHelpCommand(commands.HelpCommand):
     def get_ext_command(self, ext_command: commands.Command):
+        qualified_name = None
         mention = None
         compatibility = ""
         subcommands = [] #TODO
 
-        if ext_command.enabled:
-            mention = self.context.guild_config.prefix + ext_command.qualified_name
+        if ext_command.enabled and not ext_command.hidden:
+            if isinstance(ext_command, commands.Group):
+                for command in ext_command.all_commands.values():
+                    subcommands.append(self.get_ext_command(command))
+
+            qualified_name = ext_command.qualified_name
+            mention = self.context.guild_config.prefix + qualified_name
+            compatibility = CommandCompatibility.PREFIX_COMPATIBILITY
         
-        return mention, compatibility, subcommands
+        return qualified_name, mention, compatibility, subcommands
 
     def get_slash_command(self, slash_command: SlashCommand):
+        qualified_name = None
         mention = None
         compatibility = ""
         subcommands = []
 
         if isinstance(slash_command, SlashCommand):
+            qualified_name = slash_command.qualified_name
             mention = slash_command.mention
             compatibility = CommandCompatibility.SLASH_COMPATIBILITY
         elif isinstance(slash_command, SlashCommandGroup):
             if isinstance(slash_command, bridge.BridgeCommandGroup):
                 if slash_command.mapped:
+                    qualified_name = slash_command.mapped.qualified_name
                     mention = slash_command.mapped.mention
                     compatibility = CommandCompatibility.MAPPED_SLASH_COMPATIBILITY
             
             for subcommand in slash_command.subcommands:
                 subcommands.append(self.get_slash_command(subcommand))
         
-        return mention, compatibility, subcommands
+        return qualified_name, mention, compatibility, subcommands
 
     def get_bridge_command(self, bridge_command: bridge.BridgeCommand):
+        qualified_name = None
         mention = None
         compatibility = ""
         subcommands = []
 
-        slash_mention, slash_compatibility, slash_subcommands = self.get_slash_command(bridge_command.slash_variant)
-        ext_mention, ext_compatibility, ext_subcommands = self.get_ext_command(bridge_command.ext_variant)
+        slash_qualified_name, slash_mention, slash_compatibility, slash_subcommands = self.get_slash_command(bridge_command.slash_variant)
+        ext_qualified_name, ext_mention, ext_compatibility, ext_subcommands = self.get_ext_command(bridge_command.ext_variant)
 
         if CommandCompatibility.MAPPED_SLASH_COMPATIBILITY == slash_compatibility:
             mention = f"{slash_mention} | {ext_mention}"
         else:
             mention = slash_mention or ext_mention
         
+        qualified_name = slash_qualified_name or ext_qualified_name
         compatibility = slash_compatibility + ext_compatibility
         subcommands = slash_subcommands or ext_subcommands
 
-        return mention, compatibility, subcommands
+        return qualified_name, mention, compatibility, subcommands
 
     def format_command(self, command: bridge.BridgeCommand):
         slash_variant = command.slash_variant
@@ -118,8 +130,21 @@ class BotHelpCommand(commands.HelpCommand):
             ext_commands = [command for command in raw_commands if isinstance(command, commands.Command)]
             slash_commands = [command for command in raw_commands if isinstance(command, SlashCommand)]
 
+            bot_commands = {}
+
             for command in bridge_commands:
-                print(self.get_bridge_command(command))
+                command_info = self.get_bridge_command(command)
+                bot_commands.setdefault(command_info[0], command_info[1:])
+
+            for command in ext_commands:
+                command_info = self.get_ext_command(command)
+                bot_commands.setdefault(command_info[0], command_info[1:])
+                
+            for command in slash_commands:
+                command_info = self.get_slash_command(command)
+                bot_commands.setdefault(command_info[0], command_info[1:])
+            
+            print(bot_commands)
 
             description = ""
             # description = "\n".join(self.format_bridge_commands(bridge_commands))
