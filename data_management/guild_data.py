@@ -1,3 +1,4 @@
+import csv
 from ddm import *
 from .storage_data import Item
 from utils.references import References
@@ -39,6 +40,22 @@ class GuildConfig(Saveable):
     def send_level_up_message(self, m, lb, la):
         return self.level_up_message.format(member=m, level_before=lb, level_after=la)
 
+
+class GuildLanguage(Saveable):
+    def __init__(self, guild_id):
+        self._guild_id = guild_id
+
+        self.rows = {}
+
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/lang.json"))
+
+    @Saveable.update()
+    def add_translation(self, key, value) -> None:
+        self.rows.setdefault(key, value)
+
+    @Saveable.update()
+    def remove_translation(self, key) -> str:
+        pass
 
 
 class GuildDefaultMemberData(Saveable):

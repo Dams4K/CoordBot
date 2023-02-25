@@ -13,16 +13,27 @@ class _Lang:
             self.rows = [row for row in csv.reader(f, delimiter=",", quotechar='"')]
 
 
-    def get_text(self, text_key: str, lang: str, *args, **kwargs) -> str:
+    def get_text(self, text_key: str, lang: str, custom_rows: dict = None, *args, **kwargs) -> str:
         try:
             lang = lang.lower()
             kwargs.setdefault("lang", lang)
 
-            key_row: int = [row for row in range(len(self.rows)) if self.rows[row][0].upper() == text_key.upper()][0]
-            if lang not in self.rows[0]:
+            rows = self.rows
+            if custom_rows is not None:
+                rows = [self.rows[0]]
+
+                for row in self.rows[1:]:
+                    key = row[0]
+                    if key in custom_rows.keys():
+                        rows.append([key] + [custom_rows.get(key)] * (len(row)-1))
+                    else:
+                        rows.append(row)
+                        
+            key_row: int = [row for row in range(len(rows)) if rows[row][0].upper() == text_key.upper()][0]
+            if lang not in rows[0]:
                 lang = "en"
-            lang_col: int = self.rows[0].index(lang.lower())
-            text: str = self.rows[key_row][lang_col]
+            lang_col: int = rows[0].index(lang.lower())
+            text: str = rows[key_row][lang_col]
 
             formatter = string.Formatter()
             mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
@@ -34,6 +45,8 @@ class _Lang:
     
     def get_languages(self):
         return self.rows[0][1:]
+    def get_keys(self):
+        return [self.rows[i][0] for i in range(1, len(self.rows))]
     
     def language_is_translated(self, lang: str):
         return lang.lower() in self.rows[0]

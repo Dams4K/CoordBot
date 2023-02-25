@@ -2,6 +2,7 @@ from ddm import *
 from .guild_data import GuildDefaultMemberData
 from .storage_data import Inventory
 from utils.references import References
+import copy
 
 class MemberData(Saveable):
     def __init__(self, guild_id, member_id):

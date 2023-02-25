@@ -1,4 +1,5 @@
 import discord
+import asyncio
 import logging
 import os
 from discord.ext import bridge
@@ -38,6 +39,8 @@ class GDCPBot(bridge.Bot):
     async def get_context(self, message, *, cls = BotContext):
         return await super().get_context(message, cls=cls)
 
+    async def get_autocomplete_context(self, interaction, cls = BotAutocompleteContext):
+        return await super().get_autocomplete_context(interaction, cls)
 
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):

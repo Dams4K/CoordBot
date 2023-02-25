@@ -118,7 +118,7 @@ class BotHelpCommand(commands.HelpCommand):
 
         guild_config = ctx.guild_config
 
-        presentation_embed = NormalEmbed(guild_config, title="‎ ‎ ‎ ‎ Page d'aide")
+        presentation_embed = NormalEmbed(guild_config, title="‎ ‎ ‎ ‎ Page d'aide ‎ ‎ ‎ ‎")
 
         pages = [presentation_embed]
 
@@ -144,10 +144,7 @@ class BotHelpCommand(commands.HelpCommand):
                 command_info = self.get_slash_command(command)
                 bot_commands.setdefault(command_info[0], command_info[1:])
             
-            print(bot_commands)
-
-            description = ""
-            # description = "\n".join(self.format_bridge_commands(bridge_commands))
+            description = "\n".join(self.format_bridge_commands(bridge_commands))
 
             page_embed = InformativeEmbed(guild_config, title=f"Aide {cog.qualified_name.replace('Cog', '')}", description=description)
             pages.append(page_embed)
