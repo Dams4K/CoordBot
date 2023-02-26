@@ -22,7 +22,7 @@ class StorageCog(commands.Cog):
     @option("member", type=discord.Member, required=False)
     async def inventory(self, ctx, member=None):
         member = ctx.author if member == None else member
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
         
         inventory = member_data.get_inventory()
@@ -48,7 +48,7 @@ class StorageCog(commands.Cog):
     async def give_item(self, ctx, member: discord.Member, item_name: str, amount: int):
         item_id = item_name[item_name.find("(")+1:item_name.find(")")]
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
         member_inventory = member_data.get_inventory()
 
         item = guild_storage_config.find_item(item_id)
@@ -91,7 +91,7 @@ class StorageCog(commands.Cog):
             if confirm_view.confirmed:
                 guild_storage_config.delete_item(item)
                 for member in ctx.guild.members:
-                    member_data = MemberData(ctx.guild.id, member.id)
+                    member_data = MemberData(member.id, ctx.guild.id)
                     member_inventory = member_data.get_inventory()
                     member_inventory.remove_item(item_id, -1)
                     member_data.set_inventory(member_inventory)

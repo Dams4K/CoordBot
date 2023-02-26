@@ -22,7 +22,7 @@ class AdminCog(commands.Cog):
         
         embed = NormalEmbed(ctx.guild_config)
         if confirm_view.confirmed:
-            member_data = MemberData(ctx.guild.id, member.id)
+            member_data = MemberData(member.id, ctx.guild.id)
             member_data.reset()
             
             embed.title = await ctx.translate("RESET_DONE")
@@ -37,7 +37,7 @@ class AdminCog(commands.Cog):
     @bridge.bridge_command(name="say")
     async def say(self, ctx, *, message: str):
         if ctx.is_app:
-            await ctx.respond(ephemeral=True)
+            await ctx.respond("done", ephemeral=True)
         else:
             await ctx.message.delete()
         

@@ -4,12 +4,11 @@ from discord.ext import commands
 from discord.ext import bridge
 from utils.permissions import is_admin
 from lang import Lang
+from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
 from data_management.guild_data import GuildLanguage
 
 class GuildConfigCog(commands.Cog):
-    dta = None
-
     def __init__(self, bot):
         self.bot = bot
     
@@ -19,14 +18,26 @@ class GuildConfigCog(commands.Cog):
     async def get_languages(self, ctx: BotAutocompleteContext):
         return [Lang.get_text("CHANGE_LANGUAGE", lang) for lang in Lang.get_languages()]
 
+    @commands.Cog.listener()
+    async def on_application_command_auto_complete(self, interaction, command):
+        print("qsd")
 
-    @bridge.bridge_command(name="setprefix")
-    @option("prefix", type=str, required=True)
-    async def set_prefix(self, ctx, prefix: str):
-        ctx.guild_config.set_prefix(prefix)
+    @bridge.bridge_group(invoke_without_command=True)
+    @bridge.map_to("current")
+    async def prefix(self, ctx: BotBridgeContext):
+        await ctx.respond(f"The bot's prefix is {ctx.guild_config.prefix}")
 
-        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": prefix})
+    @prefix.command(name="set")
+    @option("new_prefix", type=str, required=True)
+    async def prefix_set(self, ctx, new_prefix: str):
+        ctx.guild_config.set_prefix(new_prefix)
+        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": new_prefix})
     
+    @prefix.command(name="reset")
+    async def prefix_reset(self, ctx):
+        ctx.guild_config.set_prefix = References.BOT_PREFIX
+        await ctx.respond("The bot's prefix has been reset")
+
 
     @bridge.bridge_group()
     async def language(self, ctx):

@@ -40,8 +40,9 @@ class ChestData(Saveable):
 
 
 class Loot(Saveable):
-    def __init__(self, guild_id: int, loot_id: int):
+    def __init__(self, loot_id: int, guild_id: int):
         self._loot_id = loot_id
+        self._guild_id = guild_id
 
         super().__init__(References.get_guild_folder(f"{guild_id}/loots/{loot_id}.json"))
         

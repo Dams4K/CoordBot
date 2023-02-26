@@ -3,11 +3,12 @@ from .guild_data import GuildDefaultMemberData
 from .storage_data import Inventory
 from utils.references import References
 import copy
+import os
 
 class MemberData(Saveable):
-    def __init__(self, guild_id, member_id):
-        self._guild_id = guild_id
+    def __init__(self, member_id, guild_id):
         self._member_id = member_id
+        self._guild_id = guild_id
 
         guild_default_member = GuildDefaultMemberData(self._guild_id)
         self.xp = guild_default_member.xp

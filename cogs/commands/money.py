@@ -18,7 +18,7 @@ class MoneyCog(commands.Cog):
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def add_money(self, ctx, member, amount):
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
         member_data.add_money(amount)
         await ctx.respond(text_key="MONEY_ADDED", text_args={"amount": amount, "member": member})
         
@@ -27,7 +27,7 @@ class MoneyCog(commands.Cog):
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def remove_money(self, ctx, member, amount):
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
         member_data.add_money(-amount)
         await ctx.respond(text_key="MONEY_REMOVED", text_args={"amount": amount, "member": member})
     
@@ -36,7 +36,7 @@ class MoneyCog(commands.Cog):
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def set_money(self, ctx, member, amount):
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
         member_data.set_money(amount)
         await ctx.respond(text_key="MONEY_SET", text_args={"amount": amount, "member": member})
 

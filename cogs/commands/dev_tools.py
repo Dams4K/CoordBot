@@ -61,7 +61,7 @@ class ResponseModal(discord.ui.Modal):
         await interaction.response.send_message(response)
         response_message = await interaction.original_response()
 
-        embed = NormalEmbed(GuildConfig(icommandsnteraction.guild_id), title=f"Réponse", description="Tu as reçu une réponse de la part du développeur pour ta suggestion")
+        embed = NormalEmbed(GuildConfig(interaction.guild_id), title=f"Réponse", description="Tu as reçu une réponse de la part du développeur pour ta suggestion")
         embed.set_footer(text=f"{self.response_channel_origin}, {response_message.id}")
         await self.channel.send(self.user.mention, embed=embed, view=ResponseViewer(self.bot))
 
@@ -90,7 +90,7 @@ class ResponseViewer(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.button(label="See response", custom_id="see-response", style=discord.ButtonStyle.primary)
-    async def button_callback(self, buttocommandsn, interaction):
+    async def button_callback(self, button, interaction):
         member_mention = interaction.message.content
 
         author_id = member_mention[member_mention.find("<@")+2:member_mention.find(">")]
@@ -98,7 +98,7 @@ class ResponseViewer(discord.ui.View):
             response_embed = interaction.message.embeds[0]
             channel_id, message_id = response_embed.footer.text.split(",")
 
-            channel = self.bot.get_chancommandsel(int(channel_id))
+            channel = self.bot.get_channel(int(channel_id))
             message = await channel.fetch_message(int(message_id))
 
             embed = NormalEmbed(GuildConfig(interaction.guild_id), title="Réponse du développeur", description=message.content)

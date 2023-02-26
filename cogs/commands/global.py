@@ -8,12 +8,12 @@ from utils.bot_embeds import NormalEmbed
 class GlobalCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
+
     @bridge.bridge_command(name="profil")
     @option("member", type=discord.Member, required=False, default=None)
     async def profil(self, ctx, member = None):
         member = ctx.author if member == None else member
-        member_data = MemberData(ctx.guild.id, member.id)
+        member_data = MemberData(member.id, ctx.guild.id)
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
         embed = NormalEmbed(ctx.guild_config, title=await ctx.translate("PROFIL_OF", member=member))

@@ -10,8 +10,8 @@ class MemberData:
 
 members = [
     MemberData("Dams4K", 14, 784),
-    MemberData("May", 18, 456),
     MemberData("Partof", 4, 779),
+    MemberData("Partof2", 4, 456),
     MemberData("Paelos", 7, 415)      
 ]
 
