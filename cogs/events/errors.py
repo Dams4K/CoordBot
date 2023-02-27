@@ -21,7 +21,7 @@ class ErrorHandling(commands.Cog):
         embed = DangerEmbed(ctx.guild_config, title="Command Error", description=exception)
         
         if type(exception) is commands.errors.CommandError:
-            embed.description = await ctx.translate("E_CommandError")
+            embed.description = ctx.translate("E_CommandError")
         elif type(exception) is commands.errors.CommandNotFound:
             return None
         elif type(exception) is commands.errors.MissingRequiredArgument:

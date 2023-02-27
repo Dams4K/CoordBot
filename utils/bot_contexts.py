@@ -12,7 +12,7 @@ class BotBridgeContext(BridgeContext):
     def author_data(self):
         return MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
     
-    async def translate(self, text_key: str, *args, **kwargs):
+    def translate(self, text_key: str, *args, **kwargs):
         custom_translations = GuildLanguage(self.guild.id)
         return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
     

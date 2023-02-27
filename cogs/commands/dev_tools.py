@@ -4,8 +4,10 @@ from discord.ext import commands
 from discord.ext import bridge
 from discord.ui import Modal, InputText
 from data_management import GuildConfig
+from lang.lang import Lang
 from utils.references import References
 from utils.bot_embeds import NormalEmbed, DangerEmbed
+from utils.bot_contexts import BotBridgeContext
 
 def get_suggests_channel(bot):
     return bot.get_channel(References.SUGGESTS_CHANNEL_ID)
@@ -14,16 +16,16 @@ def get_reports_channel(bot):
 
 
 class SuggestModal(discord.ui.Modal):
-    def __init__(self, bot):
-        super().__init__(title="Suggest Modal")
+    def __init__(self, bot, ctx: BotBridgeContext):
+        super().__init__(title=ctx.translate("SUGGEST_MODAL"))
 
         self.bot = bot
-        self.add_item(InputText(label="Name", style=discord.InputTextStyle.singleline, max_length=256))
-        self.add_item(InputText(label="Développement", style=discord.InputTextStyle.paragraph))
+        self.add_item(InputText(label=ctx.translate("SUGGEST_NAME"), style=discord.InputTextStyle.singleline, max_length=256, required=False))
+        self.add_item(InputText(label=ctx.translate("SUGGEST_EXPLANATION"), style=discord.InputTextStyle.paragraph))
     
     async def callback(self, interaction):
         channel = get_suggests_channel(self.bot)
-        embed = NormalEmbed(GuildConfig(interaction.guild_id), title=self.children[0].value, description=self.children[1].value)
+        embed = NormalEmbed(GuildConfig(interaction.guild_id), title=f"- {self.children[0].value} -", description=self.children[1].value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
         await channel.send(embed=embed, view=ResponseSender(self.bot))
@@ -31,8 +33,8 @@ class SuggestModal(discord.ui.Modal):
 
 
 class ReportModal(discord.ui.Modal):
-    def __init__(self, bot):
-        super().__init__(title="Report Modal")
+    def __init__(self, bot, lang):
+        super().__init__(title=ctx.translate("REPORT_MODAL"))
         self.bot = bot
         self.add_item(InputText(label="Explication du bug", style=discord.InputTextStyle.paragraph))
     
@@ -71,7 +73,7 @@ class ResponseSender(discord.ui.View):
         super().__init__(timeout=None)
         self.bot = bot
     
-    @discord.ui.button(label="Respond", custom_id="respond-button", style=discord.ButtonStyle.primary)
+    @discord.ui.button(label="Respond", custom_id="respond-button", style=discord.ButtonStyle.green)
     async def button_callback(self, button, interaction):
         response_embed = interaction.message.embeds[0]
         author_id, channel_id = response_embed.footer.text.split(",")
@@ -120,11 +122,11 @@ class DevTools(commands.Cog):
 
     @bridge.bridge_command(name="suggest")
     async def suggest(self, ctx):
-        await ctx.send_modal(SuggestModal(self.bot))
+        await ctx.send_modal(SuggestModal(self.bot, ctx))
     
-    @bridge.bridge_command(name="reports")
+    @bridge.bridge_command(name="report")
     async def report(self, ctx):
-        await ctx.send_modal(ReportModal(self.bot))
+        await ctx.send_modal(ReportModal(self.bot, ctx))
 
 
 def setup(bot):

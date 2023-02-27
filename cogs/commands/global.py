@@ -16,10 +16,10 @@ class GlobalCog(commands.Cog):
         member_data = MemberData(member.id, ctx.guild.id)
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
-        embed = NormalEmbed(ctx.guild_config, title=await ctx.translate("PROFIL_OF", member=member))
-        embed.add_field(name=await ctx.translate("LEVEL_NAME"), value=str(member_data.level))
-        embed.add_field(name=await ctx.translate("XP_NAME"), value=f"{member_data.xp}/{xp_goal}")
-        embed.add_field(name=await ctx.translate("MONEY_NAME"), value=str(member_data.money))
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("PROFIL_OF", member=member))
+        embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(member_data.level))
+        embed.add_field(name=ctx.translate("XP_NAME"), value=f"{member_data.xp}/{xp_goal}")
+        embed.add_field(name=ctx.translate("MONEY_NAME"), value=str(member_data.money))
 
         await ctx.respond(embed=embed)
     

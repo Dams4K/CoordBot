@@ -30,9 +30,7 @@ class DebugCog(commands.Cog):
     async def colors(self, ctx):
         colors = [ e for e in dir(discord.Color) if len(e) > 1 and not e.startswith("_") and not e.startswith("from") and not e.startswith("to") and e not in ["random", "embed_background", "value"]]
         colors = list(set(colors))
-        print(colors)
         for color in colors:
-            print(color)
             embed = discord.Embed(title=f"Test color {color}", color=getattr(discord.Color, color)())
             await ctx.send(embed=embed)
 

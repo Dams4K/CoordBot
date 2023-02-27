@@ -14,8 +14,8 @@ class AdminCog(commands.Cog):
     @option("member", type=discord.Member, required=True)
     async def reset(self, ctx, member):
         confirm_view = ConfirmView()
-        confirm_embed = DangerEmbed(ctx.guild_config, title=await ctx.translate("WARNING"))
-        confirm_embed.description = await ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
+        confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"))
+        confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
 
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
@@ -25,12 +25,12 @@ class AdminCog(commands.Cog):
             member_data = MemberData(member.id, ctx.guild.id)
             member_data.reset()
             
-            embed.title = await ctx.translate("RESET_DONE")
-            embed.description = await ctx.translate("MEMBER_HAS_BEEN_RESET", member=member)
+            embed.title = ctx.translate("RESET_DONE")
+            embed.description = ctx.translate("MEMBER_HAS_BEEN_RESET", member=member)
 
         else:
-            embed.title = await ctx.translate("RESET_CANCELED")
-            embed.description = await ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member)
+            embed.title = ctx.translate("RESET_CANCELED")
+            embed.description = ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member)
         
         await ctx.respond(embed=embed)
 

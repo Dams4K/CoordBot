@@ -4,9 +4,7 @@ from discord.commands import slash_command, SlashCommandGroup
 from discord.ext import commands
 from discord.ext import bridge
 from utils.permissions import *
-from utils.bot_contexts import MemberData
-from utils.bot_embeds import NormalEmbed
-from operator import attrgetter
+from data_management import *
 
 class LevelsCog(commands.Cog):
     def __init__(self, bot):
@@ -43,10 +41,10 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="XP_SET", text_args={"amount": amount, "member": member})
 
 
-    @bridge.bridge_group()
+    @bridge.bridge_group(checks=[is_admin])
     async def level(self, ctx): pass
 
-    @level.command(name="add", checks=[is_admin])
+    @level.command(name="add")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def level_add(self, ctx, member, amount):
@@ -55,7 +53,7 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="LEVEL_ADDED", text_args={"amount": amount, "member": member})
         
 
-    @level.command(name="remove", checks=[is_admin])
+    @level.command(name="remove")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def level_remove(self, ctx, member, amount):
@@ -64,28 +62,13 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="LEVEL_REMOVED", text_args={"amount": amount, "member": member})
     
 
-    @level.command(name="set", checks=[is_admin])
+    @level.command(name="set")
     @option("member", type=discord.Member, required=True)
     @option("amount", type=int, required=True)
     async def level_set(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
         member_data.set_level(amount)
         await ctx.respond(text_key="LEVEL_SET", text_args={"amount": amount, "member": member})
-
-    @level.command(name="top")
-    async def level_top(self, ctx):
-        members_data = [MemberData(member.id, ctx.guild.id) for member in ctx.guild.members]
-        members_data.sort(key=attrgetter("level", "xp"), reverse=True)
-        
-        formatted_top = []
-        for i in range(0, min(15, len(members_data))):
-            member_data = members_data[i]
-            member = discord.utils.find(lambda m: m.id == member_data._member_id, ctx.guild.members)
-            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {member_data.level}")
-
-        embed = NormalEmbed(ctx.guild_config, title="Top 15 levels")
-        embed.description = "\n".join(formatted_top)
-        await ctx.respond(embed=embed)
 
 
     @commands.Cog.listener()

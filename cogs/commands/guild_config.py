@@ -6,7 +6,7 @@ from utils.permissions import is_admin
 from lang import Lang
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
-from data_management.guild_data import GuildLanguage
+from data_management import GuildLanguage
 
 class GuildConfigCog(commands.Cog):
     def __init__(self, bot):
