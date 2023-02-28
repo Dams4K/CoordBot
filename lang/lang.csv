@@ -32,4 +32,16 @@ MUST_SELECT_KEY,You must have selected a key,Vous devez avoir sélectionné une 
 SUGGEST_MODAL,Suggestion menu,Menu de suggestions
 SUGGEST_NAME,Name of the suggestion,Nom de la suggestion
 SUGGEST_EXPLANATION,Explanation of the suggestion,Explication de la suggestion
+SUGGEST_SENT,Suggestion sent,Suggestion envoyé
+SUGGEST_RESPONSE_RECEIVED,You have received an answer from the developer regarding your suggestion,Tu as reçu une réponse du développeur concernant ta suggestion
+REPORT_EXPLANATION,Explanation of the report,Explication du rapport
 REPORT_MODAL,Report menu,Menu de rapport
+NEW_REPORT,New report,Nouveau rapport
+REPORT_SENT,Report sent,Rapport envoyé
+REPORT_RESPONSE_RECEIVED,You have received an answer from the developer regarding your report,Tu as reçu une réponse du développeur concernant ton rapport
+RESPONSE_MENU,Response menu,Menu de réponse
+RESPONSE,Response,Réponse
+RESPOND,Respond,Répondre
+SEE_RESPONSE,See response,Voir la réponse
+DEVELOPER_RESPONSE,Developer response,Réponse du développeur
+NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse

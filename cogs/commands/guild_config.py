@@ -20,7 +20,7 @@ class GuildConfigCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command_auto_complete(self, interaction, command):
-        print("qsd")
+        pass
 
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("current")
