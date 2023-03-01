@@ -74,5 +74,19 @@ class GuildConfigCog(commands.Cog):
         await ctx.respond(text_key="ENABLE_LEVEL_SYSTEM" if activated else "DISABLE_LEVEL_SYSTEM")
 
 
+    @bridge.bridge_group(invoke_without_command=True)
+    @bridge.map_to("show")
+    async def default_member(self, ctx):
+        pass
+
+    @default_member.command(name="level")
+    @option("level", type=int, required=True)
+    async def dm_set_level(self, ctx, level):
+        pass
+
+    @bridge.bridge_command(name="set", parent=default_member)
+    async def test_set(self, ctx):
+        await ctx.respond("IT'S WORKING")
+
 def setup(bot):
     bot.add_cog(GuildConfigCog(bot))
