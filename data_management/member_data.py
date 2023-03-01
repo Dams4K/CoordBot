@@ -5,26 +5,50 @@ from utils.references import References
 import copy
 import os
 
-class MemberData(Saveable):
-    def __init__(self, member_id, guild_id):
-        self._member_id = member_id
+import inspect
+
+class DefaultMemberData(Saveable):
+    def __init__(self, guild_id):
         self._guild_id = guild_id
 
-        guild_default_member = GuildDefaultMemberData(self._guild_id)
-        self.xp = guild_default_member.xp
-        self.level = guild_default_member.level
-        self.money = guild_default_member.xp
-        self.inventory = Inventory(guild_default_member.inventory_size, [])
-
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/members/{self._member_id}.json"))
-    
-    @Saveable.update()
-    def add_xp(self, amount: int):
-        self.xp += amount
+        self.xp = 0
+        self.level = 0
+        self.money = 0
+        self.inventory = Inventory(12, [])
+        
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/members/default.json"))
     
     @Saveable.update()
     def set_xp(self, amount: int):
         self.xp = amount
+    
+    @Saveable.update()
+    def set_level(self, amount: int):
+        self.level = amount
+
+    @Saveable.update()
+    def set_money(self, amount: int):
+        self.money = amount
+
+    def get_inventory(self) -> Inventory:
+        return copy.copy(self.inventory)
+    
+    @Saveable.update()
+    def set_inventory(self, new_inventory: Inventory):
+        self.inventory = new_inventory
+
+
+
+class MemberData(DefaultMemberData):
+    def __init__(self, member_id, guild_id):
+        curframe = inspect.currentframe()
+        calframe = inspect.getouterframes(curframe, 2)
+        print(f"create new member_data with ids {member_id} {guild_id} by {calframe[1][3]}")
+        self._member_id = member_id
+        self._guild_id = guild_id
+
+        DefaultMemberData.__init__(self, guild_id)
+        Saveable.__init__(self, References.get_guild_folder(f"{self._guild_id}/members/{self._member_id}.json"))
     
     def get_xp_goal(self, leveling_formula):
         return eval(leveling_formula.format(l=self.level)) #TODO: check if `leveling_formula` have only number and {level} inside, else python injection can be done
@@ -38,28 +62,16 @@ class MemberData(Saveable):
         return self.level
 
     @Saveable.update()
+    def add_xp(self, amount: int):
+        self.xp += amount
+
+    @Saveable.update()
     def add_level(self, amount: int):
         self.level += amount
     
     @Saveable.update()
-    def set_level(self, amount: int):
-        self.level = amount
-
-    @Saveable.update()
     def add_money(self, amount: int):
         self.money += amount
-
-    @Saveable.update()
-    def set_money(self, amount: int):
-        self.money = amount
-
-    def get_inventory(self) -> Inventory:
-        return copy.copy(self.inventory)
-    
-    @Saveable.update()
-    def set_inventory(self, new_inventory: Inventory):
-        self.inventory = new_inventory
-
 
     def reset(self):
         os.remove(self._path)

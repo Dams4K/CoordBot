@@ -6,7 +6,7 @@ from utils.permissions import is_admin
 from lang import Lang
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
-from data_management import GuildLanguage
+from data_management import GuildLanguage, DefaultMemberData
 
 class GuildConfigCog(commands.Cog):
     def __init__(self, bot):
@@ -79,14 +79,11 @@ class GuildConfigCog(commands.Cog):
     async def default_member(self, ctx):
         pass
 
-    @default_member.command(name="level")
+    @default_member.command(name="setlevel")
     @option("level", type=int, required=True)
     async def dm_set_level(self, ctx, level):
-        pass
-
-    @bridge.bridge_command(name="set", parent=default_member)
-    async def test_set(self, ctx):
-        await ctx.respond("IT'S WORKING")
+        default_member = DefaultMemberData(ctx.guild.id)
+        default_member.set_level(level)
 
 def setup(bot):
     bot.add_cog(GuildConfigCog(bot))

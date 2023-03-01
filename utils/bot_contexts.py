@@ -5,13 +5,12 @@ from data_management import GuildConfig, GuildLanguage, MemberData
 from lang import Lang
 
 class BotBridgeContext(BridgeContext):
-    @property
-    def guild_config(self):
-        return GuildConfig(self.guild.id)
-    @property
-    def author_data(self):
-        return MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
-    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.guild_config = GuildConfig(self.guild.id)
+        self.author_data = MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
+
     def translate(self, text_key: str, *args, **kwargs):
         custom_translations = GuildLanguage(self.guild.id)
         return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
@@ -50,12 +49,11 @@ class BotContext(BridgeExtContext, BotBridgeContext):
     pass
 
 class BotAutocompleteContext(AutocompleteContext):
-    @property
-    def guild_config(self):
-        return GuildConfig(self.interaction.guild.id)
-    @property
-    def author_data(self):
-        return MemberData(self.interaction.user.id, self.interaction.guild.id)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.guild_config = GuildConfig(self.interaction.guild.id)
+        self.author_data = MemberData(self.interaction.user.id, self.interaction.guild.id)
     
     async def translate(self, text_key: str, *args, **kwargs):
         return Lang.get_text(text_key, self.guild_config.language, *args, **kwargs)
