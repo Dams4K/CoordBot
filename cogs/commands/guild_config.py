@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord.ext import bridge
 from utils.permissions import is_admin
 from lang import Lang
+from utils.bot_embeds import NormalEmbed
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
 from data_management import GuildLanguage, DefaultMemberData
@@ -77,7 +78,14 @@ class GuildConfigCog(commands.Cog):
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("show")
     async def default_member(self, ctx):
-        pass
+        default_member = DefaultMemberData(ctx.guild.id)
+        embed = NormalEmbed(ctx.guild_config, title="Default Member")
+
+        embed.add_field(name="Level", value=default_member.level)
+        embed.add_field(name="XP", value=default_member.xp)
+        embed.add_field(name="Money", value=default_member.money)
+
+        await ctx.respond(embed=embed)
 
     @default_member.command(name="setlevel")
     @option("level", type=int, required=True)

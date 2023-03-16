@@ -3,6 +3,7 @@ from discord.ext import commands, bridge
 from data_management import *
 from utils.bot_embeds import NormalEmbed
 from operator import attrgetter
+from prefixed import Float
 
 class RankingCog(commands.Cog):
     def __init__(self, bot):
@@ -23,7 +24,7 @@ class RankingCog(commands.Cog):
         for i in range(0, min(15, len(members_data))):
             member_data = members_data[i]
             member = discord.utils.find(lambda m: m.id == member_data._member_id, ctx.guild.members)
-            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {member_data.level} ({member_data.xp})")
+            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {member_data.level} ({Float(member_data.xp):.2h})")
 
         embed = NormalEmbed(ctx.guild_config, title="Top 15 levels")
         embed.description = "\n".join(formatted_top) if formatted_top != [] else ctx.translate("NOBODY_IN_RANKING")
@@ -40,7 +41,7 @@ class RankingCog(commands.Cog):
         for i in range(0, min(15, len(members_data))):
             member_data = members_data[i]
             member = discord.utils.find(lambda m: m.id == member_data._member_id, ctx.guild.members)
-            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {member_data.money}")
+            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {Float(member_data.money):.2h}")
 
         embed = NormalEmbed(ctx.guild_config, title="Top 15 money")
         embed.description = "\n".join(formatted_top) if formatted_top != [] else ctx.translate("NOBODY_IN_RANKING")

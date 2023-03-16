@@ -5,8 +5,6 @@ from utils.references import References
 import copy
 import os
 
-import inspect
-
 class DefaultMemberData(Saveable):
     def __init__(self, guild_id):
         self._guild_id = guild_id
@@ -41,9 +39,6 @@ class DefaultMemberData(Saveable):
 
 class MemberData(DefaultMemberData):
     def __init__(self, member_id, guild_id):
-        curframe = inspect.currentframe()
-        calframe = inspect.getouterframes(curframe, 2)
-        print(f"create new member_data with ids {member_id} {guild_id} by {calframe[1][3]}")
         self._member_id = member_id
         self._guild_id = guild_id
 
