@@ -21,10 +21,18 @@ class RankingCog(commands.Cog):
         members_data.sort(key=attrgetter("level", "xp"), reverse=True)
         
         formatted_top = []
+        last_ranking, last_level, last_xp = None, None, None
         for i in range(0, min(15, len(members_data))):
             member_data = members_data[i]
+            ranking = i+1
+
+            if last_level == member_data.level and last_xp == member_data.xp:
+                ranking = last_ranking
+
+            last_ranking, last_level, last_xp = ranking, member_data.level, member_data.xp
+
             member = discord.utils.find(lambda m: m.id == member_data._member_id, ctx.guild.members)
-            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {member_data.level} ({Float(member_data.xp):.2h})")
+            formatted_top.append(f"{ranking}. {member.name if member is not None else None}: {member_data.level} ({Float(member_data.xp):.2h})")
 
         embed = NormalEmbed(ctx.guild_config, title="Top 15 levels")
         embed.description = "\n".join(formatted_top) if formatted_top != [] else ctx.translate("NOBODY_IN_RANKING")
@@ -36,12 +44,20 @@ class RankingCog(commands.Cog):
         default_member = GuildDefaultMemberData(ctx.guild.id)
         members_data = list(filter(lambda md: md.money > default_member.money, members_data))
         members_data.sort(key=attrgetter("money"), reverse=True)
-        
+
         formatted_top = []
+        last_ranking, last_money = None, None
         for i in range(0, min(15, len(members_data))):
             member_data = members_data[i]
+            ranking = i+1
+
+            if last_money == member_data.money:
+                ranking = last_ranking
+            
+            last_ranking, last_money = ranking, member_data.money
+
             member = discord.utils.find(lambda m: m.id == member_data._member_id, ctx.guild.members)
-            formatted_top.append(f"{i+1}. {member.name if member is not None else None}: {Float(member_data.money):.2h}")
+            formatted_top.append(f"{ranking}. {member.name if member is not None else None}: {Float(member_data.money):.2h}")
 
         embed = NormalEmbed(ctx.guild_config, title="Top 15 money")
         embed.description = "\n".join(formatted_top) if formatted_top != [] else ctx.translate("NOBODY_IN_RANKING")
