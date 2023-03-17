@@ -1,6 +1,6 @@
 import discord
 import datetime
-import zipfile
+import shutil
 import os
 from discord.ext import commands, tasks
 
@@ -22,15 +22,17 @@ class BackupCog(commands.Cog):
         
         await self.create_backup()
 
-    async def create_backup(self):
-        pass
-    
-
     @commands.command(name="force_backup")
     async def force_backup(self, ctx):
         await self.create_backup()
         await ctx.send("A new backup has been made")
 
+
+    async def create_backup(self):
+        filename = datetime.date.today().strftime("%Y-%m-%d")
+        path = f"datas/backups/{filename}.zip"
+        
+        shutil.make_archive(path, "zip", "datas/guilds")
 
 def setup(bot):
     bot.add_cog(BackupCog(bot))
