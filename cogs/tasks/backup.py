@@ -30,7 +30,7 @@ class BackupCog(commands.Cog):
 
     async def create_backup(self):
         filename = datetime.date.today().strftime("%Y-%m-%d")
-        path = f"datas/backups/{filename}.zip"
+        path = f"datas/backups/{filename}"
         
         shutil.make_archive(path, "zip", "datas/guilds")
 
