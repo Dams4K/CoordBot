@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext import bridge
 from discord.commands import option
-from data_management import GuildStorageConfig, MemberData, Item
+from data_management import *
 from utils.bot_embeds import NormalEmbed, DangerEmbed
 from utils.bot_views import ConfirmView
 
@@ -108,11 +108,9 @@ class StorageCog(commands.Cog):
     @articles.command(name="create")
     @option("name", type=str, max_length=32, required=True)
     @option("price", type=float, required=True)
-    @option("role", type=discord.Role, required=False)
-    @option("item", type=str, required=False, autocomplete=GuildStorageConfig.list_items)
-    @option("quantity", type=int, default=1)
     async def create_article(self, ctx, name, price, role=None, item=None, quantity=1):
-        pass
+        guild_article = GuildArticle.new(ctx.guild.id, name)
+        guild_article.set_price(price)
 
 def setup(bot):
     bot.add_cog(StorageCog(bot))

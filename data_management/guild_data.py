@@ -109,9 +109,3 @@ class GuildStorageConfig(Saveable):
     @Saveable.update()
     def delete_item(self, item: Item):
         self.items.remove(item)
-
-class GuildArticle(Saveable):
-    def __init__(self, guild_id):
-        self._guild_id = guild_id
-        
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/articles.json"))

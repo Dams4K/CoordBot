@@ -83,3 +83,28 @@ class Inventory(Data):
 
     def get_items(self):
         return self.items
+
+
+class GuildArticle(Saveable):
+    FOLDER: str = "%s/articles"
+    FILENAME: str = "%s.json"
+
+    @staticmethod
+    def new(guild_id: int, article_name: str):
+        new_id = 0
+        articles_folder = References.get_guild_folder(GuildArticle.FOLDER % guild_id)
+        if os.path.exists(articles_folder):
+            ids = [int(filename.replace(".json", "")) for filename in os.listdir(articles_folder)]
+            new_id = max(ids)+1
+        return GuildArticle(new_id, guild_id)
+
+    def __init__(self, article_id, guild_id):
+        self._article_id = article_id
+        self._guild_id = guild_id
+        self.price: float = 0
+        
+        super().__init__(References.get_guild_folder(os.path.join(GuildArticle.FOLDER % self._guild_id, GuildArticle.FILENAME % self._article_id)))
+
+    @Saveable.update()
+    def set_price(self, new_price: float):
+        self.price = new_price
