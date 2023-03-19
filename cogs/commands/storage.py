@@ -100,5 +100,19 @@ class StorageCog(commands.Cog):
             else:
                 await ctx.respond("Suppression annulé")
 
+    @bridge.bridge_group(invoke_without_command=True)
+    @bridge.map_to("list")
+    async def articles(self, ctx):
+        pass
+    
+    @articles.command(name="create")
+    @option("name", type=str, max_length=32, required=True)
+    @option("price", type=float, required=True)
+    @option("role", type=discord.Role, required=False)
+    @option("item", type=str, required=False, autocomplete=GuildStorageConfig.list_items)
+    @option("quantity", type=int, default=1)
+    async def create_article(self, ctx, name, price, role=None, item=None, quantity=1):
+        pass
+
 def setup(bot):
     bot.add_cog(StorageCog(bot))
