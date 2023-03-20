@@ -25,7 +25,7 @@ class ErrorHandling(commands.Cog):
         elif type(exception) is commands.errors.CommandNotFound:
             return None
         elif type(exception) is commands.errors.MissingRequiredArgument:
-            embed.description = Lang.get_text("E_MissingRequiredArgument", language)
+            embed.description = ctx.translate("E_MissingRequiredArgument")
 
         return embed
 

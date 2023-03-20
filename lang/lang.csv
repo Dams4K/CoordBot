@@ -2,6 +2,8 @@ KEYS,en,fr
 TEST_MSG,This message is in english,Ce message est en français
 E_CommandError,En E_CommandError,Fr E_CommandError
 E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
+E_CANNOT_PURCHASE,You can't purchase this article, Tu ne peux pas acheter cet article
+E_NOT_ENOUGH_MONEY,"You did not have enough money, {money_missing} missing money","Tu n'as pas assez d'argent, {money_missing} d'argent manquant"
 PROFIL_OF,Profil of {member},Profil de {member}
 CHANGE_LANGUAGE,({lang}) Change the language to English,({lang}) Change la langue en français
 LANGUAGE_CHANGED,Language changed to english,Langage changé en français

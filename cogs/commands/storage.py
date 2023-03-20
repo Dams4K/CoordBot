@@ -26,8 +26,8 @@ class StorageCog(commands.Cog):
         guild_storage_config = GuildStorageConfig(ctx.guild.id)
         
         inventory = member_data.get_inventory()
-        items = inventory.get_items()
-        player_items = {item: items.count(item) for item in set(items)} # dict {item: quantity of that item}
+        item_ids = inventory.get_item_ids()
+        player_items = {guild_storage_config.find_item(item_id): item_ids.count(item_id) for item_id in set(item_ids)} # dict {item: quantity of that item}
         if None in player_items: player_items.pop(None)
 
         description = "\n".join(f"{item.name} | {player_items[item]}" for item in player_items)
@@ -100,49 +100,6 @@ class StorageCog(commands.Cog):
             else:
                 await ctx.respond("Suppression annulé")
 
-    def get_article_names(self, ctx):
-        return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx)]
-    def get_article_from_name(self, ctx, article_name) -> GuildArticle:
-        article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
-        return GuildArticle(article_id, ctx.guild.id)
-
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("all")
-    async def articles(self, ctx):
-        pass
-    
-    @articles.command(name="create")
-    @option("name", type=str, max_length=32, required=True)
-    @option("price", type=float, required=True)
-    async def create_article(self, ctx, name, price):
-        guild_article = GuildArticle.new(ctx.guild.id, name)
-        guild_article.set_price(price)
-
-    @articles.command(name="set_price")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
-    @option("price", type=int, required=True)
-    async def set_article_price(self, ctx, article_name, price):
-        article = self.get_article_from_name(ctx, article_name)
-        article.set_price(price)
-    
-    @articles.command(name="add_item")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
-    @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
-    @option("quantity", type=int, default=1)
-    async def add_article_item(self, ctx, article_name, item_name, quantity):
-        item_id: str = item_name[item_name.rfind("(")+1:item_name.rfind(")")]
-
-        article = self.get_article_from_name(ctx, article_name)
-        item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
-
-        article.add_item(item, quantity)
-    
-    @articles.command(name="add_role")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
-    @option("role", type=discord.Role, required=True)
-    async def add_article_role(self, ctx, article_name, role):
-        article: GuildArticle = self.get_article_from_name(ctx, article_name)
-        article.add_role(role)
 
 def setup(bot):
     bot.add_cog(StorageCog(bot))

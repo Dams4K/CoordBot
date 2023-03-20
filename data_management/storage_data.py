@@ -2,6 +2,7 @@ import discord
 import random
 from ddm import *
 from utils.references import References
+from data_management import errors
 
 class ChestData(Saveable):
     def __init__(self, guild_id, chest_name: str = "No name", chest_id = -1):
@@ -62,28 +63,31 @@ class Item(Data):
 class Inventory(Data):
     def __init__(self, max_size: int, items: list):
         self.max_size = max_size
-        self.items = items
-        self._items_type = Item()
+        self.item_ids = [item.id for item in items]
 
     def is_full(self):
-        return len(self.items) >= self.max_size
+        return len(self.item_ids) >= self.max_size
 
     def add_item(self, item: Item, amount: int):
         if self.is_full(): return
         
-        self.items.extend([item] * amount)
+        self.item_ids.extend([item.id] * amount)
+    def add_item_id(self, item_id: str, amount: int):
+        if self.is_full(): return
+
+        self.item_ids.extend([item_id] * amount)
     
     def remove_item(self, item_id, amount: int):
         if amount == -1:
-            amount = len(self.items)
+            amount = len(self.item_ids)
         n = 0
         while n < amount:
-            if not item_id in self.items: break
-            self.items.remove(item_id)
+            if not item_id in self.item_ids: break
+            self.item_ids.remove(item_id)
             n += 1
 
-    def get_items(self):
-        return self.items
+    def get_item_ids(self):
+        return self.item_ids
 
 
 class GuildArticle(Saveable):
@@ -146,3 +150,21 @@ class GuildArticle(Saveable):
         if not new_role.id in self.role_ids:
             self.role_ids.append(new_role.id)
         return self
+    
+    async def buy(self, ctx):
+        author_data = ctx.author_data
+
+        if author_data.money < self.price:
+            raise errors.NotEnoughMoney
+        else:
+            author_data.money -= self.price
+            author_inventory: Inventory = author_data.get_inventory()
+            for item_id, amount in self.item_ids.items():
+                author_inventory.add_item_id(item_id, amount)
+            author_data.set_inventory(author_inventory)
+            for role_id in self.role_ids:
+                role = ctx.guild.get_role(role_id)
+                if role == None:
+                    raise errors.RoleDidNotExist
+                else:
+                    await ctx.author.add_roles(role)
