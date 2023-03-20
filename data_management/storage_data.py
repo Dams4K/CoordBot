@@ -168,3 +168,14 @@ class GuildArticle(Saveable):
                     raise errors.RoleDidNotExist
                 else:
                     await ctx.author.add_roles(role)
+    
+class GuildArticleConverter:
+    async def convert(*args):
+        ctx = args[0]
+        arg = args[1]
+        if len(args) > 2:
+            ctx = args[1]
+            arg = args[2]
+        article_id: int = int(arg[arg.rfind("(")+1:arg.rfind(")")])
+
+        return GuildArticle(article_id, ctx.guild.id)

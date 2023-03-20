@@ -28,24 +28,28 @@ class ShopCog(commands.Cog):
         guild_article.set_price(price)
 
     @articles.command(name="set_price")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("price", type=int, required=True)
-    async def set_article_price(self, ctx, article_name, price):
-        article = self.get_article_from_name(ctx, article_name)
+    async def set_article_price(self, ctx, article, price):
         article.set_price(price)
     
     @articles.command(name="add_item")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
     @option("quantity", type=int, default=1)
-    async def add_article_item(self, ctx, article_name, item_name, quantity):
+    async def add_article_item(self, ctx, article, item_name, quantity):
         item_id: str = item_name[item_name.rfind("(")+1:item_name.rfind(")")]
-
-        article = self.get_article_from_name(ctx, article_name)
         item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
 
         article.add_item(item, quantity)
     
+    @articles.command(name="remove_item")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
+    @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
+    async def remove_article_item(self, ctx, article, item_name):
+        print(article)
+        print(item_name)
+
     @articles.command(name="add_role")
     @option("article_name", type=str, required=True, autocomplete=get_article_names)
     @option("role", type=discord.Role, required=True)
