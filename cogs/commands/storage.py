@@ -125,17 +125,24 @@ class StorageCog(commands.Cog):
         article = self.get_article_from_name(ctx, article_name)
         article.set_price(price)
     
-    @articles.command(name="set_item")
+    @articles.command(name="add_item")
     @option("article_name", type=str, required=True, autocomplete=get_article_names)
     @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
     @option("quantity", type=int, default=1)
-    async def set_article_item(self, ctx, article_name, item_name, quantity):
+    async def add_article_item(self, ctx, article_name, item_name, quantity):
         item_id: str = item_name[item_name.rfind("(")+1:item_name.rfind(")")]
 
         article = self.get_article_from_name(ctx, article_name)
         item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
 
-        article.set_item(item, quantity)
+        article.add_item(item, quantity)
+    
+    @articles.command(name="add_role")
+    @option("article_name", type=str, required=True, autocomplete=get_article_names)
+    @option("role", type=discord.Role, required=True)
+    async def add_article_role(self, ctx, article_name, role):
+        article: GuildArticle = self.get_article_from_name(ctx, article_name)
+        article.add_role(role)
 
 def setup(bot):
     bot.add_cog(StorageCog(bot))

@@ -120,8 +120,9 @@ class GuildArticle(Saveable):
         self._guild_id = guild_id
         self.name: str = "None"
         self.price: float = 0
-        self.item_ids: list = {}
-        self.role_id: int = None
+        
+        self.item_ids: dict = {}
+        self.role_ids: list = []
 
         super().__init__(References.get_guild_folder(os.path.join(GuildArticle.FOLDER % self._guild_id, GuildArticle.FILENAME % self._article_id)))
 
@@ -136,11 +137,12 @@ class GuildArticle(Saveable):
         return self
     
     @Saveable.update()
-    def set_item(self, new_item: Item, quantity: int):
+    def add_item(self, new_item: Item, quantity: int):
         self.item_ids[new_item.id] = quantity
         return self
     
     @Saveable.update()
-    def set_role(self, new_role: discord.Role):
-        self.role_id = new_role.id
+    def add_role(self, new_role: discord.Role):
+        if not new_role.id in self.role_ids:
+            self.role_ids.append(new_role.id)
         return self
