@@ -100,8 +100,14 @@ class StorageCog(commands.Cog):
             else:
                 await ctx.respond("Suppression annulé")
 
+    def get_article_names(self, ctx):
+        return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx)]
+    def get_article_from_name(self, ctx, article_name) -> GuildArticle:
+        article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
+        return GuildArticle(article_id, ctx.guild.id)
+
     @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("list")
+    @bridge.map_to("all")
     async def articles(self, ctx):
         pass
     
@@ -112,15 +118,21 @@ class StorageCog(commands.Cog):
         guild_article = GuildArticle.new(ctx.guild.id, name)
         guild_article.set_price(price)
 
+    @articles.command(name="set_price")
+    @option("article_name", type=str, required=True, autocomplete=get_article_names)
+    @option("price", type=int, required=True)
+    async def set_article_price(self, ctx, article_name, price):
+        article = self.get_article_from_name(ctx, article_name)
+        article.set_price(price)
+    
     @articles.command(name="set_item")
-    @option("article_name", type=str, required=True, autocomplete=lambda ctx: [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx)])
+    @option("article_name", type=str, required=True, autocomplete=get_article_names)
     @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
     @option("quantity", type=int, default=1)
     async def set_article_item(self, ctx, article_name, item_name, quantity):
-        article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
         item_id: str = item_name[item_name.rfind("(")+1:item_name.rfind(")")]
 
-        article = GuildArticle(article_id, ctx.guild.id)
+        article = self.get_article_from_name(ctx, article_name)
         item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
 
         article.set_item(item, quantity)

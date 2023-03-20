@@ -120,9 +120,9 @@ class GuildArticle(Saveable):
         self._guild_id = guild_id
         self.name: str = "None"
         self.price: float = 0
-        self.item_id: str = None
-        self.item_quantity: int = 1
+        self.item_ids: list = {}
         self.role_id: int = None
+
         super().__init__(References.get_guild_folder(os.path.join(GuildArticle.FOLDER % self._guild_id, GuildArticle.FILENAME % self._article_id)))
 
     @Saveable.update()
@@ -137,8 +137,7 @@ class GuildArticle(Saveable):
     
     @Saveable.update()
     def set_item(self, new_item: Item, quantity: int):
-        self.item_id = new_item.id
-        self.item_quantity = quantity
+        self.item_ids[new_item.id] = quantity
         return self
     
     @Saveable.update()
