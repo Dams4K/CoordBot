@@ -1,3 +1,4 @@
+import discord
 import random
 from ddm import *
 from utils.references import References
@@ -90,21 +91,57 @@ class GuildArticle(Saveable):
     FILENAME: str = "%s.json"
 
     @staticmethod
+    def list_articles(ctx) -> list:
+        guild_id: int = ctx.interaction.guild.id
+        articles: list = []
+        articles_folder: str = References.get_guild_folder(GuildArticle.FOLDER % guild_id)
+
+        if os.path.exists(articles_folder):
+            for filename in os.listdir(articles_folder):
+                file_path = os.path.join(articles_folder, filename)
+                if os.path.isfile(file_path):
+                    article_id: int = int(filename.replace(".json", ""))
+                    articles.append(GuildArticle(article_id, guild_id))
+        
+        return articles
+
+    @staticmethod
     def new(guild_id: int, article_name: str):
         new_id = 0
         articles_folder = References.get_guild_folder(GuildArticle.FOLDER % guild_id)
         if os.path.exists(articles_folder):
             ids = [int(filename.replace(".json", "")) for filename in os.listdir(articles_folder)]
-            new_id = max(ids)+1
-        return GuildArticle(new_id, guild_id)
+            if ids != []:
+                new_id = max(ids)+1
+        return GuildArticle(new_id, guild_id).set_name(article_name)
 
     def __init__(self, article_id, guild_id):
         self._article_id = article_id
         self._guild_id = guild_id
+        self.name: str = "None"
         self.price: float = 0
-        
+        self.item_id: str = None
+        self.item_quantity: int = 1
+        self.role_id: int = None
         super().__init__(References.get_guild_folder(os.path.join(GuildArticle.FOLDER % self._guild_id, GuildArticle.FILENAME % self._article_id)))
+
+    @Saveable.update()
+    def set_name(self, new_name: str):
+        self.name = new_name
+        return self
 
     @Saveable.update()
     def set_price(self, new_price: float):
         self.price = new_price
+        return self
+    
+    @Saveable.update()
+    def set_item(self, new_item: Item, quantity: int):
+        self.item_id = new_item.id
+        self.item_quantity = quantity
+        return self
+    
+    @Saveable.update()
+    def set_role(self, new_role: discord.Role):
+        self.role_id = new_role.id
+        return self

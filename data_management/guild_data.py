@@ -93,9 +93,9 @@ class GuildStorageConfig(Saveable):
 
 
     @staticmethod
-    def list_items(ctx):
+    def list_items(ctx) -> list:
         guild_storage_config = GuildStorageConfig(ctx.interaction.guild.id)
-        return [item.name for item in guild_storage_config.items]
+        return guild_storage_config.items[:]
     
     def find_item(self, item_id: str):
         for item in self.items:
