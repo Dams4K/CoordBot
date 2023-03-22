@@ -23,7 +23,7 @@ class AdminCog(commands.Cog):
         embed = NormalEmbed(ctx.guild_config)
         if confirm_view.confirmed:
             member_data = MemberData(member.id, ctx.guild.id)
-            member_data.reset()
+            member_data.delete()
             
             embed.title = ctx.translate("RESET_DONE")
             embed.description = ctx.translate("MEMBER_HAS_BEEN_RESET", member=member)

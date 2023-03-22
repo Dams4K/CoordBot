@@ -59,19 +59,18 @@ class Item(Data):
 
         super().__init__()
 
-
 class Inventory(Data):
     def __init__(self, max_size: int, items: list):
         self.max_size = max_size
-        self.item_ids = [item.id for item in items]
+        self.item_ids = [item._item_id for item in items]
 
     def is_full(self):
-        return len(self.item_ids) >= self.max_size
+        return len(self.item_ids) >= self.max_size and self.max_size > 0
 
     def add_item(self, item: Item, amount: int):
         if self.is_full(): return
         
-        self.item_ids.extend([item.id] * amount)
+        self.item_ids.extend([item._item_id] * amount)
     def add_item_id(self, item_id: str, amount: int):
         if self.is_full(): return
 
@@ -89,6 +88,52 @@ class Inventory(Data):
     def get_item_ids(self):
         return self.item_ids
 
+class GuildItem(Saveable):
+    FOLDER: str = "%s/items"
+    FILENAME: str = "%s.json"
+
+    @staticmethod
+    def list_items(guild_id: int) -> list:
+        items: list = []
+        items_folder: str = References.get_guild_folder(GuildItem.FOLDER % guild_id)
+
+        if os.path.exists(items_folder):
+            for filename in os.listdir(items_folder):
+                file_path = os.path.join(items_folder, filename)
+                if os.path.isfile(file_path):
+                    item_id: int = int(filename.replace(".json", ""))
+                    items.append(GuildItem(item_id, guild_id))
+        
+        return items
+
+    @staticmethod
+    def new(guild_id: int, item_name: str):
+        new_id = 0
+        folder = References.get_guild_folder(GuildItem.FOLDER % guild_id)
+        if os.path.exists(folder):
+            ids = [int(filename.replace(".json", "")) for filename in os.listdir(folder)]
+            if ids != []:
+                new_id = max(ids)+1
+        return GuildItem(new_id, guild_id, create=True).set_name(item_name)
+
+    def __new__(cls, item_id: int, guild_id: int, create: bool = False):
+        path = References.get_guild_folder(os.path.join(GuildItem.FOLDER % guild_id, GuildItem.FILENAME % item_id))
+        if os.path.exists(path) or create:
+            return super(Saveable, cls).__new__(cls)
+        return None
+
+    def __init__(self, item_id: int, guild_id: int, create: bool = False):
+        self._item_id = item_id
+        self._guild_id = guild_id
+        self.name = "NoName"
+
+        path = os.path.join(GuildItem.FOLDER % guild_id, GuildItem.FILENAME % item_id)
+        super().__init__(References.get_guild_folder(path))
+    
+    @Saveable.update()
+    def set_name(self, new_name):
+        self.name = new_name
+        return self
 
 class GuildArticle(Saveable):
     FOLDER: str = "%s/articles"
@@ -176,6 +221,26 @@ class GuildArticleConverter:
         if len(args) > 2:
             ctx = args[1]
             arg = args[2]
-        article_id: int = int(arg[arg.rfind("(")+1:arg.rfind(")")])
 
+        article_id: int = int(arg[arg.rfind("(")+1:arg.rfind(")")])
         return GuildArticle(article_id, ctx.guild.id)
+
+class GuildItemConverter:
+    async def convert(*args):
+        ctx = args[0]
+        arg = args[1]
+        if len(args) > 2:
+            ctx = args[1]
+            arg = args[2]
+        
+        if not isinstance(arg, str):
+            return None
+        
+        item_id = None
+        if arg.isdecimal():
+            item_id: str = arg
+        else:
+            item_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
+        
+        if not (item_id is None) and item_id.isdecimal():
+            return GuildItem(item_id, ctx.guild.id)

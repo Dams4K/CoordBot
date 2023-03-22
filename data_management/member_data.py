@@ -67,6 +67,3 @@ class MemberData(DefaultMemberData):
     @Saveable.update()
     def add_money(self, amount: int):
         self.money += amount
-
-    def reset(self):
-        os.remove(self._path)

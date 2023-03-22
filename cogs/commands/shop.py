@@ -24,9 +24,8 @@ class ShopCog(commands.Cog):
     @option("name", type=str, max_length=32, required=True)
     @option("price", type=float, required=True)
     async def create_article(self, ctx, name, price):
-        guild_article = GuildArticle.new(ctx.guild.id, name)
-        guild_article.set_price(price)
-
+        guild_article = GuildArticle.new(ctx.guild.id, name).set_price(price)
+    
     @articles.command(name="set_price")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("price", type=int, required=True)
@@ -38,7 +37,6 @@ class ShopCog(commands.Cog):
     @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
     @option("quantity", type=int, default=1)
     async def add_article_item(self, ctx, article, item_name, quantity):
-        item_id: str = item_name[item_name.rfind("(")+1:item_name.rfind(")")]
         item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
 
         article.add_item(item, quantity)

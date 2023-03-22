@@ -10,12 +10,22 @@ class StorageCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
+    #TODO: optimised
     async def get_items(self, ctx):
-        guild_storage_config = GuildStorageConfig(ctx.interaction.guild_id)
-        items = {guild_storage_config.find_item(item.id) for item in guild_storage_config.items}
-        if None in items:
-            items.remove(None)
-        return [f"{item.name} ({item.id})" for item in items]
+        guild_id = ctx.interaction.guild.id
+        item_names = [item.name for item in GuildItem.list_items(guild_id)]
+
+        result = []
+        for item in GuildItem.list_items(guild_id):
+            if not item.name.startswith(ctx.value):
+                continue
+
+            formatted = item.name
+            if item_names.count(item.name) > 1:
+                formatted += f" ({item._item_id})"
+            result.append(formatted)
+
+        return result
 
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("show")
@@ -43,17 +53,14 @@ class StorageCog(commands.Cog):
     
     @inventory.command(name="give")
     @option("member", type=discord.Member, description="pick a member", required=True)
-    @option("item_name", type=str, description="pick an item", required=True, autocomplete=get_items)
-    @option("amount", type=int, required=True, default=1)
-    async def give_item(self, ctx, member: discord.Member, item_name: str, amount: int):
-        item_id = item_name[item_name.find("(")+1:item_name.find(")")]
-        guild_storage_config = GuildStorageConfig(ctx.guild.id)
+    @option("item", type=GuildItemConverter, description="pick an item", required=True, autocomplete=get_items)
+    @option("amount", type=int, default=1)
+    async def give_item(self, ctx, member: discord.Member, item: GuildItem, amount: int):
         member_data = MemberData(member.id, ctx.guild.id)
         member_inventory = member_data.get_inventory()
 
-        item = guild_storage_config.find_item(item_id)
         if item is None:
-            await ctx.respond(f"L'item avec l'id `{item_id}` n'existe pas")
+            await ctx.respond(f"L'item n'existe pas")
         else:
             member_inventory.add_item(item, amount)
             member_data.set_inventory(member_inventory)
@@ -66,21 +73,15 @@ class StorageCog(commands.Cog):
         pass
 
     @items.command(name="create")
-    @option("item_id", type=str, required=True)
-    @option("item_name", type=str, required=True)
-    @option("unique", type=bool, required=False, default=False)
-    async def create_item(self, ctx, item_id: str, item_name: str, unique: bool = False):
-        guild_storage_config = GuildStorageConfig(ctx.guild_id)
-        new_item = Item(item_id, item_name)
-        guild_storage_config.create_item(new_item)
+    @option("name", type=str, required=True)
+    @option("unique", type=bool, default=False)
+    async def create_item(self, ctx, name: str, unique: bool):
+        new_item = GuildItem.new(ctx.guild.id, name)
         await ctx.respond("item created")
     
     @items.command(name="delete")
-    @option("item_name", type=str, required=True, autocomplete=get_items)
-    async def delete_item(self, ctx, item_name: str):
-        item_id = item_name[item_name.find("(")+1:item_name.find(")")]
-        guild_storage_config = GuildStorageConfig(ctx.guild_id)
-        item = guild_storage_config.find_item(item_id)
+    @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
+    async def delete_item(self, ctx, item: GuildItem):
         if item is None:
             await ctx.respond("Cet item n'existe pas")
         else:
@@ -89,13 +90,7 @@ class StorageCog(commands.Cog):
             await ctx.respond(embed=confirm_embed, view=confirm_view)
             await confirm_view.wait()
             if confirm_view.confirmed:
-                guild_storage_config.delete_item(item)
-                for member in ctx.guild.members:
-                    member_data = MemberData(member.id, ctx.guild.id)
-                    member_inventory = member_data.get_inventory()
-                    member_inventory.remove_item(item_id, -1)
-                    member_data.set_inventory(member_inventory)
-
+                item.delete()
                 await ctx.respond(f"L'item {item.name} a bien été supprimé")
             else:
                 await ctx.respond("Suppression annulé")
