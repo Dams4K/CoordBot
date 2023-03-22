@@ -107,6 +107,13 @@ class GuildItem(Saveable):
         return items
 
     @staticmethod
+    def from_name(guild_id: int, item_name: str):
+        items = GuildItem.list_items(guild_id)
+        for item in items:
+            if item.name == item_name:
+                return item
+
+    @staticmethod
     def new(guild_id: int, item_name: str):
         new_id = 0
         folder = References.get_guild_folder(GuildItem.FOLDER % guild_id)
@@ -186,8 +193,12 @@ class GuildArticle(Saveable):
         return self
     
     @Saveable.update()
-    def add_item(self, new_item: Item, quantity: int):
-        self.item_ids[new_item.id] = quantity
+    def add_item(self, new_item: GuildItem, quantity: int):
+        self.item_ids[new_item._item_id] = quantity
+        return self
+    @Saveable.update()
+    def remove_item(self, item: GuildItem):
+        self.pop(item)
         return self
     
     @Saveable.update()
@@ -244,3 +255,5 @@ class GuildItemConverter:
         
         if not (item_id is None) and item_id.isdecimal():
             return GuildItem(item_id, ctx.guild.id)
+        else:
+            return GuildItem.from_name(ctx.guild.id, arg)

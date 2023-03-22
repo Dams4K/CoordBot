@@ -81,31 +81,3 @@ class GuildDefaultMemberData(Saveable):
     @Saveable.update()
     def set_inventory_size(self, value: int):
         self.inventory_size = value
-
-
-class GuildStorageConfig(Saveable):
-    def __init__(self, guild_id):
-        self._guild_id = guild_id
-        self.items = []
-        self._items_type = Item()
-
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/storage_config.json"))
-
-
-    @staticmethod
-    def list_items(ctx) -> list:
-        guild_storage_config = GuildStorageConfig(ctx.interaction.guild.id)
-        return guild_storage_config.items[:]
-    
-    def find_item(self, item_id: str):
-        for item in self.items:
-            if item.id == item_id:
-                return item
-
-    @Saveable.update()
-    def create_item(self, item: Item):
-        self.items.append(item)
-    
-    @Saveable.update()
-    def delete_item(self, item: Item):
-        self.items.remove(item)

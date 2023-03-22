@@ -5,47 +5,32 @@ from discord.commands import option
 from data_management import *
 from utils.bot_embeds import NormalEmbed, DangerEmbed
 from utils.bot_views import ConfirmView
+from utils.bot_autocompletes import *
 
 class StorageCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    #TODO: optimised
-    async def get_items(self, ctx):
-        guild_id = ctx.interaction.guild.id
-        item_names = [item.name for item in GuildItem.list_items(guild_id)]
-
-        result = []
-        for item in GuildItem.list_items(guild_id):
-            if not item.name.startswith(ctx.value):
-                continue
-
-            formatted = item.name
-            if item_names.count(item.name) > 1:
-                formatted += f" ({item._item_id})"
-            result.append(formatted)
-
-        return result
 
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("show")
     @option("member", type=discord.Member, required=False)
     async def inventory(self, ctx, member=None):
-        member = ctx.author if member == None else member
-        member_data = MemberData(member.id, ctx.guild.id)
-        guild_storage_config = GuildStorageConfig(ctx.guild.id)
+        # member = ctx.author if member == None else member
+        # member_data = MemberData(member.id, ctx.guild.id)
+        # guild_storage_config = GuildStorageConfig(ctx.guild.id)
         
-        inventory = member_data.get_inventory()
-        item_ids = inventory.get_item_ids()
-        player_items = {guild_storage_config.find_item(item_id): item_ids.count(item_id) for item_id in set(item_ids)} # dict {item: quantity of that item}
-        if None in player_items: player_items.pop(None)
+        # inventory = member_data.get_inventory()
+        # item_ids = inventory.get_item_ids()
+        # player_items = {guild_storage_config.find_item(item_id): item_ids.count(item_id) for item_id in set(item_ids)} # dict {item: quantity of that item}
+        # if None in player_items: player_items.pop(None)
 
-        description = "\n".join(f"{item.name} | {player_items[item]}" for item in player_items)
+        # description = "\n".join(f"{item.name} | {player_items[item]}" for item in player_items)
 
-        embed = NormalEmbed(ctx.guild_config, title=f"Inventory of {member}")
-        embed.description = description
+        # embed = NormalEmbed(ctx.guild_config, title=f"Inventory of {member}")
+        # embed.description = description
 
-        await ctx.respond(embed=embed)
+        # await ctx.respond(embed=embed)
+        pass
     
     @inventory.command()
     async def sell(self, ctx):

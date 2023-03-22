@@ -4,16 +4,11 @@ from discord.ext import bridge
 from discord.commands import option
 from data_management import *
 from utils.bot_embeds import DangerEmbed, WarningEmbed
+from utils.bot_autocompletes import *
 
 class ShopCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    def get_article_names(self, ctx):
-        return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx)]
-    def get_article_from_name(self, ctx, article_name) -> GuildArticle:
-        article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
-        return GuildArticle(article_id, ctx.guild.id)
 
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("all")
@@ -34,33 +29,30 @@ class ShopCog(commands.Cog):
     
     @articles.command(name="add_item")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
-    @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
+    @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
     @option("quantity", type=int, default=1)
-    async def add_article_item(self, ctx, article, item_name, quantity):
-        item = GuildStorageConfig(ctx.guild.id).find_item(item_id)
-
+    async def add_article_item(self, ctx, article: GuildArticle, item: GuildItem, quantity):
+        print(article, item)
         article.add_item(item, quantity)
     
     @articles.command(name="remove_item")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
-    @option("item_name", type=str, required=True, autocomplete=lambda ctx: [f"{item.name} ({item.id})" for item in GuildStorageConfig.list_items(ctx)])
-    async def remove_article_item(self, ctx, article, item_name):
-        print(article)
-        print(item_name)
+    @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
+    async def remove_article_item(self, ctx, article: GuildArticle, item: GuildItem):
+        article.remove_item(item)
 
     @articles.command(name="add_role")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("role", type=discord.Role, required=True)
-    async def add_article_role(self, ctx, article_name, role):
-        article: GuildArticle = self.get_article_from_name(ctx, article_name)
+    async def add_article_role(self, ctx, article, role):
         article.add_role(role)
     
     @articles.command(name="buy")
-    @option("article_name", type=str, required=True, autocomplete=get_article_names)
-    async def buy_article(self, ctx, article_name):
-        article: GuildArticle = self.get_article_from_name(ctx, article_name)
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
+    async def buy_article(self, ctx, article):
         try:
             await article.buy(ctx)
+            await ctx.respond("Article acheté")
         except NotEnoughMoney:
             author_money = ctx.author_data.money
 
