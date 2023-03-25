@@ -133,6 +133,7 @@ class GuildItem(Saveable):
         self._item_id = item_id
         self._guild_id = guild_id
         self.name = "NoName"
+        self.description = ""
 
         path = os.path.join(GuildItem.FOLDER % guild_id, GuildItem.FILENAME % item_id)
         super().__init__(References.get_guild_folder(path))
@@ -140,6 +141,11 @@ class GuildItem(Saveable):
     @Saveable.update()
     def set_name(self, new_name):
         self.name = new_name
+        return self
+
+    @Saveable.update()
+    def set_description(self, new_description):
+        self.description = new_description
         return self
 
 class GuildArticle(Saveable):
