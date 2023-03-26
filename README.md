@@ -1,1 +1,1 @@
-# GDCPBotV4
+# ElricBot

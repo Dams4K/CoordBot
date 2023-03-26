@@ -8,7 +8,7 @@ from utils.bot_contexts import *
 from utils.help_command import BotHelpCommand
 from data_management import GuildConfig
 
-class GDCPBot(bridge.Bot):
+class ElricBot(bridge.Bot):
     def __init__(self):
         super().__init__(
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),

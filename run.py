@@ -1,6 +1,6 @@
-from bot import GDCPBot
+from bot import ElricBot
 from utils.references import References
 
-bot = GDCPBot()
+bot = ElricBot()
 bot.load_cogs(References.COGS_FOLDER)
 bot.run(References.BOT_TOKEN)

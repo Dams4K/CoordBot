@@ -1,5 +1,5 @@
 .vscode/*
-venv/*
+venv*/*
 datas/*
 **/__pycache__/**
 .env
