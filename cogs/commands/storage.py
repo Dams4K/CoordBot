@@ -1,11 +1,13 @@
 import discord
 from discord.ext import commands
 from discord.ext import bridge
+from discord.ext import pages
 from discord.commands import option
 from data_management import *
 from utils.bot_embeds import NormalEmbed, DangerEmbed
 from utils.bot_views import ConfirmView
 from utils.bot_autocompletes import *
+from operator import attrgetter
 
 class StorageCog(commands.Cog):
     def __init__(self, bot):
@@ -35,8 +37,27 @@ class StorageCog(commands.Cog):
         await ctx.respond("sell item")
 
     @bridge.bridge_group(invoke_without_command=True)
+    @bridge.map_to("list")
     async def items(self, ctx):
-        pass
+        items = GuildItem.list_items(ctx.guild.id)
+        sorted_items = sorted(items, key=attrgetter("_item_id"))
+
+        embed_pages = []
+        item_descriptions = []
+        for i in range(len(sorted_items)):
+            item = sorted_items[i]
+            item_descriptions.append(f"{item.name} ({item._item_id})")
+            if (i+1) % 20 == 0 or i+1 == len(sorted_items):
+                embed = NormalEmbed(ctx.guild_config, title="Items")
+                embed.description = "\n".join(item_descriptions)
+                embed_pages.append(embed)
+                item_descriptions.clear()
+        
+        paginator = pages.Paginator(pages=embed_pages)
+        if hasattr(ctx, "interaction"):
+            await paginator.respond(ctx.interaction)
+        else:
+            await paginator.send(ctx)
 
     @items.command(name="create")
     @option("name", type=str, max_length=32, required=True)
