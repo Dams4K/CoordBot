@@ -48,3 +48,5 @@ SEE_RESPONSE,See response,Voir la réponse
 DEVELOPER_RESPONSE,Developer response,Réponse du développeur
 NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
+ITEM_NAME_CHANGED,Item's name changed: {before} -> {after},Le nom de l'élément a été changé: {before} -> {after}
+ITEM_DESCRIPTION_CHANGED,Item's description changed: {before} -> {after},La description de l'élément a été changé: {before} -> {after}

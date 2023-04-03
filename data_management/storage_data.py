@@ -140,12 +140,12 @@ class GuildItem(Saveable):
     
     @Saveable.update()
     def set_name(self, new_name):
-        self.name = new_name
+        self.name = new_name[:32]
         return self
 
     @Saveable.update()
     def set_description(self, new_description):
-        self.description = new_description
+        self.description = new_description[:1024]
         return self
 
 class GuildArticle(Saveable):

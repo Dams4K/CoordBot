@@ -71,13 +71,17 @@ class StorageCog(commands.Cog):
     @option("item", type=GuildItemConverter, autocomplete=get_items)
     @option("description", type=str, max_length=1024)
     async def change_item_description(self, ctx, item: GuildItem, description: str):
+        before_description = item.description
         item.set_description(description)
+        await ctx.respond(text_key="ITEM_DESCRIPTION_CHANGED", text_args={"before": before_description, "after": description})
     
     @items.command(name="change_name")
     @option("item", type=GuildItemConverter, autocomplete=get_items)
     @option("name", type=str, max_length=32)
-    async def change_item_description(self, ctx, item: GuildItem, name: str):
+    async def change_item_name(self, ctx, item: GuildItem, name: str):
+        before_name = item.name
         item.set_name(name)
+        await ctx.respond(text_key="ITEM_NAME_CHANGED", text_args={"before": before_name, "after": name})
 
     @items.command(name="delete")
     @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
