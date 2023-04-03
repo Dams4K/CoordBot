@@ -45,28 +45,55 @@ class ShopCog(commands.Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("price", type=int, required=True)
     async def set_article_price(self, ctx, article, price):
-        article.set_price(price)
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+        else:
+            article.set_price(price)
     
     @articles.command(name="add_item")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
     @option("quantity", type=int, default=1)
     async def add_article_item(self, ctx, article: GuildArticle, item: GuildItem, quantity):
-        print(article, item)
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+            return
+
+        if item is None:
+            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+            return
+
         article.add_item(item, quantity)
+        await ctx.respond(text_key="ARTICLE_ITEM_ADDED", text_args={"item": item.name, "article": article.name})
     
     @articles.command(name="remove_item")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
     async def remove_article_item(self, ctx, article: GuildArticle, item: GuildItem):
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+            return    
+        if item is None:
+            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+            return
+        
         article.remove_item(item)
+        await ctx.respond(text_key="ARTICLE_ITEM_REMOVED", text_args={"item": item.name, "article": article.name})
 
     @articles.command(name="add_role")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("role", type=discord.Role, required=True)
     async def add_article_role(self, ctx, article: GuildArticle, role):
-        article.add_role(role)
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+        else:
+            article.add_role(role)
     
+    @articles.command(name="about")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
+    async def article_about(self, ctx, article: GuildArticle):
+        pass
+
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     async def delete_item(self, ctx, article: GuildArticle):
@@ -86,15 +113,18 @@ class ShopCog(commands.Cog):
     @articles.command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     async def buy_article(self, ctx, article):
-        try:
-            await article.buy(ctx)
-            await ctx.respond("Article acheté")
-        except NotEnoughMoney:
-            author_money = ctx.author_data.money
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+        else:
+            try:
+                await article.buy(ctx)
+                await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
+            except NotEnoughMoney:
+                author_money = ctx.author_data.money
 
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("E_CANNOT_PURCHASE"))
-            embed.description = ctx.translate("E_NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
-            await ctx.respond(embed=embed, ephemeral=True)
+                embed = WarningEmbed(ctx.guild_config, title=ctx.translate("E_CANNOT_PURCHASE"))
+                embed.description = ctx.translate("E_NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
+                await ctx.respond(embed=embed, ephemeral=True)
 
 def setup(bot):
     bot.add_cog(ShopCog(bot))
