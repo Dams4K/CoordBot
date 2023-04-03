@@ -1,7 +1,7 @@
 from data_management import *
 
 def get_article_names(self, ctx):
-        return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx)]
+    return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx.interaction.guild.id)]
 def get_article_from_name(self, ctx, article_name) -> GuildArticle:
     article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
     return GuildArticle(article_id, ctx.guild.id)

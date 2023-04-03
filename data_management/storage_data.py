@@ -165,6 +165,13 @@ class GuildArticle(Saveable):
                     articles.append(GuildArticle(article_id, guild_id))
         
         return articles
+        
+    @staticmethod
+    def from_name(guild_id: int, article_name: str):
+        articles = GuildArticle.list_articles(guild_id)
+        for article in articles:
+            if article.name == article_name:
+                return article
 
     @staticmethod
     def new(guild_id: int, article_name: str):
@@ -237,9 +244,20 @@ class GuildArticleConverter:
         if len(args) > 2:
             ctx = args[1]
             arg = args[2]
-
-        article_id: int = int(arg[arg.rfind("(")+1:arg.rfind(")")])
-        return GuildArticle(article_id, ctx.guild.id)
+        
+        if not isinstance(arg, str):
+            return None
+        
+        article_id = None
+        if arg.isdecimal():
+            article_id: str = arg
+        else:
+            article_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
+        
+        if not (article_id is None) and article_id.isdecimal():
+            return GuildArticle(article_id, ctx.guild.id)
+        else:
+            return GuildArticle.from_name(ctx.guild.id, arg)
 
 class GuildItemConverter:
     async def convert(*args):

@@ -5,6 +5,7 @@ from discord.commands import option
 from data_management import *
 from utils.bot_embeds import *
 from utils.bot_autocompletes import *
+from utils.bot_views import ConfirmView
 from operator import attrgetter
 
 class ShopCog(commands.Cog):
@@ -63,9 +64,25 @@ class ShopCog(commands.Cog):
     @articles.command(name="add_role")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("role", type=discord.Role, required=True)
-    async def add_article_role(self, ctx, article, role):
+    async def add_article_role(self, ctx, article: GuildArticle, role):
         article.add_role(role)
     
+    @articles.command(name="delete")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
+    async def delete_item(self, ctx, article: GuildArticle):
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+        else:
+            confirm_view = ConfirmView()
+            confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
+            await ctx.respond(embed=confirm_embed, view=confirm_view)
+            await confirm_view.wait()
+            if confirm_view.confirmed:
+                article.delete()
+                await ctx.respond(text_key="ARTICLE_DELETION_PERFORMED", text_args={"article": article.name})
+            else:
+                await ctx.respond(text_key="DELETION_CANCELLED")
+
     @articles.command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     async def buy_article(self, ctx, article):
