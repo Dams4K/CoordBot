@@ -10,6 +10,12 @@ class FormatterDict(dict):
         return "{" + key + "}"
 
 class RankingFormatter:
+    EMOJIS = {
+        1: "<:First:798229195549179915>",
+        2: "<:Second:798266104761024582>",
+        3: "<:Third:798229194743611434> "
+    }
+
     def __init__(self, competitors, sort_attrs: list):
         self.competitors = competitors
         self.sort_attrs = sort_attrs
@@ -60,7 +66,7 @@ class RankingFormatter:
                     "pos": position
                 })
                 can_be_shown = lambda k, v: callable(v) and (not k in optional or (k in optional and show_optionals))
-                format_dict.update({k: (v(competitor) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
+                format_dict.update({k: (v(format_dict) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
 
                 str_list.append(str_format.format_map(FormatterDict(format_dict)))
 
@@ -86,11 +92,12 @@ class RankingCog(commands.Cog):
 
         ranking_formatter = RankingFormatter(members_data, ("level", "xp"))
 
-        get_competitor_name = lambda c: discord.utils.find(lambda m: m.id == c._member_id, ctx.guild.members)
-        get_level = lambda c: f"{Float(c.level):.2h}" if len(str(c.level)) > 3 else c.level
-        get_xp = lambda c: f"({Float(c.xp):.2h})" if len(str(c.xp)) > 3 else f"({c.xp})"
+        get_competitor_name = lambda d: discord.utils.find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members)
+        get_level = lambda d: f"{Float(d['competitor'].level):.2h}" if len(str(d["competitor"].level)) > 3 else d["competitor"].level
+        get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
+        get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
         
-        ranking_str = ranking_formatter.get_ranking_string("{pos}. {competitor_name.name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
         embed = NormalEmbed(ctx.guild_config, title="Top 15 levels")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
@@ -104,10 +111,11 @@ class RankingCog(commands.Cog):
         
         ranking_formatter = RankingFormatter(members_data, ("money",))
 
-        get_competitor_name = lambda c: discord.utils.find(lambda m: m.id == c._member_id, ctx.guild.members)
-        get_money = lambda c: f"{Float(c.money):.2h}" if len(str(c.money)) > 3 else c.money
+        get_competitor_name = lambda d: discord.utils.find(lambda m: m.id == d['competitor']._member_id, ctx.guild.members)
+        get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
+        get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
 
-        ranking_str = ranking_formatter.get_ranking_string("{pos}. {competitor_name.name}: {money}", competitor_name=get_competitor_name, money=get_money)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
 
         embed = NormalEmbed(ctx.guild_config, title="Top 15 money")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
