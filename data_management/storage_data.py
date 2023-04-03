@@ -153,8 +153,7 @@ class GuildArticle(Saveable):
     FILENAME: str = "%s.json"
 
     @staticmethod
-    def list_articles(ctx) -> list:
-        guild_id: int = ctx.interaction.guild.id
+    def list_articles(guild_id) -> list:
         articles: list = []
         articles_folder: str = References.get_guild_folder(GuildArticle.FOLDER % guild_id)
 

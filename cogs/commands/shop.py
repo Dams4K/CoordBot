@@ -1,19 +1,38 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, pages
 from discord.ext import bridge
 from discord.commands import option
 from data_management import *
-from utils.bot_embeds import DangerEmbed, WarningEmbed
+from utils.bot_embeds import *
 from utils.bot_autocompletes import *
+from operator import attrgetter
 
 class ShopCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("all")
+    @bridge.map_to("list")
     async def articles(self, ctx):
-        pass
+        articles = GuildArticle.list_articles(ctx.guild.id)
+        sorted_articles = sorted(articles, key=attrgetter("_article_id"))
+
+        embed_pages = []
+        articles_description = []
+        for i in range(len(sorted_articles)):
+            article = sorted_articles[i]
+            articles_description.append(f"{article.name} ({article._article_id})")
+            if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
+                embed = NormalEmbed(ctx.guild_config, title="Articles")
+                embed.description = "\n".join(articles_description)
+                embed_pages.append(embed)
+                articles_description.clear()
+        
+        paginator = pages.Paginator(pages=embed_pages)
+        if hasattr(ctx, "interaction"):
+            await paginator.respond(ctx.interaction)
+        else:
+            await paginator.send(ctx)
     
     @articles.command(name="create")
     @option("name", type=str, max_length=32, required=True)
