@@ -67,6 +67,15 @@ class StorageCog(commands.Cog):
         new_item.set_description(description)
         await ctx.respond("item created")
 
+    @items.command(name="about")
+    @option("item", type=GuildItemConverter, autocomplete=get_items)
+    async def about_item(self, ctx, item: GuildItem):
+        if item is None:
+            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+        else:
+            embed = NormalEmbed(ctx.guild_config, title=item.name, description=item.description)
+            await ctx.respond(embed=embed)
+
     @items.command(name="change_description")
     @option("item", type=GuildItemConverter, autocomplete=get_items)
     @option("description", type=str, max_length=1024)
@@ -87,33 +96,35 @@ class StorageCog(commands.Cog):
     @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
     async def delete_item(self, ctx, item: GuildItem):
         if item is None:
-            await ctx.respond("Cet item n'existe pas")
+            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
         else:
             confirm_view = ConfirmView()
-            confirm_embed = DangerEmbed(ctx.guild_config, title="Suppression de d'item", description=f"Êtes vous vraiment sûr de vouloir supprimer l`item {item.name}")
+            confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DELETION"), description=ctx.translate("ITEM_DELETION_CONFIRMATION", item=item.name))
             await ctx.respond(embed=confirm_embed, view=confirm_view)
             await confirm_view.wait()
             if confirm_view.confirmed:
                 item.delete()
-                await ctx.respond(f"L'item {item.name} a bien été supprimé")
+                await ctx.respond(text_key="ITEM_DELETION_PERFORMED", text_args={"item": item.name})
             else:
-                await ctx.respond("Suppression annulé")
+                await ctx.respond(text_key="DELETION_CANCELLED")
 
     @items.command(name="give")
     @option("member", type=discord.Member, description="pick a member", required=True)
     @option("item", type=GuildItemConverter, description="pick an item", required=True, autocomplete=get_items)
     @option("amount", type=int, default=1)
-    async def give_item(self, ctx, member: discord.Member, item: GuildItem, amount: int):
+    async def give_item(self, ctx, member: discord.Member, item: GuildItem, amount: int = 1):
         member_data = MemberData(member.id, ctx.guild.id)
         member_inventory = member_data.get_inventory()
 
         if item is None:
-            await ctx.respond(f"L'item n'existe pas")
+            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+        elif member_inventory.is_full():
+            await ctx.respond(text_key="INVENTORY_FULL", text_args={"member": member})
         else:
             member_inventory.add_item(item, amount)
             member_data.set_inventory(member_inventory)
 
-            await ctx.respond(f"L'item {item.name} a été donné à {member}")
+            await ctx.respond(text_key="ITEM_GIVED", text_args={"item_name": item.name, "amount": amount, "member": member})
 
 
 def setup(bot):

@@ -50,3 +50,10 @@ NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le dro
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
 ITEM_NAME_CHANGED,Item's name changed: {before} -> {after},Le nom de l'élément a été changé: {before} -> {after}
 ITEM_DESCRIPTION_CHANGED,Item's description changed: {before} -> {after},La description de l'élément a été changé: {before} -> {after}
+ITEM_GIVED,{member} has received {amount} {item_name},{member} a reçu {amount} {item_name}
+ITEM_DOES_NOT_EXIST,This item does not exist,Cet élément n'existe pas
+INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
+DELETION,Deletion,Suppresion
+DELETION_CANCELLED,Deletion cancelled,Suppression annulé
+ITEM_DELETION_CONFIRMATION,Are you really sure you want to delete the item {item},Êtes-vous vraiment sûr de vouloir supprimer l`élément {item}
+ITEM_DELETION_PERFORMED,The deletion of the item {item} has been performed,La suppression de l'élément {item} a été effectuée
