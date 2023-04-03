@@ -40,18 +40,32 @@ class RankingFormatter:
         ranking: dict = self.get_ranking_list()
 
         str_list: list = []
-        for i in range(len(ranking)):
+        
+        previous_competitor = None
+        for i in range(len(ranking.keys())):
             position = list(ranking.keys())[i]
-            for competitor in ranking[position]:
+            next_position = list(ranking.keys())[i+1] if i < len(ranking)-1 else None
+            competitors = ranking[position]
+
+            next_competitor = ranking[next_position][0] if next_position != None else None
+            same_level_previous = previous_competitor != None and previous_competitor.level == competitors[0].level
+            same_level_next = next_position != None and next_competitor.level == competitors[0].level
+
+            show_optionals = len(competitors) > 1 or same_level_previous or same_level_next
+
+            for competitor in competitors:
                 format_dict = {attr_name: getattr(competitor, attr_name) for attr_name in self.sort_attrs}
                 format_dict.update({
                     "competitor": competitor,
                     "pos": position
                 })
-                format_dict.update({k: v(competitor) for k, v in kwargs.items() if callable(v)})
+                can_be_shown = lambda k, v: callable(v) and (not k in optional or (k in optional and show_optionals))
+                format_dict.update({k: (v(competitor) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
 
                 str_list.append(str_format.format_map(FormatterDict(format_dict)))
-        
+
+                previous_competitor = competitor
+
         return "\n".join(str_list)
 
 
