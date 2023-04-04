@@ -1,6 +1,5 @@
 import csv
 from ddm import *
-from .storage_data import Item
 from utils.references import References
 
 class GuildConfig(Saveable):

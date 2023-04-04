@@ -48,18 +48,19 @@ SEE_RESPONSE,See response,Voir la réponse
 DEVELOPER_RESPONSE,Developer response,Réponse du développeur
 NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
-ITEM_NAME_CHANGED,Item's name changed: {before} -> {after},Le nom de l'objet a été changé: {before} -> {after}
-ITEM_DESCRIPTION_CHANGED,Item's description changed: {before} -> {after},La description de l'objet a été changé: {before} -> {after}
-ITEM_GIVED,{member} has received {amount} {item_name},{member} a reçu {amount} {item_name}
-ITEM_DOES_NOT_EXIST,This item does not exist,Cet objet n'existe pas
+OBJECT_NAME_CHANGED,The name of the object has been changed: {before} -> {after},Le nom de l'objet a été modifié: {before} -> {after}
+OBJECT_DESCRIPTION_CHANGED,The description of the object has been changed: {before} -> {after},La description de l'objet a été modifié: {before} -> {after}
+OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
+OBJECT_DOES_NOT_EXIST,This object does not exist,Cet objet n'existe pas
 INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
 DELETION,Deletion,Suppresion
 DELETION_CANCELLED,Deletion cancelled,Suppression annulé
-ITEM_DELETION_CONFIRMATION,Are you really sure you want to delete the item {item},Êtes-vous vraiment sûr de vouloir supprimer l'objet {item}
-ITEM_DELETION_PERFORMED,The deletion of the item {item} has been performed,La suppression de l'objet {item} a été effectuée
+OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the object {object},Êtes-vous vraiment sûr de vouloir supprimer l'objet {object}
+OBJECT_DELETION_PERFORMED,The deletion of the object {object} has been performed,La suppression de l'objet {object} a été effectuée
 ARTICLE_DOES_NOT_EXIST,This article does not exist,Cet article n'existe pas
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the article {article},Êtes-vous vraiment sûr de vouloir supprimer l'article {article}
 ARTICLE_DELETION_PERFORMED,The deletion of the article {article} has been performed,La suppression de l'article {article} a été effectuée
 ARTICLE_PURCHASED,The article {article} has been purchased,L'article {article} a été acheté
-ARTICLE_ITEM_ADDED,{item} has been added to {article},{item} a été ajouté à {article}
-ARTICLE_ITEM_REMOVED,{item} has been removed from {article},{item} a été supprimé de {article}
+ARTICLE_OBJECT_ADDED,{object} has been added to {article},{object} a été ajouté à {article}
+ARTICLE_OBJECT_REMOVED,{object} has been removed from {article},{object} a été supprimé de {article}
+NO_OBJECTS_EXISTS,No object has been created,Aucun object n'a été créé

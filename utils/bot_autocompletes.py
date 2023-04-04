@@ -7,18 +7,18 @@ def get_article_from_name(self, ctx, article_name) -> GuildArticle:
     return GuildArticle(article_id, ctx.guild.id)
 
 #TODO: optimised
-def get_items(self, ctx):
+def get_objects(self, ctx):
     guild_id = ctx.interaction.guild.id
-    item_names = [item.name for item in GuildItem.list_items(guild_id)]
+    object_names = [obj.name for obj in GuildObject.list_objects(guild_id)]
 
     result = []
-    for item in GuildItem.list_items(guild_id):
-        if not item.name.startswith(ctx.value):
+    for obj in GuildObject.list_objects(guild_id):
+        if not obj.name.startswith(ctx.value):
             continue
 
-        formatted = item.name
-        if item_names.count(item.name) > 1:
-            formatted += f" ({item._item_id})"
+        formatted = obj.name
+        if object_names.count(obj.name) > 1:
+            formatted += f" ({obj._object_id})"
         result.append(formatted)
 
     return result

@@ -50,35 +50,35 @@ class ShopCog(commands.Cog):
         else:
             article.set_price(price)
     
-    @articles.command(name="add_item")
+    @articles.command(name="add_object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
-    @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
+    @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     @option("quantity", type=int, default=1)
-    async def add_article_item(self, ctx, article: GuildArticle, item: GuildItem, quantity):
+    async def add_article_object(self, ctx, article: GuildArticle, obj: GuildObject, quantity):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
             return
 
-        if item is None:
-            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+        if obj is None:
+            await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
             return
 
-        article.add_item(item, quantity)
-        await ctx.respond(text_key="ARTICLE_ITEM_ADDED", text_args={"item": item.name, "article": article.name})
+        article.add_object(obj, quantity)
+        await ctx.respond(text_key="ARTICLE_OBJECT_ADDED", text_args={"object": obj.name, "article": article.name})
     
-    @articles.command(name="remove_item")
+    @articles.command(name="remove_object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
-    @option("item", type=GuildItemConverter, required=True, autocomplete=get_items)
-    async def remove_article_item(self, ctx, article: GuildArticle, item: GuildItem):
+    @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
+    async def remove_article_object(self, ctx, article: GuildArticle, obj: GuildObject):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return    
-        if item is None:
-            await ctx.respond(text_key="ITEM_DOES_NOT_EXIST")
+            return
+        if obj is None:
+            await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
             return
         
-        article.remove_item(item)
-        await ctx.respond(text_key="ARTICLE_ITEM_REMOVED", text_args={"item": item.name, "article": article.name})
+        article.remove_object(obj)
+        await ctx.respond(text_key="ARTICLE_OBJECT_REMOVED", text_args={"object": obj.name, "article": article.name})
 
     @articles.command(name="add_role")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
@@ -92,11 +92,19 @@ class ShopCog(commands.Cog):
     @articles.command(name="about")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     async def article_about(self, ctx, article: GuildArticle):
-        pass
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+            return
+        
+        embed = NormalEmbed(ctx.guild_config, title=article.name, description=f"prix: {article.price}")
+        embed.add_field(name="Roles", value="\n".join([ctx.guild.get_role(role_id).mention for role_id in article.role_ids]))
+        embed.add_field(name="Objects", value="\n".join([f"{GuildObject(object_id, ctx.guild.id).name} | {amount}" for object_id, amount in article.object_ids.items()]))
+
+        await ctx.respond(embed=embed)
 
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
-    async def delete_item(self, ctx, article: GuildArticle):
+    async def delete_article(self, ctx, article: GuildArticle):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
         else:
