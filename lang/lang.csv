@@ -64,3 +64,7 @@ ARTICLE_PURCHASED,The article {article} has been purchased,L'article {article} a
 ARTICLE_OBJECT_ADDED,{object} has been added to {article},{object} a été ajouté à {article}
 ARTICLE_OBJECT_REMOVED,{object} has been removed from {article},{object} a été supprimé de {article}
 NO_OBJECTS_EXISTS,No object has been created,Aucun object n'a été créé
+ARTICLE_ROLE_ADDED,Role added,Rôle ajouté
+ARTICLE_ROLE_ADDED_DESC,You have added {role} to {article},Tu as ajouté {role} à {article}
+ARTICLE_ROLE_REMOVED,Role removed,Rôle retiré
+ARTICLE_ROLE_REMOVED_DESC,You have removed {role} from {article},Tu as retiré {role} de {article}

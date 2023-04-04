@@ -83,12 +83,26 @@ class ShopCog(commands.Cog):
     @articles.command(name="add_role")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     @option("role", type=discord.Role, required=True)
-    async def add_article_role(self, ctx, article: GuildArticle, role):
+    async def add_article_role(self, ctx, article: GuildArticle, role: discord.Role):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-        else:
-            article.add_role(role)
+            return
+        
+        article.add_role(role)
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("ARTICLE_ROLE_ADDED"), description=ctx.translate("ARTICLE_ROLE_ADDED_DESC", role=role.mention, article=article.name))
+        await ctx.respond(embed=embed)
     
+    @articles.command(name="remove_role")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
+    @option("role", type=discord.Role, required=True)
+    async def remove_article_role(self, ctx, article: GuildArticle, role: discord.Role):
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+            return
+        article.remove_role(role)
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("ARTICLE_ROLE_REMOVED"), description=ctx.translate("ARTICLE_ROLE_REMOVED_DESC", role=role.mention, article=article.name))
+        await ctx.respond(embed=embed)
+
     @articles.command(name="about")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_article_names)
     async def article_about(self, ctx, article: GuildArticle):

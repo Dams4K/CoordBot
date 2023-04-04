@@ -182,6 +182,11 @@ class GuildArticle(Saveable):
         if not new_role.id in self.role_ids:
             self.role_ids.append(new_role.id)
         return self
+
+    @Saveable.update()
+    def remove_role(self, role: discord.Role):
+        if role.id in self.role_ids:
+            self.role_ids.remove(role.id)
     
     async def buy(self, ctx):
         author_data = ctx.author_data
