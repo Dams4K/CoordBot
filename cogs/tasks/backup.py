@@ -17,10 +17,8 @@ class BackupCog(commands.Cog):
     @tasks.loop(time=BACKUP_TIMES)
     async def backup_task(self):
         today = datetime.date.today()
-        if not today.isoweekday() in [BACKUP_DAYS]:
-            return
-        
-        await self.create_backup()
+        if today.isoweekday() in [BACKUP_DAYS]:
+            await self.create_backup()
 
     @commands.command(name="force_backup")
     async def force_backup(self, ctx):

@@ -1,4 +1,4 @@
-import csv
+import discord
 from ddm import *
 from utils.references import References
 
@@ -80,3 +80,20 @@ class GuildDefaultMemberData(Saveable):
     @Saveable.update()
     def set_inventory_size(self, value: int):
         self.inventory_size = value
+
+class GuildSalaries(Saveable):
+    def __init__(self, guild_id):
+        self._guild_id = guild_id
+        self.salaries = {}
+
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/salaries.json"))
+    
+    @Saveable.update()
+    def add_salary(self, role: discord.Role, pay: int):
+        self.salaries[str(role.id)] = pay
+    
+    @Saveable.update()
+    def remove_salary(self, role: discord.Role):
+        role_id = str(role.id)
+        if role_id in self.salaries:
+            self.salaries.pop(role_id)
