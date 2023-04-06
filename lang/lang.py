@@ -6,6 +6,8 @@ class FormatDict(dict):
         return "{" + key + "}"
 
 class _Lang:
+    LANG_SEQ = "{LANG_KEY:"
+
     def __init__(self, file_path="lang/lang.csv") -> None: #TODO: globalize path
         self.file_path = file_path
 
@@ -16,7 +18,6 @@ class _Lang:
     def get_text(self, text_key: str, lang: str, custom_rows: dict = None, *args, **kwargs) -> str:
         try:
             lang = lang.lower()
-            kwargs.setdefault("lang", lang)
 
             rows = self.rows
             if custom_rows is not None:
@@ -35,6 +36,17 @@ class _Lang:
             lang_col: int = rows[0].index(lang.lower())
             text: str = rows[key_row][lang_col]
 
+            start = text.find(_Lang.LANG_SEQ, 0)
+            while -1 < start < len(text):
+                end = text.find("}", start)
+
+                inner_text_key = text[start+len(_Lang.LANG_SEQ):end]
+                if inner_text_key.upper() != text_key.upper():
+                    text = text[:start] + self.get_text(inner_text_key, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
+
+                start = text.find(_Lang.LANG_SEQ, start+1)
+
+            kwargs.setdefault("lang", lang)
             formatter = string.Formatter()
             mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
 

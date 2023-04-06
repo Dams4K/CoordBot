@@ -19,6 +19,11 @@ class GuildConfigCog(commands.Cog):
     async def get_languages(self, ctx: BotAutocompleteContext):
         return [Lang.get_text("CHANGE_LANGUAGE", lang) for lang in Lang.get_languages()]
 
+    async def get_custom_translations(self, ctx):
+        guild_language = GuildLanguage(ctx.interaction.guild.id)
+        return guild_language.get_keys()
+
+
     @commands.Cog.listener()
     async def on_application_command_auto_complete(self, interaction, command):
         pass
@@ -64,6 +69,12 @@ class GuildConfigCog(commands.Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.add_translation(key, value)
         await ctx.respond("finish")
+    
+    @language.command(name="reset")
+    @option("key", type=str, required=True, autocomplete=get_custom_translations)
+    async def reset_translation(self, ctx, key: str):
+        guild_language = GuildLanguage(ctx.guild.id)
+        guild_language.reset_translation(key)
 
     @bridge.bridge_group()
     async def level_system(self, ctx):

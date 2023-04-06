@@ -3,7 +3,7 @@ TEST_MSG,This message is in english,Ce message est en français
 E_CommandError,En E_CommandError,Fr E_CommandError
 E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
 E_CANNOT_PURCHASE,You can't purchase this article, Tu ne peux pas acheter cet article
-E_NOT_ENOUGH_MONEY,"You did not have enough money, {money_missing} missing money","Tu n'as pas assez d'argent, {money_missing} d'argent manquant"
+E_NOT_ENOUGH_MONEY,"You did not have enough {LANG_KEY:MONEY_NAME}, {money_missing} missing {LANG_KEY:MONEY_NAME}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME}, {money_missing} manquant"
 PROFIL_OF,Profil of {member},Profil de {member}
 CHANGE_LANGUAGE,({lang}) Change the language to English,({lang}) Change la langue en français
 LANGUAGE_CHANGED,Language changed to english,Langage changé en français
@@ -22,14 +22,14 @@ LEVEL_SET,You have set the {member} level to `{amount}`,Vous avez définit le ni
 XP_ADDED,You have increased the xp of {member} by `{amount}`,Vous avez augmenté l'xp de {member} de `{amount}`
 XP_REMOVED,You have decreased the xp of {member} by `{amount}`,Vous avez diminué l'xp de {member} de `{amount}`
 XP_SET,You have set the {member} xp to `{amount}`,Vous avez définit l'xp de {member} à `{amount}`
-MONEY_ADDED,You have added `{amount}` money to {member},Vous avez ajouté `{amount}` money à {member}
-MONEY_REMOVED,You have removed `{amount}` money from {member},Vous avez retiré `{amount}` money à {member}
-MONEY_SET,You have set the {member} money to `{amount}`,Vous avez définit la money de {member} à `{amount}`
+MONEY_ADDED,You have added `{amount}` {LANG_KEY:MONEY_NAME} to {member},Vous avez ajouté `{amount}` {LANG_KEY:MONEY_NAME} à {member}
+MONEY_REMOVED,You have removed `{amount}` {LANG_KEY:MONEY_NAME} from {member},Vous avez retiré `{amount}` {LANG_KEY:MONEY_NAME} à {member}
+MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME} to `{amount}`,Vous avez définit la {LANG_KEY:MONEY_NAME} de {member} à `{amount}`
 ENABLE_LEVEL_SYSTEM,The level system is now enabled,Le système de niveau est maintenant activé
 DISABLE_LEVEL_SYSTEM,The level system is now disabled,Le système de niveau est maintenant désactivé
-LEVEL_NAME,Level,Niveau
-XP_NAME,Experience,Expérience
-MONEY_NAME,Money,Argent
+LEVEL_NAME,level,niveau
+XP_NAME,experience,expérience
+MONEY_NAME,money,argent
 MUST_SELECT_KEY,You must have selected a key,Vous devez avoir sélectionné une clé
 SUGGEST_MODAL,Suggestion menu,Menu de suggestions
 SUGGEST_NAME,Name of the suggestion,Nom de la suggestion

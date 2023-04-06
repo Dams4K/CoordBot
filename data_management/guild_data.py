@@ -48,13 +48,17 @@ class GuildLanguage(Saveable):
 
         super().__init__(References.get_guild_folder(f"{self._guild_id}/lang.json"))
 
-    @Saveable.update()
-    def add_translation(self, key, value) -> None:
-        self.rows.setdefault(key, value)
+    def get_keys(self) -> list[str]:
+        return list(self.rows.keys())
 
     @Saveable.update()
-    def remove_translation(self, key) -> str:
-        pass
+    def add_translation(self, key, value) -> None:
+        self.rows[key.upper()] = value
+
+    @Saveable.update()
+    def reset_translation(self, key) -> str:
+        if key.upper() in self.rows:
+            return self.rows.pop(key.upper())
 
 
 class GuildDefaultMemberData(Saveable):
