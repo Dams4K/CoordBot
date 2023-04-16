@@ -1,6 +1,5 @@
 import discord
 from discord import option
-from discord.commands import slash_command, SlashCommandGroup
 from discord.ext import commands
 from discord.ext import bridge
 from utils.permissions import *
@@ -9,7 +8,6 @@ from data_management import *
 class LevelsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
 
     @bridge.bridge_group(checks=[is_admin])
     async def xp(self, ctx): pass
@@ -70,15 +68,21 @@ class LevelsCog(commands.Cog):
         member_data.set_level(amount)
         await ctx.respond(text_key="LEVEL_SET", text_args={"amount": amount, "member": member})
 
-
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
             return
 
         ctx = await self.bot.get_context(message)
+        leveling_config = GuildLevelingData(ctx.guild.id)
 
-        if not ctx.command is None or not ctx.guild_config.level_system_enabled:
+        if not ctx.command is None:
+            return
+        if not leveling_config.enabled:
+            return
+        if leveling_config.is_channel_ban(ctx.channel):
+            return
+        if leveling_config.is_member_ban(message.author):
             return
 
         level_before = ctx.author_data.level

@@ -7,7 +7,7 @@ from lang import Lang
 from utils.bot_embeds import NormalEmbed
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
-from data_management import GuildLanguage, DefaultMemberData
+from data_management import *
 
 class GuildConfigCog(commands.Cog):
     def __init__(self, bot):
@@ -76,15 +76,33 @@ class GuildConfigCog(commands.Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
 
-    @bridge.bridge_group()
-    async def level_system(self, ctx):
-        pass
+    @bridge.bridge_group(invoke_without_command=True)
+    @bridge.map_to("status")
+    @option("enabled", type=bool, required=True)
+    async def leveling(self, ctx, enabled: bool):
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        if enabled:
+            leveling_config.enable()
+            await ctx.respond(text_key="ENABLE_LEVEL_SYSTEM")
+        else:
+            leveling_config.disable()
+            await ctx.respond(text_key="DISABLE_LEVEL_SYSTEM")
 
-    @level_system.command(name="enabled")
-    async def activate(self, ctx, activated: bool):
-        ctx.guild_config.enable_level_system(activated)
-        await ctx.respond(text_key="ENABLE_LEVEL_SYSTEM" if activated else "DISABLE_LEVEL_SYSTEM")
+    @leveling.command(name="ban")
+    @option("member", type=discord.Member, require=False, default=None)
+    @option("channel", type=discord.TextChannel, required=False, default=None)
+    async def leveling_ban(self, ctx, member=None, channel=None):
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.ban_member(member)
+        leveling_config.ban_channel(channel)
 
+    @leveling.command(name="unban")
+    @option("member", type=discord.Member, require=False, default=None)
+    @option("channel", type=discord.TextChannel, required=False, default=None)
+    async def leveling_unban(self, ctx, member=None, channel=None):
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.unban_member(member)
+        leveling_config.unban_channel(channel)
 
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("show")

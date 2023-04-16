@@ -101,3 +101,73 @@ class GuildSalaries(Saveable):
         role_id = str(role.id)
         if role_id in self.salaries:
             self.salaries.pop(role_id)
+
+class GuildLevelingData(Saveable):
+    def __init__(self, guild_id: int):
+        self._guild_id = guild_id
+        
+        self.enabled = True
+        self.levelup_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
+        self.channels_banned = []
+        self.members_banned = []
+
+        super().__init__(References.get_guild_folder(f"{self._guild_id}/leveling.json"))
+    
+    @Saveable.update()
+    def enable(self):
+        self.enabled = True
+    @Saveable.update()
+    def disable(self):
+        self.enabled = False
+    
+    @Saveable.update()
+    def set_levelup_message(self, new_message):
+        self.levelup_message = new_message
+    
+    @Saveable.update()
+    def ban_channel(self, channel: discord.TextChannel):
+        if not isinstance(channel, discord.TextChannel):
+            return
+        if channel.id in self.channels_banned:
+            return
+        
+        self.channels_banned.append(channel.id)
+        
+    @Saveable.update()
+    def unban_channel(self, channel: discord.TextChannel):
+        if not isinstance(channel, discord.TextChannel):
+            return
+        if not channel.id in self.channels_banned:
+            return
+        
+        self.channels_banned.remove(channel.id)
+    
+    def is_channel_ban(self, channel: discord.TextChannel):
+        if not isinstance(channel, discord.TextChannel):
+            return False
+        
+        return channel.id in self.channels_banned
+    
+    @Saveable.update()
+    def ban_member(self, member: discord.Member): # return error
+        if not isinstance(member, discord.Member):
+            return
+        if member.id in self.members_banned:
+            return
+        
+        self.members_banned.append(member.id)
+
+    @Saveable.update()
+    def unban_member(self, member: discord.Member):
+        if not isinstance(member, discord.Member):
+            return
+        if not member.id in self.members_banned:
+            return
+        
+        self.members_banned.remove(member.id)
+
+    def is_member_ban(self, member: discord.Member):
+        if not isinstance(member, discord.Member):
+            return False
+        
+        return member.id in self.members_banned
