@@ -104,23 +104,5 @@ class GuildConfigCog(commands.Cog):
         leveling_config.unban_member(member)
         leveling_config.unban_channel(channel)
 
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("show")
-    async def default_member(self, ctx):
-        default_member = DefaultMemberData(ctx.guild.id)
-        embed = NormalEmbed(ctx.guild_config, title="Default Member")
-
-        embed.add_field(name="Level", value=default_member.level)
-        embed.add_field(name="XP", value=default_member.xp)
-        embed.add_field(name="Money", value=default_member.money)
-
-        await ctx.respond(embed=embed)
-
-    @default_member.command(name="setlevel")
-    @option("level", type=int, required=True)
-    async def dm_set_level(self, ctx, level):
-        default_member = DefaultMemberData(ctx.guild.id)
-        default_member.set_level(level)
-
 def setup(bot):
     bot.add_cog(GuildConfigCog(bot))
