@@ -13,6 +13,13 @@ class GlobalCog(commands.Cog):
     @option("member", type=discord.Member, required=False, default=None)
     async def profil(self, ctx, member = None):
         member = ctx.author if member == None else member
+        await self.show_profil(ctx, member)
+    
+    @discord.user_command(name="profil")
+    async def user_profil(self, ctx, member: discord.Member):
+        await self.show_profil(ctx, member, ephemeral=True)
+    
+    async def show_profil(self, ctx, member: discord, ephemeral=False):
         member_data = MemberData(member.id, ctx.guild.id)
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
@@ -20,9 +27,10 @@ class GlobalCog(commands.Cog):
         embed.add_field(name=ctx.translate("LEVEL_NAME").capitalize(), value=str(member_data.level))
         embed.add_field(name=ctx.translate("XP_NAME").capitalize(), value=f"{member_data.xp}/{xp_goal}")
         embed.add_field(name=ctx.translate("MONEY_NAME").capitalize(), value=str(member_data.money))
+        
+        await ctx.respond(embed=embed, ephemeral=ephemeral)
 
-        await ctx.respond(embed=embed)
-    
+
     @bridge.bridge_command(name="utip")
     async def utip(self, ctx):
         embed = NormalEmbed(ctx.guild_config, title="UTIP")
