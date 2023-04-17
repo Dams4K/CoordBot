@@ -14,9 +14,22 @@ class DefaultMemberCog(commands.Cog):
         pass
     
     @member.command(name="default_xp")
-    @option("value", type=int, required=True)
-    async def member_xp(self, ctx, value: int):
-        pass
+    @option("amount", type=int, required=True)
+    async def member_xp(self, ctx, amount: int):
+        default_member = DefaultMemberData(ctx.guild.id)
+        default_member.set_xp(amount)
+    
+    @member.command(name="default_level")
+    @option("amount", type=int, required=True)
+    async def member_level(self, ctx, amount: int):
+        default_member = DefaultMemberData(ctx.guild.id)
+        default_member.set_level(amount)
+    
+    @member.command(name="default_money")
+    @option("amount", type=int, required=True)
+    async def member_money(self, ctx, amount: int):
+        default_member = DefaultMemberData(ctx.guild.id)
+        default_member.set_money(amount)
 
 
 def setup(bot):
