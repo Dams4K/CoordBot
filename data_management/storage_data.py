@@ -150,7 +150,8 @@ class GuildArticle(Saveable):
     def __init__(self, article_id, guild_id):
         self._article_id = article_id
         self._guild_id = guild_id
-        self.name: str = "None"
+        self.name: str = "no name"
+        self.description: str = "*no description*"
         self.price: float = 0
         
         self.object_ids: dict = {}
@@ -162,6 +163,11 @@ class GuildArticle(Saveable):
     def set_name(self, new_name: str):
         self.name = new_name
         return self
+    
+    @Saveable.update()
+    def set_description(self, new_description: str):
+        self.description = new_description
+        return self
 
     @Saveable.update()
     def set_price(self, new_price: float):
@@ -169,18 +175,20 @@ class GuildArticle(Saveable):
         return self
     
     @Saveable.update()
-    def add_object(self, new_object: GuildObject, quantity: int):
-        self.object_ids[new_object._object_id] = quantity
-        return self
-    @Saveable.update()
-    def remove_object(self, obj: GuildObject):
-        self.pop(obj)
+    def add_object(self, obj: GuildObject, quantity: int):
+        obj_id = str(obj._object_id)
+        self.object_ids.setdefault(obj_id, 0)
+        self.object_ids[obj_id] += quantity
         return self
     
     @Saveable.update()
-    def add_role(self, new_role: discord.Role):
-        if not new_role.id in self.role_ids:
-            self.role_ids.append(new_role.id)
+    def remove_object(self, obj: GuildObject, quantity: int):
+        return self.add_object(obj, -quantity)
+    
+    @Saveable.update()
+    def add_role(self, role: discord.Role):
+        if not role.id in self.role_ids:
+            self.role_ids.append(role.id)
         return self
 
     @Saveable.update()

@@ -61,10 +61,24 @@ ARTICLE_DOES_NOT_EXIST,This article does not exist,Cet article n'existe pas
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the article {article},Êtes-vous vraiment sûr de vouloir supprimer l'article {article}
 ARTICLE_DELETION_PERFORMED,The deletion of the article {article} has been performed,La suppression de l'article {article} a été effectuée
 ARTICLE_PURCHASED,The article {article} has been purchased,L'article {article} a été acheté
-ARTICLE_OBJECT_ADDED,{object} has been added to {article},{object} a été ajouté à {article}
-ARTICLE_OBJECT_REMOVED,{object} has been removed from {article},{object} a été supprimé de {article}
+ARTICLE_OBJECT_ADDED,Object added,Objet ajouté
+ARTICLE_OBJECT_ADDED_DESC,You have added {quantity} {object} to {article},Tu as rajouté {quantity} {object} à {article}
+ARTICLE_OBJECT_REMOVED,Object removed,Objet retiré
+ARTICLE_OBJECT_REMOVED_DESC,You have removed {quantity} {object} from {article},Tu as retiré {quantity} {object} de {article}
 NO_OBJECTS_EXISTS,No object has been created,Aucun object n'a été créé
 ARTICLE_ROLE_ADDED,Role added,Rôle ajouté
 ARTICLE_ROLE_ADDED_DESC,You have added {role} to {article},Tu as ajouté {role} à {article}
 ARTICLE_ROLE_REMOVED,Role removed,Rôle retiré
 ARTICLE_ROLE_REMOVED_DESC,You have removed {role} from {article},Tu as retiré {role} de {article}
+ARTICLE_NAME_MODIFIED,The name of the article {article} has been changed to {new_name},Le nom de l'article {article} a été modifié en {new_name}
+ARTICLE_PRICE_MODIFIED,The price of the article {article} is now {new_price} {LANG_KEY:MONEY_NAME},Le prix de l'aricle {article} est maintenant {new_price} {LANG_KEY:MONEY_NAME}
+ARTICLE_DESCRIPTION_MODIFIED,"The description of the article {article} has been changed to:
+
+{new_description}","La description de l'article {article} a été modifiée en :
+
+{new_description}"
+NAME_MODIFIED,Name modified,Nom modifié
+DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
+PRICE_MODIFIED,Price modified,Prix modifié
+ARTICLE_CREATED,Article created,Article créé
+ARTICLE_CREATED_DESC,The article {article} has been created,L'article {article} a été créé
