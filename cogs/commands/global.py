@@ -9,7 +9,7 @@ class GlobalCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_command(name="profil")
+    @discord.slash_command(name="profil")
     @option("member", type=discord.Member, required=False, default=None)
     async def slash_profil(self, ctx, member = None):
         member = ctx.author if member == None else member
@@ -41,6 +41,16 @@ class GlobalCog(commands.Cog):
 """
 
         await ctx.respond(embed=embed)
+
+
+    @discord.slash_command(name="say")
+    async def say(self, ctx, *, message: str):
+        if ctx.is_app:
+            await ctx.respond("message sent", ephemeral=True)
+        else:
+            await ctx.message.delete()
+        
+        await ctx.send(message)
 
 
 def setup(bot):

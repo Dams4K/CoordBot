@@ -1,7 +1,6 @@
 import discord
+from discord import option, SlashCommandGroup
 from discord.ext import commands, pages
-from discord.ext import bridge
-from discord.commands import option
 from data_management import *
 from utils.bot_embeds import *
 from utils.bot_autocompletes import *
@@ -12,9 +11,10 @@ class ShopCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("list")
-    async def articles(self, ctx):
+    articles = SlashCommandGroup("articles")
+
+    @articles.command(name="list")
+    async def list_articles(self, ctx):
         articles = GuildArticle.list_articles(ctx.guild.id)
         sorted_articles = sorted(articles, key=attrgetter("_article_id"))
 

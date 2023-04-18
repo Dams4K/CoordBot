@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands, bridge
+from discord.commands import SlashCommandGroup
+from discord.ext import commands
 from data_management import *
 from operator import attrgetter
 from prefixed import Float
@@ -80,9 +81,7 @@ class RankingCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_group()
-    async def ranking(self, ctx):
-        pass
+    ranking = SlashCommandGroup("ranking")
 
     @ranking.command(name="level")
     async def ranking_level(self, ctx):

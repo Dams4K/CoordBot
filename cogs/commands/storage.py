@@ -1,8 +1,6 @@
 import discord
-from discord.ext import commands
-from discord.ext import bridge
-from discord.ext import pages
-from discord.commands import option
+from discord import option, SlashCommandGroup
+from discord.ext import commands, pages
 from data_management import *
 from utils.bot_embeds import NormalEmbed, DangerEmbed
 from utils.bot_views import ConfirmView
@@ -13,15 +11,17 @@ class StorageCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("show")
+    inventory = SlashCommandGroup("inventory")
+    objects = SlashCommandGroup("objects")
+
+    @inventory.command(name="show")
     @option("member", type=discord.Member, required=False)
-    async def inventory(self, ctx, member=None):
+    async def slash_show_inventory(self, ctx, member=None):
         member = ctx.author if member == None else member
         await self.show_inventory(ctx, member)
     
     @discord.user_command(name="inventory")
-    async def user_inventory(self, ctx, member: discord.Member):
+    async def user_show_inventory(self, ctx, member: discord.Member):
         await self.show_inventory(ctx, member, ephemeral=True)
 
     async def show_inventory(self, ctx, member, ephemeral=False):
@@ -39,14 +39,13 @@ class StorageCog(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
-
     @inventory.command()
     async def sell(self, ctx):
         await ctx.respond("sell object")
+    
 
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("list")
-    async def objects(self, ctx):
+    @objects.command(name="list")
+    async def list_objects(self, ctx):
         objects = GuildObject.list_objects(ctx.guild.id)
         sorted_objects = sorted(objects, key=attrgetter("_object_id"))
 

@@ -1,17 +1,18 @@
 import discord
-from discord import option
+from discord import option, SlashCommandGroup
 from discord.ext import commands
-from discord.ext import bridge
 from data_management import GuildSalaries
 
 class SalaryCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("list")
-    async def salary(self, ctx):
+    salary = SlashCommandGroup("salary")
+
+    @salary.command(name="list")
+    async def list_salaries(self, ctx):
         salaries = GuildSalaries(ctx.guild.id)
+        print(salaries)
 
     @salary.command(name="add")
     @option("role", type=discord.Role, required=True)
@@ -25,7 +26,6 @@ class SalaryCog(commands.Cog):
     async def erease_salary(self, ctx, role: discord.Role):
         salaries = GuildSalaries(ctx.guild.id)
         salaries.remove_salary(role)
-        
 
 
 def setup(bot):

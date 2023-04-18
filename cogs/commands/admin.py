@@ -1,7 +1,6 @@
 import discord
-from discord import option
+from discord import option, SlashCommandGroup
 from discord.ext import commands
-from discord.ext import bridge
 from data_management import MemberData
 from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
@@ -15,12 +14,12 @@ class AdminCog(commands.Cog):
         return is_admin(ctx)
 
     @discord.user_command(name="reset")
-    async def reset_user(self, ctx, member):
+    async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
-    @bridge.bridge_command(name="reset")
+    @discord.slash_command(name="reset")
     @option("member", type=discord.Member, required=True)
-    async def reset_slash(self, ctx, member):
+    async def slash_reset(self, ctx, member):
         await self.reset_member(ctx, member)
 
     async def reset_member(self, ctx, member: discord.Member, ephemeral=False):
@@ -44,15 +43,6 @@ class AdminCog(commands.Cog):
             embed.description = ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member)
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
-
-    @bridge.bridge_command(name="say")
-    async def say(self, ctx, *, message: str):
-        if ctx.is_app:
-            await ctx.respond("done", ephemeral=True)
-        else:
-            await ctx.message.delete()
-        
-        await ctx.send(message)
 
 def setup(bot):
     bot.add_cog(AdminCog(bot))

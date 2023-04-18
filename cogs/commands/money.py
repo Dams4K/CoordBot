@@ -1,8 +1,6 @@
 import discord
-from discord import option
-from discord.commands import slash_command, SlashCommandGroup
+from discord import option, SlashCommandGroup
 from discord.ext import commands
-from discord.ext import bridge
 from utils.permissions import is_admin
 from data_management import MemberData
 
@@ -10,9 +8,10 @@ class MoneyCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
+    def cog_check(self, ctx):
+        return is_admin(ctx)
 
-    @bridge.bridge_group(checks=[is_admin])
-    async def money(self, ctx): pass
+    money = SlashCommandGroup("money")
 
     @money.command(name="add")
     @option("member", type=discord.Member, required=True)
@@ -40,7 +39,6 @@ class MoneyCog(commands.Cog):
         member_data.set_money(amount)
         await ctx.respond(text_key="MONEY_SET", text_args={"amount": amount, "member": member})
 
-        
 
 def setup(bot):
     bot.add_cog(MoneyCog(bot))

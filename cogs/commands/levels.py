@@ -1,7 +1,6 @@
 import discord
-from discord import option
+from discord import option, SlashCommandGroup
 from discord.ext import commands
-from discord.ext import bridge
 from utils.permissions import *
 from data_management import *
 
@@ -9,8 +8,11 @@ class LevelsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bridge.bridge_group(checks=[is_admin])
-    async def xp(self, ctx): pass
+    def cog_check(self, ctx):
+        return is_admin(ctx)
+    
+    xp = SlashCommandGroup("xp")
+    level = SlashCommandGroup("level")
 
     @xp.command(name="add")
     @option("member", type=discord.Member, required=True)
@@ -37,10 +39,6 @@ class LevelsCog(commands.Cog):
         member_data = MemberData(member.id, ctx.guild.id)
         member_data.set_xp(amount)
         await ctx.respond(text_key="XP_SET", text_args={"amount": amount, "member": member})
-
-
-    @bridge.bridge_group(checks=[is_admin])
-    async def level(self, ctx): pass
 
     @level.command(name="add")
     @option("member", type=discord.Member, required=True)

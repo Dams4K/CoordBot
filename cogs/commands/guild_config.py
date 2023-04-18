@@ -24,10 +24,6 @@ class GuildConfigCog(commands.Cog):
         return guild_language.get_keys()
 
 
-    @commands.Cog.listener()
-    async def on_application_command_auto_complete(self, interaction, command):
-        pass
-
     @bridge.bridge_group(invoke_without_command=True)
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
