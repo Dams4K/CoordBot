@@ -16,11 +16,6 @@ def get_articles(self, ctx):
 
     return result
 
-
-def get_article_from_name(self, ctx, article_name) -> GuildArticle:
-    article_id: int = int(article_name[article_name.rfind("(")+1:article_name.rfind(")")])
-    return GuildArticle(article_id, ctx.guild.id)
-
 #TODO: optimised
 def get_objects(self, ctx):
     guild_id = ctx.interaction.guild.id
