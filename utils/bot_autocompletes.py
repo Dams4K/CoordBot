@@ -1,8 +1,5 @@
 from data_management import *
 
-def get_article_names(self, ctx):
-    return [f"{article.name} ({article._article_id})" for article in GuildArticle.list_articles(ctx.interaction.guild.id)]
-
 def get_articles(self, ctx):
     guild_id = ctx.interaction.guild.id
     article_names = [article.name for article in GuildArticle.list_articles(guild_id)]
