@@ -1,5 +1,5 @@
 import discord
-from discord import option, SlashCommandGroup
+from discord import *
 from discord.ext import commands
 from data_management import MemberData
 from utils.bot_embeds import DangerEmbed, NormalEmbed
@@ -10,14 +10,14 @@ class AdminCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def cog_check(self, ctx):
-        return is_admin(ctx)
-
     @discord.user_command(name="reset")
+    @default_permissions(administrator=True)
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
     @discord.slash_command(name="reset")
+    @guild_only()
+    @default_permissions(administrator=True)
     @option("member", type=discord.Member, required=True)
     async def slash_reset(self, ctx, member):
         await self.reset_member(ctx, member)

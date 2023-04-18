@@ -1,5 +1,5 @@
 import discord
-from discord import option, SlashCommandGroup
+from discord import *
 from discord.ext import commands, pages
 from data_management import *
 from utils.bot_embeds import NormalEmbed, DangerEmbed
@@ -119,6 +119,7 @@ class StorageCog(commands.Cog):
                 await ctx.respond(text_key="DELETION_CANCELLED")
 
     @objects.command(name="give")
+    @default_permissions(administrator=True)
     @option("member", type=discord.Member, description="pick a member", required=True)
     @option("obj", type=GuildObjectConverter, description="pick an object", required=True, autocomplete=get_objects)
     @option("amount", type=int, default=1)
