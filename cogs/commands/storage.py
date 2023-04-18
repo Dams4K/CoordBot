@@ -18,6 +18,13 @@ class StorageCog(commands.Cog):
     @option("member", type=discord.Member, required=False)
     async def inventory(self, ctx, member=None):
         member = ctx.author if member == None else member
+        await self.show_inventory(ctx, member)
+    
+    @discord.user_command(name="inventory")
+    async def user_inventory(self, ctx, member: discord.Member):
+        await self.show_inventory(ctx, member, ephemeral=True)
+
+    async def show_inventory(self, ctx, member, ephemeral=False):
         member_data = MemberData(member.id, ctx.guild.id)
 
         inventory = member_data.get_inventory()
@@ -30,8 +37,9 @@ class StorageCog(commands.Cog):
         embed = NormalEmbed(ctx.guild_config, title=f"Inventory of {member}")
         embed.description = description
 
-        await ctx.respond(embed=embed)
-    
+        await ctx.respond(embed=embed, ephemeral=ephemeral)
+
+
     @inventory.command()
     async def sell(self, ctx):
         await ctx.respond("sell object")

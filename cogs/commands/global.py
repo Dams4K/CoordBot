@@ -11,7 +11,7 @@ class GlobalCog(commands.Cog):
 
     @bridge.bridge_command(name="profil")
     @option("member", type=discord.Member, required=False, default=None)
-    async def profil(self, ctx, member = None):
+    async def slash_profil(self, ctx, member = None):
         member = ctx.author if member == None else member
         await self.show_profil(ctx, member)
     
