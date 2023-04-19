@@ -1,20 +1,18 @@
-import discord
-from discord import option, SlashCommandGroup
-from discord.ext import commands
+from discord import *
 from utils.permissions import is_admin
 from data_management import MemberData
 
-class MoneyCog(commands.Cog):
+class MoneyConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
     
     def cog_check(self, ctx):
         return is_admin(ctx)
 
-    money = SlashCommandGroup("money")
+    money = SlashCommandGroup("money", default_member_permissions=Permissions(administrator=True))
 
     @money.command(name="add")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def add_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -23,7 +21,7 @@ class MoneyCog(commands.Cog):
         
 
     @money.command(name="remove")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def remove_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -32,7 +30,7 @@ class MoneyCog(commands.Cog):
     
 
     @money.command(name="set")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def set_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -41,4 +39,4 @@ class MoneyCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(MoneyCog(bot))
+    bot.add_cog(MoneyConfigCog(bot))

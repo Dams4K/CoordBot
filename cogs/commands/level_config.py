@@ -1,21 +1,19 @@
-import discord
-from discord import option, SlashCommandGroup
-from discord.ext import commands
+from discord import *
 from utils.permissions import *
 from data_management import *
 
-class LevelsCog(commands.Cog):
+class LevelConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
     def cog_check(self, ctx):
         return is_admin(ctx)
     
-    xp = SlashCommandGroup("xp")
-    level = SlashCommandGroup("level")
+    xp = SlashCommandGroup("xp", default_member_permissions=Permissions(administrator=True))
+    level = SlashCommandGroup("level", default_member_permissions=Permissions(administrator=True))
 
     @xp.command(name="add")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_add(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -24,7 +22,7 @@ class LevelsCog(commands.Cog):
         
 
     @xp.command(name="remove")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_remove(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -33,7 +31,7 @@ class LevelsCog(commands.Cog):
     
 
     @xp.command(name="set")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_set(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -41,7 +39,7 @@ class LevelsCog(commands.Cog):
         await ctx.respond(text_key="XP_SET", text_args={"amount": amount, "member": member})
 
     @level.command(name="add")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_add(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -50,7 +48,7 @@ class LevelsCog(commands.Cog):
         
 
     @level.command(name="remove")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_remove(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -59,14 +57,14 @@ class LevelsCog(commands.Cog):
     
 
     @level.command(name="set")
-    @option("member", type=discord.Member, required=True)
+    @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_set(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
         member_data.set_level(amount)
         await ctx.respond(text_key="LEVEL_SET", text_args={"amount": amount, "member": member})
 
-    @commands.Cog.listener()
+    @Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
             return
@@ -92,4 +90,4 @@ class LevelsCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(LevelsCog(bot))
+    bot.add_cog(LevelConfigCog(bot))
