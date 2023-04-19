@@ -6,7 +6,6 @@ RESET_DONE,Reset done,Réinitialiser effectué
 RESET_CANCELED,Reset canceled,Réinitialiser annulé
 MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
 MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
-
 ARTICLE_CREATED,Article created,Article créé
 ARTICLE_CREATED_DESC,The article {article} has been created,L'article {article} a été créé
 ARTICLE_NAME_MODIFIED,The name of the article {article} has been changed to {new_name},Le nom de l'article {article} a été modifié en {new_name}
@@ -23,13 +22,11 @@ ARTICLE_OBJECT_REMOVED,You have removed {quantity} {object} from {article},Tu as
 ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role} de {article}
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the article {article},Êtes-vous vraiment sûr de vouloir supprimer l'article {article}
 ARTICLE_DELETION_PERFORMED,The deletion of the article {article} has been performed,La suppression de l'article {article} a été effectuée
-
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
 OBJECT_ADDED,Object added,Objet ajouté
 ROLE_ADDED,Role added,Rôle ajouté
 PRICE_MODIFIED,Price modified,Prix modifié
-
 E_CommandError,En E_CommandError,Fr E_CommandError
 E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
 E_CANNOT_PURCHASE,You can't purchase this article, Tu ne peux pas acheter cet article
@@ -49,8 +46,10 @@ XP_SET,You have set the {member} xp to `{amount}`,Vous avez définit l'xp de {me
 MONEY_ADDED,You have added `{amount}` {LANG_KEY:MONEY_NAME} to {member},Vous avez ajouté `{amount}` {LANG_KEY:MONEY_NAME} à {member}
 MONEY_REMOVED,You have removed `{amount}` {LANG_KEY:MONEY_NAME} from {member},Vous avez retiré `{amount}` {LANG_KEY:MONEY_NAME} à {member}
 MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME} to `{amount}`,Vous avez définit la {LANG_KEY:MONEY_NAME} de {member} à `{amount}`
-ENABLE_LEVEL_SYSTEM,The level system is now enabled,Le système de niveau est maintenant activé
-DISABLE_LEVEL_SYSTEM,The level system is now disabled,Le système de niveau est maintenant désactivé
+ENABLE_LEVELING,The level system is now enabled,Le système de niveau est maintenant activé
+DISABLE_LEVELING,The level system is now disabled,Le système de niveau est maintenant désactivé
+ACTIVATION,Activation,Activation
+DEACTIVATION,Deactivation,Désactivation
 LEVEL,level,niveau
 XP,experience,expérience
 MONEY,money,argent

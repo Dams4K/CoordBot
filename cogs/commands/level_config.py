@@ -1,5 +1,7 @@
 from discord import *
+from discord.ext.pages import Paginator
 from utils.permissions import *
+from utils.bot_embeds import *
 from data_management import *
 
 class LevelConfigCog(Cog):
@@ -11,6 +13,8 @@ class LevelConfigCog(Cog):
     
     xp = SlashCommandGroup("xp", default_member_permissions=Permissions(administrator=True))
     level = SlashCommandGroup("level", default_member_permissions=Permissions(administrator=True))
+    leveling = SlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True))
+    banlist = leveling.create_subgroup("banlist")
 
     @xp.command(name="add")
     @option("member", type=Member, required=True)
@@ -64,31 +68,76 @@ class LevelConfigCog(Cog):
         member_data.set_level(amount)
         await ctx.respond(text_key="LEVEL_SET", text_args={"amount": amount, "member": member})
 
-    #TODO: move this elsewhere else (global?)
-    @Cog.listener()
-    async def on_message(self, message):
-        if message.author.bot:
-            return
 
-        ctx = await self.bot.get_context(message)
+    @leveling.command(name="enable")
+    async def leveling_enable(self, ctx):
         leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.enable()
 
-        if not ctx.command is None:
-            return
-        if not leveling_config.enabled:
-            return
-        if leveling_config.is_channel_ban(ctx.channel):
-            return
-        if leveling_config.is_member_ban(message.author):
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("ACTIVATION"), description=ctx.translate("ENABLE_LEVELING"))
+        await ctx.respond(embed=embed)
+
+
+    @leveling.command(name="disable")
+    async def leveling_disable(self, ctx):
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.disable()
+
+        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DEACTIVATION"), description=ctx.translate("DISABLE_LEVELING"))
+        await ctx.respond(embed=embed)
+
+
+    @leveling.command(name="ban")
+    @option("member", type=discord.Member, require=False, default=None)
+    @option("channel", type=discord.TextChannel, required=False, default=None)
+    async def leveling_ban(self, ctx, member=None, channel=None):
+        if member is None and channel is None:
+            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            await ctx.respond(embed=embed)
             return
 
-        level_before = ctx.author_data.level
-        ctx.author_data.add_xp(len(message.content))
-        level_after = ctx.author_data.refresh_level(ctx.guild_config.leveling_formula)
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.ban_member(member)
+        leveling_config.ban_channel(channel)
 
-        if level_before < level_after:
-            await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
+        description = []
+        if not member is None:
+            description.append(ctx.translate("LEVELING_MEMBER_BANNED", member=member.mention))
+        if not channel is None:
+            description.append(ctx.translate("LEVELING_CHANNEL_BANNED", channel=channel.mention))
 
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("BAN"), description="\n".join(description))
+        await ctx.respond(embed=embed)
+
+    @leveling.command(name="unban")
+    @option("member", type=discord.Member, require=False, default=None)
+    @option("channel", type=discord.TextChannel, required=False, default=None)
+    async def leveling_unban(self, ctx, member=None, channel=None):
+        if member is None and channel is None:
+            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            await ctx.respond(embed=embed)
+            return
+        
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.unban_member(member)
+        leveling_config.unban_channel(channel)
+
+        description = []
+        if not member is None:
+            description.append(ctx.translate("LEVELING_MEMBER_UNBANNED", member=member.mention))
+        if not channel is None:
+            description.append(ctx.translate("LEVELING_CHANNEL_UNBANNED", channel=channel.mention))
+
+        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("UNBAN"), description="\n".join(description))
+        await ctx.respond(embed=embed)
+
+    @banlist.command("members")
+    async def banlist_members(self, ctx):
+        pass
+    
+    @banlist.command("channels")
+    async def banlist_channels(self, ctx):
+        pass
 
 def setup(bot):
     bot.add_cog(LevelConfigCog(bot))

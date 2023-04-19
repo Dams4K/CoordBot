@@ -165,5 +165,29 @@ class GlobalCog(Cog):
         await ctx.send(message)
 
 
+    @Cog.listener()
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+
+        ctx = await self.bot.get_context(message)
+        leveling_config = GuildLevelingData(ctx.guild.id)
+
+        if not ctx.command is None:
+            return
+        if not leveling_config.enabled:
+            return
+        if leveling_config.is_channel_ban(ctx.channel):
+            return
+        if leveling_config.is_member_ban(message.author):
+            return
+
+        level_before = ctx.author_data.level
+        ctx.author_data.add_xp(len(message.content))
+        level_after = ctx.author_data.refresh_level(ctx.guild_config.leveling_formula)
+
+        if level_before < level_after:
+            await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
+
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

@@ -71,34 +71,7 @@ class GuildConfigCog(commands.Cog):
     async def reset_translation(self, ctx, key: str):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
-
-    @bridge.bridge_group(invoke_without_command=True)
-    @bridge.map_to("status")
-    @option("enabled", type=bool, required=True)
-    async def leveling(self, ctx, enabled: bool):
-        leveling_config = GuildLevelingData(ctx.guild.id)
-        if enabled:
-            leveling_config.enable()
-            await ctx.respond(text_key="ENABLE_LEVEL_SYSTEM")
-        else:
-            leveling_config.disable()
-            await ctx.respond(text_key="DISABLE_LEVEL_SYSTEM")
-
-    @leveling.command(name="ban")
-    @option("member", type=discord.Member, require=False, default=None)
-    @option("channel", type=discord.TextChannel, required=False, default=None)
-    async def leveling_ban(self, ctx, member=None, channel=None):
-        leveling_config = GuildLevelingData(ctx.guild.id)
-        leveling_config.ban_member(member)
-        leveling_config.ban_channel(channel)
-
-    @leveling.command(name="unban")
-    @option("member", type=discord.Member, require=False, default=None)
-    @option("channel", type=discord.TextChannel, required=False, default=None)
-    async def leveling_unban(self, ctx, member=None, channel=None):
-        leveling_config = GuildLevelingData(ctx.guild.id)
-        leveling_config.unban_member(member)
-        leveling_config.unban_channel(channel)
+    
 
 def setup(bot):
     bot.add_cog(GuildConfigCog(bot))
