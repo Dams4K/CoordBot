@@ -12,7 +12,6 @@ class StorageCog(commands.Cog):
         self.bot = bot
 
     inventory = SlashCommandGroup("inventory")
-    # objects = SlashCommandGroup("objects")
 
     @inventory.command(name="show")
     @option("member", type=discord.Member, required=False)

@@ -152,7 +152,7 @@ class GuildArticle(Saveable):
         self._guild_id = guild_id
         self.name: str = "no name"
         self.description: str = "*no description*"
-        self.price: float = 0
+        self.price: int = 0
         
         self.object_ids: dict = {}
         self.role_ids: list = []
@@ -170,8 +170,8 @@ class GuildArticle(Saveable):
         return self
 
     @Saveable.update()
-    def set_price(self, new_price: float):
-        self.price = new_price
+    def set_price(self, new_price: int):
+        self.price = int(new_price)
         return self
     
     @Saveable.update()
