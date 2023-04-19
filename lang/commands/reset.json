@@ -1,0 +1,10 @@
+{
+    "name": "reset",
+    "description": "All data for the specified member will be reset",
+    "name_localizations": {
+        "fr": "réinitialiser"
+    },
+    "description_localizations": {
+        "fr": "Toutes les données relatives au membre spécifié seront réinitialisées"
+    }
+}

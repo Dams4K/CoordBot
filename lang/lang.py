@@ -1,5 +1,36 @@
 import csv
 import string
+import json
+
+class CommandLocalization:
+    def __new__(cls, filename):
+        if not hasattr(cls, f"instance_{filename}"):
+            setattr(cls, f"instance_{filename}", super(CommandLocalization, cls).__new__(cls))
+        return getattr(cls, f"instance_{filename}")
+
+    def __init__(self, filename):
+        with open(f"lang/commands/{filename}.json") as f:
+            data = json.load(f)
+            self.name = data["name"]
+            self.description = data["description"]
+            self.name_localizations = data["name_localizations"]
+            self.description_localizations = data["description_localizations"]
+            self.options = data.get("options", [])
+
+    @property
+    def command_args(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "name_localizations": self.name_localizations,
+            "description_localizations": self.description_localizations
+        }
+    
+
+def get_command_args(filename):
+    localization = CommandLocalization(filename)
+    return localization.command_args
+
 
 class FormatDict(dict):
     def __missing__(self, key):

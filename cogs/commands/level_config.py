@@ -42,6 +42,7 @@ class LevelConfigCog(Cog):
         member_data.set_xp(amount)
         await ctx.respond(text_key="XP_SET", text_args={"amount": amount, "member": member})
 
+
     @level.command(name="add")
     @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)

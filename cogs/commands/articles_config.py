@@ -4,36 +4,18 @@ from utils.bot_embeds import *
 from utils.bot_autocompletes import *
 from utils.bot_views import ConfirmView
 from operator import attrgetter
+from lang import get_command_args
 
 class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    articles = SlashCommandGroup(
-        name="articles",
-        description="Articles are used to buy objects and roles",
-        name_localizations={
-            "fr": "articles"
-        },
-        description_localizations={
-            "fr": "Les articles sont utilisées pour acheter des objets et des roles"
-        },
-        default_member_permissions=Permissions(administrator=True)
-    )
+    articles = SlashCommandGroup(**get_command_args("articles"), default_member_permissions=Permissions(administrator=True))
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")
     
-    @articles.command(
-        name="create",
-        description="Create a new article",
-        name_localizations={
-            "fr": "créer"
-        },
-        description_localizations={
-            "fr": "Créer un nouvel article"
-        },
-    )
+    @articles.command(**get_command_args("articles_create"))
     @option(
         "name", type=str, max_length=32, required=True,
         description="Name of the article",

@@ -1,38 +1,23 @@
-import discord
 from discord import *
-from discord.ext import commands
 from data_management import MemberData
 from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
 from utils.permissions import is_admin
+from lang import get_command_args
 
-class AdminCog(commands.Cog):
+class AdminCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.user_command(
-        name="reset",
-        name_localizations={
-            "fr": "réinitialiser"
-        },
-    )
+    @user_command(**get_command_args("reset"))
     @default_permissions(administrator=True)
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
-    @discord.slash_command(
-        name="reset",
-        description="All data for the specified member will be reset",
-        name_localizations={
-            "fr": "réinitialiser"
-        },
-        description_localizations={
-            "fr": "Toutes les données relatives au membre spécifié seront réinitialisées"
-        },
-    )
+    @slash_command(**get_command_args("reset"))
     @default_permissions(administrator=True)
     @option(
-        "member", type=discord.Member, required=True,
+        "member", type=Member, required=True,
         description="Member to reset",
         name_localizations={
             "fr": "membre"
@@ -44,7 +29,7 @@ class AdminCog(commands.Cog):
     async def slash_reset(self, ctx, member):
         await self.reset_member(ctx, member)
 
-    async def reset_member(self, ctx, member: discord.Member, ephemeral=False):
+    async def reset_member(self, ctx, member: Member, ephemeral=False):
         confirm_view = ConfirmView()
         confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"))
         confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
