@@ -9,31 +9,6 @@ class ObjectsConfigCog(Cog):
     objects = SlashCommandGroup("objects", default_member_permissions=Permissions(administrator=True))
     change = objects.create_subgroup("change")
 
-    # @objects.command(name="list")
-    # async def list_objects(self, ctx):
-    #     objects = GuildObject.list_objects(ctx.guild.id)
-    #     sorted_objects = sorted(objects, key=attrgetter("_object_id"))
-
-    #     embed_pages = []
-    #     object_descriptions = []
-    #     for i in range(len(sorted_objects)):
-    #         obj = sorted_objects[i]
-    #         object_descriptions.append(f"{obj.name} ({obj._object_id})")
-    #         if (i+1) % 20 == 0 or i+1 == len(sorted_objects):
-    #             embed = NormalEmbed(ctx.guild_config, title="Objects")
-    #             embed.description = "\n".join(object_descriptions)
-    #             embed_pages.append(embed)
-    #             object_descriptions.clear()
-        
-    #     if embed_pages == []:
-    #         await ctx.respond(text_key="NO_OBJECTS_EXISTS")
-    #     else:
-    #         paginator = pages.Paginator(pages=embed_pages)
-    #         if hasattr(ctx, "interaction"):
-    #             await paginator.respond(ctx.interaction)
-    #         else:
-    #             await paginator.send(ctx)
-
     @objects.command(name="create")
     @option("name", type=str, max_length=32, required=True)
     @option("description", type=str, max_length=1024, default="")

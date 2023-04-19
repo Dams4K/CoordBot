@@ -1,13 +1,16 @@
 from discord import *
+from discord.ext.pages import Paginator
 from data_management import *
 from utils.bot_embeds import *
 from utils.bot_autocompletes import *
+from operator import attrgetter
 
 class GlobalCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
     about = SlashCommandGroup("about")
+    list_grp = SlashCommandGroup("list")
 
     @about.command(name="object")
     @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
@@ -37,6 +40,86 @@ class GlobalCog(Cog):
             embed.add_field(name="Objects", value="\n".join(objects))
         
         await ctx.respond(embed=embed)
+
+    @list_grp.command(name="objects")
+    async def list_objects(self, ctx):
+        objects = GuildObject.list_objects(ctx.guild.id)
+        sorted_objects = sorted(objects, key=attrgetter("_object_id"))
+
+        embed_pages = []
+        object_descriptions = []
+        for i in range(len(sorted_objects)):
+            obj = sorted_objects[i]
+            object_descriptions.append(f"{obj.name} ({obj._object_id})")
+
+            if (i+1) % 20 == 0 or i+1 == len(sorted_objects):
+                embed = NormalEmbed(ctx.guild_config, title="Objects")
+                embed.description = "\n".join(object_descriptions)
+                embed_pages.append(embed)
+                object_descriptions.clear()
+        
+        if embed_pages == []:
+            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_OBJECTS_EXISTS"))
+            await ctx.respond(embed=embed)
+            return
+            
+        paginator = Paginator(pages=embed_pages)
+        await paginator.respond(ctx.interaction)
+
+    @list_grp.command(name="articles")
+    async def list_articles(self, ctx):
+        articles = GuildArticle.list_articles(ctx.guild.id)
+        sorted_articles = sorted(articles, key=attrgetter("_article_id"))
+
+        embed_pages = []
+        articles_description = []
+        for i in range(len(sorted_articles)):
+            article = sorted_articles[i]
+            articles_description.append(f"{article.name} ({article._article_id})")
+
+            if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
+                embed = NormalEmbed(ctx.guild_config, title="Articles")
+                embed.description = "\n".join(articles_description)
+                embed_pages.append(embed)
+                articles_description.clear()
+        
+        if embed_pages == []:
+            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_ARTICLES_EXISTS"))
+            await ctx.respond(embed=embed)
+            return
+        
+        paginator = Paginator(pages=embed_pages)
+        await paginator.respond(ctx.interaction)
+
+    @list_grp.command(name="salaries")
+    async def list_salaries(self, ctx):
+        salaries = GuildSalaries(ctx.guild.id).salaries
+
+        embeds = []
+        description = []
+        for i in range(len(salaries)):
+            role_id = list(salaries.keys())[i]
+            role = ctx.guild.get_role(int(role_id))
+            pay = salaries[role_id]
+
+            if not role is None:
+                role = role.mention
+            
+            description.append(f"{role} : {pay}")
+            if len(description) >= 20 or i+1 == len(salaries):
+                embed = NormalEmbed(ctx.guild_config, title="Salaries")
+                embed.description = "\n".join(description)
+                embeds.append(embed)
+                description.clear()
+
+        if embeds == []:
+            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_SALARIES_EXISTS"))
+            await ctx.respond(embed=embed)
+            return
+            
+        paginator = Paginator(pages=embeds)
+        await paginator.respond(ctx.interaction)
+
 
     @slash_command(name="profil")
     @option("member", type=Member, required=False, default=None)

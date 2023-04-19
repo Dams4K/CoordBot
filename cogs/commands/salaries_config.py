@@ -9,11 +9,6 @@ class SalaryCog(commands.Cog):
 
     salary = SlashCommandGroup("salary")
 
-    @salary.command(name="list")
-    async def list_salaries(self, ctx):
-        salaries = GuildSalaries(ctx.guild.id)
-        print(salaries)
-
     @salary.command(name="add")
     @option("role", type=discord.Role, required=True)
     @option("pay", type=int, required=True)

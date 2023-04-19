@@ -13,28 +13,6 @@ class ArticlesConfigCog(Cog):
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")
-
-    # @articles.command(name="list")
-    # async def list_articles(self, ctx):
-    #     articles = GuildArticle.list_articles(ctx.guild.id)
-    #     sorted_articles = sorted(articles, key=attrgetter("_article_id"))
-
-    #     embed_pages = []
-    #     articles_description = []
-    #     for i in range(len(sorted_articles)):
-    #         article = sorted_articles[i]
-    #         articles_description.append(f"{article.name} ({article._article_id})")
-    #         if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
-    #             embed = NormalEmbed(ctx.guild_config, title="Articles")
-    #             embed.description = "\n".join(articles_description)
-    #             embed_pages.append(embed)
-    #             articles_description.clear()
-        
-    #     paginator = pages.Paginator(pages=embed_pages)
-    #     if hasattr(ctx, "interaction"):
-    #         await paginator.respond(ctx.interaction)
-    #     else:
-    #         await paginator.send(ctx)
     
     @articles.command(name="create")
     @option("name", type=str, max_length=32, required=True)

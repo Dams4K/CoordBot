@@ -65,7 +65,9 @@ ARTICLE_OBJECT_ADDED,Object added,Objet ajouté
 ARTICLE_OBJECT_ADDED_DESC,You have added {quantity} {object} to {article},Tu as rajouté {quantity} {object} à {article}
 ARTICLE_OBJECT_REMOVED,Object removed,Objet retiré
 ARTICLE_OBJECT_REMOVED_DESC,You have removed {quantity} {object} from {article},Tu as retiré {quantity} {object} de {article}
-NO_OBJECTS_EXISTS,No object has been created,Aucun object n'a été créé
+NO_OBJECTS_EXISTS,There are no objects,Il n'y a aucun objets
+NO_ARTICLES_EXISTS,There are no articles,Il n'y a pas d'articles
+NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
 ARTICLE_ROLE_ADDED,Role added,Rôle ajouté
 ARTICLE_ROLE_ADDED_DESC,You have added {role} to {article},Tu as ajouté {role} à {article}
 ARTICLE_ROLE_REMOVED,Role removed,Rôle retiré
