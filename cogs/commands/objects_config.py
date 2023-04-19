@@ -2,7 +2,7 @@ from discord import *
 from data_management import *
 from utils.bot_autocompletes import *
 
-class ObjectCog(Cog):
+class ObjectsConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -41,15 +41,6 @@ class ObjectCog(Cog):
         new_object = GuildObject.new(ctx.guild.id, name)
         new_object.set_description(description)
         await ctx.respond("Object created")
-
-    # @objects.command(name="about")
-    # @option("obj", type=GuildObjectConverter, autocomplete=get_objects)
-    # async def about_object(self, ctx, obj: GuildObject):
-    #     if obj is None:
-    #         await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
-    #     else:
-    #         embed = NormalEmbed(ctx.guild_config, title=obj.name, description=obj.description)
-    #         await ctx.respond(embed=embed)
 
     @change.command(name="description")
     @option("obj", type=GuildObjectConverter, autocomplete=get_objects)
@@ -103,4 +94,4 @@ class ObjectCog(Cog):
             await ctx.respond(text_key="OBJECT_GIVED", text_args={"object_name": obj.name, "amount": amount, "member": member})
 
 def setup(bot):
-    bot.add_cog(ObjectCog(bot))
+    bot.add_cog(ObjectsConfigCog(bot))

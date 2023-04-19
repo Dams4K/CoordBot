@@ -5,7 +5,7 @@ from utils.bot_autocompletes import *
 from utils.bot_views import ConfirmView
 from operator import attrgetter
 
-class ShopCog(Cog):
+class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -158,19 +158,6 @@ class ShopCog(Cog):
         embed = DangerEmbed(ctx.guild_config, title=ctx.translate("ARTICLE_ROLE_REMOVED"), description=ctx.translate("ARTICLE_ROLE_REMOVED_DESC", role=role.mention, article=article.name))
         await ctx.respond(embed=embed)
 
-    # @articles.command(name="about")
-    # @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    # async def article_about(self, ctx, article: GuildArticle):
-    #     if article is None:
-    #         await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-    #         return
-        
-    #     embed = NormalEmbed(ctx.guild_config, title=article.name, description=f"prix: {article.price}")
-    #     embed.add_field(name="Roles", value="\n".join([ctx.guild.get_role(role_id).mention for role_id in article.role_ids]))
-    #     embed.add_field(name="Objects", value="\n".join([f"{GuildObject(object_id, ctx.guild.id).name} | {amount}" for object_id, amount in article.object_ids.items()]))
-
-    #     await ctx.respond(embed=embed)
-
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def delete_article(self, ctx, article: GuildArticle):
@@ -204,4 +191,4 @@ class ShopCog(Cog):
     #             await ctx.respond(embed=embed, ephemeral=True)
 
 def setup(bot):
-    bot.add_cog(ShopCog(bot))
+    bot.add_cog(ArticlesConfigCog(bot))
