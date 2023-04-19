@@ -9,15 +9,61 @@ class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    articles = SlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True))
+    articles = SlashCommandGroup(
+        name="articles",
+        description="Articles are used to buy objects and roles",
+        name_localizations={
+            "fr": "articles"
+        },
+        description_localizations={
+            "fr": "Les articles sont utilisées pour acheter des objets et des roles"
+        },
+        default_member_permissions=Permissions(administrator=True)
+    )
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")
     
-    @articles.command(name="create")
-    @option("name", type=str, max_length=32, required=True)
-    @option("price", type=float, required=True)
-    @option("description", type=str, max_length=1024, default="*no description*")
+    @articles.command(
+        name="create",
+        description="Create a new article",
+        name_localizations={
+            "fr": "créer"
+        },
+        description_localizations={
+            "fr": "Créer un nouvel article"
+        },
+    )
+    @option(
+        "name", type=str, max_length=32, required=True,
+        description="Name of the article",
+        name_localizations={
+            "fr": "nom"
+        },
+        description_localizations={
+            "fr": "Nom de l'article"
+        }
+    )
+    @option(
+        "price", type=float, required=True,
+        description="Price of the article",
+        name_localizations={
+            "fr": "prix"
+        },
+        description_localizations={
+            "fr": "Prix de l'article"
+        }
+    )
+    @option(
+        "description", type=str, max_length=1024, default="*no description*",
+        description="Description of the article",
+        name_localizations={
+            "fr": "description"
+        },
+        description_localizations={
+            "fr": "Description de l'article"
+        }
+    )
     async def article_create(self, ctx, name, price, description):
         article = GuildArticle.new(ctx.guild.id, name).set_price(price).set_description(description)
 

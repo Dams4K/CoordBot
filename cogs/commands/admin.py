@@ -20,10 +20,27 @@ class AdminCog(commands.Cog):
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
-    @discord.slash_command(name="reset")
-    @guild_only()
+    @discord.slash_command(
+        name="reset",
+        description="All data for the specified member will be reset",
+        name_localizations={
+            "fr": "réinitialiser"
+        },
+        description_localizations={
+            "fr": "Toutes les données relatives au membre spécifié seront réinitialisées"
+        },
+    )
     @default_permissions(administrator=True)
-    @option("member", type=discord.Member, required=True)
+    @option(
+        "member", type=discord.Member, required=True,
+        description="Member to reset",
+        name_localizations={
+            "fr": "membre"
+        },
+        description_localizations={
+            "fr": "Membre à réinitialiser"
+        },
+    )
     async def slash_reset(self, ctx, member):
         await self.reset_member(ctx, member)
 
