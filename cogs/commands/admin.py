@@ -10,7 +10,12 @@ class AdminCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.user_command(name="reset")
+    @discord.user_command(
+        name="reset",
+        name_localizations={
+            "fr": "réinitialiser"
+        },
+    )
     @default_permissions(administrator=True)
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)

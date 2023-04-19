@@ -17,7 +17,7 @@ class GuildConfigCog(commands.Cog):
         return is_admin(ctx)
 
     async def get_languages(self, ctx: BotAutocompleteContext):
-        return [Lang.get_text("CHANGE_LANGUAGE", lang) for lang in Lang.get_languages()]
+        return [Lang.get_text("CHANGE_LANGUAGE_TO", lang) for lang in Lang.get_languages()]
 
     async def get_custom_translations(self, ctx):
         guild_language = GuildLanguage(ctx.interaction.guild.id)
@@ -38,7 +38,7 @@ class GuildConfigCog(commands.Cog):
     @prefix.command(name="reset")
     async def prefix_reset(self, ctx):
         ctx.guild_config.set_prefix = References.BOT_PREFIX
-        await ctx.respond("The bot's prefix has been reset")
+        await ctx.respond(text_key="PREFIX_RESET", text_args={"prefix": References.BOT_PREFIX})
 
 
     @bridge.bridge_group()

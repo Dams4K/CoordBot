@@ -18,7 +18,7 @@ class ArticlesConfigCog(Cog):
     @option("name", type=str, max_length=32, required=True)
     @option("price", type=float, required=True)
     @option("description", type=str, max_length=1024, default="*no description*")
-    async def create_article(self, ctx, name, price, description):
+    async def article_create(self, ctx, name, price, description):
         article = GuildArticle.new(ctx.guild.id, name).set_price(price).set_description(description)
 
         title = ctx.translate("ARTICLE_CREATED")
@@ -43,21 +43,6 @@ class ArticlesConfigCog(Cog):
         embed = WarningEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
 
-    @change.command(name="price")
-    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    @option("price", type=int, required=True)
-    async def change_price(self, ctx, article: GuildArticle, price: int):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
-        article.set_price(price)
-
-        title = ctx.translate("PRICE_MODIFIED")
-        description = ctx.translate("ARTICLE_PRICE_MODIFIED", article=article.name, new_price=price)
-        embed = WarningEmbed(ctx.guild_config, title=title, description=description)
-        await ctx.respond(embed=embed)
-
     @change.command(name="description")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("description", type=str, max_length=1024, required=True)
@@ -73,7 +58,21 @@ class ArticlesConfigCog(Cog):
         embed = WarningEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
     
+    @change.command(name="price")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
+    @option("price", type=int, required=True)
+    async def change_price(self, ctx, article: GuildArticle, price: int):
+        if article is None:
+            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+            return
+        
+        article.set_price(price)
 
+        title = ctx.translate("PRICE_MODIFIED")
+        description = ctx.translate("ARTICLE_PRICE_MODIFIED", article=article.name, new_price=price)
+        embed = WarningEmbed(ctx.guild_config, title=title, description=description)
+        await ctx.respond(embed=embed)
+    
     @add.command(name="object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
@@ -89,8 +88,8 @@ class ArticlesConfigCog(Cog):
 
         article.add_object(obj, quantity)
 
-        title = ctx.translate("ARTICLE_OBJECT_ADDED")
-        description = ctx.translate("ARTICLE_OBJECT_ADDED_DESC", quantity=quantity, object=obj.name, article=article.name)
+        title = ctx.translate("OBJECT_ADDED")
+        description = ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=obj.name, article=article.name)
         embed = NormalEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
     
@@ -108,8 +107,8 @@ class ArticlesConfigCog(Cog):
         
         article.remove_object(obj, quantity)
         
-        title = ctx.translate("ARTICLE_OBJECT_REMOVED")
-        description = ctx.translate("ARTICLE_OBJECT_REMOVED_DESC", quantity=quantity, object=obj.name, article=article.name)
+        title = ctx.translate("OBJECT_REMOVED")
+        description = ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=obj.name, article=article.name)
         embed = DangerEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
 
@@ -122,7 +121,10 @@ class ArticlesConfigCog(Cog):
             return
         
         article.add_role(role)
-        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("ARTICLE_ROLE_ADDED"), description=ctx.translate("ARTICLE_ROLE_ADDED_DESC", role=role.mention, article=article.name))
+
+        title = ctx.translate("ROLE_ADDED")
+        description = ctx.translate("ARTICLE_ROLE_ADDED", role=role.mention, article=article.name)
+        embed = NormalEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
     
     @remove.command(name="role")
@@ -132,8 +134,12 @@ class ArticlesConfigCog(Cog):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
             return
+
         article.remove_role(role)
-        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("ARTICLE_ROLE_REMOVED"), description=ctx.translate("ARTICLE_ROLE_REMOVED_DESC", role=role.mention, article=article.name))
+
+        title = ctx.translate("ROLE_REMOVED")
+        description = ctx.translate("ARTICLE_ROLE_REMOVED", role=role.mention, article=article.name)
+        embed = DangerEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
 
     @articles.command(name="delete")

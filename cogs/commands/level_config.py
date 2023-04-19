@@ -64,6 +64,7 @@ class LevelConfigCog(Cog):
         member_data.set_level(amount)
         await ctx.respond(text_key="LEVEL_SET", text_args={"amount": amount, "member": member})
 
+    #TODO: move this elsewhere else (global?)
     @Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
