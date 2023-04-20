@@ -55,7 +55,7 @@ class BotAutocompleteContext(AutocompleteContext):
         self.guild_config = GuildConfig(self.interaction.guild.id)
         self.author_data = MemberData(self.interaction.user.id, self.interaction.guild.id)
     
-    async def translate(self, text_key: str, *args, **kwargs):
+    def translate(self, text_key: str, *args, **kwargs):
         return Lang.get_text(text_key, self.guild_config.language, *args, **kwargs)
     
     async def translate_message(self, *args, **kwargs):

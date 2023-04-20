@@ -1,0 +1,9 @@
+{
+    "description": "Display the level ranking",
+    "name_localizations": {
+        "fr": "niveau"
+    },
+    "description_localizations": {
+        "fr": "Afficher le classement des niveaux"
+    }
+}

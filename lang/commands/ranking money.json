@@ -1,0 +1,9 @@
+{
+    "description": "Display the money ranking",
+    "name_localizations": {
+        "fr": "argent"
+    },
+    "description_localizations": {
+        "fr": "Afficher le classement de l'argent"
+    }
+}

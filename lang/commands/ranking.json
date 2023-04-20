@@ -1,0 +1,9 @@
+{
+    "description": "Display the server ranking",
+    "name_localizations": {
+        "fr": "classement"
+    },
+    "description_localizations": {
+        "fr": "Afficher le classement du serveur"
+    }
+}

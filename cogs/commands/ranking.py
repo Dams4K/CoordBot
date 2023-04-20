@@ -1,10 +1,9 @@
-import discord
-from discord.commands import SlashCommandGroup
-from discord.ext import commands
+from discord import *
 from data_management import *
 from operator import attrgetter
 from prefixed import Float
 from utils.bot_embeds import NormalEmbed
+from utils.bot_commands import BotSlashCommandGroup
 
 class FormatterDict(dict):
     def __missing__(self, key):
@@ -77,11 +76,11 @@ class RankingFormatter:
 
 
 
-class RankingCog(commands.Cog):
+class RankingCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    ranking = SlashCommandGroup("ranking")
+    ranking = BotSlashCommandGroup("ranking")
 
     @ranking.command(name="level")
     async def ranking_level(self, ctx):
