@@ -1,15 +1,14 @@
-import discord
-from discord import option
-from discord.ext import commands
+from discord import *
 from discord.ext import bridge
 from utils.permissions import is_admin
 from lang import Lang
 from utils.bot_embeds import NormalEmbed
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
+from utils.bot_commands import BotSlashCommandGroup
 from data_management import *
 
-class GuildConfigCog(commands.Cog):
+class GuildConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -40,15 +39,11 @@ class GuildConfigCog(commands.Cog):
         ctx.guild_config.set_prefix = References.BOT_PREFIX
         await ctx.respond(text_key="PREFIX_RESET", text_args={"prefix": References.BOT_PREFIX})
 
-
-    @bridge.bridge_group()
-    async def language(self, ctx):
-        pass
-    
+    language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True))
 
     @language.command(name="set")
-    @option("language", type=str, required=True, autocomplete=get_languages)
-    async def set_language(self, ctx, language: str):
+    @option("language", type=str, autocomplete=get_languages)
+    async def language_set(self, ctx, language: str):
         language = language[language.find("(")+1:language.find(")")]
         
         if not Lang.language_is_translated(language):
@@ -58,17 +53,17 @@ class GuildConfigCog(commands.Cog):
             await ctx.respond(text_key="LANGUAGE_CHANGED")
 
 
-    @language.command(name="override")
+    @language.command(name="customize")
     @option("key", type=str, required=True)
     @option("value", type=str, required=True)
-    async def override_translation(self, ctx: BotBridgeContext, key, value):
+    async def language_customize(self, ctx: BotBridgeContext, key, value):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.add_translation(key, value)
         await ctx.respond("finish")
     
     @language.command(name="reset")
     @option("key", type=str, required=True, autocomplete=get_custom_translations)
-    async def reset_translation(self, ctx, key: str):
+    async def language_reset(self, ctx, key: str):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
     

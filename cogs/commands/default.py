@@ -1,14 +1,12 @@
-import discord
-from discord import option, SlashCommandGroup
-from discord.ext import commands
+from discord import *
 from utils.permissions import *
 from data_management import *
 
-class DefaultCog(commands.Cog):
+class DefaultCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    default = SlashCommandGroup("default")
+    default = SlashCommandGroup("default", default_member_permissions=Permissions(administrator=True))
     member_sub = default.create_subgroup("member")
     inventory_sub = default.create_subgroup("inventory")
 

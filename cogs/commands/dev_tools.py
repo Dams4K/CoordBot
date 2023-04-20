@@ -1,13 +1,11 @@
-import discord
 import json
-from discord.ext import commands
-from discord.ext import bridge
-from discord.ui import Modal, InputText
+from discord import *
 from data_management import GuildConfig
 from lang.lang import Lang
 from utils.references import References
-from utils.bot_embeds import NormalEmbed, DangerEmbed
+from utils.bot_embeds import *
 from utils.bot_contexts import *
+from utils.bot_commands import bot_slash_command, bot_message_command
 
 def get_suggests_channel(bot):
     return bot.get_channel(References.SUGGESTS_CHANNEL_ID)
@@ -15,14 +13,14 @@ def get_reports_channel(bot):
     return bot.get_channel(References.REPORTS_CHANNEL_ID)
 
 
-class SuggestModal(discord.ui.Modal):
+class SuggestModal(ui.Modal):
     def __init__(self, bot, ctx: BotBridgeContext):
         super().__init__(title=ctx.translate("SUGGEST_MODAL"))
 
         self.bot = bot
         self.ctx = ctx
-        self.add_item(InputText(label=ctx.translate("SUGGEST_NAME"), style=discord.InputTextStyle.singleline, max_length=256, required=False))
-        self.add_item(InputText(label=ctx.translate("SUGGEST_EXPLANATION"), style=discord.InputTextStyle.paragraph))
+        self.add_item(ui.InputText(label=ctx.translate("SUGGEST_NAME"), style=InputTextStyle.singleline, max_length=256, required=False))
+        self.add_item(ui.InputText(label=ctx.translate("SUGGEST_EXPLANATION"), style=InputTextStyle.paragraph))
     
     async def callback(self, interaction):
         channel = get_suggests_channel(self.bot)
@@ -33,23 +31,59 @@ class SuggestModal(discord.ui.Modal):
         await interaction.response.send_message(self.ctx.translate("SUGGEST_SENT"), ephemeral=True)
 
 
-class ReportModal(discord.ui.Modal):
-    def __init__(self, bot, ctx: BotBridgeContext):
+class ReportModal(ui.Modal):
+    def __init__(self, bot, ctx: BotBridgeContext, attached_message: Message = None):
         super().__init__(title=ctx.translate("REPORT_MODAL"))
         self.bot = bot
         self.ctx = ctx
-        self.add_item(InputText(label=ctx.translate("REPORT_EXPLANATION"), style=discord.InputTextStyle.paragraph))
+
+        attached_message_id = attached_message.id if attached_message else ""
+
+        self.attached_message_id_input = ui.InputText(label=ctx.translate("ATTACHED_MESSAGE_ID"), style=InputTextStyle.short, placeholder=bot.user.id, value=attached_message_id)
+        self.message_input = ui.InputText(label=ctx.translate("REPORT_EXPLANATION"), style=InputTextStyle.paragraph)
+
+        self.add_item(self.attached_message_id_input)
+        self.add_item(self.message_input)
     
     async def callback(self, interaction):
+        guild = interaction.guild
+        guild_config = GuildConfig(guild.id)
+
         channel = get_reports_channel(self.bot)
-        embed = DangerEmbed(GuildConfig(interaction.guild_id), title=self.ctx.translate("NEW_REPORT"), description=self.children[0].value)
+        embed = DangerEmbed(guild_config, title=self.ctx.translate("NEW_REPORT"), description=self.message_input.value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
-        await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
+        attached_message = None
+
+        attached_message_id = self.attached_message_id_input.value
+        if attached_message_id.isnumeric():
+            try:
+                attached_message = await self.ctx.channel.fetch_message(int(attached_message_id))
+            except NotFound:
+                not_found_embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("ATTACHED_MESSAGE_NOT_FOUND"), description="qsqs")
+
+                await interaction.response.send_message(embeds=[not_found_embed, self.get_failed_to_sent_embed()], ephemeral=True)
+                return
+
+            # if message.author.id not in [self.ctx.author.id, self.bot.user.id]:
+            #     await interaction.response.send_message(self.ctx.translate("REPORT_MESSAGE_FROM_SOMEONE_ELSE"), ephemeral=True)
+            #     return
+
+ 
+        
+        msg = await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
+
+        if attached_message is not None:
+            await msg.reply(attached_message.content, embeds=attached_message.embeds, files=[await attachement.to_file() for attachement in attached_message.attachments])
+
         await interaction.response.send_message(self.ctx.translate("REPORT_SENT"), ephemeral=True)
 
+    def get_failed_to_sent_embed(self):
+        embed = DangerEmbed(self.ctx.guild_config, title="Your message", description=self.message_input.value)
+        return embed
 
-class ResponseModal(discord.ui.Modal):
+
+class ResponseModal(ui.Modal):
     def __init__(self, bot, ctx: BotBridgeContext, user, channel, response_channel_origin):
         super().__init__(title=ctx.translate("RESPONSE_MENU"))
         self.bot = bot
@@ -58,7 +92,7 @@ class ResponseModal(discord.ui.Modal):
         self.channel = channel
         self.response_channel_origin = response_channel_origin
 
-        self.add_item(InputText(label=ctx.translate("RESPONSE"), style=discord.InputTextStyle.paragraph))
+        self.add_item(ui.InputText(label=ctx.translate("RESPONSE"), style=InputTextStyle.paragraph))
     
     async def callback(self, interaction):
         response = self.children[0].value
@@ -72,7 +106,7 @@ class ResponseModal(discord.ui.Modal):
         await self.channel.send(self.user.mention, embed=embed, view=ResponseViewer(self.bot, self.ctx))
 
 
-class ResponseSender(discord.ui.View):
+class ResponseSender(ui.View):
     def __init__(self, bot, ctx: BotBridgeContext = None):
         super().__init__(timeout=None)
         self.bot = bot
@@ -81,7 +115,7 @@ class ResponseSender(discord.ui.View):
             for child in self.children:
                 child.label = ctx.translate(child.label)
     
-    @discord.ui.button(label="RESPOND", custom_id="respond-button", style=discord.ButtonStyle.green)
+    @ui.button(label="RESPOND", custom_id="respond-button", style=ButtonStyle.green)
     async def button_callback(self, button, interaction):
         ctx = await self.bot.get_context(interaction.message)
         response_embed = interaction.message.embeds[0]
@@ -95,7 +129,7 @@ class ResponseSender(discord.ui.View):
         await interaction.response.send_modal(ResponseModal(self.bot, ctx, user, channel, interaction.channel_id))
 
 
-class ResponseViewer(discord.ui.View):
+class ResponseViewer(ui.View):
     def __init__(self, bot, ctx: BotBridgeContext = None):
         self.bot = bot
         super().__init__(timeout=None)
@@ -104,7 +138,7 @@ class ResponseViewer(discord.ui.View):
             for child in self.children:
                 child.label = ctx.translate(child.label)
 
-    @discord.ui.button(label="SEE_RESPONSE", custom_id="see-response", style=discord.ButtonStyle.primary)
+    @ui.button(label="SEE_RESPONSE", custom_id="see-response", style=ButtonStyle.primary)
     async def button_callback(self, button, interaction):
         ctx = await self.bot.get_context(interaction.message)
         member_mention = interaction.message.content
@@ -124,22 +158,31 @@ class ResponseViewer(discord.ui.View):
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
-class DevTools(commands.Cog):
+class DevTools(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
+    @Cog.listener()
     async def on_ready(self):
         self.bot.add_view(ResponseSender(self.bot))
         self.bot.add_view(ResponseViewer(self.bot))
 
-    @bridge.bridge_command(name="suggest")
+    @bot_message_command(name="bug report")
+    async def message_report(self, ctx, message):
+        if message.author.id not in [ctx.author.id, self.bot.user.id]:
+            await ctx.respond(text_key="REPORT_MESSAGE_FROM_SOMEONE_ELSE")
+            return
+        
+        await ctx.send_modal(ReportModal(self.bot, ctx, attached_message=message))
+
+    @bot_slash_command(name="report")
+    async def report(self, ctx):
+        await ctx.send_modal(ReportModal(self.bot, ctx))
+    
+    @bot_slash_command(name="suggest")
     async def suggest(self, ctx):
         await ctx.send_modal(SuggestModal(self.bot, ctx))
     
-    @bridge.bridge_command(name="report")
-    async def report(self, ctx):
-        await ctx.send_modal(ReportModal(self.bot, ctx))
 
 
 def setup(bot):
