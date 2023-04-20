@@ -1,12 +1,13 @@
 from discord import *
 from data_management import *
 from utils.bot_autocompletes import *
+from utils.commands import *
 
 class ObjectsConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    objects = SlashCommandGroup("objects", default_member_permissions=Permissions(administrator=True))
+    objects = BotSlashCommandGroup("objects", default_member_permissions=Permissions(administrator=True))
     change = objects.create_subgroup("change")
 
     @objects.command(name="create")

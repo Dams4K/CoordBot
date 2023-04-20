@@ -4,18 +4,17 @@ from utils.bot_embeds import *
 from utils.bot_autocompletes import *
 from utils.bot_views import ConfirmView
 from operator import attrgetter
-from lang import get_command_args
 
 class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    articles = SlashCommandGroup(**get_command_args("articles"), default_member_permissions=Permissions(administrator=True))
+    articles = SlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True))
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")
     
-    @articles.command(**get_command_args("articles_create"))
+    @articles.command(name="create")
     @option(
         "name", type=str, max_length=32, required=True,
         description="Name of the article",

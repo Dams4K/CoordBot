@@ -1,35 +1,37 @@
 import csv
 import string
 import json
+import os
 
 class CommandLocalization:
-    def __new__(cls, filename):
-        if not hasattr(cls, f"instance_{filename}"):
-            setattr(cls, f"instance_{filename}", super(CommandLocalization, cls).__new__(cls))
-        return getattr(cls, f"instance_{filename}")
+    PATH = "lang/commands/%s.json"
 
     def __init__(self, filename):
-        with open(f"lang/commands/{filename}.json") as f:
-            data = json.load(f)
-            self.name = data["name"]
-            self.description = data["description"]
-            self.name_localizations = data["name_localizations"]
-            self.description_localizations = data["description_localizations"]
-            self.options = data.get("options", [])
+        self.filename = filename
+        self.data = {}
+        self.load_localization()
 
     @property
-    def command_args(self):
-        return {
-            "name": self.name,
-            "description": self.description,
-            "name_localizations": self.name_localizations,
-            "description_localizations": self.description_localizations
-        }
-    
+    def path(self) -> str:
+        return CommandLocalization.PATH % self.filename
 
-def get_command_args(filename):
-    localization = CommandLocalization(filename)
-    return localization.command_args
+    def load_localization(self) -> None:
+        if not os.path.exists(self.path):
+            return
+        
+        with open(self.path, "r") as f:
+            self.data = json.load(f)
+
+    @property
+    def loc_description(self) -> str:
+        return self.data.get("description", None)
+    
+    @property
+    def loc_description_localizations(self) -> dict:
+        return self.data.get("description_localizations", None)
+    @property
+    def loc_name_localizations(self) -> dict:
+        return self.data.get("name_localizations", None)
 
 
 class FormatDict(dict):

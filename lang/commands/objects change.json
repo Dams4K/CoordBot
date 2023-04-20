@@ -1,0 +1,9 @@
+{
+    "description": "Change one value of the object",
+    "name_localizations": {
+        "fr": "modifier"
+    },
+    "description_localizations": {
+        "fr": "Modifier une valeur de l'objet"
+    }
+}

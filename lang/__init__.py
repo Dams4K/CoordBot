@@ -1,1 +1,1 @@
-from .lang import Lang, CommandLocalization, get_command_args
+from .lang import Lang, CommandLocalization
