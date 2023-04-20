@@ -1,5 +1,5 @@
 {
-    "description": "Change the name of the object",
+    "description": "Change object name",
     "name_localizations": {
         "fr": "nom"
     },

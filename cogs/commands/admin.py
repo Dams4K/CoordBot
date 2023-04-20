@@ -3,17 +3,18 @@ from data_management import MemberData
 from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
 from utils.permissions import is_admin
+from utils.bot_commands import *
 
 class AdminCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @user_command(name="reset")
+    @bot_user_command(name="reset")
     @default_permissions(administrator=True)
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
-    @slash_command(name="reset")
+    @bot_slash_command(name="reset")
     @default_permissions(administrator=True)
     @option(
         "member", type=Member, required=True,

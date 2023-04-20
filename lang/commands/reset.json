@@ -1,5 +1,4 @@
 {
-    "name": "reset",
     "description": "All data for the specified member will be reset",
     "name_localizations": {
         "fr": "réinitialiser"

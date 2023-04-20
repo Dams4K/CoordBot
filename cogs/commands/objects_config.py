@@ -1,7 +1,7 @@
 from discord import *
 from data_management import *
 from utils.bot_autocompletes import *
-from utils.commands import *
+from utils.bot_commands import *
 
 class ObjectsConfigCog(Cog):
     def __init__(self, bot):
