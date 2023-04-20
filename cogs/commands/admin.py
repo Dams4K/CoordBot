@@ -16,16 +16,7 @@ class AdminCog(Cog):
 
     @bot_slash_command(name="reset")
     @default_permissions(administrator=True)
-    @option(
-        "member", type=Member, required=True,
-        description="Member to reset",
-        name_localizations={
-            "fr": "membre"
-        },
-        description_localizations={
-            "fr": "Membre à réinitialiser"
-        },
-    )
+    @option("member", type=Member)
     async def slash_reset(self, ctx, member):
         await self.reset_member(ctx, member)
 

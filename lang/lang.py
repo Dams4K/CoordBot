@@ -33,6 +33,22 @@ class CommandLocalization:
     def loc_name_localizations(self) -> dict:
         return self.data.get("name_localizations", None)
 
+    def get_option_localization(self, name):
+        options = self.data.get("options", {})
+        return OptionLocalization(options.get(name, {}))
+
+class OptionLocalization:
+    def __init__(self, data):
+        self.name_localizations = data.get("name_localizations", None)
+        self.description = data.get("description", None)
+        self.description_localizations = data.get("description_localizations", None)
+    
+    def add_localization(self, option):
+        if self.name_localizations is not None: option.name_localizations = self.name_localizations
+        if self.description is not None: option.description = self.description
+        if self.description_localizations is not None: option.description_localizations = self.description_localizations
+
+        return option
 
 class FormatDict(dict):
     def __missing__(self, key):

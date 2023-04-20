@@ -17,6 +17,12 @@ class BotSlashCommand(SlashCommand, CommandLocalization):
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
 
         return SlashCommand.__init__(self, func, *args, **kwargs)
+    
+    def _validate_parameters(self):
+        super()._validate_parameters()
+        for option in self.options:
+            option_localization = self.get_option_localization(option.name)
+            option_localization.add_localization(option)
 
 class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
     def __init__(self, name: str, description: str = None, guild_ids: list[int] = None, parent = None, **kwargs) -> None:
@@ -148,3 +154,20 @@ def bot_slash_command(**kwargs):
         A decorator that converts the provided method into a :class:`.SlashCommand`.
     """
     return application_command(cls=BotSlashCommand, **kwargs)
+
+def bot_option(name, type=None, **kwargs):
+    """A decorator that can be used instead of typehinting :class:`Option`.
+
+    .. versionadded:: 2.0
+    """
+
+    def decorator(func):
+        nonlocal type
+        type = type or func.__annotations__.get(name, str)
+        if parameter := kwargs.get("parameter_name"):
+            func.__annotations__[parameter] = Option(type, name=name, **kwargs)
+        else:
+            func.__annotations__[name] = Option(type, **kwargs)
+        return func
+
+    return decorator
