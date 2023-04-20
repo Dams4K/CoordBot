@@ -1,5 +1,4 @@
 {
-    "name": "articles",
     "description": "Articles are used to buy objects and roles",
     "name_localizations": {
         "fr": "articles"

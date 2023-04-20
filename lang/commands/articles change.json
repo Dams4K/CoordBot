@@ -1,0 +1,9 @@
+{
+    "description": "Change a property of the articles",
+    "name_localizations": {
+        "fr": "modifier"
+    },
+    "description_localizations": {
+        "fr": "Modifier une propriété de l'article"
+    }
+}

@@ -1,28 +1,28 @@
 {
-    "description": "Change object description",
+    "description": "Change article description",
     "name_localizations": {
         "fr": "description"
     },
     "description_localizations": {
-        "fr": "Modifie la description de l'objet"
+        "fr": "Modifie la description de l'article"
     },
     "options": {
-        "object": {
-            "description": "Targeted object",
+        "article": {
+            "description": "Targeted article",
             "name_localizations": {
-                "fr": "objet"
+                "fr": "article"
             },
             "description_localizations": {
-                "fr": "Objet ciblé"
+                "fr": "Article ciblé"
             }
         },
         "description": {
-            "description": "New object description",
+            "description": "New article description",
             "name_localizations": {
                 "fr": "description"
             },
             "description_localizations": {
-                "fr": "Nouvelle description de l'objet"
+                "fr": "Nouvelle description de l'article"
             }
         }
     }

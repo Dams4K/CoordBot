@@ -1,0 +1,29 @@
+{
+    "description": "Add a role to an article",
+    "name_localizations": {
+        "fr": "rôle"
+    },
+    "description_localizations": {
+        "fr": "Ajoute un rôle à un article"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        },
+        "role": {
+            "description": "Role to add",
+            "name_localizations": {
+                "fr": "rôle"
+            },
+            "description_localizations": {
+                "fr": "Rôle à ajouter"
+            }
+        }
+    }
+}

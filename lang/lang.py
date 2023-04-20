@@ -101,7 +101,7 @@ class _Lang:
 
             return formatter.vformat(text, args, mapping)
         except Exception as e:
-            print(e)
+            print("The", text_key, "key wasn't found")
             return "message not found"
     
     def get_languages(self):

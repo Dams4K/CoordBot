@@ -1,0 +1,38 @@
+{
+    "description": "Add an object to an article",
+    "name_localizations": {
+        "fr": "objet"
+    },
+    "description_localizations": {
+        "fr": "Ajoute un objet à un article"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        },
+        "object": {
+            "description": "Object to add",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet à ajouter"
+            }
+        },
+        "quantity": {
+            "description": "Quantity of the object",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité de l'objet"
+            }
+        }
+    }
+}

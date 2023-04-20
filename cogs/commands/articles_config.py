@@ -76,40 +76,40 @@ class ArticlesConfigCog(Cog):
     
     @add.command(name="object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
+    @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     @option("quantity", type=int, default=1)
-    async def add_object(self, ctx, article: GuildArticle, obj: GuildObject, quantity):
+    async def add_object(self, ctx, article: GuildArticle, object: GuildObject, quantity):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
             return
 
-        if obj is None:
+        if object is None:
             await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
             return
 
-        article.add_object(obj, quantity)
+        article.add_object(object, quantity)
 
         title = ctx.translate("OBJECT_ADDED")
-        description = ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=obj.name, article=article.name)
+        description = ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=object.name, article=article.name)
         embed = NormalEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
     
     @remove.command(name="object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
+    @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     @option("quantity", type=int, default=1)
-    async def remove_object(self, ctx, article: GuildArticle, obj: GuildObject, quantity=1):
+    async def remove_object(self, ctx, article: GuildArticle, object: GuildObject, quantity=1):
         if article is None:
             await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
             return
-        if obj is None:
+        if object is None:
             await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
             return
         
-        article.remove_object(obj, quantity)
+        article.remove_object(object, quantity)
         
         title = ctx.translate("OBJECT_REMOVED")
-        description = ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=obj.name, article=article.name)
+        description = ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=object.name, article=article.name)
         embed = DangerEmbed(ctx.guild_config, title=title, description=description)
         await ctx.respond(embed=embed)
 

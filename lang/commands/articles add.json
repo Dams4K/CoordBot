@@ -1,0 +1,9 @@
+{
+    "description": "Add an item that will be earned after purchasing the article",
+    "name_localizations": {
+        "fr": "ajouter"
+    },
+    "description_localizations": {
+        "fr": "Ajoute un élément qui sera gagné après avoir acheté l'article"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "description": "Remove an item that would have been earned after purchasing the article",
+    "name_localizations": {
+        "fr": "retirer"
+    },
+    "description_localizations": {
+        "fr": "Retire un élément qui aurait été gagné après avoir acheté l'article"
+    }
+}
