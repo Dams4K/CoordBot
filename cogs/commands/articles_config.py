@@ -3,13 +3,14 @@ from data_management import *
 from utils.bot_embeds import *
 from utils.bot_autocompletes import *
 from utils.bot_views import ConfirmView
+from utils.bot_commands import BotSlashCommandGroup
 from operator import attrgetter
 
 class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    articles = SlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True))
+    articles = BotSlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True))
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")

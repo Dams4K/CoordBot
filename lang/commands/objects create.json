@@ -1,10 +1,10 @@
 {
     "name": "create",
-    "description": "Create a new article",
+    "description": "Create a new object",
     "name_localizations": {
         "fr": "créer"
     },
     "description_localizations": {
-        "fr": "Créer un nouvel article"
+        "fr": "Créer un nouvel objet"
     }
 }

@@ -1,7 +1,10 @@
 {
     "name": "objects",
+    "description": "Objects can be donated to members, purchased with articles and sold",
     "name_localizations": {
         "fr": "objets"
     },
-    "description_localizations": {}
+    "description_localizations": {
+        "fr": "Les objets peuvent être donnés aux membres, achetés avec des articles et vendus"
+    }
 }
