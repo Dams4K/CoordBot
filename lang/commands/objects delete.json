@@ -1,0 +1,20 @@
+{
+    "description": "Delete an object",
+    "name_localizations": {
+        "fr": "supprimer"
+    },
+    "description_localizations": {
+        "fr": "Supprimer un objet"
+    },
+    "options": {
+        "object": {
+            "description": "Object to delete",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet à supprimer"
+            }
+        }
+    }
+}

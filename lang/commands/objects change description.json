@@ -1,10 +1,10 @@
 {
-    "description": "Change object name",
+    "description": "Change object description",
     "name_localizations": {
-        "fr": "nom"
+        "fr": "description"
     },
     "description_localizations": {
-        "fr": "Modifie le nom de l'objet"
+        "fr": "Modifie la description de l'objet"
     },
     "options": {
         "object": {
@@ -16,13 +16,13 @@
                 "fr": "Objet à modifier"
             }
         },
-        "name": {
-            "description": "New object name",
+        "description": {
+            "description": "New object description",
             "name_localizations": {
-                "fr": "nom"
+                "fr": "description"
             },
             "description_localizations": {
-                "fr": "Nouveau nom d'objet"
+                "fr": "Nouvelle description d'objet"
             }
         }
     }

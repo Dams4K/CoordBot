@@ -16,36 +16,9 @@ class ArticlesConfigCog(Cog):
     remove = articles.create_subgroup("remove")
     
     @articles.command(name="create")
-    @option(
-        "name", type=str, max_length=32, required=True,
-        description="Name of the article",
-        name_localizations={
-            "fr": "nom"
-        },
-        description_localizations={
-            "fr": "Nom de l'article"
-        }
-    )
-    @option(
-        "price", type=float, required=True,
-        description="Price of the article",
-        name_localizations={
-            "fr": "prix"
-        },
-        description_localizations={
-            "fr": "Prix de l'article"
-        }
-    )
-    @option(
-        "description", type=str, max_length=1024, default="*no description*",
-        description="Description of the article",
-        name_localizations={
-            "fr": "description"
-        },
-        description_localizations={
-            "fr": "Description de l'article"
-        }
-    )
+    @option("name", type=str, max_length=32)
+    @option("price", type=float)
+    @option("description", type=str, max_length=1024, default="*no description*")
     async def article_create(self, ctx, name, price, description):
         article = GuildArticle.new(ctx.guild.id, name).set_price(price).set_description(description)
 

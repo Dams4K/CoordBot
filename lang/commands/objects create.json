@@ -6,5 +6,25 @@
     },
     "description_localizations": {
         "fr": "Créer un nouvel objet"
+    },
+    "options": {
+        "name": {
+            "description": "Object name",
+            "name_localizations": {
+                "fr": "nom"
+            },
+            "description_localizations": {
+                "fr": "Nom de l'objet"
+            }
+        },
+        "description": {
+            "description": "Object description",
+            "name_localizations": {
+                "fr": "description"
+            },
+            "description_localizations": {
+                "fr": "Description de l'objet"
+            }
+        }
     }
 }

@@ -6,5 +6,34 @@
     },
     "description_localizations": {
         "fr": "Créer un nouvel article"
+    },
+    "options": {
+        "name": {
+            "description": "Name of the article",
+            "name_localizations": {
+                "fr": "nom"
+            },
+            "description_localizations": {
+                "fr": "Nom de l'article"
+            }
+        },
+        "price": {
+            "description": "Price of the article",
+            "name_localizations": {
+                "fr": "prix"
+            },
+            "description_localizations": {
+                "fr": "Prix de l'article"
+            }
+        },
+        "description": {
+            "description": "Description of the article",
+            "name_localizations": {
+                "fr": "description"
+            },
+            "description_localizations": {
+                "fr": "Description de l'article"
+            }
+        }
     }
 }

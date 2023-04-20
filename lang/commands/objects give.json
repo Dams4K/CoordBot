@@ -1,0 +1,38 @@
+{
+    "description": "Give an object",
+    "name_localizations": {
+        "fr": "donner"
+    },
+    "description_localizations": {
+        "fr": "Donner un objet"
+    },
+    "options": {
+        "member": {
+            "description": "Member who will receive",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre qui recevra"
+            }
+        },
+        "object": {
+            "description": "Object to give",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet à donner"
+            }
+        },
+        "amount": {
+            "description": "Given amount",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité donné"
+            }
+        }
+    }
+}
