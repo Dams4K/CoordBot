@@ -1,10 +1,10 @@
 {
     "description": "Change the language used by the bot",
     "name_localizations": {
-        "fr": "modifier"
+        "fr": "changer"
     },
     "description_localizations": {
-        "fr": "Modifier la langue utilisée par le robot"
+        "fr": "Change la langue utilisée par le robot"
     },
     "options": {
         "language": {

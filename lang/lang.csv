@@ -89,3 +89,4 @@ NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
 PER_UNIT,per unit,par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT})
+ERROR_OCCURED,An error has occured,Une erreur est survenue
