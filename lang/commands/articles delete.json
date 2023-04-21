@@ -1,0 +1,20 @@
+{
+    "description": "Delete an article",
+    "name_localizations": {
+        "fr": "supprimer"
+    },
+    "description_localizations": {
+        "fr": "Supprimer un article"
+    },
+    "options": {
+        "article": {
+            "description": "Article to delete",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article à supprimer"
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "description": "Remove a role from an article",
+    "name_localizations": {
+        "fr": "rôle"
+    },
+    "description_localizations": {
+        "fr": "Retire un rôle d'un article"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        },
+        "role": {
+            "description": "Role to remove",
+            "name_localizations": {
+                "fr": "rôle"
+            },
+            "description_localizations": {
+                "fr": "Rôle à retirer"
+            }
+        }
+    }
+}

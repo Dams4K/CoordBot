@@ -1,0 +1,38 @@
+{
+    "description": "Remove an object from an article",
+    "name_localizations": {
+        "fr": "objet"
+    },
+    "description_localizations": {
+        "fr": "Retire un objet d'un article"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        },
+        "object": {
+            "description": "Object to remove",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet à retirer"
+            }
+        },
+        "quantity": {
+            "description": "Quantity of the object",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité de l'objet"
+            }
+        }
+    }
+}
