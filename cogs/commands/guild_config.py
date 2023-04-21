@@ -11,9 +11,6 @@ from data_management import *
 class GuildConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    def cog_check(self, ctx):
-        return is_admin(ctx)
 
     async def get_languages(self, ctx: BotAutocompleteContext):
         return [Lang.get_text("CHANGE_LANGUAGE_TO", lang) for lang in Lang.get_languages()]
@@ -22,8 +19,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.interaction.guild.id)
         return guild_language.get_keys()
 
-
-    @bridge.bridge_group(invoke_without_command=True)
+    @bridge.bridge_group(invoke_without_command=True, checks=[is_admin])
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
         await ctx.respond(f"The bot's prefix is {ctx.guild_config.prefix}")
