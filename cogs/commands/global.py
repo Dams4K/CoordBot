@@ -1,4 +1,5 @@
 from discord import *
+from discord.ext.commands import command as prefix_command
 from discord.ext.pages import Paginator
 from data_management import *
 from utils.bot_embeds import *
@@ -148,26 +149,16 @@ class GlobalCog(Cog):
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
 
-#     @bridge.bridge_command(name="utip")
-#     async def utip(self, ctx):
-#         embed = NormalEmbed(ctx.guild_config, title="UTIP")
-#         embed.description = """
-# [INSERER TEXT COOL]
+    @prefix_command(name="utip")
+    async def utip(self, ctx):
+        embed = NormalEmbed(ctx.guild_config, title="UTIP")
+        embed.description = """
+[INSERER TEXT COOL]
 
-# [INSERER LIEN UTIP]
-# """
+[INSERER LIEN UTIP]
+"""
 
-#         await ctx.respond(embed=embed)
-
-
-    @slash_command(name="say")
-    async def say(self, ctx, *, message: str):
-        if ctx.is_app:
-            await ctx.respond("message sent", ephemeral=True)
-        else:
-            await ctx.message.delete()
-        
-        await ctx.send(message)
+        await ctx.respond(embed=embed)
 
 
     @Cog.listener()

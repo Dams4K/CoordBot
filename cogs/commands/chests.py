@@ -49,4 +49,5 @@ class ChestsCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(ChestsCog(bot))
+    # bot.add_cog(ChestsCog(bot))
+    pass

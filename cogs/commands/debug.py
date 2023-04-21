@@ -20,11 +20,11 @@ class DebugCog(commands.Cog):
     
     @commands.command(name="only_command")
     async def only_command(self, ctx):
-        await ctx.send(ctx.guild_config.get_prefix())
+        await ctx.send(ctx.guild_config.prefix)
     
     @commands.slash_command(name="only_slash")
     async def only_slash(self, ctx):
-        await ctx.respond(ctx.guild_config.get_prefix())
+        await ctx.respond(ctx.guild_config.prefix)
 
     @commands.command(name="colors")
     async def colors(self, ctx):
