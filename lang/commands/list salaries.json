@@ -1,0 +1,9 @@
+{
+    "description": "Get a list of all existing salaries",
+    "name_localizations": {
+        "fr": "salaires"
+    },
+    "description_localizations": {
+        "fr": "Obtient la liste de tous les salaires"
+    }
+}

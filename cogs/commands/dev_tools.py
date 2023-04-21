@@ -174,7 +174,7 @@ class DevTools(Cog):
         self.bot.add_view(ResponseSender(self.bot))
         self.bot.add_view(ResponseViewer(self.bot))
 
-    @bot_message_command(name="bug report")
+    @bot_message_command(name="Bug report")
     async def message_report(self, ctx, message):
         if message.author.id not in [ctx.author.id, self.bot.user.id]:
             not_your_message_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("REPORT_ATTACHED_MESSAGE_CONDITIONS"))

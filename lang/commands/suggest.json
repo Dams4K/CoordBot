@@ -1,0 +1,9 @@
+{
+    "description": "Suggest your idea to the bot developer",
+    "name_localizations": {
+        "fr": "suggérer"
+    },
+    "description_localizations": {
+        "fr": "Propose ton idée au développeur du bot"
+    }
+}

@@ -6,8 +6,8 @@ import os
 class CommandLocalization:
     PATH = "lang/commands/%s.json"
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, filename: str):
+        self.filename = filename.lower()
         self.data = {}
         self.load_localization()
 

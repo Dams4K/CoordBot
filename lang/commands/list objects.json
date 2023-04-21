@@ -1,0 +1,9 @@
+{
+    "description": "Get a list of all existing objects",
+    "name_localizations": {
+        "fr": "objets"
+    },
+    "description_localizations": {
+        "fr": "Obtient la liste de tous les objets"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "description": "Get information about an object or an article",
+    "name_localizations": {
+        "fr": "à-propos"
+    },
+    "description_localizations": {
+        "fr": "Obtient des informations sur un objet ou un article"
+    }
+}

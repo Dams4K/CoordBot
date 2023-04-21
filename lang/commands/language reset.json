@@ -1,0 +1,20 @@
+{
+    "description": "Reset your custom translation",
+    "name_localizations": {
+        "fr": "réinitialiser"
+    },
+    "description_localizations": {
+        "fr": "Réinitialiser votre traduction personnalisée"
+    },
+    "options": {
+        "key": {
+            "description": "The translation key to reset",
+            "name_localizations": {
+                "fr": "clé"
+            },
+            "description_localizations": {
+                "fr": "La clé de la traduction à réinitialiser"
+            }
+        }
+    }
+}

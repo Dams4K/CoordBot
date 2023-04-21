@@ -3,14 +3,15 @@ from discord.ext.pages import Paginator
 from data_management import *
 from utils.bot_embeds import *
 from utils.bot_autocompletes import *
+from utils.bot_commands import *
 from operator import attrgetter
 
 class GlobalCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    about = SlashCommandGroup("about")
-    list_grp = SlashCommandGroup("list")
+    about = BotSlashCommandGroup("about")
+    list_grp = BotSlashCommandGroup("list")
 
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
@@ -125,13 +126,13 @@ class GlobalCog(Cog):
         await paginator.respond(ctx.interaction)
 
 
-    @slash_command(name="profil")
+    @bot_slash_command(name="profil")
     @option("member", type=Member, required=False, default=None)
     async def slash_profil(self, ctx, member = None):
         member = ctx.author if member == None else member
         await self.show_profil(ctx, member)
     
-    @user_command(name="profil")
+    @bot_user_command(name="profil")
     async def user_profil(self, ctx, member: Member):
         await self.show_profil(ctx, member, ephemeral=True)
     

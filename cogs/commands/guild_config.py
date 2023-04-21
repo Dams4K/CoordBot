@@ -5,7 +5,7 @@ from utils.permissions import is_admin
 from utils.bot_embeds import *
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
-from utils.bot_commands import BotSlashCommandGroup
+from utils.bot_commands import *
 from data_management import *
 
 class GuildConfigCog(Cog):
@@ -37,9 +37,9 @@ class GuildConfigCog(Cog):
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True))
 
-    @language.command(name="set")
+    @language.command(name="change")
     @option("language", type=str, autocomplete=get_languages)
-    async def language_set(self, ctx, language: str):
+    async def language_change(self, ctx, language: str):
         language = language[language.find("(")+1:language.find(")")]
         
         if not Lang.language_is_translated(language):
@@ -51,10 +51,10 @@ class GuildConfigCog(Cog):
 
     @language.command(name="customize")
     @option("key", type=str, required=True)
-    @option("value", type=str, required=True)
-    async def language_customize(self, ctx: BotBridgeContext, key, value):
+    @option("translation", type=str, required=True)
+    async def language_customize(self, ctx: BotBridgeContext, key, translation):
         guild_language = GuildLanguage(ctx.guild.id)
-        guild_language.add_translation(key, value)
+        guild_language.add_translation(key, translation)
 
         embed = NormalEmbed(ctx.guild_config, title=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED"), description=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED_DESC"))
 

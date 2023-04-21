@@ -1,0 +1,20 @@
+{
+    "description": "Get information about an article",
+    "name_localizations": {
+        "fr": "article"
+    },
+    "description_localizations": {
+        "fr": "Obtient les informations d'un article"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        }
+    }
+}

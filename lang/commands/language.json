@@ -1,0 +1,9 @@
+{
+    "description": "Language used by the bot",
+    "name_localizations": {
+        "fr": "langue"
+    },
+    "description_localizations": {
+        "fr": "Langue utilisée par le robot"
+    }
+}

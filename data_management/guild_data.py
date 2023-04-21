@@ -52,8 +52,8 @@ class GuildLanguage(Saveable):
         return list(self.rows.keys())
 
     @Saveable.update()
-    def add_translation(self, key, value) -> None:
-        self.rows[key.upper()] = value
+    def add_translation(self, key, translation) -> None:
+        self.rows[key.upper()] = translation
 
     @Saveable.update()
     def reset_translation(self, key) -> str:

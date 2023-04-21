@@ -154,20 +154,3 @@ def bot_slash_command(**kwargs):
         A decorator that converts the provided method into a :class:`.SlashCommand`.
     """
     return application_command(cls=BotSlashCommand, **kwargs)
-
-def bot_option(name, type=None, **kwargs):
-    """A decorator that can be used instead of typehinting :class:`Option`.
-
-    .. versionadded:: 2.0
-    """
-
-    def decorator(func):
-        nonlocal type
-        type = type or func.__annotations__.get(name, str)
-        if parameter := kwargs.get("parameter_name"):
-            func.__annotations__[parameter] = Option(type, name=name, **kwargs)
-        else:
-            func.__annotations__[name] = Option(type, **kwargs)
-        return func
-
-    return decorator

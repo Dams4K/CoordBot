@@ -1,0 +1,29 @@
+{
+    "description": "Customize the translation of a bot response",
+    "name_localizations": {
+        "fr": "personnaliser"
+    },
+    "description_localizations": {
+        "fr": "Personnaliser la traduction d'une réponse du robot"
+    },
+    "options": {
+        "key": {
+            "description": "The translation key",
+            "name_localizations": {
+                "fr": "clé"
+            },
+            "description_localizations": {
+                "fr": "La clé de la traduction"
+            }
+        },
+        "translation": {
+            "description": "New translation",
+            "name_localizations": {
+                "fr": "traduction"
+            },
+            "description_localizations": {
+                "fr": "Nouvelle traduction"
+            }
+        }
+    }
+}

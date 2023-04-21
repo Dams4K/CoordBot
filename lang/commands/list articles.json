@@ -1,0 +1,9 @@
+{
+    "description": "Get a list of all existing articles",
+    "name_localizations": {
+        "fr": "articles"
+    },
+    "description_localizations": {
+        "fr": "Obtient la liste de tous les articles"
+    }
+}

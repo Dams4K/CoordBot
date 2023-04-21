@@ -1,0 +1,20 @@
+{
+    "description": "View a member's profile",
+    "name_localizations": {
+        "fr": "profil"
+    },
+    "description_localizations": {
+        "fr": "Afficher le profil d'un membre"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        }
+    }
+}

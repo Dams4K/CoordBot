@@ -1,0 +1,20 @@
+{
+    "description": "Get information about an object",
+    "name_localizations": {
+        "fr": "objet"
+    },
+    "description_localizations": {
+        "fr": "Obtient les informations d'un objet"
+    },
+    "options": {
+        "object": {
+            "description": "Targeted object",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet ciblé"
+            }
+        }
+    }
+}
