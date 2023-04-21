@@ -82,7 +82,10 @@ OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the object {
 OBJECT_DELETION_PERFORMED,The deletion of the object {object} has been performed,La suppression de l'objet {object} a été effectuée
 ARTICLE_PURCHASED,The article {article} has been purchased,L'article {article} a été acheté
 OBJECT_REMOVED,Object removed,Objet retiré
+ROLE_REMOVED,Role removed,Rôle retiré
 NO_OBJECTS_EXISTS,There are no objects,Il n'y a aucun objets
 NO_ARTICLES_EXISTS,There are no articles,Il n'y a pas d'articles
 NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
-ROLE_REMOVED,Role removed,Rôle retiré
+PER_UNIT,per unit,par unité
+WHERE_TO_BUY,Where to buy,Où acheter
+WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT})

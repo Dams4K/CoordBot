@@ -13,13 +13,17 @@ class GlobalCog(Cog):
     list_grp = SlashCommandGroup("list")
 
     @about.command(name="object")
-    @option("obj", type=GuildObjectConverter, required=True, autocomplete=get_objects)
-    async def about_object(self, ctx, obj: GuildObject):
-        if obj is None:
+    @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
+    async def about_object(self, ctx, object: GuildObject):
+        if object is None:
             await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
             return
         
-        embed = NormalEmbed(ctx.guild_config, title=obj.name, description=obj.description)
+        articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
+        description = [ctx.translate("WHERE_TO_BUY_TEMPLATE", article=article.name, unit_price=round(article.price/article.get_quantity(object), 2)) for article in articles]
+
+        embed = NormalEmbed(ctx.guild_config, title=object.name, description=object.description)
+        embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
         await ctx.respond(embed=embed)
 
     @about.command(name="article")

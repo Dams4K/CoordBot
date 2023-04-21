@@ -196,6 +196,12 @@ class GuildArticle(Saveable):
         if role.id in self.role_ids:
             self.role_ids.remove(role.id)
     
+    def has_object(self, object: GuildObject):
+        return str(object._object_id) in self.object_ids
+
+    def get_quantity(self, object: GuildObject):
+        return self.object_ids.get(str(object._object_id), 0)
+
     async def buy(self, ctx):
         author_data = ctx.author_data
 

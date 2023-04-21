@@ -100,7 +100,7 @@ class _Lang:
             mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
 
             return formatter.vformat(text, args, mapping)
-        except Exception as e:
+        except IndexError:
             print("The", text_key, "key wasn't found")
             return "message not found"
     
