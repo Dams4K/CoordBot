@@ -259,7 +259,7 @@ class GuildObjectConverter:
             arg = args[2]
         
         if not isinstance(arg, str):
-            return None
+            raise Object.NotFound()
         
         object_id = None
         if arg.isdecimal():
@@ -267,10 +267,17 @@ class GuildObjectConverter:
         else:
             object_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
         
+        obj = None
+
         if not (object_id is None) and object_id.isdecimal():
-            return GuildObject(object_id, ctx.guild.id)
+            obj = GuildObject(object_id, ctx.guild.id)
         else:
-            return GuildObject.from_name(ctx.guild.id, arg)
+            obj = GuildObject.from_name(ctx.guild.id, arg)
+
+        if obj is None:
+            raise Object.NotFound()
+
+        return obj
     
 
 class Inventory(Data):

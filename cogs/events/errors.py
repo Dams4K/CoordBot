@@ -24,9 +24,9 @@ class ErrorHandling(Cog):
             original = type(exception.original)
 
             if original is Article.NotFound:
-                embed.description = "Article does not exist"
+                embed.description = ctx.translate("ARTICLE_DOES_NOT_EXIST")
             elif original is Object.NotFound:
-                embed.description = "Object does not exist"
+                embed.description = ctx.translate("OBJECT_DOES_NOT_EXIST")
         
 
         return embed

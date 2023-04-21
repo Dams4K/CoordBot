@@ -32,10 +32,6 @@ class ArticlesConfigCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("name", type=str, max_length=32, required=True)
     async def change_name(self, ctx, article: GuildArticle, name: str):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
         old_name = article.name
         article.set_name(name)
 
@@ -48,10 +44,6 @@ class ArticlesConfigCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("description", type=str, max_length=1024, required=True)
     async def change_description(self, ctx, article: GuildArticle, description: str):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
         article.set_description(description)
 
         title = ctx.translate("DESCRIPTION_MODIFIED")
@@ -63,10 +55,6 @@ class ArticlesConfigCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("price", type=int, required=True)
     async def change_price(self, ctx, article: GuildArticle, price: int):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
         article.set_price(price)
 
         title = ctx.translate("PRICE_MODIFIED")
@@ -79,14 +67,6 @@ class ArticlesConfigCog(Cog):
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     @option("quantity", type=int, default=1)
     async def add_object(self, ctx, article: GuildArticle, object: GuildObject, quantity):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-
-        if object is None:
-            await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
-            return
-
         article.add_object(object, quantity)
 
         title = ctx.translate("OBJECT_ADDED")
@@ -99,13 +79,6 @@ class ArticlesConfigCog(Cog):
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     @option("quantity", type=int, default=1)
     async def remove_object(self, ctx, article: GuildArticle, object: GuildObject, quantity=1):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        if object is None:
-            await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
-            return
-        
         article.remove_object(object, quantity)
         
         title = ctx.translate("OBJECT_REMOVED")
@@ -117,10 +90,6 @@ class ArticlesConfigCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("role", type=Role, required=True)
     async def add_role(self, ctx, article: GuildArticle, role: Role):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
         article.add_role(role)
 
         title = ctx.translate("ROLE_ADDED")
@@ -132,10 +101,6 @@ class ArticlesConfigCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("role", type=Role, required=True)
     async def remove_role(self, ctx, article: GuildArticle, role: Role):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-
         article.remove_role(role)
 
         title = ctx.translate("ROLE_REMOVED")
@@ -146,18 +111,15 @@ class ArticlesConfigCog(Cog):
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def delete_article(self, ctx, article: GuildArticle):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
+        confirm_view = ConfirmView()
+        confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
+        await ctx.respond(embed=confirm_embed, view=confirm_view)
+        await confirm_view.wait()
+        if confirm_view.confirmed:
+            article.delete()
+            await ctx.respond(text_key="ARTICLE_DELETION_PERFORMED", text_args={"article": article.name})
         else:
-            confirm_view = ConfirmView()
-            confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
-            await ctx.respond(embed=confirm_embed, view=confirm_view)
-            await confirm_view.wait()
-            if confirm_view.confirmed:
-                article.delete()
-                await ctx.respond(text_key="ARTICLE_DELETION_PERFORMED", text_args={"article": article.name})
-            else:
-                await ctx.respond(text_key="DELETION_CANCELLED")
+            await ctx.respond(text_key="DELETION_CANCELLED")
 
     # @articles.command(name="buy")
     # @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)

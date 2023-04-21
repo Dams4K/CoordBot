@@ -17,10 +17,6 @@ class GlobalCog(Cog):
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     async def about_object(self, ctx, object: GuildObject):
-        if object is None:
-            await ctx.respond(text_key="OBJECT_DOES_NOT_EXIST")
-            return
-        
         articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
         description = [ctx.translate("WHERE_TO_BUY_TEMPLATE", article=article.name, unit_price=round(article.price/article.get_quantity(object), 2)) for article in articles]
 
@@ -31,10 +27,6 @@ class GlobalCog(Cog):
     @about.command(name="article")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def about_article(self, ctx, article: GuildArticle):
-        if article is None:
-            await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-            return
-        
         embed = NormalEmbed(ctx.guild_config, title=article.name, description=f"prix: {article.price}")
 
         roles = [ctx.guild.get_role(role_id).mention for role_id in article.role_ids]
