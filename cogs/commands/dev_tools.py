@@ -60,26 +60,33 @@ class ReportModal(ui.Modal):
             try:
                 attached_message = await self.ctx.channel.fetch_message(int(attached_message_id))
             except NotFound:
-                not_found_embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("ATTACHED_MESSAGE_NOT_FOUND"), description="qsqs")
+                not_found_embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("WARNING"), description=self.ctx.translate("MESSAGE_NOT_FOUND"))
 
                 await interaction.response.send_message(embeds=[not_found_embed, self.get_failed_to_sent_embed()], ephemeral=True)
                 return
+            except Forbidden:
+                forbidden_embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("WARNING"), description=self.ctx.translate("ACCESS_FORBIDDEN"))
 
-            # if message.author.id not in [self.ctx.author.id, self.bot.user.id]:
-            #     await interaction.response.send_message(self.ctx.translate("REPORT_MESSAGE_FROM_SOMEONE_ELSE"), ephemeral=True)
-            #     return
+                await interaction.response.send_message(embeds=[forbidden_embed, self.get_failed_to_sent_embed()], ephemeral=True)
+                return
+            else:
+                if attached_message.author.id not in [self.ctx.author.id, self.bot.user.id]:
+                    not_your_message_embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("WARNING"), description=self.ctx.translate("REPORT_ATTACHED_MESSAGE_CONDITIONS"))
 
+                    await interaction.response.send_message(embeds=[not_your_message_embed, self.get_failed_to_sent_embed()], ephemeral=True)
+                    return
  
         
         msg = await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
 
         if attached_message is not None:
-            await msg.reply(attached_message.content, embeds=attached_message.embeds, files=[await attachement.to_file() for attachement in attached_message.attachments])
+            files = [await attachement.to_file() for attachement in attached_message.attachments]
+            await msg.reply(attached_message.content, embeds=attached_message.embeds, files=files)
 
         await interaction.response.send_message(self.ctx.translate("REPORT_SENT"), ephemeral=True)
 
     def get_failed_to_sent_embed(self):
-        embed = DangerEmbed(self.ctx.guild_config, title="Your message", description=self.message_input.value)
+        embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("REPORT_MESSAGE_NOT_SENT"), description=self.message_input.value)
         return embed
 
 
@@ -170,7 +177,9 @@ class DevTools(Cog):
     @bot_message_command(name="bug report")
     async def message_report(self, ctx, message):
         if message.author.id not in [ctx.author.id, self.bot.user.id]:
-            await ctx.respond(text_key="REPORT_MESSAGE_FROM_SOMEONE_ELSE")
+            not_your_message_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("REPORT_ATTACHED_MESSAGE_CONDITIONS"))
+
+            await ctx.respond(embed=not_your_message_embed, ephemeral=True)
             return
         
         await ctx.send_modal(ReportModal(self.bot, ctx, attached_message=message))
