@@ -18,7 +18,7 @@ class ObjectsConfigCog(Cog):
     async def create_object(self, ctx, name: str, description: str):
         new_object = GuildObject.new(ctx.guild.id, name)
         new_object.set_description(description)
-        await ctx.respond(text_key="OBJECT_CREATED", object=new_object.name)
+        await ctx.respond(text_key="OBJECT_CREATED", text_args={"object": new_object.name})
 
     @change.command(name="name")
     @option("object", type=GuildObjectConverter, autocomplete=get_objects)

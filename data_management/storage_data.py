@@ -2,6 +2,7 @@ import discord
 import random
 from ddm import *
 from utils.references import References
+from utils.bot_errors import *
 from data_management import errors
 
 class ChestData(Saveable):
@@ -229,7 +230,7 @@ class GuildArticleConverter:
             arg = args[2]
         
         if not isinstance(arg, str):
-            return None
+            raise Article.NotFound()
         
         article_id = None
         if arg.isdecimal():
@@ -237,10 +238,17 @@ class GuildArticleConverter:
         else:
             article_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
         
+        article = None
+
         if not (article_id is None) and article_id.isdecimal():
-            return GuildArticle(article_id, ctx.guild.id)
+            article = GuildArticle(article_id, ctx.guild.id)
         else:
-            return GuildArticle.from_name(ctx.guild.id, arg)
+            article = GuildArticle.from_name(ctx.guild.id, arg)
+        
+        if article is None:
+            raise Article.NotFound()
+
+        return article
 
 class GuildObjectConverter:
     async def convert(*args):
