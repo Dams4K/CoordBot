@@ -1,8 +1,8 @@
 from discord import *
 from discord.ext import bridge
-from utils.permissions import is_admin
 from lang import Lang
-from utils.bot_embeds import NormalEmbed
+from utils.permissions import is_admin
+from utils.bot_embeds import *
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
 from utils.bot_commands import BotSlashCommandGroup
@@ -59,13 +59,20 @@ class GuildConfigCog(Cog):
     async def language_customize(self, ctx: BotBridgeContext, key, value):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.add_translation(key, value)
-        await ctx.respond("finish")
+
+        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED"), description=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED_DESC"))
+
+        await ctx.respond(embed=embed)
     
     @language.command(name="reset")
     @option("key", type=str, required=True, autocomplete=get_custom_translations)
     async def language_reset(self, ctx, key: str):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
+
+        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("TRANSLATION_HAS_BEEN_RESET"), description=ctx.translate("TRANSLATION_HAS_BEEN_RESET_DESC"))
+
+        await ctx.respond(embed=embed)
     
 
 def setup(bot):
