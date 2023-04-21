@@ -85,7 +85,7 @@ class RankingCog(Cog):
     @ranking.command(name="level")
     async def ranking_level(self, ctx):
         members_data = [MemberData(member.id, ctx.guild.id) for member in ctx.guild.members]
-        default_member = GuildDefaultMemberData(ctx.guild.id)
+        default_member = DefaultMemberData(ctx.guild.id)
         members_data = list(filter(lambda md: md.level > default_member.level or md.xp > default_member.xp, members_data))
 
         ranking_formatter = RankingFormatter(members_data, ("level", "xp"))
@@ -104,7 +104,7 @@ class RankingCog(Cog):
     @ranking.command(name="money")
     async def ranking_level(self, ctx):
         members_data = [MemberData(member.id, ctx.guild.id) for member in ctx.guild.members]
-        default_member = GuildDefaultMemberData(ctx.guild.id)
+        default_member = DefaultMemberData(ctx.guild.id)
         members_data = list(filter(lambda md: md.money > default_member.money, members_data))
         
         ranking_formatter = RankingFormatter(members_data, ("money",))

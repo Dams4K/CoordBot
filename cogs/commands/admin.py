@@ -1,13 +1,36 @@
+import os, shutil
 from discord import *
 from data_management import MemberData
 from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
 from utils.permissions import is_admin
 from utils.bot_commands import *
+from utils.references import References
 
 class AdminCog(Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    data = BotSlashCommandGroup("data")
+
+    @data.command(name="retrieve")
+    async def data_retrieve(self, ctx):
+        await ctx.defer(ephemeral=True)
+        guild_folder = References.get_guild_folder(str(ctx.guild.id))
+        zip_path = os.path.join(guild_folder, f"{ctx.guild.id}")
+
+        if os.path.exists(guild_folder):
+            shutil.make_archive(zip_path, "zip", guild_folder)
+        
+        with open(zip_path + ".zip", "r") as f:
+            file = File(f)
+            await ctx.respond(file=file)
+
+        os.remove(zip_path + ".zip")
+
+    def delete_guild_folder(self, guild_id):
+        path = References.get_guild_folder(str(guild_id))
+        return path
 
     @bot_user_command(name="reset")
     @default_permissions(administrator=True)

@@ -61,30 +61,6 @@ class GuildLanguage(Saveable):
             return self.rows.pop(key.upper())
 
 
-class GuildDefaultMemberData(Saveable):
-    def __init__(self, guild_id):
-        self._guild_id = guild_id
-        self.xp = 0
-        self.level = 0
-        self.money = 0
-        self.inventory_size = 10
-
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/default_member.json"))
-
-    @Saveable.update()
-    def set_xp(self, value: int):
-        self.xp = value
-    @Saveable.update()
-    def set_level(self, value: int):
-        self.level = level
-    @Saveable.update()
-    def set_money(self, value: int):
-        self.money = value
-    
-    @Saveable.update()
-    def set_inventory_size(self, value: int):
-        self.inventory_size = value
-
 class GuildSalaries(Saveable):
     def __init__(self, guild_id):
         self._guild_id = guild_id

@@ -23,7 +23,7 @@ class BackupCog(commands.Cog):
     @commands.command(name="force_backup")
     async def force_backup(self, ctx):
         await self.create_backup()
-        await ctx.send(self.ctx.translate("NEW_BACKUP_MADE"))
+        await ctx.send(ctx.translate("NEW_BACKUP_MADE"))
 
 
     async def create_backup(self):
