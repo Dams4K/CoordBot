@@ -1,10 +1,10 @@
 {
-    "description": "Sets the experience of a person",
+    "description": "Set someone's experience",
     "name_localizations": {
-        "fr": "fixe"
+        "fr": "définir"
     },
     "description_localizations": {
-        "fr": "Fixe l'expérience d'une personne"
+        "fr": "Défini l'expérience d'une personne"
     },
     "options": {
         "member": {

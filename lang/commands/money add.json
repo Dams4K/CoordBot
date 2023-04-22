@@ -1,10 +1,10 @@
 {
-    "description": "Add levels to someone",
+    "description": "Add money to someone",
     "name_localizations": {
         "fr": "ajouter"
     },
     "description_localizations": {
-        "fr": "Ajoute des niveaux à quelqu'un"
+        "fr": "Ajoute de l'argent à quelqu'un"
     },
     "options": {
         "member": {

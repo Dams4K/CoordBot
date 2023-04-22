@@ -1,0 +1,9 @@
+{
+    "description": "Money is earned by leveling up",
+    "name_localizations": {
+        "fr": "argent"
+    },
+    "description_localizations": {
+        "fr": "L'argent est gagné en montant de niveau"
+    }
+}

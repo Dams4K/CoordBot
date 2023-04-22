@@ -1,10 +1,10 @@
 {
-    "description": "Add levels to someone",
+    "description": "Remove money from someone",
     "name_localizations": {
-        "fr": "ajouter"
+        "fr": "retirer"
     },
     "description_localizations": {
-        "fr": "Ajoute des niveaux à quelqu'un"
+        "fr": "Retire de l'argent à quelqu'un"
     },
     "options": {
         "member": {
@@ -17,12 +17,12 @@
             }
         },
         "amount": {
-            "description": "Amount to add",
+            "description": "Amount to remove",
             "name_localizations": {
                 "fr": "quantité"
             },
             "description_localizations": {
-                "fr": "Quantité à ajouter"
+                "fr": "Quantité à retirer"
             }
         }
     }

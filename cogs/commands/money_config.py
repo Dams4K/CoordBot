@@ -1,11 +1,12 @@
 from discord import *
+from utils.bot_commands import BotSlashCommandGroup
 from data_management import MemberData
 
 class MoneyConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    money = SlashCommandGroup("money", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    money = BotSlashCommandGroup("money", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @money.command(name="add")
     @option("member", type=Member, required=True)

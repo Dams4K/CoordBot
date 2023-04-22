@@ -1,10 +1,10 @@
 {
-    "description": "Sets the level of a person",
+    "description": "Set someone's level",
     "name_localizations": {
-        "fr": "fixe"
+        "fr": "définir"
     },
     "description_localizations": {
-        "fr": "Fixe le niveau de quelqu'un"
+        "fr": "Défini le niveau de quelqu'un"
     },
     "options": {
         "member": {

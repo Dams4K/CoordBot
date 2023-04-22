@@ -1,10 +1,10 @@
 {
-    "description": "Add levels to someone",
+    "description": "Set someone's money",
     "name_localizations": {
-        "fr": "ajouter"
+        "fr": "définir"
     },
     "description_localizations": {
-        "fr": "Ajoute des niveaux à quelqu'un"
+        "fr": "Défini l'argent de quelqu'un"
     },
     "options": {
         "member": {
@@ -17,12 +17,12 @@
             }
         },
         "amount": {
-            "description": "Amount to add",
+            "description": "Amount to be set",
             "name_localizations": {
                 "fr": "quantité"
             },
             "description_localizations": {
-                "fr": "Quantité à ajouter"
+                "fr": "Quantité à fixer"
             }
         }
     }
