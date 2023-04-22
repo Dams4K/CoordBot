@@ -1,0 +1,9 @@
+{
+    "description": "Level is increased with enough experience",
+    "name_localizations": {
+        "fr": "niveau"
+    },
+    "description_localizations": {
+        "fr": "Le niveau est augmenté avec suffisamment d'expérience"
+    }
+}

@@ -10,7 +10,7 @@ class LevelConfigCog(Cog):
         self.bot = bot
 
     experience = BotSlashCommandGroup("experience", default_member_permissions=Permissions(administrator=True), guild_only=True)
-    level = BotSlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    level = BotSlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True, guild_ids=[1061324656075874476])
     leveling = BotSlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
     banlist = leveling.create_subgroup("banlist")
 

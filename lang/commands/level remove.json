@@ -1,10 +1,10 @@
 {
-    "description": "Remove experiences from someone",
+    "description": "Remove levels from someone",
     "name_localizations": {
         "fr": "retirer"
     },
     "description_localizations": {
-        "fr": "Retire de l'expérience à quelqu'un"
+        "fr": "Retire des niveaux à quelqu'un"
     },
     "options": {
         "member": {
