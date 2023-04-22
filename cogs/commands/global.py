@@ -6,6 +6,7 @@ from utils.bot_embeds import *
 from utils.bot_autocompletes import *
 from utils.bot_commands import *
 from operator import attrgetter
+from random import randint
 
 class GlobalCog(Cog):
     def __init__(self, bot):
@@ -181,6 +182,7 @@ class GlobalCog(Cog):
 
         if level_before < level_after:
             await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
+            ctx.author_data.add_money(randint(*sorted([leveling_config.min_gain, leveling_config.max_gain])))
 
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

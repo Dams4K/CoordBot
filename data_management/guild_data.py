@@ -87,6 +87,9 @@ class GuildLevelingData(Saveable):
         self.channels_banned = []
         self.members_banned = []
 
+        self.min_gain = 20
+        self.max_gain = 30
+
         super().__init__(References.get_guild_folder(f"{self._guild_id}/leveling.json"))
     
     @Saveable.update()
@@ -147,3 +150,11 @@ class GuildLevelingData(Saveable):
             return False
         
         return member.id in self.members_banned
+
+    @Saveable.update()
+    def set_min_gain(self, value):
+        self.min_gain = value
+    
+    @Saveable.update()
+    def set_max_gain(self, value):
+        self.max_gain = value

@@ -27,6 +27,12 @@ class AdminCog(Cog):
 
         os.remove(zip_path + ".zip")
 
+    @data.command(name="reset")
+    @default_permissions(administrator=True)
+    @option("member", type=Member)
+    async def slash_reset(self, ctx, member):
+        await self.reset_member(ctx, member)
+    
     @data.command(name="clear")
     async def data_clear(self, ctx):
         pass
@@ -35,18 +41,11 @@ class AdminCog(Cog):
         path = References.get_guild_folder(str(guild_id))
         return path
 
-    @bot_user_command(name="reset")
-    @guild_only()
+    @bot_user_command(name="Reset", guild_only=True)
     @default_permissions(administrator=True)
     async def user_reset(self, ctx, member):
         await self.reset_member(ctx, member, ephemeral=True)
 
-    @bot_slash_command(name="reset")
-    @guild_only()
-    @default_permissions(administrator=True)
-    @option("member", type=Member)
-    async def slash_reset(self, ctx, member):
-        await self.reset_member(ctx, member)
 
     async def reset_member(self, ctx, member: Member, ephemeral=False):
         confirm_view = ConfirmView()

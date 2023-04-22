@@ -13,6 +13,7 @@ class LevelConfigCog(Cog):
     level = BotSlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
     leveling = BotSlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
     banlist = leveling.create_subgroup("banlist")
+    l_set = leveling.create_subgroup("set")
 
     @experience.command(name="add")
     @option("member", type=Member, required=True)
@@ -145,6 +146,14 @@ class LevelConfigCog(Cog):
 
         paginator = Paginator(pages=embeds)
         await paginator.respond(ctx.interaction)
+
+    @l_set.command(name="gain")
+    @option("min", type=int)
+    @option("max", type=int)
+    async def set_gain(self, ctx, min: int, max: int):
+        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config.set_min_gain(min)
+        leveling_config.set_max_gain(max)
 
 def setup(bot):
     bot.add_cog(LevelConfigCog(bot))
