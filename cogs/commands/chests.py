@@ -29,7 +29,7 @@ class ChestsCog(commands.Cog):
             #     webhook = await ctx.channel.create_webhook(name=ctx.author.name, avatar=await resp.read())
             #     await webhook.send("qszduqjshds oujdo")
 
-    @bridge.bridge_group(checks=[is_admin])
+    @bridge.bridge_group()
     async def chests(self, ctx):
         pass
 

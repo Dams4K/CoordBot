@@ -11,8 +11,8 @@ class GlobalCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    about = BotSlashCommandGroup("about")
-    list_grp = BotSlashCommandGroup("list")
+    about = BotSlashCommandGroup("about", guild_only=True)
+    list_grp = BotSlashCommandGroup("list", guild_only=True)
 
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
@@ -120,12 +120,14 @@ class GlobalCog(Cog):
 
 
     @bot_slash_command(name="profil")
+    @guild_only()
     @option("member", type=Member, required=False, default=None)
     async def slash_profil(self, ctx, member = None):
         member = ctx.author if member == None else member
         await self.show_profil(ctx, member)
     
     @bot_user_command(name="profil")
+    @guild_only()
     async def user_profil(self, ctx, member: Member):
         await self.show_profil(ctx, member, ephemeral=True)
     
@@ -156,6 +158,9 @@ class GlobalCog(Cog):
     @Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
+            return
+
+        if message.guild is None:
             return
 
         ctx = await self.bot.get_context(message)

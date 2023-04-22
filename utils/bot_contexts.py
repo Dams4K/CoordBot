@@ -8,19 +8,25 @@ class BotBridgeContext(BridgeContext):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        self.guild_config = GuildConfig(self.guild.id)
-        self.author_data = MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
+        if self.guild is None:
+            self.guild_config = None
+            self.author_data = None
+        else:
+            self.guild_config = GuildConfig(self.guild.id)
+            self.author_data = MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
 
     def translate(self, text_key: str, *args, **kwargs):
-        custom_translations = GuildLanguage(self.guild.id)
-        return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
+        if self.guild_config is None:
+            return Lang.get_text(text_key, "en", *args, **kwargs)
+        else:
+            custom_translations = GuildLanguage(self.guild.id)
+            return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
     
     async def translate_message(self, *args, **kwargs):
         text_key = kwargs.pop("text_key", None)
         text_args = kwargs.pop("text_args", {})
         if not text_key is None:
-            custom_translations = GuildLanguage(self.guild.id)
-            translated_text = Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, **text_args)
+            translated_text = self.translate(text_key, **text_args)
             
             if "content" in kwargs:
                 kwargs["content"] += translated_text
@@ -52,17 +58,26 @@ class BotAutocompleteContext(AutocompleteContext):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        self.guild_config = GuildConfig(self.interaction.guild.id)
-        self.author_data = MemberData(self.interaction.user.id, self.interaction.guild.id)
+        if self.interaction.guild is None:
+            self.guild_config = None
+            self.author_data = None
+        else:
+            self.guild_config = GuildConfig(self.interaction.guild.id)
+            self.author_data = MemberData(self.interaction.user.id, self.interaction.guild.id)
     
     def translate(self, text_key: str, *args, **kwargs):
-        return Lang.get_text(text_key, self.guild_config.language, *args, **kwargs)
+        if self.guild_config is None:
+            return Lang.get_text(text_key, "en", *args, **kwargs)
+        else:
+            custom_translations = GuildLanguage(self.interaction.guild.id)
+            return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
     
     async def translate_message(self, *args, **kwargs):
         text_key = kwargs.pop("text_key", None)
         text_args = kwargs.pop("text_args", {})
         if not text_key is None:
-            translated_text = Lang.get_text(text_key, self.guild_config.language, **text_args)
+            translated_text = self.translate(text_key, **text_args)
+            
             if "content" in kwargs:
                 kwargs["content"] += translated_text
             else:

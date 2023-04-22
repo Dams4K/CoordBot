@@ -80,7 +80,7 @@ class RankingCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    ranking = BotSlashCommandGroup("ranking")
+    ranking = BotSlashCommandGroup("ranking", guild_only=True)
 
     @ranking.command(name="level")
     async def ranking_level(self, ctx):

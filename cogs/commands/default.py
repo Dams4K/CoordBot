@@ -7,7 +7,7 @@ class DefaultCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    default = SlashCommandGroup("default", default_member_permissions=Permissions(administrator=True))
+    default = SlashCommandGroup("default", default_member_permissions=Permissions(administrator=True), guild_only=True)
     member = default.create_subgroup("member")
     inventory = default.create_subgroup("inventory")
 

@@ -71,5 +71,7 @@ class ElricBot(bridge.Bot):
 
 
     async def get_prefix(self, message):
-        guild_config = GuildConfig(message.guild.id)
-        return guild_config.prefix
+        if message.guild is None:
+            return References.BOT_PREFIX
+        else:
+            return GuildConfig(message.guild.id).prefix

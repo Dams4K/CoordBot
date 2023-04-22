@@ -1,2 +1,2 @@
-def is_admin(ctx):
-    return ctx.author.guild_permissions.administrator
+def is_in_guild(ctx):
+    return ctx.guild is not None

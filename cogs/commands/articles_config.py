@@ -10,7 +10,7 @@ class ArticlesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    articles = BotSlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True))
+    articles = BotSlashCommandGroup("articles", default_member_permissions=Permissions(administrator=True), guild_only=True)
     change = articles.create_subgroup("change")
     add = articles.create_subgroup("add")
     remove = articles.create_subgroup("remove")

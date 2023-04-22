@@ -1,15 +1,11 @@
 from discord import *
-from utils.permissions import is_admin
 from data_management import MemberData
 
 class MoneyConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    def cog_check(self, ctx):
-        return is_admin(ctx)
 
-    money = SlashCommandGroup("money", default_member_permissions=Permissions(administrator=True))
+    money = SlashCommandGroup("money", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @money.command(name="add")
     @option("member", type=Member, required=True)

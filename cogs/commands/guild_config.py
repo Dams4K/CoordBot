@@ -1,7 +1,7 @@
 from discord import *
 from discord.ext import bridge
 from lang import Lang
-from utils.permissions import is_admin
+from utils.permissions import is_in_guild
 from utils.bot_embeds import *
 from utils.references import References
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
@@ -19,7 +19,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.interaction.guild.id)
         return guild_language.get_keys()
 
-    @bridge.bridge_group(invoke_without_command=True, checks=[is_admin])
+    @bridge.bridge_group(invoke_without_command=True, checks=[is_in_guild], guild_only=True)
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
         await ctx.respond(f"The bot's prefix is {ctx.guild_config.prefix}")
@@ -35,7 +35,7 @@ class GuildConfigCog(Cog):
         ctx.guild_config.set_prefix = References.BOT_PREFIX
         await ctx.respond(text_key="PREFIX_RESET", text_args={"prefix": References.BOT_PREFIX})
 
-    language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True))
+    language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @language.command(name="change")
     @option("language", type=str, autocomplete=get_languages)

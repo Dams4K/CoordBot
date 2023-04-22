@@ -9,7 +9,7 @@ class ObjectsConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    objects = BotSlashCommandGroup("objects", default_member_permissions=Permissions(administrator=True))
+    objects = BotSlashCommandGroup("objects", default_member_permissions=Permissions(administrator=True), guild_only=True)
     change = objects.create_subgroup("change")
 
     @objects.command(name="create")

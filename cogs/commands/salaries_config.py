@@ -5,7 +5,7 @@ class SalariesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    salary = SlashCommandGroup("salary", default_member_permissions=Permissions(administrator=True))
+    salary = SlashCommandGroup("salary", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @salary.command(name="add")
     @option("role", type=Role, required=True)

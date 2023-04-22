@@ -24,7 +24,7 @@ class SuggestModal(ui.Modal):
     
     async def callback(self, interaction):
         channel = get_suggests_channel(self.bot)
-        embed = NormalEmbed(GuildConfig(interaction.guild_id), title=f"- {self.children[0].value} -", description=self.children[1].value)
+        embed = NormalEmbed(self.ctx.guild_config, title=f"- {self.children[0].value} -", description=self.children[1].value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
         await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
@@ -47,10 +47,9 @@ class ReportModal(ui.Modal):
     
     async def callback(self, interaction):
         guild = interaction.guild
-        guild_config = GuildConfig(guild.id)
 
         channel = get_reports_channel(self.bot)
-        embed = DangerEmbed(guild_config, title=self.ctx.translate("NEW_REPORT"), description=self.message_input.value)
+        embed = DangerEmbed(self.ctx.guild_config, title=self.ctx.translate("NEW_REPORT"), description=self.message_input.value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
         attached_message = None
@@ -158,10 +157,10 @@ class ResponseViewer(ui.View):
             channel = self.bot.get_channel(int(channel_id))
             message = await channel.fetch_message(int(message_id))
 
-            embed = NormalEmbed(GuildConfig(interaction.guild_id), title=ctx.translate("DEVELOPER_RESPONSE"), description=message.content)
+            embed = NormalEmbed(ctx.guild_config, title=ctx.translate("DEVELOPER_RESPONSE"), description=message.content)
             await interaction.response.send_message(embed=embed, ephemeral=True)
         else:
-            embed = DangerEmbed(GuildConfig(interaction.guild_id), title="Erreur", description=ctx.translate("NOT_ALLOW_SEE_RESPONSE"))
+            embed = DangerEmbed(ctx.guild_config, title="Erreur", description=ctx.translate("NOT_ALLOW_SEE_RESPONSE"))
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
@@ -177,7 +176,7 @@ class DevTools(Cog):
     @bot_message_command(name="Bug report")
     async def message_report(self, ctx, message):
         if message.author.id not in [ctx.author.id, self.bot.user.id]:
-            not_your_message_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("REPORT_ATTACHED_MESSAGE_CONDITIONS"))
+            not_your_message_embed = DangerEmbed(self.ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("REPORT_ATTACHED_MESSAGE_CONDITIONS"))
 
             await ctx.respond(embed=not_your_message_embed, ephemeral=True)
             return

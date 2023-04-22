@@ -11,7 +11,7 @@ class StorageCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    inventory = SlashCommandGroup("inventory")
+    inventory = SlashCommandGroup("inventory", guild_only=True)
 
     @inventory.command(name="show")
     @option("member", type=discord.Member, required=False)
@@ -20,6 +20,7 @@ class StorageCog(commands.Cog):
         await self.show_inventory(ctx, member)
     
     @discord.user_command(name="inventory")
+    @guild_only()
     async def user_show_inventory(self, ctx, member: discord.Member):
         await self.show_inventory(ctx, member, ephemeral=True)
 

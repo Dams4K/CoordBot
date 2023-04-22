@@ -8,12 +8,9 @@ class LevelConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def cog_check(self, ctx):
-        return is_admin(ctx)
-    
-    xp = SlashCommandGroup("xp", default_member_permissions=Permissions(administrator=True))
-    level = SlashCommandGroup("level", default_member_permissions=Permissions(administrator=True))
-    leveling = SlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True))
+    xp = SlashCommandGroup("xp", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    level = SlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    leveling = SlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
     banlist = leveling.create_subgroup("banlist")
 
     @xp.command(name="add")
