@@ -1,0 +1,29 @@
+{
+    "description": "Adding experience to someone",
+    "name_localizations": {
+        "fr": "ajouter"
+    },
+    "description_localizations": {
+        "fr": "Ajouter de l'expérience à quelqu'un"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        },
+        "amount": {
+            "description": "Amount to add",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité à ajouter"
+            }
+        }
+    }
+}

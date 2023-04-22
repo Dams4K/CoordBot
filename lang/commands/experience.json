@@ -1,0 +1,9 @@
+{
+    "description": "Experience is gained by sending messages",
+    "name_localizations": {
+        "fr": "expérience"
+    },
+    "description_localizations": {
+        "fr": "L'expérience s'acquiert en envoyant des messages"
+    }
+}

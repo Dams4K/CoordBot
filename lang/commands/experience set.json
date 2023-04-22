@@ -1,0 +1,29 @@
+{
+    "description": "Sets the experience of a person",
+    "name_localizations": {
+        "fr": "fixe"
+    },
+    "description_localizations": {
+        "fr": "Fixe l'expérience d'une personne"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        },
+        "amount": {
+            "description": "Amount to be set",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité à fixer"
+            }
+        }
+    }
+}

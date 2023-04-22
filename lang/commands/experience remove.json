@@ -1,0 +1,29 @@
+{
+    "description": "Removing someone's experience",
+    "name_localizations": {
+        "fr": "retirer"
+    },
+    "description_localizations": {
+        "fr": "Retire de l'expérience à quelqu'un"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        },
+        "amount": {
+            "description": "Amount to remove",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité à retirer"
+            }
+        }
+    }
+}

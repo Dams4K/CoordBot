@@ -2,18 +2,19 @@ from discord import *
 from discord.ext.pages import Paginator
 from utils.permissions import *
 from utils.bot_embeds import *
+from utils.bot_commands import BotSlashCommandGroup
 from data_management import *
 
 class LevelConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    xp = SlashCommandGroup("xp", default_member_permissions=Permissions(administrator=True), guild_only=True)
-    level = SlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
-    leveling = SlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    experience = BotSlashCommandGroup("experience", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    level = BotSlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    leveling = BotSlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
     banlist = leveling.create_subgroup("banlist")
 
-    @xp.command(name="add")
+    @experience.command(name="add")
     @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_add(self, ctx, member, amount):
@@ -22,7 +23,7 @@ class LevelConfigCog(Cog):
         await ctx.respond(text_key="XP_ADDED", text_args={"amount": amount, "member": member})
         
 
-    @xp.command(name="remove")
+    @experience.command(name="remove")
     @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_remove(self, ctx, member, amount):
@@ -31,7 +32,7 @@ class LevelConfigCog(Cog):
         await ctx.respond(text_key="XP_REMOVED", text_args={"amount": amount, "member": member})
     
 
-    @xp.command(name="set")
+    @experience.command(name="set")
     @option("member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_set(self, ctx, member, amount):
