@@ -1,0 +1,9 @@
+{
+    "description": "Retrieves all data from the server",
+    "name_localizations": {
+        "fr": "récupérer"
+    },
+    "description_localizations": {
+        "fr": "Récupére toutes les données du serveur"
+    }
+}

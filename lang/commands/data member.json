@@ -1,0 +1,9 @@
+{
+    "description": "Commands related to member data",
+    "name_localizations": {
+        "fr": "membre"
+    },
+    "description_localizations": {
+        "fr": "Commandes liées aux données des membres"
+    }
+}

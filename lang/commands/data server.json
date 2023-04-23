@@ -1,0 +1,9 @@
+{
+    "description": "Commands related to server data",
+    "name_localizations": {
+        "fr": "serveur"
+    },
+    "description_localizations": {
+        "fr": "Commandes relatives aux données du serveur"
+    }
+}

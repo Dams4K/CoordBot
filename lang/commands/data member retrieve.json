@@ -1,0 +1,20 @@
+{
+    "description": "Retrieves all data related to the member",
+    "name_localizations": {
+        "fr": "récupèrer"
+    },
+    "description_localizations": {
+        "fr": "Récupère toutes les données relatives au membre"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        }
+    }
+}

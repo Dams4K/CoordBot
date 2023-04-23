@@ -1,0 +1,9 @@
+{
+    "description": "Resets all data on the server. NO ROLLBACK",
+    "name_localizations": {
+        "fr": "réinitialiser"
+    },
+    "description_localizations": {
+        "fr": "Réinitialise toutes les données du serveur. PAS DE RETOUR EN ARRIÈRE"
+    }
+}

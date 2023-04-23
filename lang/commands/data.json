@@ -1,0 +1,9 @@
+{
+    "description": "Data-related commands",
+    "name_localizations": {
+        "fr": "données"
+    },
+    "description_localizations": {
+        "fr": "Commandes liées aux données"
+    }
+}
