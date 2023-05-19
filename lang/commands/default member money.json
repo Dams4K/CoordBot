@@ -1,0 +1,20 @@
+{
+    "description": "Members' initial money",
+    "name_localizations": {
+        "fr": "argent"
+    },
+    "description_localizations": {
+        "fr": "Argent initiale des membres"
+    },
+    "options": {
+        "amount": {
+            "description": "Initial quantity",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité initiale"
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "description": "Default data",
+    "name_localizations": {
+        "fr": "défaut"
+    },
+    "description_localizations": {
+        "fr": "Données par défaut"
+    }
+}

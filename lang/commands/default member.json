@@ -1,0 +1,9 @@
+{
+    "description": "Default member data",
+    "name_localizations": {
+        "fr": "membre"
+    },
+    "description_localizations": {
+        "fr": "Données des membres par défaut"
+    }
+}

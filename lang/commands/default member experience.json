@@ -1,0 +1,20 @@
+{
+    "description": "Members' initial experience",
+    "name_localizations": {
+        "fr": "expérience"
+    },
+    "description_localizations": {
+        "fr": "Expérience initiale des membres"
+    },
+    "options": {
+        "amount": {
+            "description": "Initial quantity",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité initiale"
+            }
+        }
+    }
+}

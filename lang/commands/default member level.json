@@ -1,0 +1,20 @@
+{
+    "description": "Members' initial level",
+    "name_localizations": {
+        "fr": "niveau"
+    },
+    "description_localizations": {
+        "fr": "Niveau initiale des membres"
+    },
+    "options": {
+        "amount": {
+            "description": "Initial quantity",
+            "name_localizations": {
+                "fr": "quantité"
+            },
+            "description_localizations": {
+                "fr": "Quantité initiale"
+            }
+        }
+    }
+}

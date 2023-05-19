@@ -1,17 +1,20 @@
 from discord import *
-from utils.permissions import *
-from utils.bot_embeds import *
+
 from data_management import *
+from utils.bot_commands import BotSlashCommandGroup
+from utils.bot_embeds import *
+from utils.permissions import *
+
 
 class DefaultCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    default = SlashCommandGroup("default", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    default = BotSlashCommandGroup("default", default_member_permissions=Permissions(administrator=True), guild_only=True)
     member = default.create_subgroup("member")
     inventory = default.create_subgroup("inventory")
 
-    @member.command(name="xp")
+    @member.command(name="experience")
     @option("amount", type=int, required=True)
     async def member_xp(self, ctx, amount: int):
         default_member = DefaultMemberData(ctx.guild.id)
