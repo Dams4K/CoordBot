@@ -10,7 +10,7 @@ class AdminCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    data = BotSlashCommandGroup("data", default_member_permissions=Permissions(administrator=True), guild_only=True, guild_ids=[1061324656075874476])
+    data = BotSlashCommandGroup("data", default_member_permissions=Permissions(administrator=True), guild_only=True)
     server = data.create_subgroup("server")
     member = data.create_subgroup("member")
 

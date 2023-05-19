@@ -1,9 +1,0 @@
-{
-    "description": "All data for the selected member will be reset",
-    "name_localizations": {
-        "fr": "Réinitialiser"
-    },
-    "description_localizations": {
-        "fr": "Toutes les données relatives du membre selectionné seront réinitialisées"
-    }
-}
