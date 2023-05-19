@@ -99,6 +99,8 @@ class GuildObject(Saveable):
         self._guild_id = guild_id
         self.name = "NoName"
         self.description = ""
+        self.refundable = False
+        self.refund_price = 0
 
         path = os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id)
         super().__init__(References.get_guild_folder(path))
@@ -111,6 +113,12 @@ class GuildObject(Saveable):
     @Saveable.update()
     def set_description(self, new_description):
         self.description = new_description[:1024]
+        return self
+
+    @Saveable.update()
+    def set_refundable(self, is_refundable, refund_price):
+        self.refundable = is_refundable
+        self.refund_price = refund_price
         return self
 
 class GuildArticle(Saveable):

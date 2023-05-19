@@ -1,9 +1,11 @@
 from discord import *
+
 from data_management import *
 from utils.bot_autocompletes import *
 from utils.bot_commands import *
-from utils.bot_views import *
 from utils.bot_embeds import *
+from utils.bot_views import *
+
 
 class ObjectsConfigCog(Cog):
     def __init__(self, bot):
@@ -35,6 +37,18 @@ class ObjectsConfigCog(Cog):
         before_description = object.description
         object.set_description(description)
         await ctx.respond(text_key="OBJECT_DESCRIPTION_MODIFIED", text_args={"before": before_description, "after": description})
+
+    @change.command(name="refund")
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("is_refundable", type=bool)
+    @option("refund_price", type=int)
+    async def change_refund(self, ctx, object: GuildObject, is_refundable, refund_price):
+        object.set_refundable(is_refundable, refund_price)
+        if is_refundable:
+            await ctx.respond(text_key="OBJECT_IS_REFUNDABLE", text_args={"price": refund_price})
+        else:
+            await ctx.respond(text_key="OBJECT_IS_NOT_REFUNDABLE")
+
 
     @objects.command(name="delete")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)

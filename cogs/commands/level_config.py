@@ -155,5 +155,11 @@ class LevelConfigCog(Cog):
         leveling_config.set_min_gain(min)
         leveling_config.set_max_gain(max)
 
+        title = ctx.translate("GAIN_RANGE_MODIFIED")
+        description = ctx.translate("GAIN_RANGE_MODIFIED_DESC", min=min, max=max)
+        embed = NormalEmbed(ctx.guild_config, title=title, description=descriptions)
+
+        await ctx.respond(embed=embed)
+
 def setup(bot):
     bot.add_cog(LevelConfigCog(bot))
