@@ -1,5 +1,7 @@
 import discord
 from ddm import *
+from data_management import MemberData
+
 from utils.references import References
 
 class GuildConfig(Saveable):
@@ -77,6 +79,54 @@ class GuildSalaries(Saveable):
         role_id = str(role.id)
         if role_id in self.salaries:
             self.salaries.pop(role_id)
+
+    @Saveable.update()
+    def pay_member(self, member: discord.Member) -> bool:
+        """Pay a member
+
+        Parameters
+        ----------
+            role: discord.Member
+
+        Returns
+        -------
+            bool
+                True: Member has been paid
+                False: Member has not been paid
+        """
+        if not isinstance(member, discord.Member):
+            return False
+
+        best_pay = 0
+        for role in member.roles:
+            pay = self.salaries.get(str(role.id), 0)
+            if pay > best_pay:
+                best_pay = pay
+        
+        member_data = MemberData(member.id, self._guild_id)
+        member_data.add_money(best_pay)
+        return True
+    
+    @Saveable.update()
+    def pay_role(self, role: discord.Role) -> bool:
+        """Pay all members who have this role
+
+        Parameters
+        ----------
+            role: discord.Role
+
+        Returns
+        -------
+            bool
+                True: all members have been paid
+                False: No members have been paid
+        """
+        if not isinstance(role, discord.Role):
+            return False
+
+        for member in role.members:
+            self.pay_member(member)
+        return True
 
 class GuildLevelingData(Saveable):
     def __init__(self, guild_id: int):

@@ -217,7 +217,7 @@ class GuildArticle(Saveable):
 
         # Check if the member has enough money
         if author_data.money < price:
-            raise errors.NotEnoughMoney
+            raise errors.NotEnoughMoney()
         
         author_inventory: Inventory = author_data.get_inventory()
         # Check if the member has enough objects
@@ -229,7 +229,7 @@ class GuildArticle(Saveable):
             if author_quantity < abs(object_amount * quantity):
                 raise errors.NotEnoughObjects
 
-        author_data.set_money(author_data.money - price)
+        author_data.add_money(-price)
 
         for _ in range(quantity):
             for object_id, amount in self.object_ids.items():

@@ -1,30 +1,52 @@
 from discord import *
 from data_management import GuildSalaries
 
+from utils.bot_embeds import NormalEmbed, DangerEmbed
+
 class SalariesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    salary = SlashCommandGroup("salary", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    salaries = SlashCommandGroup("salaries", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
-    @salary.command(name="add")
+    @salaries.command(name="add")
     @option("role", type=Role, required=True)
     @option("pay", type=int, required=True)
-    async def salary_add(self, ctx, role: Role, pay: int):
+    async def salaries_add(self, ctx, role: Role, pay: int):
         salaries = GuildSalaries(ctx.guild.id)
         salaries.add_salary(role, pay)
+
+        embed = NormalEmbed(
+            title=ctx.translate("SALARY_ROLE_ADDED"),
+            description=ctx.translate("SALARY_ROLE_ADDED_DESC"))
+
+        await ctx.respond(embed=embed)
     
-    @salary.command(name="remove")
+    @salaries.command(name="remove")
     @option("role", type=Role, required=True)
-    async def salary_remove(self, ctx, role: Role):
+    async def salaries_remove(self, ctx, role: Role):
         salaries = GuildSalaries(ctx.guild.id)
         salaries.remove_salary(role)
+        
+        embed = DangerEmbed(
+            title=ctx.translate("SALARY_ROLE_REMOVED"),
+            description=ctx.translate("SALARY_ROLE_REMOVED_DESC"))
 
-    @salary.command(name="pay")
+        await ctx.respond(embed=embed)
+
+    @salaries.command(name="pay")
     @option("member", type=Member, required=False)
     @option("role", type=Role, required=False)
-    async def salary_pay(self, ctx, member: Member, role: Role):
-        pass
+    async def salaries_pay(self, ctx, member: Member = None, role: Role = None):
+        guild_salaries = GuildSalaries(ctx.guild.id)
+
+        embed = NormalEmbed(title=ctx.translate("SALARY_FORCED_PAY"))
+        if guild_salaries.pay_member(member):
+            embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member)
+        if guild_salaries.pay_role(role):
+            embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY"), value="\n".join([member.mention for member in role.members]))
+
+        await ctx.respond(embed=embed)
 
 def setup(bot):
     bot.add_cog(SalariesConfigCog(bot))
