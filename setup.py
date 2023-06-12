@@ -14,7 +14,7 @@ files = {
         "default_prefix": "+",
         "cogs_folder": "cogs",
         "logs_folder": "datas/logs",
-        "beta_guilds": [],
+        "beta_guilds": None,
         "debug_mode": True
     }
 }

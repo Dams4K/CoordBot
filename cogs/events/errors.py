@@ -18,7 +18,7 @@ class ErrorHandling(Cog):
 
 
     async def errors(self, ctx, exception):
-        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("ERROR_OCCURED"), description=exception)
+        embed = DangerEmbed(title=ctx.translate("ERROR_OCCURED"), description=exception)
         
         if type(exception) is errors.ApplicationCommandInvokeError:
             original = type(exception.original)

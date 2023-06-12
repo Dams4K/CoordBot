@@ -24,7 +24,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("ARTICLE_CREATED")
         description = ctx.translate("ARTICLE_CREATED_DESC", article=article.name)
-        embed = NormalEmbed(ctx.guild_config, title=title, description=description)
+        embed = NormalEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
 
     
@@ -37,7 +37,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("NAME_MODIFIED")
         description = ctx.translate("ARTICLE_NAME_MODIFIED", article=old_name, new_name=name)
-        embed = WarningEmbed(ctx.guild_config, title=title, description=description)
+        embed = WarningEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
 
     @change.command(name="description")
@@ -48,7 +48,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("DESCRIPTION_MODIFIED")
         description = ctx.translate("ARTICLE_DESCRIPTION_MODIFIED", article=article.name, new_description=description)
-        embed = WarningEmbed(ctx.guild_config, title=title, description=description)
+        embed = WarningEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
     
     @change.command(name="price")
@@ -59,7 +59,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("PRICE_MODIFIED")
         description = ctx.translate("ARTICLE_PRICE_MODIFIED", article=article.name, new_price=price)
-        embed = WarningEmbed(ctx.guild_config, title=title, description=description)
+        embed = WarningEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
     
     @add.command(name="object")
@@ -71,7 +71,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("OBJECT_ADDED")
         description = ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=object.name, article=article.name)
-        embed = NormalEmbed(ctx.guild_config, title=title, description=description)
+        embed = NormalEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
     
     @remove.command(name="object")
@@ -83,7 +83,7 @@ class ArticlesConfigCog(Cog):
         
         title = ctx.translate("OBJECT_REMOVED")
         description = ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=object.name, article=article.name)
-        embed = DangerEmbed(ctx.guild_config, title=title, description=description)
+        embed = DangerEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
 
     @add.command(name="role")
@@ -94,7 +94,7 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("ROLE_ADDED")
         description = ctx.translate("ARTICLE_ROLE_ADDED", role=role.mention, article=article.name)
-        embed = NormalEmbed(ctx.guild_config, title=title, description=description)
+        embed = NormalEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
     
     @remove.command(name="role")
@@ -105,14 +105,14 @@ class ArticlesConfigCog(Cog):
 
         title = ctx.translate("ROLE_REMOVED")
         description = ctx.translate("ARTICLE_ROLE_REMOVED", role=role.mention, article=article.name)
-        embed = DangerEmbed(ctx.guild_config, title=title, description=description)
+        embed = DangerEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
 
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def delete_article(self, ctx, article: GuildArticle):
         confirm_view = ConfirmView()
-        confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
+        confirm_embed = DangerEmbed(title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
         if confirm_view.confirmed:
@@ -133,7 +133,7 @@ class ArticlesConfigCog(Cog):
     #         except NotEnoughMoney:
     #             author_money = ctx.author_data.money
 
-    #             embed = WarningEmbed(ctx.guild_config, title=ctx.translate("E_CANNOT_PURCHASE"))
+    #             embed = WarningEmbed(title=ctx.translate("E_CANNOT_PURCHASE"))
     #             embed.description = ctx.translate("E_NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
     #             await ctx.respond(embed=embed, ephemeral=True)
 

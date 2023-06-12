@@ -97,7 +97,7 @@ class RankingCog(Cog):
         
         ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
-        embed = NormalEmbed(ctx.guild_config, title="Top 15 levels")
+        embed = NormalEmbed(title="Top 15 levels")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
         await ctx.respond(embed=embed)
     
@@ -115,7 +115,7 @@ class RankingCog(Cog):
 
         ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
 
-        embed = NormalEmbed(ctx.guild_config, title="Top 15 money")
+        embed = NormalEmbed(title="Top 15 money")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
         await ctx.respond(embed=embed)
 

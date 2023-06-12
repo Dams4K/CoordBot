@@ -34,7 +34,7 @@ class StorageCog(commands.Cog):
 
         description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects)
 
-        embed = NormalEmbed(ctx.guild_config, title=f"Inventory of {member}")
+        embed = NormalEmbed(title=f"Inventory of {member}")
         embed.description = description
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)

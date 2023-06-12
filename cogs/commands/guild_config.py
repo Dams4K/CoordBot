@@ -56,7 +56,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.add_translation(key, translation)
 
-        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED"), description=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED_DESC"))
+        embed = NormalEmbed(title=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED"), description=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED_DESC"))
 
         await ctx.respond(embed=embed)
     
@@ -66,7 +66,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
 
-        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("TRANSLATION_HAS_BEEN_RESET"), description=ctx.translate("TRANSLATION_HAS_BEEN_RESET_DESC"))
+        embed = DangerEmbed(title=ctx.translate("TRANSLATION_HAS_BEEN_RESET"), description=ctx.translate("TRANSLATION_HAS_BEEN_RESET_DESC"))
 
         await ctx.respond(embed=embed)
     

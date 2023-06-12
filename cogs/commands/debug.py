@@ -11,7 +11,7 @@ class DebugCog(commands.Cog):
     
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
-        embed = NormalEmbed(ctx.guild_config, title="Test")
+        embed = NormalEmbed(title="Test")
         await ctx.respond(embed=embed)
     
     @bridge.bridge_command(name="gen_error")
@@ -47,7 +47,7 @@ class DebugCog(commands.Cog):
     
     @bridge.bridge_command(name="tab_in_embed")
     async def tab_in_embed(self, ctx):
-        embed = NormalEmbed(ctx.guild_config, title="Tab In Embed")
+        embed = NormalEmbed(title="Tab In Embed")
 
         embed.description = """Hi
 Just a little test

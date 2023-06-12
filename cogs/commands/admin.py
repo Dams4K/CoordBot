@@ -32,13 +32,13 @@ class AdminCog(Cog):
     @server.command(name="reset")
     async def server_reset(self, ctx):
         confirm_view = ConfirmView()
-        confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"))
+        confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
         confirm_embed.description = ctx.translate("CLEAR_SERVER_CONFIRMATION", member=member)
 
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
         
-        embed = NormalEmbed(ctx.guild_config)
+        embed = NormalEmbed()
         if confirm_view.confirmed:
             path = References.get_guild_folder(str(ctx.guild.id))
             if os.path.exists(path):
@@ -80,13 +80,13 @@ class AdminCog(Cog):
 
     async def reset_member(self, ctx, member: Member, ephemeral=False):
         confirm_view = ConfirmView()
-        confirm_embed = DangerEmbed(ctx.guild_config, title=ctx.translate("WARNING"))
+        confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
         confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
 
         await ctx.respond(embed=confirm_embed, view=confirm_view, ephemeral=ephemeral)
         await confirm_view.wait()
         
-        embed = NormalEmbed(ctx.guild_config)
+        embed = NormalEmbed()
         if confirm_view.confirmed:
             member_data = MemberData(member.id, ctx.guild.id)
             member_data.delete()

@@ -74,7 +74,7 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingData(ctx.guild.id)
         leveling_config.enable()
 
-        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("ACTIVATION"), description=ctx.translate("ENABLE_LEVELING"))
+        embed = NormalEmbed(title=ctx.translate("ACTIVATION"), description=ctx.translate("ENABLE_LEVELING"))
         await ctx.respond(embed=embed)
 
 
@@ -83,7 +83,7 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingData(ctx.guild.id)
         leveling_config.disable()
 
-        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("DEACTIVATION"), description=ctx.translate("DISABLE_LEVELING"))
+        embed = DangerEmbed(title=ctx.translate("DEACTIVATION"), description=ctx.translate("DISABLE_LEVELING"))
         await ctx.respond(embed=embed)
 
 
@@ -92,7 +92,7 @@ class LevelConfigCog(Cog):
     @option("channel", type=discord.TextChannel, required=False, default=None)
     async def leveling_ban(self, ctx, member=None, channel=None):
         if member is None and channel is None:
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            embed = WarningEmbed(title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
             await ctx.respond(embed=embed)
             return
 
@@ -106,7 +106,7 @@ class LevelConfigCog(Cog):
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_BANNED", channel=channel.mention))
 
-        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("BAN"), description="\n".join(description))
+        embed = NormalEmbed(title=ctx.translate("BAN"), description="\n".join(description))
         await ctx.respond(embed=embed)
 
     @leveling.command(name="unban")
@@ -114,7 +114,7 @@ class LevelConfigCog(Cog):
     @option("channel", type=discord.TextChannel, required=False, default=None)
     async def leveling_unban(self, ctx, member=None, channel=None):
         if member is None and channel is None:
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            embed = WarningEmbed(title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
             await ctx.respond(embed=embed)
             return
         
@@ -128,13 +128,13 @@ class LevelConfigCog(Cog):
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_UNBANNED", channel=channel.mention))
 
-        embed = DangerEmbed(ctx.guild_config, title=ctx.translate("UNBAN"), description="\n".join(description))
+        embed = DangerEmbed(title=ctx.translate("UNBAN"), description="\n".join(description))
         await ctx.respond(embed=embed)
 
     @banlist.command(name="members")
     async def banlist_members(self, ctx):
         members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingData(ctx.guild.id).members_banned]
-        embeds = [NormalEmbed(ctx.guild_config, title=ctx.translate("LEVELING_BANLIST_MEMBERS"), description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
+        embeds = [NormalEmbed(title=ctx.translate("LEVELING_BANLIST_MEMBERS"), description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
 
         paginator = Paginator(pages=embeds)
         await paginator.respond(ctx.interaction)
@@ -142,7 +142,7 @@ class LevelConfigCog(Cog):
     @banlist.command(name="channels")
     async def banlist_channels(self, ctx):
         channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingData(ctx.guild.id).channels_banned]
-        embeds = [NormalEmbed(ctx.guild_config, title=ctx.translate("LEVELING_BANLIST_CHANNELS"), description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
+        embeds = [NormalEmbed(title=ctx.translate("LEVELING_BANLIST_CHANNELS"), description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
 
         paginator = Paginator(pages=embeds)
         await paginator.respond(ctx.interaction)
@@ -157,7 +157,7 @@ class LevelConfigCog(Cog):
 
         title = ctx.translate("GAIN_RANGE_MODIFIED")
         description = ctx.translate("GAIN_RANGE_MODIFIED_DESC", min=min, max=max)
-        embed = NormalEmbed(ctx.guild_config, title=title, description=descriptions)
+        embed = NormalEmbed(title=title, description=descriptions)
 
         await ctx.respond(embed=embed)
 

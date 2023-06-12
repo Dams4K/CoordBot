@@ -21,14 +21,14 @@ class GlobalCog(Cog):
         articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
         description = [ctx.translate("WHERE_TO_BUY_TEMPLATE", article=article.name, unit_price=round(article.price/article.get_quantity(object), 2)) for article in articles]
 
-        embed = NormalEmbed(ctx.guild_config, title=object.name, description=object.description)
+        embed = NormalEmbed(title=object.name, description=object.description)
         embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
         await ctx.respond(embed=embed)
 
     @about.command(name="article")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def about_article(self, ctx, article: GuildArticle):
-        embed = NormalEmbed(ctx.guild_config, title=article.name, description=f"prix: {article.price}")
+        embed = NormalEmbed(title=article.name, description=f"prix: {article.price}")
 
         roles = [ctx.guild.get_role(role_id).mention for role_id in article.role_ids]
         if roles != []:
@@ -52,13 +52,13 @@ class GlobalCog(Cog):
             object_descriptions.append(f"{obj.name} ({obj._object_id})")
 
             if (i+1) % 20 == 0 or i+1 == len(sorted_objects):
-                embed = NormalEmbed(ctx.guild_config, title="Objects")
+                embed = NormalEmbed(title="Objects")
                 embed.description = "\n".join(object_descriptions)
                 embed_pages.append(embed)
                 object_descriptions.clear()
         
         if embed_pages == []:
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_OBJECTS_EXISTS"))
+            embed = WarningEmbed(title=ctx.translate("NO_OBJECTS_EXISTS"))
             await ctx.respond(embed=embed)
             return
             
@@ -77,13 +77,13 @@ class GlobalCog(Cog):
             articles_description.append(f"{article.name} ({article._article_id})")
 
             if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
-                embed = NormalEmbed(ctx.guild_config, title="Articles")
+                embed = NormalEmbed(title="Articles")
                 embed.description = "\n".join(articles_description)
                 embed_pages.append(embed)
                 articles_description.clear()
         
         if embed_pages == []:
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_ARTICLES_EXISTS"))
+            embed = WarningEmbed(title=ctx.translate("NO_ARTICLES_EXISTS"))
             await ctx.respond(embed=embed)
             return
         
@@ -106,13 +106,13 @@ class GlobalCog(Cog):
             
             description.append(f"{role} : {pay}")
             if len(description) >= 20 or i+1 == len(salaries):
-                embed = NormalEmbed(ctx.guild_config, title="Salaries")
+                embed = NormalEmbed(title="Salaries")
                 embed.description = "\n".join(description)
                 embeds.append(embed)
                 description.clear()
 
         if embeds == []:
-            embed = WarningEmbed(ctx.guild_config, title=ctx.translate("NO_SALARIES_EXISTS"))
+            embed = WarningEmbed(title=ctx.translate("NO_SALARIES_EXISTS"))
             await ctx.respond(embed=embed)
             return
             
@@ -136,25 +136,12 @@ class GlobalCog(Cog):
         member_data = MemberData(member.id, ctx.guild.id)
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
-        embed = NormalEmbed(ctx.guild_config, title=ctx.translate("PROFIL_OF", member=member))
+        embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member))
         embed.add_field(name=ctx.translate("LEVEL").capitalize(), value=str(member_data.level))
         embed.add_field(name=ctx.translate("XP").capitalize(), value=f"{member_data.xp}/{xp_goal}")
         embed.add_field(name=ctx.translate("MONEY").capitalize(), value=str(member_data.money))
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
-
-
-    @prefix_command(name="utip")
-    async def utip(self, ctx):
-        embed = NormalEmbed(ctx.guild_config, title="UTIP")
-        embed.description = """
-[INSERER TEXT COOL]
-
-[INSERER LIEN UTIP]
-"""
-
-        await ctx.respond(embed=embed)
-
 
     @Cog.listener()
     async def on_message(self, message):

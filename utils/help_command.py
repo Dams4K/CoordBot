@@ -118,7 +118,7 @@ class BotHelpCommand(commands.HelpCommand):
 
         guild_config = ctx.guild_config
 
-        presentation_embed = NormalEmbed(guild_config, title="‎ ‎ ‎ ‎ Page d'aide ‎ ‎ ‎ ‎")
+        presentation_embed = NormalEmbed(title="‎ ‎ ‎ ‎ Page d'aide ‎ ‎ ‎ ‎")
 
         pages = [presentation_embed]
 
@@ -146,7 +146,7 @@ class BotHelpCommand(commands.HelpCommand):
             
             description = "\n".join(self.format_bridge_commands(bridge_commands))
 
-            page_embed = InformativeEmbed(guild_config, title=f"Aide {cog.qualified_name.replace('Cog', '')}", description=description)
+            page_embed = InformativeEmbed(title=f"Aide {cog.qualified_name.replace('Cog', '')}", description=description)
             pages.append(page_embed)
 
         paginator = Paginator(pages)
