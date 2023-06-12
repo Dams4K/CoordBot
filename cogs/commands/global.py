@@ -1,12 +1,15 @@
+from operator import attrgetter
+from random import randint
+
 from discord import *
 from discord.ext.commands import command as prefix_command
 from discord.ext.pages import Paginator
+
 from data_management import *
-from utils.bot_embeds import *
 from utils.bot_autocompletes import *
 from utils.bot_commands import *
-from operator import attrgetter
-from random import randint
+from utils.bot_embeds import *
+
 
 class GlobalCog(Cog):
     def __init__(self, bot):
@@ -142,6 +145,25 @@ class GlobalCog(Cog):
         embed.add_field(name=ctx.translate("MONEY").capitalize(), value=str(member_data.money))
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
+
+    @bot_slash_command(name="buy")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
+    @option("quantity", type=int, default=1, required=False)
+    @guild_only()
+    async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
+        if quantity <= 0:
+            await ctx.respond("????")
+            return
+
+        try:
+            await article.buy(ctx, quantity)
+            await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
+        except NotEnoughMoney:
+            author_money = ctx.author_data.money
+
+            embed = WarningEmbed(title=ctx.translate("CANNOT_PURCHASE"))
+            embed.description = ctx.translate("NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
+            await ctx.respond(embed=embed, ephemeral=True)
 
     @Cog.listener()
     async def on_message(self, message):

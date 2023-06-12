@@ -50,9 +50,9 @@ ENABLE_LEVELING,The level system is now enabled,Le système de niveau est mainte
 DISABLE_LEVELING,The level system is now disabled,Le système de niveau est maintenant désactivé
 ACTIVATION,Activation,Activation
 DEACTIVATION,Deactivation,Désactivation
-LEVEL,level,niveau
-XP,experience,expérience
-MONEY,money,argent
+LEVEL_NAME,level,niveau
+XP_NAME,experience,expérience
+MONEY_NAME,money,argent
 MUST_SELECT_KEY,You must have selected a key,Vous devez avoir sélectionné une clé
 SUGGEST_MODAL,Suggestion menu,Menu de suggestions
 SUGGEST_NAME,Name of the suggestion,Nom de la suggestion
@@ -88,7 +88,7 @@ NO_ARTICLES_EXISTS,There are no articles,Il n'y a pas d'articles
 NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
 PER_UNIT,per unit,par unité
 WHERE_TO_BUY,Where to buy,Où acheter
-WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT})
+WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY_NAME} {LANG_KEY:PER_UNIT})
 ERROR_OCCURED,An error has occured,Une erreur est survenue
 LEVELING_ENABLED,Currently enabled,Actuellement activé
 LEVELING_DISABLED,Currently disabled,Actuellement désactivé

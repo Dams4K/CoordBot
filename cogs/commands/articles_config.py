@@ -121,21 +121,5 @@ class ArticlesConfigCog(Cog):
         else:
             await ctx.respond(text_key="DELETION_CANCELLED")
 
-    # @articles.command(name="buy")
-    # @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    # async def buy_article(self, ctx, article):
-    #     if article is None:
-    #         await ctx.respond(text_key="ARTICLE_DOES_NOT_EXIST")
-    #     else:
-    #         try:
-    #             await article.buy(ctx)
-    #             await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
-    #         except NotEnoughMoney:
-    #             author_money = ctx.author_data.money
-
-    #             embed = WarningEmbed(title=ctx.translate("E_CANNOT_PURCHASE"))
-    #             embed.description = ctx.translate("E_NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
-    #             await ctx.respond(embed=embed, ephemeral=True)
-
 def setup(bot):
     bot.add_cog(ArticlesConfigCog(bot))

@@ -211,23 +211,38 @@ class GuildArticle(Saveable):
     def get_quantity(self, object: GuildObject):
         return self.object_ids.get(str(object._object_id), 0)
 
-    async def buy(self, ctx):
+    async def buy(self, ctx, quantity: int):
         author_data = ctx.author_data
+        price = self.price * quantity
 
-        if author_data.money < self.price:
+        # Check if the member has enough money
+        if author_data.money < price:
             raise errors.NotEnoughMoney
-        else:
-            author_data.money -= self.price
-            author_inventory: Inventory = author_data.get_inventory()
+        
+        author_inventory: Inventory = author_data.get_inventory()
+        # Check if the member has enough objects
+        for object_id, object_amount in self.object_ids.items():
+            if object_amount >= 0:
+                continue
+            
+            author_quantity = author_inventory.object_ids.count(str(object_id))
+            if author_quantity < abs(object_amount * quantity):
+                raise errors.NotEnoughObjects
+
+        author_data.set_money(author_data.money - price)
+
+        for _ in range(quantity):
             for object_id, amount in self.object_ids.items():
-                author_inventory.add_object_id(object_id, amount)
-            author_data.set_inventory(author_inventory)
-            for role_id in self.role_ids:
-                role = ctx.guild.get_role(role_id)
-                if role == None:
-                    raise errors.RoleDidNotExist
-                else:
-                    await ctx.author.add_roles(role)
+                author_inventory.add_object_id(str(object_id), amount)
+
+        author_data.set_inventory(author_inventory)
+        
+        for role_id in self.role_ids:
+            role = ctx.guild.get_role(role_id)
+            if role == None:
+                raise errors.RoleDidNotExist
+            else:
+                await ctx.author.add_roles(role)
     
 class GuildArticleConverter:
     async def convert(*args):
@@ -301,9 +316,13 @@ class Inventory(Data):
         
         self.object_ids.extend([obj._object_id] * amount)
     def add_object_id(self, object_id: str, amount: int):
-        if self.is_full(): return
-
-        self.object_ids.extend([object_id] * amount)
+        if amount < 0:
+            amount_removed = 0
+            while amount_removed < abs(amount) and self.object_ids.count(object_id) > 0:
+                self.object_ids.remove(object_id)
+                amount_removed += 1
+        elif not self.is_full():
+            self.object_ids.extend([object_id] * amount)
     
     def remove_object(self, object_id, amount: int):
         if amount == -1:
