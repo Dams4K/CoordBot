@@ -102,7 +102,7 @@ class _Lang:
             return formatter.vformat(text, args, mapping)
         except IndexError:
             print("The", text_key, "key wasn't found")
-            return "message not found"
+            return text_key
     
     def get_languages(self):
         return self.rows[0][1:]

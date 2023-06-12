@@ -83,7 +83,8 @@ class GuildLevelingData(Saveable):
         self._guild_id = guild_id
         
         self.enabled = True
-        self.levelup_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
+        self.level_up_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
+        self.formula = "LOLEELOLELEOLEOEL"
         self.channels_banned = []
         self.members_banned = []
 
@@ -100,8 +101,8 @@ class GuildLevelingData(Saveable):
         self.enabled = False
     
     @Saveable.update()
-    def set_levelup_message(self, new_message):
-        self.levelup_message = new_message
+    def set_level_up_message(self, new_message):
+        self.level_up_message = new_message
     
     @Saveable.update()
     def ban_channel(self, channel: discord.TextChannel):

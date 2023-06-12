@@ -90,3 +90,6 @@ PER_UNIT,per unit,par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY} {LANG_KEY:PER_UNIT})
 ERROR_OCCURED,An error has occured,Une erreur est survenue
+LEVELING_ENABLED,Currently enabled,Actuellement activé
+LEVELING_DISABLED,Currently disabled,Actuellement désactivé
+LEVELING_GAIN_RANGE_TEXT,[{min}; {max}],[{min}; {max}]
