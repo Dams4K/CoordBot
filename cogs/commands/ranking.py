@@ -95,7 +95,7 @@ class RankingCog(Cog):
         get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
         
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.mention}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
         embed = NormalEmbed(title="Top 15 levels")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
@@ -113,7 +113,7 @@ class RankingCog(Cog):
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
 
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.mention}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
 
         embed = NormalEmbed(title="Top 15 money")
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")

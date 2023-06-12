@@ -2,6 +2,7 @@ from discord import *
 from lang import Lang
 from utils.bot_embeds import DangerEmbed
 from utils.bot_errors import *
+from utils.references import References
 
 class ErrorHandling(Cog):
     def __init__(self, bot):
@@ -33,4 +34,5 @@ class ErrorHandling(Cog):
 
 
 def setup(bot):
-    bot.add_cog(ErrorHandling(bot))
+    if not References.DEBUG_MODE:
+        bot.add_cog(ErrorHandling(bot))

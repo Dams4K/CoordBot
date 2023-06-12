@@ -133,19 +133,29 @@ class LevelConfigCog(Cog):
 
     @banlist.command(name="members")
     async def banlist_members(self, ctx):
-        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingData(ctx.guild.id).members_banned]
-        embeds = [NormalEmbed(title=ctx.translate("LEVELING_BANLIST_MEMBERS"), description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
+        title = ctx.translate("LEVELING_BANLIST_MEMBERS")
 
-        paginator = Paginator(pages=embeds)
-        await paginator.respond(ctx.interaction)
+        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingData(ctx.guild.id).members_banned]
+        embeds = [NormalEmbed(title=title, description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
+        
+        if embeds == []:
+            await ctx.respond(embed=NormalEmbed(title=title, description=ctx.translate("LEVELING_BANLIST_MEMBERS_EMPTY")))
+        else:
+            paginator = Paginator(pages=embeds, show_disabled=False)
+            await paginator.respond(ctx.interaction)
 
     @banlist.command(name="channels")
     async def banlist_channels(self, ctx):
-        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingData(ctx.guild.id).channels_banned]
-        embeds = [NormalEmbed(title=ctx.translate("LEVELING_BANLIST_CHANNELS"), description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
+        title = ctx.translate("LEVELING_BANLIST_CHANNELS")
 
-        paginator = Paginator(pages=embeds)
-        await paginator.respond(ctx.interaction)
+        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingData(ctx.guild.id).channels_banned]
+        embeds = [NormalEmbed(title=title, description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
+    
+        if embeds == []:
+            await ctx.respond(embed=NormalEmbed(title=title, description=ctx.translate("LEVELING_BANLIST_CHANNELS_EMPTY")))
+        else:
+            paginator = Paginator(pages=embeds, show_disabled=False)
+            await paginator.respond(ctx.interaction)
 
     @l_set.command(name="gain")
     @option("min", type=int)
