@@ -119,7 +119,7 @@ class LevelConfigCog(Cog):
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_BANNED", channel=channel.mention))
 
-        embed = NormalEmbed(title=ctx.translate("BAN"), description="\n".join(description))
+        embed = NormalEmbed(title=ctx.translate("BANNING"), description="\n".join(description))
         await ctx.respond(embed=embed)
 
     @leveling.command(name="unban")
@@ -137,11 +137,11 @@ class LevelConfigCog(Cog):
 
         description = []
         if not member is None:
-            description.append(ctx.translate("LEVELING_MEMBER_UNBANNED", member=member.mention))
+            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_UNBANNED", member=member.mention))
         if not channel is None:
-            description.append(ctx.translate("LEVELING_CHANNEL_UNBANNED", channel=channel.mention))
+            description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_UNBANNED", channel=channel.mention))
 
-        embed = DangerEmbed(title=ctx.translate("UNBAN"), description="\n".join(description))
+        embed = DangerEmbed(title=ctx.translate("UNBANNING"), description="\n".join(description))
         await ctx.respond(embed=embed)
 
     @banlist.command(name="members")
@@ -178,11 +178,7 @@ class LevelConfigCog(Cog):
         leveling_config.set_min_gain(min)
         leveling_config.set_max_gain(max)
 
-        title = ctx.translate("GAIN_RANGE_MODIFIED")
-        description = ctx.translate("GAIN_RANGE_MODIFIED_DESC", min=min, max=max)
-        embed = NormalEmbed(title=title, description=descriptions)
-
-        await ctx.respond(embed=embed)
+        await ctx.respond(text_key="GAIN_RANGE_MODIFIED", text_args={"min": min, "max": max})
 
 def setup(bot):
     bot.add_cog(LevelConfigCog(bot))

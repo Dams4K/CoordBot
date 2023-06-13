@@ -33,7 +33,7 @@ class AdminCog(Cog):
     async def server_reset(self, ctx):
         confirm_view = ConfirmView()
         confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
-        confirm_embed.description = ctx.translate("CLEAR_SERVER_CONFIRMATION", member=member)
+        confirm_embed.description = ctx.translate("SERVER_DELETION_CONFIRMATION")
 
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
@@ -44,12 +44,12 @@ class AdminCog(Cog):
             if os.path.exists(path):
                 shutil.rmtree(path)
 
-            embed.title = ctx.translate("CLEAR_DONE")
-            embed.description = ctx.translate("SERVER_HAS_BEEN_CLEARED", member=member)
+            embed.title = ctx.translate("DELETION_PERFORMED")
+            embed.description = ctx.translate("SERVER_DATA_HAS_BEEN_DELETED", member=member)
 
         else:
-            embed.title = ctx.translate("CLEAR_CANCELED")
-            embed.description = ctx.translate("SERVER_HAS_NOT_BEEN_CLEARED", member=member)
+            embed.title = ctx.translate("DELETION_CANCELED")
+            embed.description = ctx.translate("SERVER_DATA_HAS_NOT_BEEN_DELETED", member=member)
         
         await ctx.respond(embed=embed)
 

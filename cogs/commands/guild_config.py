@@ -64,9 +64,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.reset_translation(key)
 
-        embed = DangerEmbed(title=ctx.translate("TRANSLATION_HAS_BEEN_RESET"), description=ctx.translate("TRANSLATION_HAS_BEEN_RESET_DESC"))
-
-        await ctx.respond(embed=embed)
+        await ctx.respond(text_key="TRANSLATION_HAS_BEEN_RESET", text_args={"key":key})
     
 
 def setup(bot):
