@@ -6,22 +6,23 @@ RESET_DONE,Reset done,Réinitialiser effectué
 RESET_CANCELED,Reset canceled,Réinitialiser annulé
 MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
 MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
-ARTICLE_CREATED,Article created,Article créé
-ARTICLE_CREATED_DESC,The article {article} has been created,L'article {article} a été créé
-ARTICLE_NAME_MODIFIED,The name of the article {article} has been changed to {new_name},Le nom de l'article {article} a été modifié en {new_name}
-ARTICLE_DESCRIPTION_MODIFIED,"The description of the article {article} has been changed to:
+ARTICLE_NAME,articles,articles
+ARTICLE_CREATED,{LANG_KEY:ARTICLE_NAME} created,{LANG_KEY:ARTICLE_NAME} créé
+ARTICLE_CREATED_DESC,The {LANG_KEY:ARTICLE_NAME} {article} has been created,L'{LANG_KEY:ARTICLE_NAME} {article} a été créé
+ARTICLE_NAME_MODIFIED,The name of the {LANG_KEY:ARTICLE_NAME} {article} has been changed to {new_name},Le nom de l'{LANG_KEY:ARTICLE_NAME} {article} a été modifié en {new_name}
+ARTICLE_DESCRIPTION_MODIFIED,"The description of the {LANG_KEY:ARTICLE_NAME} {article} has been changed to:
 
-{new_description}","La description de l'article {article} a été modifiée en :
+{new_description}","La description de l'{LANG_KEY:ARTICLE_NAME} {article} a été modifiée en :
 
 {new_description}"
-ARTICLE_PRICE_MODIFIED,The price of the article {article} is now {new_price} {LANG_KEY:MONEY_NAME},Le prix de l'aricle {article} est maintenant {new_price} {LANG_KEY:MONEY_NAME}
-ARTICLE_DOES_NOT_EXIST,This article does not exist,Cet article n'existe pas
+ARTICLE_PRICE_MODIFIED,The price of the {LANG_KEY:ARTICLE_NAME} {article} is now {new_price} {LANG_KEY:MONEY_NAME},Le prix de l'{LANG_KEY:ARTICLE_NAME} {article} est maintenant {new_price} {LANG_KEY:MONEY_NAME}
+ARTICLE_DOES_NOT_EXIST,This {LANG_KEY:ARTICLE_NAME} does not exist,Cet {LANG_KEY:ARTICLE_NAME} n'existe pas
 ARTICLE_OBJECT_ADDED,You have added {quantity} {object} to {article},Tu as rajouté {quantity} {object} à {article}
 ARTICLE_ROLE_ADDED,You have added {role} to {article},Tu as ajouté {role} à {article}
 ARTICLE_OBJECT_REMOVED,You have removed {quantity} {object} from {article},Tu as retiré {quantity} {object} de {article}
 ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role} de {article}
-ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the article {article},Êtes-vous vraiment sûr de vouloir supprimer l'article {article}
-ARTICLE_DELETION_PERFORMED,The deletion of the article {article} has been performed,La suppression de l'article {article} a été effectuée
+ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME} {article}
+ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
 OBJECT_ADDED,Object added,Objet ajouté
@@ -29,7 +30,7 @@ ROLE_ADDED,Role added,Rôle ajouté
 PRICE_MODIFIED,Price modified,Prix modifié
 E_CommandError,En E_CommandError,Fr E_CommandError
 E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
-E_CANNOT_PURCHASE,You can't purchase this article, Tu ne peux pas acheter cet article
+E_CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME}
 E_NOT_ENOUGH_MONEY,"You did not have enough {LANG_KEY:MONEY_NAME}, {money_missing} missing {LANG_KEY:MONEY_NAME}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME}, {money_missing} manquant"
 PROFIL_OF,Profil of {member},Profil de {member}
 CHANGE_LANGUAGE_TO,({lang}) Change the language to English,({lang}) Change la langue en français
@@ -80,11 +81,11 @@ DELETION,Deletion,Suppresion
 DELETION_CANCELLED,Deletion cancelled,Suppression annulé
 OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the object {object},Êtes-vous vraiment sûr de vouloir supprimer l'objet {object}
 OBJECT_DELETION_PERFORMED,The deletion of the object {object} has been performed,La suppression de l'objet {object} a été effectuée
-ARTICLE_PURCHASED,The article {article} has been purchased,L'article {article} a été acheté
+ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME} {article} a été acheté
 OBJECT_REMOVED,Object removed,Objet retiré
 ROLE_REMOVED,Role removed,Rôle retiré
 NO_OBJECTS_EXISTS,There are no objects,Il n'y a aucun objets
-NO_ARTICLES_EXISTS,There are no articles,Il n'y a pas d'articles
+NO_ARTICLES_EXISTS,There are no {LANG_KEY:ARTICLE_NAME},Il n'y a pas d'{LANG_KEY:ARTICLE_NAME}
 NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
 PER_UNIT,per unit,par unité
 WHERE_TO_BUY,Where to buy,Où acheter

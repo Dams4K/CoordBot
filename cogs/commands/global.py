@@ -21,9 +21,20 @@ class GlobalCog(Cog):
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     async def about_object(self, ctx, object: GuildObject):
-        articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
-        description = [ctx.translate("WHERE_TO_BUY_TEMPLATE", article=article.name, unit_price=round(article.price/article.get_quantity(object), 2)) for article in articles]
+        # articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
+        description = []
+        for article in GuildArticle.list_articles(ctx.guild.id):
+            if not article.has_object(object):
+                continue
+            
+            quantity = article.get_quantity(object)
+            if quantity <= 0:
+                continue
 
+            description.append(
+                ctx.translate("WHERE_TO_BUY_TEMPLATE", article=article.name, unit_price=round(article.price/quantity, 2))
+            )
+        
         embed = NormalEmbed(title=object.name, description=object.description)
         embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
         await ctx.respond(embed=embed)
@@ -140,9 +151,9 @@ class GlobalCog(Cog):
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
         embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member))
-        embed.add_field(name=ctx.translate("LEVEL").capitalize(), value=str(member_data.level))
-        embed.add_field(name=ctx.translate("XP").capitalize(), value=f"{member_data.xp}/{xp_goal}")
-        embed.add_field(name=ctx.translate("MONEY").capitalize(), value=str(member_data.money))
+        embed.add_field(name=ctx.translate("LEVEL_NAME").capitalize(), value=str(member_data.level))
+        embed.add_field(name=ctx.translate("XP_NAME").capitalize(), value=f"{member_data.xp}/{xp_goal}")
+        embed.add_field(name=ctx.translate("MONEY_NAME").capitalize(), value=str(member_data.money))
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 

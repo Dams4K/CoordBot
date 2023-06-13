@@ -39,9 +39,9 @@ class DefaultCog(Cog):
 
         xp_goal = default_member.get_xp_goal(ctx.guild_config.leveling_formula)
         embed = InformativeEmbed(title=ctx.translate("PROFIL_OF", member="*username#0000*"))
-        embed.add_field(name=ctx.translate("LEVEL").capitalize(), value=str(default_member.level))
-        embed.add_field(name=ctx.translate("XP").capitalize(), value=f"{default_member.xp}/{xp_goal}")
-        embed.add_field(name=ctx.translate("MONEY").capitalize(), value=str(default_member.money))
+        embed.add_field(name=ctx.translate("LEVEL_NAME").capitalize(), value=str(default_member.level))
+        embed.add_field(name=ctx.translate("XP_NAME").capitalize(), value=f"{default_member.xp}/{xp_goal}")
+        embed.add_field(name=ctx.translate("MONEY_NAME").capitalize(), value=str(default_member.money))
         
         await ctx.respond(embed=embed)
 

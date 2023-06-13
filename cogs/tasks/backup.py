@@ -5,11 +5,12 @@ import os
 from discord.ext import commands, tasks
 
 class BackupCog(commands.Cog):
-    BACKUP_DAYS = [0]
-    BACKUP_TIMES = [datetime.time(hour=8, tzinfo=datetime.timezone.utc)]
+    BACKUP_DAYS = [0] # 0 = monday
+    BACKUP_TIMES = [datetime.time(hour=8)] # utc time
 
     def __init__(self, bot):
         self.bot = bot
+        self.backup_task.start()
     
     def cog_check(self, ctx):
         return self.bot.is_owner(ctx.author)
@@ -17,7 +18,7 @@ class BackupCog(commands.Cog):
     @tasks.loop(time=BACKUP_TIMES)
     async def backup_task(self):
         today = datetime.date.today()
-        if today.isoweekday() in [BACKUP_DAYS]:
+        if today.weekday() in BACKUP_DAYS:
             await self.create_backup()
 
     @commands.command(name="force_backup")
