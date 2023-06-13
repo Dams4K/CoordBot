@@ -7,6 +7,7 @@ from discord.ext import commands, tasks
 
 
 class BackupCog(Cog):
+    BACKUPS_FOLDER = "datas/backups"
     MAX_BACKUPS = 14
     BACKUP_DAYS = [0, 1, 2, 3, 4, 5, 6] # 0 = monday 1 = tuesday 2 = ...
     BACKUP_TIMES = [datetime.time(hour=8)] # utc time
@@ -40,16 +41,17 @@ class BackupCog(Cog):
 
     async def create_backup(self):
         filename = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        path = f"datas/backups/{filename}"
+        path = os.path.join(self.BACKUPS_FOLDER, filename)
         
         shutil.make_archive(path, "zip", "datas/guilds")
 
-        backups = os.listdir(f"datas/backups")
+        backups = os.listdir(self.BACKUPS_FOLDER)
         backups.sort()
+        # Delete excess backups 
         while len(backups) > self.MAX_BACKUPS:
-            path = backups[0]
-            os.remove(path)
-            print(f"backup file {path} has been removed")
+            backup_path = os.path.join(self.BACKUPS_FOLDER, backups.pop(0))
+            os.remove(backup_path)
+            print(f"backup file {backup_path} has been removed")
 
         return f"{path}.zip"
 
