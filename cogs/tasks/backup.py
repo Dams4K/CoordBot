@@ -1,10 +1,12 @@
-import discord
-import datetime
-import shutil
 import os
+import shutil
+import datetime
+
+from discord import *
 from discord.ext import commands, tasks
 
-class BackupCog(commands.Cog):
+
+class BackupCog(Cog):
     BACKUP_DAYS = [0] # 0 = monday
     BACKUP_TIMES = [datetime.time(hour=8)] # utc time
 
@@ -19,19 +21,40 @@ class BackupCog(commands.Cog):
     async def backup_task(self):
         today = datetime.date.today()
         if today.weekday() in BACKUP_DAYS:
-            await self.create_backup()
+            backup_path = await self.create_backup()
 
-    @commands.command(name="force_backup")
-    async def force_backup(self, ctx):
-        await self.create_backup()
-        await ctx.send(ctx.translate("NEW_BACKUP_MADE"))
+            app_info = await self.bot.application_info()
+            team = app_info.team
+            owner: discord.User = await self.bot.fetch_user(team.owner.id) if team else app_info.owner
+            if self.send_backup_file(owner, backup_path):
+                print(f"Weekly backup file sent to {owner}")
+
+
+    @commands.command(name="backup")
+    async def forced_backup(self, ctx):
+        backup_path = await self.create_backup()
+        if await self.send_backup_file(ctx.author, backup_path):
+            print(f"Forced backup file sent to {ctx.author}")
 
 
     async def create_backup(self):
-        filename = datetime.date.today().strftime("%Y-%m-%d")
+        filename = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         path = f"datas/backups/{filename}"
         
         shutil.make_archive(path, "zip", "datas/guilds")
+
+        return f"{path}.zip"
+
+
+    async def send_backup_file(self, user, backup_path):
+        if not user.can_send():
+            return False
+
+        with open(backup_path, "rb") as f:
+            file = File(f, backup_path.split("/")[-1])
+            await user.send(file=file)
+        return True
+        
 
 def setup(bot):
     bot.add_cog(BackupCog(bot))

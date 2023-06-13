@@ -50,7 +50,7 @@ MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME} to `{amount}`,Vous ave
 ENABLE_LEVELING,The level system is now enabled,Le système de niveau est maintenant activé
 DISABLE_LEVELING,The level system is now disabled,Le système de niveau est maintenant désactivé
 ACTIVATION,Activation,Activation
-DEACTIVATION,Deactivation,Désactivation
+DEACTIVATION,Desactivation,Désactivation
 LEVEL_NAME,level,niveau
 XP_NAME,experience,expérience
 MONEY_NAME,money,argent
