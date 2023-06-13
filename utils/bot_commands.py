@@ -102,19 +102,29 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
 
 class BotUserCommand(UserCommand, CommandLocalization):
     def __init__(self, func: callable, *args, **kwargs):
-        filename = kwargs.get("name", func.__name__)
+        filename = kwargs.get("name", func.__name__.capitalize())
 
         CommandLocalization.__init__(self, filename)
-        kwargs.setdefault("name_localizations", self.loc_name_localizations)
+
+        capitalized_loc_name_localizations = None
+        if self.loc_name_localizations:
+            capitalized_loc_name_localizations = {key: value.capitalize() for key, value in self.loc_name_localizations.items()}
+
+        kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
 
         return UserCommand.__init__(self, func, *args, **kwargs)
 
 class BotMessageCommand(MessageCommand, CommandLocalization):
     def __init__(self, func: callable, *args, **kwargs):
-        filename = kwargs.get("name", func.__name__)
+        filename = kwargs.get("name", func.__name__.capitalize())
 
         CommandLocalization.__init__(self, filename)
-        kwargs.setdefault("name_localizations", self.loc_name_localizations)
+        
+        capitalized_loc_name_localizations = None
+        if self.loc_name_localizations:
+            capitalized_loc_name_localizations = {key: value.capitalize() for key, value in self.loc_name_localizations.items()}
+
+        kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
 
         return MessageCommand.__init__(self, func, *args, **kwargs)
     

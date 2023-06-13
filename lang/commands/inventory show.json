@@ -1,0 +1,20 @@
+{
+    "description": "Display the contents of a member's inventory",
+    "name_localizations": {
+        "fr": "montrer"
+    },
+    "description_localizations": {
+        "fr": "Afficher le contenu de l'inventaire d'un membre"
+    },
+    "options": {
+        "member": {
+            "description": "Targeted member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre ciblé"
+            }
+        }
+    }
+}

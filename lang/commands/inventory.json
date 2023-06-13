@@ -1,0 +1,9 @@
+{
+    "description": "Store objects of members",
+    "name_localizations": {
+        "fr": "inventaire"
+    },
+    "description_localizations": {
+        "fr": "Stocker les objets des membres"
+    }
+}

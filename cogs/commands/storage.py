@@ -1,27 +1,30 @@
-import discord
-from discord import *
-from discord.ext import commands, pages
-from data_management import *
-from utils.bot_embeds import NormalEmbed, DangerEmbed
-from utils.bot_views import ConfirmView
-from utils.bot_autocompletes import *
 from operator import attrgetter
 
-class StorageCog(commands.Cog):
+from discord import *
+from discord.ext import commands, pages
+
+from data_management import *
+from utils.bot_autocompletes import *
+from utils.bot_commands import *
+from utils.bot_embeds import DangerEmbed, NormalEmbed
+from utils.bot_views import ConfirmView
+
+
+class StorageCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    inventory = SlashCommandGroup("inventory", guild_only=True)
+    inventory = BotSlashCommandGroup("inventory", guild_only=True)
 
     @inventory.command(name="show")
-    @option("member", type=discord.Member, required=False)
+    @option("member", type=Member, required=False)
     async def slash_show_inventory(self, ctx, member=None):
         member = ctx.author if member == None else member
         await self.show_inventory(ctx, member)
     
-    @discord.user_command(name="inventory")
+    @bot_user_command(name="inventory")
     @guild_only()
-    async def user_show_inventory(self, ctx, member: discord.Member):
+    async def user_show_inventory(self, ctx, member: Member):
         await self.show_inventory(ctx, member, ephemeral=True)
 
     async def show_inventory(self, ctx, member, ephemeral=False):
@@ -39,9 +42,9 @@ class StorageCog(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
-    @inventory.command()
-    async def sell(self, ctx):
-        await ctx.respond("sell object")
+    # @inventory.command() # TODO: v4.1
+    # async def sell(self, ctx):
+    #     await ctx.respond("sell object")
     
 
 def setup(bot):

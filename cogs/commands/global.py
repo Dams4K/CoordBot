@@ -2,7 +2,6 @@ from operator import attrgetter
 from random import randint
 
 from discord import *
-from discord.ext.commands import command as prefix_command
 from discord.ext.pages import Paginator
 
 from data_management import *
