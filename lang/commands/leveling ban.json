@@ -5,5 +5,25 @@
     },
     "description_localizations": {
         "fr": "Ne pas donner d'xp sur le canal banni ou au membre banni"
+    },
+    "options": {
+        "member": {
+            "description": "Member to ban",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Membre à bannir"
+            }
+        },
+        "channel": {
+            "description": "Channel to ban",
+            "name_localizations": {
+                "fr": "salon"
+            },
+            "description_localizations": {
+                "fr": "Salon à bannir"
+            }
+        }
     }
 }

@@ -5,5 +5,25 @@
     },
     "description_localizations": {
         "fr": "Définir la fourchette d'argent à donner lors de la mise à niveau"
+    },
+    "options": {
+        "min": {
+            "description": "Minimum amount of money a member can earn",
+            "name_localizations": {
+                "fr": "min"
+            },
+            "description_localizations": {
+                "fr": "Montant minimum d'argent qu'un membre peut gagner"
+            }
+        },
+        "max": {
+            "description": "Maximum amount of money a member can earn",
+            "name_localizations": {
+                "fr": "max"
+            },
+            "description_localizations": {
+                "fr": "Montant maximum d'argent qu'un membre peut gagner"
+            }
+        }
     }
 }
