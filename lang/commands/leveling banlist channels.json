@@ -1,0 +1,9 @@
+{
+    "description": "List of banned channels of the level system",
+    "name_localizations": {
+        "fr": "salons"
+    },
+    "description_localizations": {
+        "fr": "Liste des salons bannis du système de niveau"
+    }
+}

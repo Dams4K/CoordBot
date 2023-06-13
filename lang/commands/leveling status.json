@@ -1,0 +1,9 @@
+{
+    "description": "Current level system config",
+    "name_localizations": {
+        "fr": "status"
+    },
+    "description_localizations": {
+        "fr": "Configuration actuel du système de niveaux"
+    }
+}

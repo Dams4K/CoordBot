@@ -1,0 +1,9 @@
+{
+    "description": "Enable level system",
+    "name_localizations": {
+        "fr": "activer"
+    },
+    "description_localizations": {
+        "fr": "Activer le système de niveau"
+    }
+}

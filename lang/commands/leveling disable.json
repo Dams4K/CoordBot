@@ -1,0 +1,9 @@
+{
+    "description": "Disable level system",
+    "name_localizations": {
+        "fr": "désactiver"
+    },
+    "description_localizations": {
+        "fr": "Désactiver le système de niveau"
+    }
+}

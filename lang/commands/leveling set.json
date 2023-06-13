@@ -1,0 +1,9 @@
+{
+    "description": "Set properties of the level system",
+    "name_localizations": {
+        "fr": "définir"
+    },
+    "description_localizations": {
+        "fr": "Définir les propriétés du système de niveau"
+    }
+}

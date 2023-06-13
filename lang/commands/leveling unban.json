@@ -1,0 +1,9 @@
+{
+    "description": "Allow xp to be given on the banned channel or to the banned member",
+    "name_localizations": {
+        "fr": "débannir"
+    },
+    "description_localizations": {
+        "fr": "Autoriser l'attribution d'xp sur le canal banni ou au membre banni"
+    }
+}

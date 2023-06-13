@@ -1,0 +1,9 @@
+{
+    "description": "Level system ban list",
+    "name_localizations": {
+        "fr": "bannissements"
+    },
+    "description_localizations": {
+        "fr": "Liste des bannissements du système de niveau"
+    }
+}

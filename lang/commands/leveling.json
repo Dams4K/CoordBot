@@ -1,0 +1,9 @@
+{
+    "description": "Level system configuration commands",
+    "name_localizations": {
+        "fr": "niveaux"
+    },
+    "description_localizations": {
+        "fr": "Commandes de configuration du système de niveaux"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "description": "Define the range of money to be gived when upgrading",
+    "name_localizations": {
+        "fr": "gain"
+    },
+    "description_localizations": {
+        "fr": "Définir la fourchette d'argent à donner lors de la mise à niveau"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "description": "List of banned members of the level system",
+    "name_localizations": {
+        "fr": "membres"
+    },
+    "description_localizations": {
+        "fr": "Liste des membres bannis du système de niveau"
+    }
+}

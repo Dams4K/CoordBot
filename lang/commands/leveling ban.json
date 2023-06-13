@@ -1,0 +1,9 @@
+{
+    "description": "Do not give any xp on the banned channel or to the banned member",
+    "name_localizations": {
+        "fr": "bannir"
+    },
+    "description_localizations": {
+        "fr": "Ne pas donner d'xp sur le canal banni ou au membre banni"
+    }
+}
