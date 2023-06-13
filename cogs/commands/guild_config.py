@@ -22,7 +22,7 @@ class GuildConfigCog(Cog):
     @bridge.bridge_group(invoke_without_command=True, checks=[is_in_guild], guild_only=True)
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
-        await ctx.respond(f"The bot's prefix is {ctx.guild_config.prefix}")
+        await ctx.respond(text_key="PREFIX_CURRENT", text_args={"prefix": ctx.guild_config.prefix})
 
     @prefix.command(name="set")
     @option("new_prefix", type=str, required=True)
@@ -33,7 +33,7 @@ class GuildConfigCog(Cog):
     @prefix.command(name="reset")
     async def prefix_reset(self, ctx):
         ctx.guild_config.set_prefix = References.BOT_PREFIX
-        await ctx.respond(text_key="PREFIX_RESET", text_args={"prefix": References.BOT_PREFIX})
+        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": References.BOT_PREFIX})
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
@@ -56,9 +56,7 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.guild.id)
         guild_language.add_translation(key, translation)
 
-        embed = NormalEmbed(title=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED"), description=ctx.translate("TRANSLATION_HAS_BEEN_MODIFIED_DESC"))
-
-        await ctx.respond(embed=embed)
+        await ctx.respond(text_key="TRANSLATION_HAS_BEEN_MODIFIED", text_args={"key":key})
     
     @language.command(name="reset")
     @option("key", type=str, required=True, autocomplete=get_custom_translations)

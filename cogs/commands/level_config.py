@@ -115,9 +115,9 @@ class LevelConfigCog(Cog):
 
         description = []
         if not member is None:
-            description.append(ctx.translate("LEVELING_MEMBER_BANNED", member=member.mention))
+            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_BANNED", member=member.mention))
         if not channel is None:
-            description.append(ctx.translate("LEVELING_CHANNEL_BANNED", channel=channel.mention))
+            description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_BANNED", channel=channel.mention))
 
         embed = NormalEmbed(title=ctx.translate("BAN"), description="\n".join(description))
         await ctx.respond(embed=embed)
