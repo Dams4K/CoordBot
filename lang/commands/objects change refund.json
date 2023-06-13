@@ -1,0 +1,38 @@
+{
+    "description": "Change the object's refund capacity",
+    "name_localizations": {
+        "fr": "remboursement"
+    },
+    "description_localizations": {
+        "fr": "MModifier la capacité de remboursement de l'objet"
+    },
+    "options": {
+        "object": {
+            "description": "Targeted object",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet ciblé"
+            }
+        },
+        "is_refundable": {
+            "description": "Is the object refundable ?",
+            "name_localizations": {
+                "fr": "est_remboursable"
+            },
+            "description_localizations": {
+                "fr": "L'objet est-il remboursable ?"
+            }
+        },
+        "refund_price": {
+            "description": "Money the member will get back",
+            "name_localizations": {
+                "fr": "prix_de_remboursement"
+            },
+            "description_localizations": {
+                "fr": "L'argent que le membre récupérera"
+            }
+        }
+    }
+}

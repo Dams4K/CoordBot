@@ -1,0 +1,20 @@
+{
+    "description": "Buy an article",
+    "name_localizations": {
+        "fr": "acheter"
+    },
+    "description_localizations": {
+        "fr": "Achete un article"
+    },
+    "options": {
+        "article": {
+            "description": "Article to buy",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article à acheter"
+            }
+        }
+    }
+}

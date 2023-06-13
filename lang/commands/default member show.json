@@ -1,0 +1,9 @@
+{
+    "description": "Show member's initial values",
+    "name_localizations": {
+        "fr": "afficher"
+    },
+    "description_localizations": {
+        "fr": "Afficher les valeurs initiales des membres"
+    }
+}
