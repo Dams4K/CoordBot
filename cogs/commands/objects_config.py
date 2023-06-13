@@ -28,7 +28,7 @@ class ObjectsConfigCog(Cog):
     async def change_name(self, ctx, object: GuildObject, name: str):
         before_name = object.name
         object.set_name(name)
-        await ctx.respond(text_key="OBJECT_NAME_MODIFIED", text_args={"before": before_name, "after": name})
+        await ctx.respond(text_key="OBJECT_NAME_CHANGED", text_args={"before": before_name, "after": name})
     
     @change.command(name="description")
     @option("object", type=GuildObjectConverter, autocomplete=get_objects)
@@ -36,7 +36,7 @@ class ObjectsConfigCog(Cog):
     async def change_description(self, ctx, object: GuildObject, description: str):
         before_description = object.description
         object.set_description(description)
-        await ctx.respond(text_key="OBJECT_DESCRIPTION_MODIFIED", text_args={"before": before_description, "after": description})
+        await ctx.respond(text_key="OBJECT_DESCRIPTION_CHANGED", text_args={"before": before_description, "after": description})
 
     @change.command(name="refund")
     @option("object", type=GuildObjectConverter, autocomplete=get_objects)

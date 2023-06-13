@@ -64,11 +64,19 @@ class _Lang:
             self.rows = [row for row in csv.reader(f, delimiter=",", quotechar='"')]
 
 
-    def get_text(self, text_key: str, lang: str, custom_rows: dict = None, *args, **kwargs) -> str:
+    def get_text(self, text_key_informations: str, lang: str, custom_rows: dict = None, *args, **kwargs) -> str:
+        """TEXT_KEY:PARAMETER1;PARAMETER2"""
         try:
+            splited_text_key_informations = text_key_informations.split(":")
+            text_key = splited_text_key_informations[0]
+            text_parameters = []
+            if len(splited_text_key_informations) > 1:
+                text_parameters = splited_text_key_informations[1].split(";")
+
             lang = lang.lower()
 
             rows = self.rows
+            # Add custom rows
             if custom_rows is not None:
                 rows = [self.rows[0]]
 
@@ -78,20 +86,27 @@ class _Lang:
                         rows.append([key] + [custom_rows.get(key)] * (len(row)-1))
                     else:
                         rows.append(row)
-                        
+            
             key_row: int = [row for row in range(len(rows)) if rows[row][0].upper() == text_key.upper()][0]
             if lang not in rows[0]:
                 lang = "en"
             lang_col: int = rows[0].index(lang.lower())
             text: str = rows[key_row][lang_col]
 
+            for text_parameter in text_parameters:
+                if text_parameter.lower() == "capitalize":
+                    text = text.capitalize()
+                elif text_parameter.lower == "casefold":
+                    text = text.casefold()
+
             start = text.find(_Lang.LANG_SEQ, 0)
             while -1 < start < len(text):
                 end = text.find("}", start)
 
-                inner_text_key = text[start+len(_Lang.LANG_SEQ):end]
-                if inner_text_key.upper() != text_key.upper():
-                    text = text[:start] + self.get_text(inner_text_key, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
+                inner_text_key_informations = text[start+len(_Lang.LANG_SEQ):end]
+                inner_text_key = inner_text_key_informations.split(":")[0]
+                if inner_text_key.upper() != text_key.upper(): # Solve infinite loop issue
+                    text = text[:start] + self.get_text(inner_text_key_informations, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
 
                 start = text.find(_Lang.LANG_SEQ, start+1)
 

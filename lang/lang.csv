@@ -6,7 +6,8 @@ RESET_DONE,Reset done,Réinitialiser effectué
 RESET_CANCELED,Reset canceled,Réinitialiser annulé
 MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
 MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
-ARTICLE_NAME,articles,articles
+ARTICLE_NAME,Article,Article
+ARTICLES,{LANG_KEY:ARTICLE_NAME}s,{LANG_KEY:ARTICLE_NAME}s
 ARTICLE_CREATED,{LANG_KEY:ARTICLE_NAME} created,{LANG_KEY:ARTICLE_NAME} créé
 ARTICLE_CREATED_DESC,The {LANG_KEY:ARTICLE_NAME} {article} has been created,L'{LANG_KEY:ARTICLE_NAME} {article} a été créé
 ARTICLE_NAME_MODIFIED,The name of the {LANG_KEY:ARTICLE_NAME} {article} has been changed to {new_name},Le nom de l'{LANG_KEY:ARTICLE_NAME} {article} a été modifié en {new_name}
@@ -25,9 +26,43 @@ ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_K
 ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
+PRICE_MODIFIED,Price modified,Prix modifié
+DELETION,Deletion,Suppresion
+DELETION_CANCELLED,Deletion cancelled,Suppression annulé
 OBJECT_ADDED,Object added,Objet ajouté
 ROLE_ADDED,Role added,Rôle ajouté
-PRICE_MODIFIED,Price modified,Prix modifié
+OBJECT_REMOVED,Object removed,Objet retiré
+ROLE_REMOVED,Role removed,Rôle retiré
+OBJECT_NAME,Object,Objet
+OBJECTS,{LANG_KEY:OBJECT_NAME}s,{LANG_KEY:OBJECT_NAME}s
+OBJECT_CREATED,A new {LANG_KEY:OBJECT_NAME:casefold} has been created,Un nouvel {LANG_KEY:OBJECT_NAME:casefold} a été créé
+OBJECT_DESCRIPTION_CHANGED,The description of the {LANG_KEY:OBJECT_NAME:casefold} has been changed: {before} -> {after},La description de l'{LANG_KEY:OBJECT_NAME:casefold} a été modifié: {before} -> {after}
+OBJECT_NAME_CHANGED,The name of the {LANG_KEY:OBJECT_NAME:casefold} has been changed: {before} -> {after},Le nom de l'{LANG_KEY:OBJECT_NAME:casefold} a été modifié: {before} -> {after}
+OBJECT_DOES_NOT_EXIST,This {LANG_KEY:OBJECT_NAME:casefold} does not exist,Cet {LANG_KEY:OBJECT_NAME:casefold} n'existe pas
+OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:OBJECT_NAME:casefold} {object},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:OBJECT_NAME:casefold} {object}
+OBJECT_DELETION_PERFORMED,The deletion of the {LANG_KEY:OBJECT_NAME:casefold} {object} has been performed,La suppression de l'{LANG_KEY:OBJECT_NAME:casefold} {object} a été effectuée
+OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
+INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
+DEFAULT_MEMBER_XP_CHANGED,Members' default {LANG_KEY:XP_NAME:casefold} is now {amount},L'{LANG_KEY:XP_NAME:casefold} par défaut des membres est désormais de {amount}
+DEFAULT_MEMBER_LEVEL_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} is now {amount},Le {LANG_KEY:LEVEL_NAME:casefold} par défaut des membres est désormais de {amount}
+DEFAULT_MEMBER_MONEY_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} quantity is now {amount},La quantité d'{LANG_KEY:MONEY_NAME:casefold} par défaut des membres est désormais de {amount}
+SUGGEST_MODAL,Suggestion menu,Menu de suggestions
+SUGGEST_NAME,Name of the suggestion,Nom de la suggestion
+SUGGEST_EXPLANATION,Explanation of the suggestion,Explication de la suggestion
+SUGGEST_SENT,Suggestion sent,Suggestion envoyé
+SUGGEST_RESPONSE_RECEIVED,You have received an answer from the developer regarding your suggestion,Tu as reçu une réponse du développeur concernant ta suggestion
+REPORT_MODAL,Report menu,Menu de rapport
+REPORT_EXPLANATION,Explanation of the report,Explication du rapport
+NEW_REPORT,New report,Nouveau rapport
+REPORT_SENT,Report sent,Rapport envoyé
+REPORT_RESPONSE_RECEIVED,You have received an answer from the developer regarding your report,Tu as reçu une réponse du développeur concernant ton rapport
+RESPONSE_MENU,Response menu,Menu de réponse
+RESPONSE,Response,Réponse
+RESPOND,Respond,Répondre
+SEE_RESPONSE,See response,Voir la réponse
+DEVELOPER_RESPONSE,Developer response,Réponse du développeur
+NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse
+
 E_CommandError,En E_CommandError,Fr E_CommandError
 E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
 E_CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME}
@@ -51,45 +86,18 @@ ENABLE_LEVELING,The level system is now enabled,Le système de niveau est mainte
 DISABLE_LEVELING,The level system is now disabled,Le système de niveau est maintenant désactivé
 ACTIVATION,Activation,Activation
 DEACTIVATION,Desactivation,Désactivation
-LEVEL_NAME,level,niveau
-XP_NAME,experience,expérience
-MONEY_NAME,money,argent
+LEVEL_NAME,Level,Niveau
+XP_NAME,Experience,Expérience
+MONEY_NAME,Money,Argent
 MUST_SELECT_KEY,You must have selected a key,Vous devez avoir sélectionné une clé
-SUGGEST_MODAL,Suggestion menu,Menu de suggestions
-SUGGEST_NAME,Name of the suggestion,Nom de la suggestion
-SUGGEST_EXPLANATION,Explanation of the suggestion,Explication de la suggestion
-SUGGEST_SENT,Suggestion sent,Suggestion envoyé
-SUGGEST_RESPONSE_RECEIVED,You have received an answer from the developer regarding your suggestion,Tu as reçu une réponse du développeur concernant ta suggestion
-REPORT_EXPLANATION,Explanation of the report,Explication du rapport
-REPORT_MODAL,Report menu,Menu de rapport
-NEW_REPORT,New report,Nouveau rapport
-REPORT_SENT,Report sent,Rapport envoyé
-REPORT_RESPONSE_RECEIVED,You have received an answer from the developer regarding your report,Tu as reçu une réponse du développeur concernant ton rapport
-RESPONSE_MENU,Response menu,Menu de réponse
-RESPONSE,Response,Réponse
-RESPOND,Respond,Répondre
-SEE_RESPONSE,See response,Voir la réponse
-DEVELOPER_RESPONSE,Developer response,Réponse du développeur
-NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
-OBJECT_NAME_CHANGED,The name of the object has been changed: {before} -> {after},Le nom de l'objet a été modifié: {before} -> {after}
-OBJECT_DESCRIPTION_CHANGED,The description of the object has been changed: {before} -> {after},La description de l'objet a été modifié: {before} -> {after}
-OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
-OBJECT_DOES_NOT_EXIST,This object does not exist,Cet objet n'existe pas
-INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
-DELETION,Deletion,Suppresion
-DELETION_CANCELLED,Deletion cancelled,Suppression annulé
-OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the object {object},Êtes-vous vraiment sûr de vouloir supprimer l'objet {object}
-OBJECT_DELETION_PERFORMED,The deletion of the object {object} has been performed,La suppression de l'objet {object} a été effectuée
-ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME} {article} a été acheté
-OBJECT_REMOVED,Object removed,Objet retiré
-ROLE_REMOVED,Role removed,Rôle retiré
-NO_OBJECTS_EXISTS,There are no objects,Il n'y a aucun objets
-NO_ARTICLES_EXISTS,There are no {LANG_KEY:ARTICLE_NAME},Il n'y a pas d'{LANG_KEY:ARTICLE_NAME}
+ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
+NO_OBJECTS_EXISTS,There are no {LANG_KEY:OBJECT_NAME:casefold}s,Il n'y a aucun {LANG_KEY:OBJECT_NAME:casefold}s
+NO_ARTICLES_EXISTS,There are no {LANG_KEY:ARTICLE_NAME:casefold},Il n'y a pas d'{LANG_KEY:ARTICLE_NAME:casefold}
 NO_SALARIES_EXISTS,There are no salaries,Il n'y a pas de salaires
-PER_UNIT,per unit,par unité
+PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
-WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME} {LANG_KEY:PER_UNIT}),{article} ({unit_price} {LANG_KEY:MONEY_NAME} {LANG_KEY:PER_UNIT})
+WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
 ERROR_OCCURED,An error has occured,Une erreur est survenue
 LEVELING_ENABLED,Currently enabled,Actuellement activé
 LEVELING_DISABLED,Currently disabled,Actuellement désactivé

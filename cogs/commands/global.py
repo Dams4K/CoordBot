@@ -49,7 +49,7 @@ class GlobalCog(Cog):
         
         objects = [f"{GuildObject(object_id, ctx.guild.id).name} | {amount}" for object_id, amount in article.object_ids.items()]
         if objects != []:
-            embed.add_field(name="Objects", value="\n".join(objects))
+            embed.add_field(name=ctx.translate("OBJECTS"), value="\n".join(objects))
         
         await ctx.respond(embed=embed)
 
@@ -65,7 +65,7 @@ class GlobalCog(Cog):
             object_descriptions.append(f"{obj.name} ({obj._object_id})")
 
             if (i+1) % 20 == 0 or i+1 == len(sorted_objects):
-                embed = NormalEmbed(title="Objects")
+                embed = NormalEmbed(title=ctx.translate("OBJECTS"))
                 embed.description = "\n".join(object_descriptions)
                 embed_pages.append(embed)
                 object_descriptions.clear()
@@ -90,7 +90,7 @@ class GlobalCog(Cog):
             articles_description.append(f"{article.name} ({article._article_id})")
 
             if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
-                embed = NormalEmbed(title="Articles")
+                embed = NormalEmbed(title=ctx.translate("ARTICLES"))
                 embed.description = "\n".join(articles_description)
                 embed_pages.append(embed)
                 articles_description.clear()
@@ -150,9 +150,9 @@ class GlobalCog(Cog):
 
         xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
         embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member))
-        embed.add_field(name=ctx.translate("LEVEL_NAME").capitalize(), value=str(member_data.level))
-        embed.add_field(name=ctx.translate("XP_NAME").capitalize(), value=f"{member_data.xp}/{xp_goal}")
-        embed.add_field(name=ctx.translate("MONEY_NAME").capitalize(), value=str(member_data.money))
+        embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(member_data.level))
+        embed.add_field(name=ctx.translate("XP_NAME"), value=f"{member_data.xp}/{xp_goal}")
+        embed.add_field(name=ctx.translate("MONEY_NAME"), value=str(member_data.money))
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
