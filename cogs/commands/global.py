@@ -177,31 +177,34 @@ class GlobalCog(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
-        if message.author.bot:
+        if message.author.bot: # Ignore bots
             return
-
-        if message.guild is None:
+        if message.guild is None: # Ignore non guild origin
             return
 
         ctx = await self.bot.get_context(message)
+        is_command = not ctx.command is None
+
+        if self.bot.user in message.mentions:
+            if randint(0, 99) == 0: # Little easteregg lol
+                await message.reply("Yo, it's me")
+            if len(message.raw_mentions) == 1 and message.content == f"<@{message.raw_mentions[0]}>":
+                # The message only mention the bot
+                # await message.reply("Stats")
+                pass
+
         leveling_config = GuildLevelingData(ctx.guild.id)
+        author_is_banned = leveling_config.is_member_ban(message.author)
+        channel_is_banned = leveling_config.is_channel_ban(ctx.channel)
+        if leveling_config.enabled and not (is_command or author_is_banned or channel_is_banned):
+            # Add xp to author
+            level_before = ctx.author_data.level
+            ctx.author_data.add_xp(len(message.content))
+            level_after = ctx.author_data.refresh_level(ctx.guild_config.leveling_formula)
 
-        if not ctx.command is None:
-            return
-        if not leveling_config.enabled:
-            return
-        if leveling_config.is_channel_ban(ctx.channel):
-            return
-        if leveling_config.is_member_ban(message.author):
-            return
-
-        level_before = ctx.author_data.level
-        ctx.author_data.add_xp(len(message.content))
-        level_after = ctx.author_data.refresh_level(ctx.guild_config.leveling_formula)
-
-        if level_before < level_after:
-            await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
-            ctx.author_data.add_money(randint(*sorted([leveling_config.min_gain, leveling_config.max_gain])))
+            if level_before < level_after:
+                await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
+                ctx.author_data.add_money(randint(*sorted([leveling_config.min_gain, leveling_config.max_gain])))
 
 def setup(bot):
     bot.add_cog(GlobalCog(bot))
