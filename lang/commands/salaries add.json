@@ -1,0 +1,29 @@
+{
+    "description": "Add role to the salaries list",
+    "name_localizations": {
+        "fr": "ajouter"
+    },
+    "description_localizations": {
+        "fr": "Ajouter un role à la liste des salaires"
+    },
+    "options": {
+        "role": {
+            "description": "Role to add",
+            "name_localizations": {
+                "fr": "rôle"
+            },
+            "description_localizations": {
+                "fr": "Rôle à ajouter"
+            }
+        },
+        "pay": {
+            "description": "Salary of the role",
+            "name_localizations": {
+                "fr": "paye"
+            },
+            "description_localizations": {
+                "fr": "Salaire du rôle"
+            }
+        }
+    }
+}

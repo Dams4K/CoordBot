@@ -1,0 +1,9 @@
+{
+    "description": "Salaries configuration commands",
+    "name_localizations": {
+        "fr": "salaires"
+    },
+    "description_localizations": {
+        "fr": "Commandes de configuration des salaires"
+    }
+}

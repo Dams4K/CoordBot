@@ -1,13 +1,15 @@
 from discord import *
-from data_management import GuildSalaries
 
-from utils.bot_embeds import NormalEmbed, DangerEmbed
+from data_management import GuildSalaries
+from utils.bot_commands import BotSlashCommandGroup
+from utils.bot_embeds import DangerEmbed, NormalEmbed
+
 
 class SalariesConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    salaries = SlashCommandGroup("salaries", default_member_permissions=Permissions(administrator=True), guild_only=True)
+    salaries = BotSlashCommandGroup("salaries", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @salaries.command(name="add")
     @option("role", type=Role, required=True)
@@ -34,10 +36,10 @@ class SalariesConfigCog(Cog):
 
         await ctx.respond(embed=embed)
 
-    @salaries.command(name="pay")
+    @salaries.command(name="forced_pay")
     @option("member", type=Member, required=False)
     @option("role", type=Role, required=False)
-    async def salaries_pay(self, ctx, member: Member = None, role: Role = None):
+    async def salaries_forced_pay(self, ctx, member: Member = None, role: Role = None):
         guild_salaries = GuildSalaries(ctx.guild.id)
 
         embed = NormalEmbed(title=ctx.translate("SALARY_FORCED_PAY"))

@@ -1,0 +1,20 @@
+{
+    "description": "Remove role to the salaries list",
+    "name_localizations": {
+        "fr": "retirer"
+    },
+    "description_localizations": {
+        "fr": "Retirer un role à la liste des salaires"
+    },
+    "options": {
+        "role": {
+            "description": "Role to remove",
+            "name_localizations": {
+                "fr": "rôle"
+            },
+            "description_localizations": {
+                "fr": "Rôle à retirer"
+            }
+        }
+    }
+}

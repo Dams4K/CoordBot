@@ -1,0 +1,29 @@
+{
+    "description": "Pays someone by force",
+    "name_localizations": {
+        "fr": "paye_forcée"
+    },
+    "description_localizations": {
+        "fr": "Rémunère de force quelqu'un"
+    },
+    "options": {
+        "role": {
+            "description": "Pays all members who have this role",
+            "name_localizations": {
+                "fr": "rôle"
+            },
+            "description_localizations": {
+                "fr": "Paye tous les membres qui ont ce rôle"
+            }
+        },
+        "member": {
+            "description": "Pay one member",
+            "name_localizations": {
+                "fr": "membre"
+            },
+            "description_localizations": {
+                "fr": "Payer un membre"
+            }
+        }
+    }
+}
