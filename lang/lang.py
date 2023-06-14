@@ -105,7 +105,7 @@ class _Lang:
 
                 inner_text_key_informations = text[start+len(_Lang.LANG_SEQ):end]
                 inner_text_key = inner_text_key_informations.split(":")[0]
-                if inner_text_key.upper() != text_key.upper(): # Solve infinite loop issue
+                if inner_text_key.upper() != text_key.upper(): # Style infinite loops when key A have key B and key B have key A
                     text = text[:start] + self.get_text(inner_text_key_informations, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
 
                 start = text.find(_Lang.LANG_SEQ, start+1)

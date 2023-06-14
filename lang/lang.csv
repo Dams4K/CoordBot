@@ -24,6 +24,7 @@ ARTICLE_OBJECT_REMOVED,You have removed {quantity} {object} from {article},Tu as
 ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role} de {article}
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME} {article}
 ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
+ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
 PRICE_MODIFIED,Price modified,Prix modifié
@@ -116,18 +117,24 @@ SERVER_DELETION_CONFIRMATION,Do you really want to delete all server data,Voulez
 SERVER_DATA_HAS_BEEN_DELETED,Server data has been deleted,Les données du serveur ont été supprimées
 SERVER_DATA_HAS_NOT_BEEN_DELETED,Server data hasn't been deleted,Les données du serveur n'ont pas été supprimées
 GAIN_RANGE_MODIFIED,Members will earn between {min} and {max} {LANG_KEY:MONEY_NAME:casefold} after reaching a higher level,Les membres gagneront entre {min} et {max} d'{LANG_KEY:MONEY_NAME:casefold} après avoir atteint un niveau supérieur
-
-E_CommandError,En E_CommandError,Fr E_CommandError
-E_MissingRequiredArgument,En E_MissingRequiredArgument,Fr E_MissingRequiredArgument
-E_CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME}
-E_NOT_ENOUGH_MONEY,"You did not have enough {LANG_KEY:MONEY_NAME}, {money_missing} missing {LANG_KEY:MONEY_NAME}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME}, {money_missing} manquant"
-MESSAGE_SENT,Message sent,Message envoyé
-
-MUST_SELECT_KEY,You must have selected a key,Vous devez avoir sélectionné une clé
-ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
+OBJECT_IS_NOT_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is no longer refundable,L'{LANG_KEY:OBJECT_NAME:casefold} {object} n'est plus remboursable
+OBJECT_IS_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is now refundable for {price},L'{LANG_KEY:OBJECT_NAME:casefold} {object} est désormais remboursable pour {price}
+LEVELING_STATUS,{LANG_KEY:LEVEL_NAME:capitalize} system status,Statut du système de {LANG_KEY:LEVEL_NAME:casefold}
+LEVELING_MESSAGE,Level up message,Message de montée en niveau
+LEVELING_GAIN_RANGE,Gain range after level up,Plage de gain après élévation du niveau
+LEVELING_GAIN_RANGE_TEXT,[{min}; {max}],[{min}; {max}]
+LEVELING_FORMULA,Level up formula,Formule de mise à niveau
+LEVELING_CURRENTLY_ENABLED,Currently enabled,Actuellement activé
+LEVELING_CURRENTLY_DISABLED,Currently disabled,Actuellement désactivé
+CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME}
+NOT_ENOUGH_MONEY,"You did not have enough {LANG_KEY:MONEY_NAME}, {money_missing} missing {LANG_KEY:MONEY_NAME}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME}, {money_missing} manquant"
+SALARY_NAME,Salary,Salaries
+SALARIES,Salaries,{LANG_KEY:SALARY_NAME:capitalize}s
+SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle {role} a été supprimé des salaires
+SALARY_ROLE_ADDED,The role {role} has been added to the salaries,Le rôle {role} a été ajouté dans les salaires
+SALARY_FORCED_PAY,Forced payment performed,Rémunération forcée exécutée
+SALARY_MEMBER_FORCED_PAY,{member} has been paid,{membre} a été payé
+SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid,Tous les membres ayant le rôle {role} ont été payés
 PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
-LEVELING_ENABLED,Currently enabled,Actuellement activé
-LEVELING_DISABLED,Currently disabled,Actuellement désactivé
-LEVELING_GAIN_RANGE_TEXT,[{min}; {max}],[{min}; {max}]

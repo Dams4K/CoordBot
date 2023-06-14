@@ -93,7 +93,7 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingData(ctx.guild.id)
 
         embed = InformativeEmbed(title=ctx.translate("LEVELING_STATUS"))
-        embed.description = ctx.translate("LEVELING_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_DISABLED")
+        embed.description = ctx.translate("LEVELING_CURRENTLY_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_CURRENTLY_DISABLED")
 
         embed.add_field(name=ctx.translate("LEVELING_MESSAGE"), value=leveling_config.level_up_message)
         embed.add_field(name=ctx.translate("LEVELING_GAIN_RANGE"), value=ctx.translate("LEVELING_GAIN_RANGE_TEXT", min=leveling_config.min_gain, max=leveling_config.max_gain))
