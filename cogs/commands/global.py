@@ -175,7 +175,7 @@ class GlobalCog(Cog):
         player_objects = {GuildObject(object_id, ctx.guild.id): object_ids.count(object_id) for object_id in set(object_ids)} # dict {object: quantity of that object}
         if None in player_objects: player_objects.pop(None)
 
-        description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects)
+        description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects) or ctx.translate("INVENTORY_EMPTY")
 
         embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member))
         embed.description = description

@@ -1,10 +1,10 @@
 {
-    "description": "Display the contents of a member's inventory",
+    "description": "Display the contents of an inventory",
     "name_localizations": {
-        "fr": "montrer"
+        "fr": "inventaire"
     },
     "description_localizations": {
-        "fr": "Afficher le contenu de l'inventaire d'un membre"
+        "fr": "Afficher le contenu de d'un inventaire"
     },
     "options": {
         "member": {

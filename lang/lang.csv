@@ -44,6 +44,8 @@ OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KE
 OBJECT_DELETION_PERFORMED,The deletion of the {LANG_KEY:OBJECT_NAME:casefold} {object} has been performed,La suppression de l'{LANG_KEY:OBJECT_NAME:casefold} {object} a été effectuée
 OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
 INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
+INVENTORY_EMPTY,*empty*,*vide*
+INVENTORY_OF,Inventory of {member},Inventaire de {member}
 DEFAULT_MEMBER_XP_CHANGED,Members' default {LANG_KEY:XP_NAME:casefold} is now {amount},L'{LANG_KEY:XP_NAME:casefold} par défaut des membres est désormais de {amount}
 DEFAULT_MEMBER_LEVEL_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} is now {amount},Le {LANG_KEY:LEVEL_NAME:casefold} par défaut des membres est désormais de {amount}
 DEFAULT_MEMBER_MONEY_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} quantity is now {amount},La quantité d'{LANG_KEY:MONEY_NAME:casefold} par défaut des membres est désormais de {amount}
@@ -97,7 +99,6 @@ MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME:casefold} to `{amount}`
 LEVEL_RANKING,Top 15 levels,Top 15 meilleurs niveaux
 MONEY_RANKING,Top 15 richest,Top 15 des plus riches
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
-INVENTORY_OF,Inventory of {member},Inventaire de {member}
 PROFIL_OF,Profil of {member},Profil de {member}
 ACTIVATION,Activation,Activation
 DEACTIVATION,Deactivation,Désactivation
