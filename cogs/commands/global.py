@@ -156,6 +156,36 @@ class GlobalCog(Cog):
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
+    @bot_user_command(name="inventory")
+    @guild_only()
+    async def user_show_inventory(self, ctx, member: Member):
+        await self.show_inventory(ctx, member, ephemeral=True)
+
+    @bot_slash_command(name="inventory")
+    @option("member", type=Member, required=False)
+    async def slash_show_inventory(self, ctx, member=None):
+        member = ctx.author if member == None else member
+        await self.show_inventory(ctx, member)
+    
+    async def show_inventory(self, ctx, member, ephemeral=False):
+        member_data = MemberData(member.id, ctx.guild.id)
+
+        inventory = member_data.get_inventory()
+        object_ids = inventory.get_object_ids()
+        player_objects = {GuildObject(object_id, ctx.guild.id): object_ids.count(object_id) for object_id in set(object_ids)} # dict {object: quantity of that object}
+        if None in player_objects: player_objects.pop(None)
+
+        description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects)
+
+        embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member))
+        embed.description = description
+
+        await ctx.respond(embed=embed, ephemeral=ephemeral)
+
+    # @bot_slash_command(name="sell") # TODO: v4.1
+    # async def sell(self, ctx):
+    #     await ctx.respond("sell object")
+
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("quantity", type=int, default=1, required=False)
