@@ -1,9 +1,12 @@
-import discord
 import random
+
+import discord
+
+from data_management import errors
+from data_management.errors import *
 from ddm import *
 from utils.references import References
-from utils.bot_errors import *
-from data_management import errors
+
 
 class ChestData(Saveable):
     def __init__(self, guild_id, chest_name: str = "No name", chest_id = -1):
@@ -217,7 +220,7 @@ class GuildArticle(Saveable):
 
         # Check if the member has enough money
         if author_data.money < price:
-            raise errors.NotEnoughMoney()
+            raise errors.NotEnoughMoney(ctx.guild_config.language, missing_money=price - author_data.money)
         
         author_inventory: Inventory = author_data.get_inventory()
         # Check if the member has enough objects
@@ -227,7 +230,7 @@ class GuildArticle(Saveable):
             
             author_quantity = author_inventory.object_ids.count(str(object_id))
             if author_quantity < abs(object_amount * quantity):
-                raise errors.NotEnoughObjects
+                raise errors.NotEnoughObjects(ctx.guild_config.language)
 
         author_data.add_money(-price)
 

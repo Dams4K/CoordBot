@@ -127,8 +127,9 @@ LEVELING_GAIN_RANGE_TEXT,[{min}; {max}],[{min}; {max}]
 LEVELING_FORMULA,Level up formula,Formule de mise à niveau
 LEVELING_CURRENTLY_ENABLED,Currently enabled,Actuellement activé
 LEVELING_CURRENTLY_DISABLED,Currently disabled,Actuellement désactivé
-CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME}
-NOT_ENOUGH_MONEY,"You did not have enough {LANG_KEY:MONEY_NAME}, {money_missing} missing {LANG_KEY:MONEY_NAME}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME}, {money_missing} manquant"
+CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME:casefold}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME:casefold}
+NOT_ENOUGH_MONEY,"You don't have enough {LANG_KEY:MONEY_NAME:casefold}, {missing_money} missing {LANG_KEY:MONEY_NAME:casefold}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME:casefold}, {missing} manquant"
+NOT_ENOUGH_OBJECTS,You haven't enough {LANG_KEY:OBJECTS:casefold},Tu n'as pas assez d'{LANG_KEY:OBJECTS:casefold}
 SALARY_NAME,Salary,Salaries
 SALARIES,Salaries,{LANG_KEY:SALARY_NAME:capitalize}s
 SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle {role} a été supprimé des salaires

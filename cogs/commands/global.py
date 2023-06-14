@@ -195,15 +195,8 @@ class GlobalCog(Cog):
             await ctx.respond("????")
             return
 
-        try:
-            await article.buy(ctx, quantity)
-            await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
-        except NotEnoughMoney:
-            author_money = ctx.author_data.money
-
-            embed = WarningEmbed(title=ctx.translate("CANNOT_PURCHASE"))
-            embed.description = ctx.translate("NOT_ENOUGH_MONEY", money_missing=article.price-author_money, author_money=author_money, article_price=article.price)
-            await ctx.respond(embed=embed, ephemeral=True)
+        await article.buy(ctx, quantity)
+        await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
 
     @Cog.listener()
     async def on_message(self, message):

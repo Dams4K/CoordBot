@@ -113,8 +113,10 @@ class ArticlesConfigCog(Cog):
     async def delete_article(self, ctx, article: GuildArticle):
         confirm_view = ConfirmView()
         confirm_embed = DangerEmbed(title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
+        
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
+
         if confirm_view.confirmed:
             article.delete()
             await ctx.respond(text_key="ARTICLE_DELETION_PERFORMED", text_args={"article": article.name})

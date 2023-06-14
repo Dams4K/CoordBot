@@ -93,22 +93,23 @@ class _Lang:
             lang_col: int = rows[0].index(lang.lower())
             text: str = rows[key_row][lang_col]
 
-            for text_parameter in text_parameters:
-                if text_parameter.lower() == "capitalize":
-                    text = text.capitalize()
-                elif text_parameter.lower == "casefold":
-                    text = text.casefold()
-
             start = text.find(_Lang.LANG_SEQ, 0)
             while -1 < start < len(text):
                 end = text.find("}", start)
 
                 inner_text_key_informations = text[start+len(_Lang.LANG_SEQ):end]
                 inner_text_key = inner_text_key_informations.split(":")[0]
-                if inner_text_key.upper() != text_key.upper(): # Style infinite loops when key A have key B and key B have key A
-                    text = text[:start] + self.get_text(inner_text_key_informations, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
+
+                #TODO: infinite loops when key A have key B and key B have key A
+                text = text[:start] + self.get_text(inner_text_key_informations, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
 
                 start = text.find(_Lang.LANG_SEQ, start+1)
+
+            for text_parameter in text_parameters:
+                if text_parameter.lower() == "capitalize":
+                    text = text[0].upper() + text[1:]
+                elif text_parameter.lower() == "casefold":
+                    text = text[0].casefold() + text[1:] # casefold because we want ß to become ss
 
             kwargs.setdefault("lang", lang)
             formatter = string.Formatter()
