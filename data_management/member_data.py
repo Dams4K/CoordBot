@@ -57,12 +57,15 @@ class MemberData(DefaultMemberData):
 
     @Saveable.update()
     def add_xp(self, amount: int):
-        self.xp += amount
+        if isinstance(amount, int):
+            self.xp += amount
 
     @Saveable.update()
     def add_level(self, amount: int):
-        self.level += amount
+        if isinstance(amount, int):
+            self.level += amount
     
     @Saveable.update()
     def add_money(self, amount: int):
-        self.money += amount
+        if isinstance(amount, int):
+            self.money += amount
