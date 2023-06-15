@@ -44,9 +44,14 @@ class SalariesConfigCog(Cog):
 
         embed = NormalEmbed(title=ctx.translate("SALARY_FORCED_PAY"))
         if guild_salaries.pay_member(member):
-            embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member)
+            embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member.mention)
         if guild_salaries.pay_role(role):
-            embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.mention), value="\n".join([member.mention for member in role.members]))
+            members = [member.mention for member in role.members]
+            if members > 20:
+                members = members[:20]
+                members.append("...")
+            
+            embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.mention), value="\n".join(members))
 
         await ctx.respond(embed=embed)
 
