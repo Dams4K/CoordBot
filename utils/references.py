@@ -17,8 +17,8 @@ class _References:
                     "cogs_folder": input("Cogs folder > "),
                     "logs_folder": input("Logs folder > "),
                     "debug_mode": input("Enable debug mode (y|N) > "),
-                    "suggests_channel_id": input("suggests_channel_id"),
-                    "reports_channel_id": input("reports_channel_id"),
+                    "suggests_channel_id": input("suggests_channel_id > "),
+                    "reports_channel_id": input("reports_channel_id > "),
                 }
 
                 json.dump(data, f, indent=4)
