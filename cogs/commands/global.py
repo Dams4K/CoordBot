@@ -47,9 +47,9 @@ class GlobalCog(Cog):
         if roles != []:
             embed.add_field(name="Roles", value="\n".join(roles))
         
-        objects = [f"{GuildObject(object_id, ctx.guild.id).name} | {amount}" for object_id, amount in article.object_ids.items()]
+        objects = [f"{GuildObject(object_id, ctx.guild.id)} | {amount}" for object_id, amount in article.object_ids.items()]
         if objects != []:
-            embed.add_field(name=ctx.translate("OBJECTS"), value="\n".join(objects))
+            embed.add_field(name=ctx.translate("OBJECTS"), value="\n".join(obj.name for obj in objects if obj)) #TODO: use a command instead of checking is object exists
         
         await ctx.respond(embed=embed)
 
