@@ -47,9 +47,11 @@ class SalariesConfigCog(Cog):
             embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member.mention)
         if guild_salaries.pay_role(role):
             members = [member.mention for member in role.members]
-            if members > 20:
-                members = members[:20]
-                members.append("...")
+
+            MAX = 20
+            if len(members) > MAX:
+                members = members[:MAX]
+                members.append(f"...{len(members)-MAX}")
             
             embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.mention), value="\n".join(members))
 
