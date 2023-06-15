@@ -32,7 +32,7 @@ class _References:
             self.VERSION = data.get("version", "1.0.0")
             
             self.COGS_FOLDER = data.get("cogs_folder", "cogs")
-            self.LOGS_FOLDER = os.path.join(data.get("logs_folder", "datas/logs"), 'discord.log')
+            self.LOGS_FOLDER = data.get("logs_folder", "datas/logs")
 
             self.BETA_GUILDS = data.get("beta_guilds", None)
 
