@@ -63,62 +63,105 @@ class _Lang:
         with open(self.file_path, newline='') as f:
             self.rows = [row for row in csv.reader(f, delimiter=",", quotechar='"')]
 
+    def search_keys_datas(self, text: str) -> list:
+        """Return the list of all the keys datas in a given text
 
-    def get_text(self, text_key_informations: str, lang: str, custom_rows: dict = None, *args, **kwargs) -> str:
+        Parameters
+        ----------
+            text
+
+        Returns
+        -------
+            list
+
+            [(raw_key_datas, start_index, end_index), ...]
+        """
+        result = []
+        
+        
+        return result
+
+    def get_key_datas(self, raw_key_datas: str) -> tuple:
+        s = raw_key_datas.split(":")
+        key = s[0]
+        parameters = {}
+        if len(s) > 1: # There's more to it than the key
+            parameters = set(s[1].split(";")) # get all parameters
+        return (key, parameters)
+
+    def get_rows(self, custom_rows: dict) -> dict:
+        if not custom_rows:
+            return self.rows
+        
+        rows_length = len(self.rows[0])
+        # Recreate the rows
+        rows = [self.rows[0]] # Languages list
+
+        for row in self.rows[1:]:
+            key = row[0]
+            if key in custom_rows.keys():
+                rows.append([key] + [custom_rows.get(key)] * rows_length-1)
+            else:
+                rows.append(row)
+        return rows
+
+    def apply_parameters(self, text, parameters: list) -> str:
+        for parameter in parameters:
+            if parameter.lower() == "capitalize":
+                text = text[0].upper() + text[1:]
+            elif parameter.lower() == "casefold":
+                text = text[0].casefold() + text[1:] # casefold because we want ß to become ss
+
+        return text
+
+    def get_text(self, raw_key_datas: str, language: str, custom_rows: dict = None, MAX_ITE = 5, *args, **kwargs) -> str:
         """TEXT_KEY:PARAMETER1;PARAMETER2"""
+        if MAX_ITE <= 0: # Stop the recursive loop
+            return ""
+        MAX_ITE -= 1
+
+        # Add get rows + custom rows
+        rows = self.get_rows(custom_rows)
+
+        # Get the guild language index
+        available_languages = rows[0]
         try:
-            splited_text_key_informations = text_key_informations.split(":")
-            text_key = splited_text_key_informations[0]
-            text_parameters = []
-            if len(splited_text_key_informations) > 1:
-                text_parameters = splited_text_key_informations[1].split(";")
-
-            lang = lang.lower()
-
-            rows = self.rows
-            # Add custom rows
-            if custom_rows is not None:
-                rows = [self.rows[0]]
-
-                for row in self.rows[1:]:
-                    key = row[0]
-                    if key in custom_rows.keys():
-                        rows.append([key] + [custom_rows.get(key)] * (len(row)-1))
-                    else:
-                        rows.append(row)
-            
-            key_row: int = [row for row in range(len(rows)) if rows[row][0].upper() == text_key.upper()][0]
-            if lang not in rows[0]:
-                lang = "en"
-            lang_col: int = rows[0].index(lang.lower())
-            text: str = rows[key_row][lang_col]
-
-            start = text.find(_Lang.LANG_SEQ, 0)
-            while -1 < start < len(text):
-                end = text.find("}", start)
-
-                inner_text_key_informations = text[start+len(_Lang.LANG_SEQ):end]
-                inner_text_key = inner_text_key_informations.split(":")[0]
-
-                #TODO: infinite loops when key A have key B and key B have key A
-                text = text[:start] + self.get_text(inner_text_key_informations, lang, custom_rows=custom_rows, *args, **kwargs) + text[end+1:]
-
-                start = text.find(_Lang.LANG_SEQ, start+1)
-
-            for text_parameter in text_parameters:
-                if text_parameter.lower() == "capitalize":
-                    text = text[0].upper() + text[1:]
-                elif text_parameter.lower() == "casefold":
-                    text = text[0].casefold() + text[1:] # casefold because we want ß to become ss
-
-            kwargs.setdefault("lang", lang)
-            formatter = string.Formatter()
-            mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
-
-            return formatter.vformat(text, args, mapping)
+            language_index = available_languages.index(language.lower())
+        except ValueError:
+            language_index = available_languages.index("en")
+        
+        key, parameters = self.get_key_datas(raw_key_datas)
+        try:
+            key_index: int = [row for row in range(len(rows)) if rows[row][0].upper() == key.upper()][0]
         except IndexError:
-            print("The", text_key, "key wasn't found")
-            return text_key
+            print("The", key, "key wasn't found")
+            return key
+
+        text: str = rows[key_index][language_index]
+
+        start_index = text.find(_Lang.LANG_SEQ, 0)
+        # if nothing found, start_index will be -1
+        while -1 < start_index < len(text):
+            # search the closest "}" from the start_index
+            end_index = text.find("}", start_index)
+            raw_key_datas = text[start_index+len(_Lang.LANG_SEQ):end_index]
+            
+            # Add text
+            inner_text = self.get_text(raw_key_datas, language, custom_rows=custom_rows, MAX_ITE=MAX_ITE, *args, **kwargs)
+            text = text[:start_index] + inner_text + text[end_index+1:]
+
+            # Search next key_datas
+            start_index = text.find(_Lang.LANG_SEQ, start_index+1)
+
+        text = self.apply_parameters(text, parameters)
+
+        # Add language value
+        # language is a default placeholder always available
+        kwargs.setdefault("language", language)
+        formatter = string.Formatter()
+        mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
+
+        return formatter.vformat(text, args, mapping)
     
     def get_languages(self):
         return self.rows[0][1:]

@@ -74,7 +74,7 @@ NO_SALARIES_EXISTS,There are no {LANG_KEY:SALARIES:casefold},Il n'y a pas de {LA
 PREFIX_CURRENT,The bot's current prefix is {prefix},Le préfix actuel du bot est {prefix}
 PREFIX_CHANGED,The bot's prefix is now {prefix},Le préfix est maintenant {prefix}
 NO_TRANSLATION,This language currently has no translation,Cette langue n'a actuellement pas de traduction
-CHANGE_LANGUAGE_TO,({lang}) Change the language to English,({lang}) Change la langue en français
+CHANGE_LANGUAGE_TO,({language}) Change the language to English,({language}) Change la langue en français
 LANGUAGE_CHANGED,Language changed to english,Langage changé en français
 TRANSLATION_HAS_BEEN_MODIFIED,The translation with the key `{key}` has been modified,La traduction avec la clé `{key}` a été modifiée
 TRANSLATION_HAS_BEEN_RESET,The translation with the key `{key}` has been reset,La traduction avec la clé `{key}` a été réinitialisée
