@@ -39,7 +39,7 @@ class ReportModal(ui.Modal):
 
         attached_message_id = attached_message.id if attached_message else ""
 
-        self.attached_message_id_input = ui.InputText(label=ctx.translate("ATTACHED_MESSAGE_ID"), style=InputTextStyle.short, placeholder=bot.user.id, value=attached_message_id)
+        self.attached_message_id_input = ui.InputText(label=ctx.translate("ATTACHED_MESSAGE_ID"), style=InputTextStyle.short, placeholder=bot.user.id, value=attached_message_id, required=False)
         self.message_input = ui.InputText(label=ctx.translate("REPORT_EXPLANATION"), style=InputTextStyle.paragraph)
 
         self.add_item(self.attached_message_id_input)
