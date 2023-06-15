@@ -135,7 +135,7 @@ SALARIES,Salaries,{LANG_KEY:SALARY_NAME:capitalize}s
 SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle {role} a été supprimé des salaires
 SALARY_ROLE_ADDED,The role {role} has been added to the salaries,Le rôle {role} a été ajouté dans les salaires
 SALARY_FORCED_PAY,Forced payment performed,Rémunération forcée exécutée
-SALARY_MEMBER_FORCED_PAY,{member} has been paid,{membre} a été payé
+SALARY_MEMBER_FORCED_PAY,{member} has been paid,{member} a été payé
 SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid,Tous les membres ayant le rôle {role} ont été payés
 PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
