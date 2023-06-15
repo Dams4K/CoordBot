@@ -35,7 +35,8 @@ class GlobalCog(Cog):
             )
         
         embed = NormalEmbed(title=object.name, description=object.description)
-        embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
+        if description:
+            embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
         await ctx.respond(embed=embed)
 
     @about.command(name="article")
