@@ -352,15 +352,15 @@ class Inventory(Data):
     def add_object(self, obj: GuildObject, amount: int):
         if self.is_full(): return
         
-        self.object_ids.extend([obj._object_id] * amount)
+        self.object_ids.extend([str(obj._object_id)] * amount)
     def add_object_id(self, object_id: str, amount: int):
         if amount < 0:
             amount_removed = 0
             while amount_removed < abs(amount) and self.object_ids.count(object_id) > 0:
-                self.object_ids.remove(object_id)
+                self.object_ids.remove(str(object_id))
                 amount_removed += 1
         elif not self.is_full():
-            self.object_ids.extend([object_id] * amount)
+            self.object_ids.extend([str(object_id)] * amount)
     
     def remove_object(self, object_id, amount: int):
         if amount == -1:
@@ -368,7 +368,7 @@ class Inventory(Data):
         n = 0
         while n < amount:
             if not object_id in self.object_ids: break
-            self.object_ids.remove(object_id)
+            self.object_ids.remove(str(object_id))
             n += 1
 
     def get_object_ids(self):
