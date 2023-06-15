@@ -50,8 +50,9 @@ class SalariesConfigCog(Cog):
 
             MAX = 20
             if len(members) > MAX:
+                remaining = len(members)-MAX
                 members = members[:MAX]
-                members.append(f"...{len(members)-MAX}")
+                members.append(f"...{remaining}")
             
             embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.mention), value="\n".join(members))
 
