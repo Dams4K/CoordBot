@@ -140,3 +140,5 @@ SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid,Tous les 
 PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
+PRICE,Price,Prix
+ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold},{price} {LANG_KEY:MONEY_NAME:casefold}
