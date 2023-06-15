@@ -36,7 +36,7 @@ OBJECT_REMOVED,Object removed,Objet retiré
 ROLE_REMOVED,Role removed,Rôle retiré
 OBJECT_NAME,Object,Objet
 OBJECTS,{LANG_KEY:OBJECT_NAME}s,{LANG_KEY:OBJECT_NAME}s
-OBJECT_CREATED,A new {LANG_KEY:OBJECT_NAME:casefold} has been created,Un nouvel {LANG_KEY:OBJECT_NAME:casefold} a été créé
+OBJECT_CREATED,The {LANG_KEY:OBJECT_NAME:casefold} {object} has been created,L'{LANG_KEY:OBJECT_NAME:casefold} {object} a été créé
 OBJECT_DESCRIPTION_CHANGED,The description of the {LANG_KEY:OBJECT_NAME:casefold} has been changed: {before} -> {after},La description de l'{LANG_KEY:OBJECT_NAME:casefold} a été modifié: {before} -> {after}
 OBJECT_NAME_CHANGED,The name of the {LANG_KEY:OBJECT_NAME:casefold} has been changed: {before} -> {after},Le nom de l'{LANG_KEY:OBJECT_NAME:casefold} a été modifié: {before} -> {after}
 OBJECT_DOES_NOT_EXIST,This {LANG_KEY:OBJECT_NAME:casefold} does not exist,Cet {LANG_KEY:OBJECT_NAME:casefold} n'existe pas
