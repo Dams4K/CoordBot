@@ -100,7 +100,7 @@ class GuildSalaries(Saveable):
         best_pay = None
         for role in member.roles:
             pay = self.salaries.get(str(role.id), None)
-            if not best_pay or pay > best_pay:
+            if not (pay and best_pay) or pay > best_pay:
                 best_pay = pay
         
         member_data = MemberData(member.id, self._guild_id)
