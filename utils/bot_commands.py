@@ -1,5 +1,7 @@
 from discord import *
+
 from lang import CommandLocalization
+
 
 class BotSlashCommand(SlashCommand, CommandLocalization):
     def __init__(self, func: callable, *args, **kwargs) -> None:

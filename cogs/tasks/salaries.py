@@ -8,7 +8,7 @@ from discord.ext import commands, tasks
 from data_management import GuildSalaries
 
 
-class GiveSalariesCog(commands.Cog):
+class SalariesCog(commands.Cog):
     SALARIES_DAYS = [0] # 0 = monday
     SALARIES_TIMES = [datetime.time(hour=8)] # utc time
 
@@ -26,4 +26,4 @@ class GiveSalariesCog(commands.Cog):
     
         
 def setup(bot):
-    bot.add_cog(GiveSalariesCog(bot))
+    bot.add_cog(SalariesCog(bot))

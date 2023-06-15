@@ -1,8 +1,11 @@
 import discord
-from discord.ext.bridge import BridgeContext, BridgeExtContext, BridgeApplicationContext
 from discord.commands.context import AutocompleteContext
+from discord.ext.bridge import (BridgeApplicationContext, BridgeContext,
+                                BridgeExtContext)
+
 from data_management import GuildConfig, GuildLanguage, MemberData
 from lang import Lang
+
 
 class BotBridgeContext(BridgeContext):
     def __init__(self, *args, **kwargs):

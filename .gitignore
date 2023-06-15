@@ -4,3 +4,4 @@ datas/*
 **/__pycache__/**
 .env
 tosay.txt
+run.sh

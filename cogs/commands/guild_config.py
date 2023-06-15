@@ -21,7 +21,7 @@ class GuildConfigCog(Cog):
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
-    @bridge.bridge_group(invoke_without_command=True, checks=[is_in_guild], guild_only=True)
+    @bridge.bridge_group(invoke_without_command=True, guild_only=True)
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
         await ctx.respond(text_key="PREFIX_CURRENT", text_args={"prefix": ctx.guild_config.prefix})

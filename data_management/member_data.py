@@ -1,8 +1,11 @@
-from ddm import *
-from .storage_data import Inventory
-from utils.references import References
 import copy
 import os
+
+from ddm import *
+from utils.references import References
+
+from .storage_data import Inventory
+
 
 class DefaultMemberData(Saveable):
     def __init__(self, guild_id):

@@ -1,6 +1,7 @@
 import json
-import typing
 import os
+import typing
+
 
 class _References:
     BOT_PATH: str = "datas/bot.json"

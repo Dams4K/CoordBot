@@ -1,9 +1,10 @@
 import discord
 from discord.commands import SlashCommand, SlashCommandGroup
-from discord.ext import commands
-from discord.ext import bridge
-from discord.ext.pages import Paginator, Page, PaginatorButton
+from discord.ext import bridge, commands
+from discord.ext.pages import Page, Paginator, PaginatorButton
+
 from utils.bot_embeds import InformativeEmbed, NormalEmbed
+
 
 class CommandCompatibility:
     SLASH_COMPATIBILITY = "s"

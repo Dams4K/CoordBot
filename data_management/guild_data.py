@@ -1,8 +1,9 @@
 import discord
-from ddm import *
-from data_management import MemberData
 
+from data_management import MemberData
+from ddm import *
 from utils.references import References
+
 
 class GuildConfig(Saveable):
     def __init__(self, guild_id):
