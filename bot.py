@@ -27,7 +27,7 @@ class ElricBot(bridge.Bot):
             pass
 
         self.logger = logging.getLogger('discord')
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.WARNING)
         self.handler = logging.FileHandler(filename=file_path, encoding='utf-8', mode='w')
         self.handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         self.logger.addHandler(self.handler)
