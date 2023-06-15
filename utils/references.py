@@ -10,15 +10,24 @@ class _References:
         if not os.path.exists(self.BOT_PATH):
             os.makedirs(os.path.dirname(self.BOT_PATH))
             with open(self.BOT_PATH, "w") as f:
+                token = input("Bot token > ")
+                default_prefix = input("Default prefix > ")
+                version = input("Bot version > ")
+                cogs_folder = input("Cogs folder > ")
+                logs_folder = input("Logs folder > ")
+                debug_mode = True if input("Enable debug mode (y|N) > ").lower() in ["true", "t", "false", "f", "y", "n", "yes", "no", "oui", "non"] else False
+                suggests_channel_id = input("suggests_channel_id > ")
+                reports_channel_id = input("reports_channel_id > ")
+
                 data = {
-                    "bot_token": input("Bot token > "),
-                    "default_prefix": input("Default prefix > "),
-                    "version": input("Bot version > "),
-                    "cogs_folder": input("Cogs folder > "),
-                    "logs_folder": input("Logs folder > "),
-                    "debug_mode": True if input("Enable debug mode (y|N) > ").lower() in ["true", "t", "false", "f", "y", "n", "yes", "no", "oui", "non"] else False,
-                    "suggests_channel_id": input("suggests_channel_id > "),
-                    "reports_channel_id": input("reports_channel_id > "),
+                    "bot_token": token,
+                    "default_prefix": default_prefix,
+                    "version": version,
+                    "cogs_folder": cogs_folder,
+                    "logs_folder": logs_folder,
+                    "debug_mode": debug_mode,
+                    "suggests_channel_id": int(suggests_channel_id) if suggests_channel_id.isdigit() else None,
+                    "reports_channel_id": int(reports_channel_id) if reports_channel_id.isdigit() else None,
                 }
 
                 json.dump(data, f, indent=4)
