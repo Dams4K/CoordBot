@@ -97,10 +97,10 @@ class GuildSalaries(Saveable):
         if not isinstance(member, discord.Member):
             return False
 
-        best_pay = 0
+        best_pay = None
         for role in member.roles:
             pay = self.salaries.get(str(role.id), 0)
-            if pay > best_pay:
+            if not best_pay or pay > best_pay:
                 best_pay = pay
         
         member_data = MemberData(member.id, self._guild_id)
