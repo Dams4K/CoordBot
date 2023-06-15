@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.ext import bridge
 from utils.bot_embeds import NormalEmbed
 
+# Debug class, only available when utils.References.DEBUG_MODE is True
 class DebugCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

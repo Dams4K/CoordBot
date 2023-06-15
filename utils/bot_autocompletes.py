@@ -6,7 +6,8 @@ def get_articles(self, ctx):
 
     result = []
     for article in GuildArticle.list_articles(guild_id):
-        if not article.name.startswith(ctx.value):
+        # We only want articles that start with what the user has written
+        if not article.name.lower().startswith(ctx.value.lower()):
             continue
 
         formatted = article.name

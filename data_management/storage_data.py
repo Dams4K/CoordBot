@@ -172,29 +172,64 @@ class GuildArticle(Saveable):
         super().__init__(References.get_guild_folder(os.path.join(GuildArticle.FOLDER % self._guild_id, GuildArticle.FILENAME % self._article_id)))
 
     @Saveable.update()
-    def set_name(self, new_name: str):
-        self.name = new_name
+    def set_name(self, value: str):
+        """Set the name of the article
+
+        Parameters
+        ----------
+            value: str
+                max_length: 32
+        
+        Returns
+        -------
+            GuildArticle:
+                modified article
+        """
+        self.name = value[:32]
         return self
     
     @Saveable.update()
-    def set_description(self, new_description: str):
-        self.description = new_description
+    def set_description(self, value: str):
+        """Set the description of the article
+
+        Parameters
+        ----------
+            value: str
+                max_length: 1024
+        
+        Returns
+        -------
+            GuildArticle:
+                modified article
+        """
+        self.description = value[:1024]
         return self
 
     @Saveable.update()
-    def set_price(self, new_price: int):
-        self.price = int(new_price)
+    def set_price(self, value: int):
+        """Set the price of the article
+
+        Parameters
+        ----------
+            value: int
+        
+        Returns
+        -------
+            GuildArticle:
+                modified article
+        """
+        self.price = int(value)
         return self
     
     @Saveable.update()
-    def add_object(self, obj: GuildObject, quantity: int):
+    def add_object(self, obj: GuildObject, quantity: int = 1):
         obj_id = str(obj._object_id)
         self.object_ids.setdefault(obj_id, 0)
         self.object_ids[obj_id] += quantity
         return self
     
     @Saveable.update()
-    def remove_object(self, obj: GuildObject, quantity: int):
+    def remove_object(self, obj: GuildObject, quantity: int = 1):
         return self.add_object(obj, -quantity)
     
     @Saveable.update()
@@ -220,7 +255,7 @@ class GuildArticle(Saveable):
 
         # Check if the member has enough money
         if author_data.money < price:
-            raise errors.NotEnoughMoney(ctx.guild_config.language, missing_money=price - author_data.money)
+            raise errors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
         
         author_inventory: Inventory = author_data.get_inventory()
         # Check if the member has enough objects

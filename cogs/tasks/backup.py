@@ -22,7 +22,7 @@ class BackupCog(Cog):
     @tasks.loop(time=BACKUP_TIMES)
     async def backup_task(self):
         today = datetime.date.today()
-        if today.weekday() in BACKUP_DAYS:
+        if today.weekday() in self.BACKUP_DAYS:
             backup_path = await self.create_backup()
 
             app_info = await self.bot.application_info()

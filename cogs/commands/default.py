@@ -51,17 +51,6 @@ class DefaultCog(Cog):
         
         await ctx.respond(embed=embed)
 
-    # @inventory.command(name="max-size")
-    # @option("size", type=int, required=True)
-    # async def default_size(self, ctx, size):
-    #     default_member = DefaultMemberData(ctx.guild.id)
-    #     inventory = default_member.get_inventory()
-
-    #     inventory.max_size = size
-
-    #     default_member.set_inventory(inventory)
-    
-
 
 def setup(bot):
     bot.add_cog(DefaultCog(bot))

@@ -16,7 +16,10 @@ class AdminCog(Cog):
 
     @server.command(name="retrieve")
     async def server_retrieve(self, ctx):
+        # We do not want anyone else than the author to see the file
+        # We defer it because it can take a will
         await ctx.defer(ephemeral=True)
+
         guild_folder = References.get_guild_folder(str(ctx.guild.id))
         zip_path = os.path.join("datas/backups", f"{ctx.guild.id}")
 
@@ -58,9 +61,12 @@ class AdminCog(Cog):
     @member.command(name="retrieve")
     @option("member", type=Member)
     async def member_retrieve(self, ctx, member):
+        # We do not want anyone else than the author to see the file
+        # We defer it because it can take a will
         await ctx.defer(ephemeral=True)
 
         member_data = MemberData(member.id, ctx.guild.id)
+        # We make sure to have a file to send by saving the data
         member_data.save()
         with open(member_data._path, "rb") as f:
             file = File(f, filename=f"member_data_{member.id}.json")

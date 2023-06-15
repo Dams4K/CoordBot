@@ -9,6 +9,7 @@ from utils.permissions import *
 from data_management import ChestData
 from utils.bot_embeds import NormalEmbed
 
+#TODO: v4.1
 class ChestsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
