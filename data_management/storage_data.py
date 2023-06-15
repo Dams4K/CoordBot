@@ -8,54 +8,6 @@ from ddm import *
 from utils.references import References
 
 
-class ChestData(Saveable):
-    def __init__(self, guild_id, chest_name: str = "No name", chest_id = -1):
-        self._guild_id = guild_id
-
-        # create the next id usable
-        if chest_id == -1:
-            dirname = References.get_guild_folder(f"{self._guild_id}/chests")
-            if not os.path.exists(dirname):
-                os.makedirs(dirname)
-            
-            chests_id = [-1] + [int(i.split(".")[0]) for i in os.listdir(dirname)]
-            chest_id = sorted(chests_id)[-1]+1
-
-        self._chest_id = chest_id
-        self.name = chest_name
-
-        super().__init__(References.get_guild_folder(f"{self._guild_id}/chests/{self._chest_id}.json"))
-
-    @Saveable.update()
-    def set_name(self, new_name):
-        self.name = new_name
-
-    @Saveable.update()
-    def add_loot(self, loot):
-        pass
-    
-    @Saveable.update()
-    def remove_loot(self, loot):
-        pass
-
-    def open(self):
-        pass
-
-    def delete(self):
-        os.remove(self.file_path)
-
-
-class Loot(Saveable):
-    def __init__(self, loot_id: int, guild_id: int):
-        self._loot_id = loot_id
-        self._guild_id = guild_id
-
-        super().__init__(References.get_guild_folder(f"{guild_id}/loots/{loot_id}.json"))
-        
-    def add_object(self, object, weight):
-        pass
-
-
 class GuildObject(Saveable):
     FOLDER: str = "%s/objects"
     FILENAME: str = "%s.json"
