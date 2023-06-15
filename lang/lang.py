@@ -94,7 +94,7 @@ class _Lang:
         for row in self.rows[1:]:
             key = row[0]
             if key in custom_rows.keys():
-                rows.append([key] + [custom_rows.get(key)] * rows_length-1)
+                rows.append([key] + [custom_rows.get(key)] * (rows_length-1))
             else:
                 rows.append(row)
         return rows

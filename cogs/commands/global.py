@@ -76,7 +76,7 @@ class GlobalCog(Cog):
             await ctx.respond(embed=embed)
             return
             
-        paginator = Paginator(pages=embed_pages)
+        paginator = Paginator(pages=embed_pages, show_disabled=False)
         await paginator.respond(ctx.interaction)
 
     @list_grp.command(name="articles")
@@ -101,7 +101,7 @@ class GlobalCog(Cog):
             await ctx.respond(embed=embed)
             return
         
-        paginator = Paginator(pages=embed_pages)
+        paginator = Paginator(pages=embed_pages, show_disabled=False)
         await paginator.respond(ctx.interaction)
 
     @list_grp.command(name="salaries")
@@ -130,7 +130,7 @@ class GlobalCog(Cog):
             await ctx.respond(embed=embed)
             return
             
-        paginator = Paginator(pages=embeds)
+        paginator = Paginator(pages=embeds, show_disabled=False)
         await paginator.respond(ctx.interaction)
 
 
