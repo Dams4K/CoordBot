@@ -63,28 +63,22 @@ class _Lang:
         with open(self.file_path, newline='') as f:
             self.rows = [row for row in csv.reader(f, delimiter=",", quotechar='"')]
 
-    def search_keys_datas(self, text: str) -> list:
-        """Return the list of all the keys datas in a given text
+
+    def get_key_datas(self, raw_key_datas: str) -> tuple:
+        """Return key datas from string
 
         Parameters
         ----------
-            text
-
+            raw_key_datas: str
+                String version of key datas
+        
         Returns
         -------
-            list
-
-            [(raw_key_datas, start_index, end_index), ...]
+            tuple: (key: str, parameters: set)
         """
-        result = []
-        
-        
-        return result
-
-    def get_key_datas(self, raw_key_datas: str) -> tuple:
         s = raw_key_datas.split(":")
         key = s[0]
-        parameters = {}
+        parameters: set = set()
         if len(s) > 1: # There's more to it than the key
             parameters = set(s[1].split(";")) # get all parameters
         return (key, parameters)
@@ -125,9 +119,9 @@ class _Lang:
 
         # Get the guild language index
         available_languages = rows[0]
-        try:
+        if self.language_is_translated(language):
             language_index = available_languages.index(language.lower())
-        except ValueError:
+        else:
             language_index = available_languages.index("en")
         
         key, parameters = self.get_key_datas(raw_key_datas)
@@ -163,18 +157,8 @@ class _Lang:
 
         return formatter.vformat(text, args, mapping)
     
-    def get_languages(self):
-        return self.rows[0][1:]
-    def get_keys(self):
-        return [self.rows[i][0] for i in range(1, len(self.rows))]
-    
-    def language_is_translated(self, lang: str):
-        return lang.lower() in self.rows[0]
+    def language_is_translated(self, language: str):
+        return language.lower() in self.rows[0]
 
 
 Lang: _Lang = _Lang()
-
-if __name__ == "__main__":
-    print(Lang.get_text("TEST_MSG", "fr"))
-    print(Lang.get_text("TEST_MSG", "en"))
-    print(Lang.get_text("qd", "en"))
