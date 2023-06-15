@@ -1,12 +1,15 @@
-import discord
 import asyncio
 import logging
 import os
+
+import discord
 from discord.ext import bridge
-from utils.references import References
+
+from data_management import GuildConfig
 from utils.bot_contexts import *
 from utils.help_command import BotHelpCommand
-from data_management import GuildConfig
+from utils.references import References
+
 
 class ElricBot(bridge.Bot):
     def __init__(self):
@@ -14,6 +17,9 @@ class ElricBot(bridge.Bot):
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
             debug_guilds=References.BETA_GUILDS, help_command=BotHelpCommand()
         )
+
+        if not os.path.exists(References.LOGS_FOLDER):
+            os.makedirs(References.LOGS_FOLDER)
 
         self.logger = logging.getLogger('discord')
         self.logger.setLevel(logging.DEBUG)
