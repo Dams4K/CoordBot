@@ -1,12 +1,13 @@
 from discord import *
 from discord.ext import bridge
+
+from data_management import *
 from lang import Lang
-from utils.permissions import is_in_guild
+from utils.bot_commands import *
+from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
 from utils.bot_embeds import *
 from utils.references import References
-from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
-from utils.bot_commands import *
-from data_management import *
+
 
 class GuildConfigCog(Cog):
     def __init__(self, bot):

@@ -3,7 +3,6 @@ from discord import *
 from data_management import *
 from utils.bot_commands import BotSlashCommandGroup
 from utils.bot_embeds import *
-from utils.permissions import *
 
 
 class DefaultCog(Cog):
