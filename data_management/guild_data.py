@@ -99,7 +99,7 @@ class GuildSalaries(Saveable):
 
         best_pay = None
         for role in member.roles:
-            pay = self.salaries.get(str(role.id), 0)
+            pay = self.salaries.get(str(role.id), None)
             if not best_pay or pay > best_pay:
                 best_pay = pay
         
