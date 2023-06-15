@@ -21,7 +21,10 @@ class ErrorHandler(Cog):
 
 
     async def errors(self, ctx, exception):
-        exception_message = str(exception.original) or str(exception)
+        exception_message = str(exception)
+        if hasattr(exception, "original"):
+            exception_message = str(exception.original)
+
         embed = DangerEmbed(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
         
         return embed
