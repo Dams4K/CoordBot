@@ -53,6 +53,7 @@ class GlobalCog(Cog):
         
         await ctx.respond(embed=embed)
 
+    #TODO: for v4.1 search if there isn't a way to refactor all this code and not having the same code for 3 commands
     @list_grp.command(name="objects")
     async def list_objects(self, ctx):
         objects = GuildObject.list_objects(ctx.guild.id)
@@ -192,7 +193,7 @@ class GlobalCog(Cog):
     @guild_only()
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
-            await ctx.respond("????")
+            await ctx.respond("????") # Wtf are you trying to bug????
             return
 
         await article.buy(ctx, quantity)

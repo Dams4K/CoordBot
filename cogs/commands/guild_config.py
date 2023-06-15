@@ -19,6 +19,8 @@ class GuildConfigCog(Cog):
         guild_language = GuildLanguage(ctx.interaction.guild.id)
         return guild_language.get_keys()
 
+    language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
+
     @bridge.bridge_group(invoke_without_command=True, checks=[is_in_guild], guild_only=True)
     @bridge.map_to("current")
     async def prefix(self, ctx: BotBridgeContext):
@@ -35,7 +37,6 @@ class GuildConfigCog(Cog):
         ctx.guild_config.set_prefix = References.BOT_PREFIX
         await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": References.BOT_PREFIX})
 
-    language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @language.command(name="change")
     @option("language", type=str, autocomplete=get_languages)
@@ -47,7 +48,6 @@ class GuildConfigCog(Cog):
         else:
             ctx.guild_config.set_language(language)
             await ctx.respond(text_key="LANGUAGE_CHANGED")
-
 
     @language.command(name="customize")
     @option("key", type=str, required=True)

@@ -55,8 +55,10 @@ class ObjectsConfigCog(Cog):
     async def delete_object(self, ctx, object: GuildObject):
         confirm_view = ConfirmView()
         confirm_embed = DangerEmbed(title=ctx.translate("DELETION"), description=ctx.translate("OBJECT_DELETION_CONFIRMATION", object=object.name))
+        
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
+        
         if confirm_view.confirmed:
             object.delete()
             await ctx.respond(text_key="OBJECT_DELETION_PERFORMED", text_args={"object": object.name})
