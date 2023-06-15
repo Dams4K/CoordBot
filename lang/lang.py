@@ -160,5 +160,8 @@ class _Lang:
     def language_is_translated(self, language: str):
         return language.lower() in self.rows[0]
 
+    def get_languages(self):
+        return self.rows[0][1:]
+
 
 Lang: _Lang = _Lang()
