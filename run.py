@@ -1,6 +1,6 @@
-from bot import ElricBot
+from bot import CoordBot
 from utils.references import References
 
-bot = ElricBot()
+bot = CoordBot()
 bot.load_cogs(References.COGS_FOLDER)
 bot.run(References.BOT_TOKEN)

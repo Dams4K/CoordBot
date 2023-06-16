@@ -14,7 +14,7 @@ class DefaultMemberData(Saveable):
         self.xp = 0
         self.level = 0
         self.money = 0
-        self.inventory = Inventory(-1)
+        self.inventory = Inventory()
         
         super().__init__(References.get_guild_folder(f"{self._guild_id}/members/default.json"))
     

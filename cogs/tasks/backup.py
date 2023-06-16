@@ -29,14 +29,14 @@ class BackupCog(Cog):
             team = app_info.team
             owner: discord.User = await self.bot.fetch_user(team.owner.id) if team else app_info.owner
             if await self.send_backup_file(owner, backup_path):
-                print(f"Weekly backup file sent to {owner}")
+                self.bot.logger.info(f"Weekly backup file sent to {owner}")
 
 
     @commands.command(name="backup")
     async def forced_backup(self, ctx):
         backup_path = await self.create_backup()
         if await self.send_backup_file(ctx.author, backup_path):
-            print(f"Forced backup file sent to {ctx.author}")
+            self.bot.logger.info(f"Forced backup sent to {ctx.author}")
 
 
     async def create_backup(self):
@@ -51,7 +51,7 @@ class BackupCog(Cog):
         while len(backups) > self.MAX_BACKUPS:
             backup_path = os.path.join(self.BACKUPS_FOLDER, backups.pop(0))
             os.remove(backup_path)
-            print(f"backup file {backup_path} has been removed")
+            self.bot.logger.info(f"Backup file {backup_path} has been removed")
 
         return f"{path}.zip"
 

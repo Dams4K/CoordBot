@@ -296,8 +296,8 @@ class GuildObjectConverter:
 class Inventory(Data):
     _dversion = 2
 
-    def __init__(self, max_size: int):
-        self.max_size = max_size
+    def __init__(self):
+        self.max_size = -1
         self.object_ids = {}
 
     @staticmethod

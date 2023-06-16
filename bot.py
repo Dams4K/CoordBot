@@ -11,7 +11,7 @@ from utils.bot_contexts import *
 from utils.help_command import BotHelpCommand
 from utils.references import References
 
-class ElricBot(bridge.Bot):
+class CoordBot(bridge.Bot):
     def __init__(self):
         super().__init__(
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
@@ -23,11 +23,10 @@ class ElricBot(bridge.Bot):
         
         file_name = datetime.now().strftime("%Y%m%d_%H%M%S.log")
         file_path = os.path.join(References.LOGS_FOLDER, file_name)
-        with open(file_path, "w") as f: # create the log file lol
-            pass
+        with open(file_path, "w") as f: pass # create the log file lol
 
         self.logger = logging.getLogger('discord')
-        self.logger.setLevel(logging.WARNING)
+        self.logger.setLevel(logging.INFO)
         self.handler = logging.FileHandler(filename=file_path, encoding='utf-8', mode='w')
         self.handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         self.logger.addHandler(self.handler)
