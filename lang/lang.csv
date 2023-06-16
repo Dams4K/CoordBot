@@ -47,8 +47,8 @@ INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est comple
 INVENTORY_EMPTY,*empty*,*vide*
 INVENTORY_OF,Inventory of {member},Inventaire de {member}
 DEFAULT_MEMBER_XP_CHANGED,Members' default {LANG_KEY:XP_NAME:casefold} is now {amount},L'{LANG_KEY:XP_NAME:casefold} par défaut des membres est désormais de {amount}
-DEFAULT_MEMBER_LEVEL_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} is now {amount},Le {LANG_KEY:LEVEL_NAME:casefold} par défaut des membres est désormais de {amount}
-DEFAULT_MEMBER_MONEY_MODIFIED,Members' default {LANG_KEY:LEVEL_NAME:casefold} quantity is now {amount},La quantité d'{LANG_KEY:MONEY_NAME:casefold} par défaut des membres est désormais de {amount}
+DEFAULT_MEMBER_LEVEL_CHANGED,Members' default {LANG_KEY:LEVEL_NAME:casefold} is now {amount},Le {LANG_KEY:LEVEL_NAME:casefold} par défaut des membres est désormais de {amount}
+DEFAULT_MEMBER_MONEY_CHANGED,Members' default {LANG_KEY:LEVEL_NAME:casefold} quantity is now {amount},La quantité d'{LANG_KEY:MONEY_NAME:casefold} par défaut des membres est désormais de {amount}
 SUGGEST_MODAL,Suggestion menu,Menu de suggestions
 SUGGEST_NAME,Name of the suggestion,Nom de la suggestion
 SUGGEST_EXPLANATION,Explanation of the suggestion,Explication de la suggestion
@@ -130,7 +130,7 @@ LEVELING_CURRENTLY_DISABLED,Currently disabled,Actuellement désactivé
 CANNOT_PURCHASE,You can't purchase this {LANG_KEY:ARTICLE_NAME:casefold}, Tu ne peux pas acheter cet {LANG_KEY:ARTICLE_NAME:casefold}
 NOT_ENOUGH_MONEY,"You don't have enough {LANG_KEY:MONEY_NAME:casefold}: {money}/{price}","Tu n'as pas assez de {LANG_KEY:MONEY_NAME:casefold} : {money}/{price}"
 NOT_ENOUGH_OBJECTS,You haven't enough {LANG_KEY:OBJECTS:casefold},Tu n'as pas assez d'{LANG_KEY:OBJECTS:casefold}
-SALARY_NAME,Salary,Salaries
+SALARY_NAME,Salary,Salaire
 SALARIES,Salaries,{LANG_KEY:SALARY_NAME:capitalize}s
 SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle {role} a été supprimé des salaires
 SALARY_ROLE_ADDED,The role {role} has been added to the salaries,Le rôle {role} a été ajouté dans les salaires
