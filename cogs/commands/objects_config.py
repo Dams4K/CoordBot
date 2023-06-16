@@ -45,9 +45,9 @@ class ObjectsConfigCog(Cog):
     async def change_refund(self, ctx, object: GuildObject, is_refundable, refund_price):
         object.set_refundable(is_refundable, refund_price)
         if is_refundable:
-            await ctx.respond(text_key="OBJECT_IS_REFUNDABLE", text_args={"object": object, "price": refund_price})
+            await ctx.respond(text_key="OBJECT_IS_REFUNDABLE", text_args={"object": object.name, "price": refund_price})
         else:
-            await ctx.respond(text_key="OBJECT_IS_NOT_REFUNDABLE", text_args={"object": object})
+            await ctx.respond(text_key="OBJECT_IS_NOT_REFUNDABLE", text_args={"object": object.name})
 
 
     @objects.command(name="delete")

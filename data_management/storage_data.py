@@ -50,7 +50,7 @@ class GuildObject(Saveable):
         return None
 
     def __init__(self, object_id: int, guild_id: int, create: bool = False):
-        self._object_id = object_id
+        self._object_id = str(object_id)
         self._guild_id = guild_id
         self.name = "NoName"
         self.description = ""
@@ -215,7 +215,7 @@ class GuildArticle(Saveable):
             if object_amount >= 0:
                 continue
             
-            author_quantity = author_inventory.object_ids.count(str(object_id))
+            author_quantity = author_inventory.get_object_amount(object_id)
             if author_quantity < abs(object_amount * quantity):
                 raise errors.NotEnoughObjects(ctx.guild_config.language)
 
@@ -223,7 +223,7 @@ class GuildArticle(Saveable):
 
         for _ in range(quantity):
             for object_id, amount in self.object_ids.items():
-                author_inventory.add_object_id(str(object_id), amount)
+                author_inventory.add_object_id(object_id, amount)
 
         author_data.set_inventory(author_inventory)
         
@@ -294,34 +294,50 @@ class GuildObjectConverter:
     
 
 class Inventory(Data):
-    def __init__(self, max_size: int, objects: list):
+    _dversion = 2
+
+    def __init__(self, max_size: int):
         self.max_size = max_size
-        self.object_ids = [obj._object_id for obj in objects]
+        self.object_ids = {}
+
+    @staticmethod
+    def convert_version(data):
+        data_version = data.get("__dversion", 1)
+        
+        if data_version == 1:
+            data["__version"] = 2
+            object_ids: list = data.get("object_ids", []) # ["0", "0", "0", "1"]
+            
+            new_object_ids: dict = {}
+            for object_id in object_ids:
+                i_object_id = str(object_id)
+                new_object_ids.setdefault(i_object_id, 0)
+                new_object_ids[i_object_id] += 1
+            
+            data["object_ids"] = new_object_ids
+
+        return data
 
     def is_full(self):
-        return len(self.object_ids) >= self.max_size and self.max_size > 0
+        return sum(self.object_ids.values()) >= self.max_size and self.max_size > 0
 
     def add_object(self, obj: GuildObject, amount: int):
-        if self.is_full(): return
-        
-        self.object_ids.extend([str(obj._object_id)] * amount)
-    def add_object_id(self, object_id: str, amount: int):
-        if amount < 0:
-            amount_removed = 0
-            while amount_removed < abs(amount) and self.object_ids.count(object_id) > 0:
-                self.object_ids.remove(str(object_id))
-                amount_removed += 1
-        elif not self.is_full():
-            self.object_ids.extend([str(object_id)] * amount)
+        return self.add_object_id(obj._object_id, amount)
     
-    def remove_object(self, object_id, amount: int):
-        if amount == -1:
-            amount = len(self.object_ids)
-        n = 0
-        while n < amount:
-            if not object_id in self.object_ids: break
-            self.object_ids.remove(str(object_id))
-            n += 1
+    def add_object_id(self, object_id: str, amount: int):
+        if self.is_full(): return
 
-    def get_object_ids(self):
-        return self.object_ids
+        self.object_ids.setdefault(object_id, 0)
+        self.object_ids[object_id] += amount
+    
+    def remove_object(self, object_id: str, amount: int):
+        if amount == -1:
+            self.object_ids[object_id] = 0
+        else:
+            return self.add_object_id(object_id, -amount)
+
+    def get_object_ids(self) -> list:
+        return list(self.object_ids.keys())
+    
+    def get_object_amount(self, object_id: str) -> int:
+        return self.object_ids.get(str(object_id), 0)
