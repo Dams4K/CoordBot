@@ -72,7 +72,7 @@ class RankingFormatter:
 
                 previous_competitor = competitor
 
-        return "\n".join(str_list)
+        return "\n".join(str_list[:15]) # 15 max number of competitors shown
 
 
 
