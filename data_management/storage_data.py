@@ -305,7 +305,7 @@ class Inventory(Data):
         data_version = data.get("__dversion", 1)
         
         if data_version == 1:
-            data["__version"] = 2
+            data["__dversion"] = 2
             object_ids: list = data.get("object_ids", []) # ["0", "0", "0", "1"]
             
             new_object_ids: dict = {}
