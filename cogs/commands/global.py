@@ -42,7 +42,7 @@ class GlobalCog(Cog):
     @about.command(name="article")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def about_article(self, ctx, article: GuildArticle):
-        embed = NormalEmbed(title=article.name, description=article.description)
+        embed = NormalEmbed(title=article.name, description=article.description or None)
         embed.add_field(name=ctx.translate("PRICE"), value=ctx.translate("ARTICLE_PRICE", price=article.price))
 
         roles = [ctx.guild.get_role(role_id).mention for role_id in article.role_ids]

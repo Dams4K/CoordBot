@@ -18,7 +18,7 @@ class ArticlesConfigCog(Cog):
     @articles.command(name="create")
     @option("name", type=str, max_length=32)
     @option("price", type=float)
-    @option("description", type=str, max_length=1024, default="*no description*")
+    @option("description", type=str, max_length=1024, default="")
     async def article_create(self, ctx, name, price, description):
         article = GuildArticle.new(ctx.guild.id, name).set_price(price).set_description(description)
 

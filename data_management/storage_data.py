@@ -115,7 +115,7 @@ class GuildArticle(Saveable):
         self._article_id = article_id
         self._guild_id = guild_id
         self.name: str = "no name"
-        self.description: str = "*no description*"
+        self.description: str = ""
         self.price: int = 0
         
         self.object_ids: dict = {}
