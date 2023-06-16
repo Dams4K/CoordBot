@@ -191,7 +191,7 @@ class GlobalCog(Cog):
 
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    @option("quantity", type=int, default=1, required=False)
+    @option("quantity", type=int, default=1, max_value=999, required=False)
     @guild_only()
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
