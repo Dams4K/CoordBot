@@ -28,7 +28,7 @@ class BackupCog(Cog):
             app_info = await self.bot.application_info()
             team = app_info.team
             owner: discord.User = await self.bot.fetch_user(team.owner.id) if team else app_info.owner
-            if self.send_backup_file(owner, backup_path):
+            if await self.send_backup_file(owner, backup_path):
                 print(f"Weekly backup file sent to {owner}")
 
 
