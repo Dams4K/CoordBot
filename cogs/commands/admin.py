@@ -34,7 +34,7 @@ class AdminCog(Cog):
 
     @server.command(name="reset")
     async def server_reset(self, ctx):
-        confirm_view = ConfirmView()
+        confirm_view = ConfirmView(ctx.author)
         confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
         confirm_embed.description = ctx.translate("SERVER_DELETION_CONFIRMATION")
 
@@ -85,7 +85,7 @@ class AdminCog(Cog):
         await self.reset_member(ctx, member, ephemeral=True)
 
     async def reset_member(self, ctx, member: Member, ephemeral=False):
-        confirm_view = ConfirmView()
+        confirm_view = ConfirmView(ctx.author)
         confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
         confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
 

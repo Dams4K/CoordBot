@@ -111,7 +111,7 @@ class ArticlesConfigCog(Cog):
     @articles.command(name="delete")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     async def delete_article(self, ctx, article: GuildArticle):
-        confirm_view = ConfirmView()
+        confirm_view = ConfirmView(ctx.author)
         confirm_embed = DangerEmbed(title=ctx.translate("DELETION"), description=ctx.translate("ARTICLE_DELETION_CONFIRMATION", article=article.name))
         
         await ctx.respond(embed=confirm_embed, view=confirm_view)
