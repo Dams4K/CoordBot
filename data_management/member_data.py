@@ -18,15 +18,15 @@ class DefaultMemberData(Saveable):
         
         super().__init__(References.get_guild_folder(f"{self._guild_id}/members/default.json"))
     
-    def get_xp_goal(self, leveling_formula):
-        return eval(leveling_formula.format(l=self.level)) #TODO: check if `leveling_formula` have only number and {level} inside, else python injection can be done
+    def get_xp_goal(self, formula):
+        return eval(formula.format(level=self.level)) #TODO: check if `formula` have only number and {level} inside, else python injection can be done
 
-    def refresh_level(self, leveling_formula) -> int:
-        xp_needed = self.get_xp_goal(leveling_formula)
+    def refresh_level(self, formula) -> int:
+        xp_needed = self.get_xp_goal(formula)
         if self.xp >= xp_needed:
             self.add_level(1)
             self.add_xp(-xp_needed)
-            return self.refresh_level(leveling_formula)
+            return self.refresh_level(formula)
         return self.level
 
     @Saveable.update()

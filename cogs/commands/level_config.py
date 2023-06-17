@@ -72,7 +72,7 @@ class LevelConfigCog(Cog):
 
     @leveling.command(name="enable")
     async def leveling_enable(self, ctx):
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.enable()
 
         embed = NormalEmbed(title=ctx.translate("ACTIVATION"), description=ctx.translate("ENABLE_LEVELING"))
@@ -81,7 +81,7 @@ class LevelConfigCog(Cog):
 
     @leveling.command(name="disable")
     async def leveling_disable(self, ctx):
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.disable()
 
         embed = DangerEmbed(title=ctx.translate("DEACTIVATION"), description=ctx.translate("DISABLE_LEVELING"))
@@ -89,7 +89,7 @@ class LevelConfigCog(Cog):
 
     @leveling.command(name="status")
     async def leveling_status(self, ctx):
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
 
         embed = InformativeEmbed(title=ctx.translate("LEVELING_STATUS"))
         embed.description = ctx.translate("LEVELING_CURRENTLY_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_CURRENTLY_DISABLED")
@@ -108,7 +108,7 @@ class LevelConfigCog(Cog):
             await ctx.respond(embed=embed)
             return
 
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.ban_member(member)
         leveling_config.ban_channel(channel)
 
@@ -130,7 +130,7 @@ class LevelConfigCog(Cog):
             await ctx.respond(embed=embed)
             return
         
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.unban_member(member)
         leveling_config.unban_channel(channel)
 
@@ -147,7 +147,7 @@ class LevelConfigCog(Cog):
     async def banlist_members(self, ctx):
         title = ctx.translate("LEVELING_BANLIST_MEMBERS")
 
-        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingData(ctx.guild.id).members_banned]
+        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingConfig(ctx.guild.id).members_banned]
         embeds = [NormalEmbed(title=title, description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
         
         if embeds == []:
@@ -160,7 +160,7 @@ class LevelConfigCog(Cog):
     async def banlist_channels(self, ctx):
         title = ctx.translate("LEVELING_BANLIST_CHANNELS")
 
-        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingData(ctx.guild.id).channels_banned]
+        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingConfig(ctx.guild.id).channels_banned]
         embeds = [NormalEmbed(title=title, description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
     
         if embeds == []:
@@ -173,7 +173,7 @@ class LevelConfigCog(Cog):
     @option("min", type=int)
     @option("max", type=int)
     async def set_gain(self, ctx, min: int, max: int):
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.set_min_gain(min)
         leveling_config.set_max_gain(max)
 

@@ -40,9 +40,10 @@ class DefaultCog(Cog):
 
     @member.command(name="show")
     async def member_show(self, ctx):
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         default_member = DefaultMemberData(ctx.guild.id)
 
-        xp_goal = default_member.get_xp_goal(ctx.guild_config.leveling_formula)
+        xp_goal = default_member.get_xp_goal(leveling_config.formula)
         embed = InformativeEmbed(title=ctx.translate("PROFIL_OF", member="*username#0000*"))
         embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(default_member.level))
         embed.add_field(name=ctx.translate("XP_NAME"), value=f"{default_member.xp}/{xp_goal}")

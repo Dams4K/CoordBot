@@ -9,11 +9,7 @@ class GuildConfig(Saveable):
     def __init__(self, guild_id):
         self._guild_id = guild_id
         self.prefix = References.BOT_PREFIX
-        self.xp_calculation = "{words}"
         self.language = "en"
-        self.level_system_enabled = True
-        self.leveling_formula = "20*({l}+1)" #maybe later, level**2+C
-        self.level_up_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
 
         super().__init__(References.get_guild_folder(f"{self._guild_id}/global.json"))
     
@@ -24,23 +20,8 @@ class GuildConfig(Saveable):
         self.prefix = new_prefix
     
     @Saveable.update()
-    def set_xp_calculation(self, new_calculation):
-        self.xp_calculation = new_calculation
-
-    @Saveable.update()
     def set_language(self, new_language):
         self.language = new_language
-
-    @Saveable.update()
-    def enable_level_system(self, value):
-        self.level_system_enabled = value
-    @Saveable.update()
-    def set_leveling_formula(self, formula):
-        self.leveling_formula = formula
-    
-
-    def send_level_up_message(self, m, lb, la):
-        return self.level_up_message.format(member=m, level_before=lb, level_after=la)
 
 
 class GuildLanguage(Saveable):
@@ -132,13 +113,13 @@ class GuildSalaries(Saveable):
             self.pay_member(member)
         return True
 
-class GuildLevelingData(Saveable):
+class GuildLevelingConfig(Saveable):
     def __init__(self, guild_id: int):
         self._guild_id = guild_id
         
         self.enabled = True
-        self.level_up_message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
-        self.formula = "LOLEELOLELEOLEOEL"
+        self.message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
+        self.formula = "20*({level}+1)"
         self.channels_banned = []
         self.members_banned = []
 
@@ -155,9 +136,13 @@ class GuildLevelingData(Saveable):
         self.enabled = False
     
     @Saveable.update()
-    def set_level_up_message(self, new_message):
-        self.level_up_message = new_message
+    def set_message(self, value):
+        self.message = value
     
+    def send_message(self, member, before, after):
+        return self.message.format(member=member, level_before=before, level_after=after)
+
+
     @Saveable.update()
     def ban_channel(self, channel: discord.TextChannel):
         if not isinstance(channel, discord.TextChannel):

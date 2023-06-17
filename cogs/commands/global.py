@@ -149,9 +149,10 @@ class GlobalCog(Cog):
         await self.show_profil(ctx, member, ephemeral=True)
     
     async def show_profil(self, ctx, member: Member, ephemeral=False):
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         member_data = MemberData(member.id, ctx.guild.id)
 
-        xp_goal = member_data.get_xp_goal(ctx.guild_config.leveling_formula)
+        xp_goal = member_data.get_xp_goal(leveling_config.formula)
         embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member))
         embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(member_data.level))
         embed.add_field(name=ctx.translate("XP_NAME"), value=f"{member_data.xp}/{xp_goal}")
@@ -219,17 +220,17 @@ class GlobalCog(Cog):
                 # await message.reply("Stats")
                 pass
 
-        leveling_config = GuildLevelingData(ctx.guild.id)
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
         author_is_banned = leveling_config.is_member_ban(message.author)
         channel_is_banned = leveling_config.is_channel_ban(ctx.channel)
         if leveling_config.enabled and not (is_command or author_is_banned or channel_is_banned):
             # Add xp to author
             level_before = ctx.author_data.level
             ctx.author_data.add_xp(len(message.content))
-            level_after = ctx.author_data.refresh_level(ctx.guild_config.leveling_formula)
+            level_after = ctx.author_data.refresh_level(leveling_config.formula)
 
             if level_before < level_after:
-                await ctx.send(ctx.guild_config.send_level_up_message(ctx.author, level_before, level_after))
+                await ctx.send(leveling_config.send_message(ctx.author, level_before, level_after))
                 ctx.author_data.add_money(randint(*sorted([leveling_config.min_gain, leveling_config.max_gain])))
 
 def setup(bot):
