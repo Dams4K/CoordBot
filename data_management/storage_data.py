@@ -1,6 +1,7 @@
 import random
 
 import discord
+from discord.ext.commands import Converter
 
 from data_management import errors
 from data_management.errors import *
@@ -117,6 +118,7 @@ class GuildArticle(Saveable):
         self.name: str = "no name"
         self.description: str = ""
         self.price: int = 0
+        self.cooldown: int = 0 # In seconds
         
         self.object_ids: dict = {}
         self.role_ids: list = []
@@ -173,6 +175,22 @@ class GuildArticle(Saveable):
         self.price = int(value)
         return self
     
+    @Saveable.update()
+    def set_cooldown(self, value: int):
+        """Set the cooldown of the article, user will be allowed to buy the article each `cooldown` seconds
+
+        Parameters
+        ----------
+            value: int
+        
+        Returns
+        -------
+            GuildArticle:
+                modified article
+        """
+        self.cooldown = value
+        return self
+
     @Saveable.update()
     def add_object(self, obj: GuildObject, quantity: int = 1):
         obj_id = str(obj._object_id)
@@ -234,34 +252,31 @@ class GuildArticle(Saveable):
             else:
                 await ctx.author.add_roles(role)
     
-class GuildArticleConverter:
-    async def convert(*args):
-        ctx = args[0]
-        arg = args[1]
-        if len(args) > 2:
-            ctx = args[1]
-            arg = args[2]
-        
-        if not isinstance(arg, str):
+class GuildArticleConverter(Converter):
+    @staticmethod
+    def get_article(ctx, article_name: str) -> GuildArticle:
+        if not isinstance(article_name, str):
             raise Article.NotFound()
         
-        article_id = None
-        if arg.isdecimal():
-            article_id: str = arg
-        else:
-            article_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
-        
-        article = None
+        open_i = article_name.rfind("(")+1
+        close_i = article_name.rfind(")")
+        if open_i != close_i != -1:
+            # Seems to have an id
+            potential_id = article_name[open_i:close_i]
+            if potential_id.isdecimal():
+                potential_article = GuildArticle(int(potential_id), ctx.guild.id)
+                if potential_article.name == article_name[:open_i-1]:
+                    # Same name so let's think their are the same
+                    return potential_article
 
-        if not (article_id is None) and article_id.isdecimal():
-            article = GuildArticle(article_id, ctx.guild.id)
-        else:
-            article = GuildArticle.from_name(ctx.guild.id, arg)
         
-        if article is None:
-            raise Article.NotFound()
+        if article := GuildArticle.from_name(ctx.guild.id, article_name):
+            return article
+        
+        raise Article.NotFound()
 
-        return article
+    async def convert(self, ctx, article_name: str) -> GuildArticle:
+        return GuildArticleConverter.get_article(ctx, article_name)
 
 class GuildObjectConverter:
     async def convert(*args):

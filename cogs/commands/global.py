@@ -3,6 +3,7 @@ from random import randint
 
 from discord import *
 from discord.ext.pages import Paginator
+from discord.ext import commands as ext_commands
 
 from data_management import *
 from utils.bot_autocompletes import *
@@ -190,10 +191,19 @@ class GlobalCog(Cog):
     # async def sell(self, ctx):
     #     await ctx.respond("sell object")
 
+
+    def buy_cooldown(ctx):
+        #TODO: search a better solution
+        article_option = ctx.selected_options[0]
+        if article := GuildArticleConverter.get_article(ctx, article_option["value"]):
+            return ext_commands.Cooldown(1, article.cooldown)
+        return None
+
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    @option("quantity", type=int, default=1, max_value=999, required=False)
+    # @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
     @guild_only()
+    @ext_commands.dynamic_cooldown(buy_cooldown, ext_commands.BucketType.user)
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
             await ctx.respond("????") # Wtf are you trying to bug????

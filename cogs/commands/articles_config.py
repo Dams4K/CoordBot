@@ -62,6 +62,17 @@ class ArticlesConfigCog(Cog):
         embed = WarningEmbed(title=title, description=description)
         await ctx.respond(embed=embed)
     
+    @change.command(name="cooldown")
+    @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
+    @option("seconds", type=int, required=True)
+    async def change_cooldown(self, ctx, article: GuildArticle, seconds: int):
+        article.set_cooldown(seconds)
+
+        title = ctx.translate("COOLDOWN_MODIFIED")
+        description = ctx.translate("ARTICLE_COOLDOWN_MODIFIED", article=article.name, cooldown=seconds)
+        embed = WarningEmbed(title=title, description=description)
+        await ctx.respond(embed=embed)
+
     @add.command(name="object")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
