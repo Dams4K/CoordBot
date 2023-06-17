@@ -147,7 +147,7 @@ class LevelConfigCog(Cog):
     async def banlist_members(self, ctx):
         title = ctx.translate("LEVELING_BANLIST_MEMBERS")
 
-        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingConfig(ctx.guild.id).members_banned]
+        members = [ctx.guild.get_member(member_id) for member_id in GuildLevelingConfig(ctx.guild.id).banned_members]
         embeds = [NormalEmbed(title=title, description="\n".join([member.mention for member in members[i:i+20] if member is not None])) for i in range(0, len(members), 20)]
         
         if embeds == []:

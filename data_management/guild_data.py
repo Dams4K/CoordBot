@@ -120,8 +120,8 @@ class GuildLevelingConfig(Saveable):
         self.enabled = True
         self.message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
         self.formula = "20*({level}+1)"
-        self.channels_banned = []
-        self.members_banned = []
+        self.banned_channels = []
+        self.banned_members = []
 
         self.min_gain = 20
         self.max_gain = 30
@@ -147,49 +147,49 @@ class GuildLevelingConfig(Saveable):
     def ban_channel(self, channel: discord.TextChannel):
         if not isinstance(channel, discord.TextChannel):
             return
-        if channel.id in self.channels_banned:
+        if channel.id in self.banned_channels:
             return
         
-        self.channels_banned.append(channel.id)
+        self.banned_channels.append(channel.id)
         
     @Saveable.update()
     def unban_channel(self, channel: discord.TextChannel):
         if not isinstance(channel, discord.TextChannel):
             return
-        if not channel.id in self.channels_banned:
+        if not channel.id in self.banned_channels:
             return
         
-        self.channels_banned.remove(channel.id)
+        self.banned_channels.remove(channel.id)
     
     def is_channel_ban(self, channel: discord.TextChannel):
         if not isinstance(channel, discord.TextChannel):
             return False
         
-        return channel.id in self.channels_banned
+        return channel.id in self.banned_channels
     
     @Saveable.update()
     def ban_member(self, member: discord.Member): # return error
         if not isinstance(member, discord.Member):
             return
-        if member.id in self.members_banned:
+        if member.id in self.banned_members:
             return
         
-        self.members_banned.append(member.id)
+        self.banned_members.append(member.id)
 
     @Saveable.update()
     def unban_member(self, member: discord.Member):
         if not isinstance(member, discord.Member):
             return
-        if not member.id in self.members_banned:
+        if not member.id in self.banned_members:
             return
         
-        self.members_banned.remove(member.id)
+        self.banned_members.remove(member.id)
 
     def is_member_ban(self, member: discord.Member):
         if not isinstance(member, discord.Member):
             return False
         
-        return member.id in self.members_banned
+        return member.id in self.banned_members
 
     @Saveable.update()
     def set_min_gain(self, value):
