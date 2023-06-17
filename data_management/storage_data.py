@@ -1,4 +1,5 @@
 import random
+import re
 
 import discord
 from discord.ext.commands import Converter
@@ -254,23 +255,23 @@ class GuildArticle(Saveable):
     
 class GuildArticleConverter(Converter):
     @staticmethod
-    def get_article(ctx, article_name: str) -> GuildArticle:
-        if not isinstance(article_name, str):
+    def get_article(ctx, name: str) -> GuildArticle:
+        if not isinstance(name, str):
             raise Article.NotFound()
         
-        open_i = article_name.rfind("(")+1
-        close_i = article_name.rfind(")")
-        if open_i != close_i != -1:
-            # Seems to have an id
-            potential_id = article_name[open_i:close_i]
-            if potential_id.isdecimal():
-                potential_article = GuildArticle(int(potential_id), ctx.guild.id)
-                if potential_article.name == article_name[:open_i-1]:
-                    # Same name so let's think their are the same
-                    return potential_article
+        pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
+        result = re.search(pattern, name)
+        if result:
+            article_id = int(result.group(1))
+            article_name = name.replace(f"({article_id})", "").strip() # Without id
 
-        
-        if article := GuildArticle.from_name(ctx.guild.id, article_name):
+            article = GuildArticle(article_id, ctx.guild.id)
+
+            if article.name == article_name:
+                # Same name so let's think their are the same
+                return article
+
+        if article := GuildArticle.from_name(ctx.guild.id, name):
             return article
         
         raise Article.NotFound()
@@ -278,34 +279,32 @@ class GuildArticleConverter(Converter):
     async def convert(self, ctx, article_name: str) -> GuildArticle:
         return GuildArticleConverter.get_article(ctx, article_name)
 
-class GuildObjectConverter:
-    async def convert(*args):
-        ctx = args[0]
-        arg = args[1]
-        if len(args) > 2:
-            ctx = args[1]
-            arg = args[2]
-        
-        if not isinstance(arg, str):
+class GuildObjectConverter(Converter):
+    @staticmethod
+    def get_object(ctx, name: str) -> GuildObject:
+        if not isinstance(name, str):
             raise Object.NotFound()
         
-        object_id = None
-        if arg.isdecimal():
-            object_id: str = arg
-        else:
-            object_id: str = arg[arg.rfind("(")+1:arg.rfind(")")]
-        
-        obj = None
+        pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
+        result = re.search(pattern, name)
+        if result:
+            object_id = int(result.group(1))
+            object_name = name.replace(f"({object_id})", "").strip() # Without id
 
-        if not (object_id is None) and object_id.isdecimal():
             obj = GuildObject(object_id, ctx.guild.id)
-        else:
-            obj = GuildObject.from_name(ctx.guild.id, arg)
 
-        if obj is None:
-            raise Object.NotFound()
+            if obj.name == object_name:
+                # Same name so let's think their are the same
+                return obj
 
-        return obj
+        if obj := GuildObject.from_name(ctx.guild.id, name):
+            return obj
+        
+        raise Object.NotFound()
+
+    async def convert(self, ctx, object_name: str) -> GuildObject:
+        return GuildObjectConverter.get_object(ctx, object_name)
+        
     
 
 class Inventory(Data):
