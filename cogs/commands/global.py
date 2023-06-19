@@ -236,7 +236,7 @@ class GlobalCog(Cog):
         if leveling_config.enabled and not (is_command or author_is_banned or channel_is_banned):
             # Add xp to author
             level_before = ctx.author_data.level
-            ctx.author_data.add_xp(len(message.content))
+            ctx.author_data.add_xp(int(len(message.content) / 10 + 1))
             level_after = ctx.author_data.refresh_level(leveling_config.formula)
 
             if level_before < level_after:
