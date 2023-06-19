@@ -195,7 +195,6 @@ class GlobalCog(Cog):
     def buy_cooldown(ctx):
         #TODO: search a better solution
         article_option = ctx.selected_options[0]
-        print(article_option)
         if article := GuildArticleConverter.get_article(ctx, article_option["value"]):
             return ext_commands.Cooldown(1, article.cooldown)
         return None
