@@ -195,6 +195,7 @@ class GlobalCog(Cog):
     def buy_cooldown(ctx):
         #TODO: search a better solution
         article_option = ctx.selected_options[0]
+        print(article_option)
         if article := GuildArticleConverter.get_article(ctx, article_option["value"]):
             return ext_commands.Cooldown(1, article.cooldown)
         return None
@@ -203,7 +204,7 @@ class GlobalCog(Cog):
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
     # @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
     @guild_only()
-    @ext_commands.dynamic_cooldown(buy_cooldown, ext_commands.BucketType.user)
+    @ext_commands.dynamic_cooldown(buy_cooldown, ext_commands.BucketType.member)
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
             await ctx.respond("????") # Wtf are you trying to bug????
