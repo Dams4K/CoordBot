@@ -1,4 +1,5 @@
 from discord import *
+from discord.ext import commands
 
 from data_management.errors import *
 from lang import Lang
@@ -22,6 +23,9 @@ class ErrorHandler(Cog):
 
     async def errors(self, ctx, exception):
         exception_message = str(exception)
+        if isinstance(exception, commands.errors.CommandNotFound):
+            return None
+
         if hasattr(exception, "original"):
             exception_message = str(exception.original)
 

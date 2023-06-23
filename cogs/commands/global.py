@@ -198,7 +198,7 @@ class GlobalCog(Cog):
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         print("by")
         if quantity <= 0:
-            await ctx.respond("????") # Wtf are you trying to bug????
+            await ctx.respond("????") # Wtf are you trying to buy????
             return
 
         await article.buy(ctx, quantity)
