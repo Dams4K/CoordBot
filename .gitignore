@@ -5,3 +5,4 @@ datas/*
 .env
 tosay.txt
 run.sh
+tests/*
