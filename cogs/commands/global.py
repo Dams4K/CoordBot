@@ -114,24 +114,19 @@ class GlobalCog(Cog):
 
     @list_grp.command(name="salaries")
     async def list_salaries(self, ctx):
-        salaries = GuildSalaries(ctx.guild.id).salaries
+        salaries: tuple = await (GuildSalaries(ctx.guild.id).fetch_salaries(ctx.guild)) # ([roles], [pays])
 
         embeds = []
         description = []
-        for i in range(len(salaries)):
-            role_id = list(salaries.keys())[i]
-            role = ctx.guild.get_role(int(role_id))
-            pay = salaries[role_id]
-
-            if not role is None:
-                role = role.mention
-            
-            description.append(f"{role} : {pay}")
-            if len(description) >= 20 or i+1 == len(salaries):
+        i = 0
+        for role, pay in zip(*salaries):
+            description.append(f"{role.mention} : {pay}")
+            if len(description) >= 20 or i+1 == len(salaries[0]):
                 embed = NormalEmbed(title="Salaries")
                 embed.description = "\n".join(description)
                 embeds.append(embed)
                 description.clear()
+            i += 1
 
         if embeds == []:
             embed = WarningEmbed(title=ctx.translate("NO_SALARIES_EXISTS"))

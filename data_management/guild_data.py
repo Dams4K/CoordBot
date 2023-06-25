@@ -63,6 +63,28 @@ class GuildSalaries(Saveable):
             self.salaries.pop(role_id)
 
     @Saveable.update()
+    async def fetch_salaries(self, guild: discord.Guild) -> list:
+        roles = []
+        pays = []
+
+        dead_role_ids = []
+
+        dead_roles = []
+        guild_roles = {str(role.id): role for role in await guild.fetch_roles()}
+
+        for role_id, pay in self.salaries.items():
+            if role_id in guild_roles:
+                roles.append(guild_roles[role_id])
+                pays.append(pay)
+            else:
+                dead_role_ids.append(role_id)
+        
+        for role_id in dead_role_ids:
+            self.salaries.pop(role_id)
+        
+        return (roles, pays)
+
+    @Saveable.update()
     def pay_member(self, member: discord.Member) -> bool:
         """Pay a member
 
