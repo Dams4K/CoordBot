@@ -48,11 +48,11 @@ class AdminCog(Cog):
                 shutil.rmtree(path)
 
             embed.title = ctx.translate("DELETION_PERFORMED")
-            embed.description = ctx.translate("SERVER_DATA_HAS_BEEN_DELETED", member=member)
+            embed.description = ctx.translate("SERVER_DATA_HAS_BEEN_DELETED", member=member.display_name)
 
         else:
             embed.title = ctx.translate("DELETION_CANCELED")
-            embed.description = ctx.translate("SERVER_DATA_HAS_NOT_BEEN_DELETED", member=member)
+            embed.description = ctx.translate("SERVER_DATA_HAS_NOT_BEEN_DELETED", member=member.display_name)
         
         await ctx.respond(embed=embed)
 
@@ -87,7 +87,7 @@ class AdminCog(Cog):
     async def reset_member(self, ctx, member: Member, ephemeral=False):
         confirm_view = ConfirmView(ctx.author)
         confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
-        confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
+        confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member.display_name)
 
         await ctx.respond(embed=confirm_embed, view=confirm_view, ephemeral=ephemeral)
         await confirm_view.wait()
@@ -98,11 +98,11 @@ class AdminCog(Cog):
             member_data.delete()
             
             embed.title = ctx.translate("RESET_DONE")
-            embed.description = ctx.translate("MEMBER_HAS_BEEN_RESET", member=member)
+            embed.description = ctx.translate("MEMBER_HAS_BEEN_RESET", member=member.display_name)
 
         else:
             embed.title = ctx.translate("RESET_CANCELED")
-            embed.description = ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member)
+            embed.description = ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member.display_name)
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
