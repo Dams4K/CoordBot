@@ -1,3 +1,4 @@
+import datetime
 from operator import attrgetter
 from random import randint
 
@@ -45,14 +46,20 @@ class GlobalCog(Cog):
         embed = NormalEmbed(title=article.name, description=article.description or None)
         embed.add_field(name=ctx.translate("PRICE"), value=ctx.translate("ARTICLE_PRICE", price=article.price))
 
+        # Add roles
         roles = [ctx.guild.get_role(role_id).mention for role_id in article.role_ids]
         if roles != []:
             embed.add_field(name="Roles", value="\n".join(roles))
         
+        # Add objetcs
         objects = [GuildObject(object_id, ctx.guild.id) for object_id, amount in article.object_ids.items()]
         if objects != []:
             embed.add_field(name=ctx.translate("OBJECTS"), value="\n".join(f"{obj.name} | {article.get_quantity(obj)}" for obj in objects if obj)) #TODO: use a command instead of checking is object exists
         
+        # Show cooldown
+        if article.cooldown > 0:
+            embed.set_footer(text=f"Cooldown: {datetime.timedelta(seconds=article.cooldown)}")
+
         await ctx.respond(embed=embed)
 
     #TODO: for v4.1 search if there isn't a way to refactor all this code and not having the same code for 3 commands
@@ -196,7 +203,6 @@ class GlobalCog(Cog):
     # @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
     @guild_only()
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
-        print("by")
         if quantity <= 0:
             await ctx.respond("????") # Wtf are you trying to buy????
             return

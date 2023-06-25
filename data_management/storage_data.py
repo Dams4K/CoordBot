@@ -1,5 +1,6 @@
 import random
 import re
+from time import time
 
 import discord
 from discord.ext.commands import Converter
@@ -120,6 +121,7 @@ class GuildArticle(Saveable):
         self.description: str = ""
         self.price: int = 0
         self.cooldown: int = 0 # In seconds
+        self.under_cooldown: dict = {} # member_id: time
         
         self.object_ids: dict = {}
         self.role_ids: list = []
@@ -214,6 +216,10 @@ class GuildArticle(Saveable):
         if role.id in self.role_ids:
             self.role_ids.remove(role.id)
     
+    @Saveable.update()
+    def save_purchase_time(self, author_id: str, time: int):
+        self.under_cooldown[str(author_id)] = round(time)
+
     def has_object(self, object: GuildObject):
         return str(object._object_id) in self.object_ids
 
@@ -222,14 +228,22 @@ class GuildArticle(Saveable):
 
     async def buy(self, ctx, quantity: int):
         author_data = ctx.author_data
-        price = self.price * quantity
+        author_id: str = str(ctx.author.id)
+        price: int = self.price * quantity
+
+        #- PERFORM ALL CHECKS
+        # Check if the author is under cooldown
+        current_time = time()
+        if self.under_cooldown.get(author_id, 0) + self.cooldown > current_time:
+            raise errors.UnderCooldown(ctx.guild_config.language, end_timestamp=self.under_cooldown.get(author_id, 0) + self.cooldown)
 
         # Check if the member has enough money
         if author_data.money < price:
             raise errors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
         
         author_inventory: Inventory = author_data.get_inventory()
-        # Check if the member has enough objects
+
+
         for object_id, object_amount in self.object_ids.items():
             if object_amount >= 0:
                 continue
@@ -238,8 +252,16 @@ class GuildArticle(Saveable):
             if author_quantity < abs(object_amount * quantity):
                 raise errors.NotEnoughObjects(ctx.guild_config.language)
 
+
+        #- MAKE THE PURCHASE
+        # Save purchase time
+        self.save_purchase_time(author_id, current_time)
+
+        # Check if the member has enough objects
+
         author_data.add_money(-price)
 
+        # Add correct quantity
         for _ in range(quantity):
             for object_id, amount in self.object_ids.items():
                 author_inventory.add_object_id(object_id, amount)

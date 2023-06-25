@@ -142,3 +142,4 @@ WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
 PRICE,Price,Prix
 ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold},{price} {LANG_KEY:MONEY_NAME:casefold}
+ARE_UNDER_COOLDOWN,You will be able to buy this article <t:{end_timestamp}:R>,Vous devez attendre {remaining} avant de pouvoir acheter cet article
