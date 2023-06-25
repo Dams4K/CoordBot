@@ -217,6 +217,21 @@ class GuildArticle(Saveable):
             self.role_ids.remove(role.id)
     
     @Saveable.update()
+    async def fetch_roles(self, guild: discord.Guild) -> list:
+        roles = []
+        dead_roles = []
+        guild_roles = {role.id: role for role in await guild.fetch_roles()}
+
+        for role_id in self.role_ids:
+            if role_id in guild_roles:
+                roles.append(guild_roles[role_id])
+            else:
+                self.role_ids.remove(role_id)
+        
+        return roles
+
+
+    @Saveable.update()
     def save_purchase_time(self, author_id: str, time: int):
         self.under_cooldown[str(author_id)] = round(time)
 

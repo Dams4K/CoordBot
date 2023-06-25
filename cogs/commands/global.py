@@ -47,9 +47,8 @@ class GlobalCog(Cog):
         embed.add_field(name=ctx.translate("PRICE"), value=ctx.translate("ARTICLE_PRICE", price=article.price))
 
         # Add roles
-        roles = [ctx.guild.get_role(role_id).mention for role_id in article.role_ids]
-        if roles != []:
-            embed.add_field(name="Roles", value="\n".join(roles))
+        if roles := await article.fetch_roles(ctx.guild):
+            embed.add_field(name="Roles", value="\n".join([role.mention for role in roles]))
         
         # Add objetcs
         objects = [GuildObject(object_id, ctx.guild.id) for object_id, amount in article.object_ids.items()]
