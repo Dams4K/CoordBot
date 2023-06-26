@@ -21,7 +21,6 @@ class GlobalCog(Cog):
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     async def about_object(self, ctx, object: GuildObject):
-        # articles = [article for article in GuildArticle.list_articles(ctx.guild.id) if article.has_object(object)]
         description = []
         for article in GuildArticle.list_articles(ctx.guild.id):
             if not article.has_object(object):

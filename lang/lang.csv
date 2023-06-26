@@ -25,6 +25,7 @@ ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role}
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME} {article}
 ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
 ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been purchased,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
+ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold},{price} {LANG_KEY:MONEY_NAME:casefold}
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
 PRICE_MODIFIED,Price modified,Prix modifié
@@ -141,5 +142,4 @@ PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
 PRICE,Price,Prix
-ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold},{price} {LANG_KEY:MONEY_NAME:casefold}
 ARE_UNDER_COOLDOWN,You will be able to buy this article <t:{end_timestamp}:R>,Vous pourrez acheter cet article <t:{end_timestamp}:R>

@@ -14,7 +14,7 @@ class LevelConfigCog(Cog):
     level = BotSlashCommandGroup("level", default_member_permissions=Permissions(administrator=True), guild_only=True)
     leveling = BotSlashCommandGroup("leveling", default_member_permissions=Permissions(administrator=True), guild_only=True)
     banlist = leveling.create_subgroup("banlist")
-    l_set = leveling.create_subgroup("set")
+    set = leveling.create_subgroup("set")
 
     @experience.command(name="add")
     @option("member", type=Member, required=True)
@@ -169,7 +169,7 @@ class LevelConfigCog(Cog):
             paginator = Paginator(pages=embeds, show_disabled=False)
             await paginator.respond(ctx.interaction)
 
-    @l_set.command(name="gain")
+    @set.command(name="gain")
     @option("min", type=int)
     @option("max", type=int)
     async def set_gain(self, ctx, min: int, max: int):
@@ -178,6 +178,15 @@ class LevelConfigCog(Cog):
         leveling_config.set_max_gain(max)
 
         await ctx.respond(text_key="GAIN_RANGE_MODIFIED", text_args={"min": min, "max": max})
+    
+    @set.command(name="message")
+    @option("message", type=str, min_length=1, max_length=512)
+    async def set_message(self, ctx, message: str):
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
+        leveling_config.set_message(message)
+
+        await ctx.respond(text_key="LEVEL_UP_MESSAGE_MODIFIED")
+
 
 def setup(bot):
     bot.add_cog(LevelConfigCog(bot))

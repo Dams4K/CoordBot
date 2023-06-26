@@ -7,10 +7,12 @@ class BotException(Exception):
         super().__init__(Lang.get_text(self.KEY, lang, **kwargs))
 
 class Object(BotException):
-    class NotFound(BotException): pass
+    class NotFound(BotException):
+        KEY = "OBJECT_DOES_NOT_EXIST"
 
 class Article(BotException):
-    class NotFound(BotException): pass
+    class NotFound(BotException):
+        KEY = "ARTICLE_DOES_NOT_EXIST"
 
 class NotEnoughMoney(BotException):
     KEY = "NOT_ENOUGH_MONEY"
