@@ -38,6 +38,7 @@ class GlobalCog(Cog):
         embed = NormalEmbed(title=object.name, description=object.description)
         if description:
             embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
+        embed.set_footer(text=f"id: {object._object_id}")
         await ctx.respond(embed=embed)
 
     @about.command(name="article")
@@ -57,7 +58,7 @@ class GlobalCog(Cog):
         
         # Show cooldown
         if article.cooldown > 0:
-            embed.set_footer(text=f"Cooldown: {datetime.timedelta(seconds=article.cooldown)}")
+            embed.set_footer(text=f"Cooldown: {datetime.timedelta(seconds=article.cooldown)} | id: {article._article_id}")
 
         await ctx.respond(embed=embed)
 
