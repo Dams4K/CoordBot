@@ -153,7 +153,7 @@ class _Lang:
         # language is a default placeholder always available
         kwargs.setdefault("language", language)
         formatter = string.Formatter()
-        mapping = FormatDict({str(k): str(v) for k, v in kwargs.items()})
+        mapping = FormatDict({str(k): v for k, v in kwargs.items()})
 
         return formatter.vformat(text, args, mapping)
     
