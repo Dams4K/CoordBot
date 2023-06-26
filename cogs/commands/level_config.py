@@ -114,7 +114,7 @@ class LevelConfigCog(Cog):
 
         description = []
         if not member is None:
-            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_BANNED", member=member.mention))
+            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_BANNED", member=member))
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_BANNED", channel=channel.mention))
 
@@ -136,7 +136,7 @@ class LevelConfigCog(Cog):
 
         description = []
         if not member is None:
-            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_UNBANNED", member=member.mention))
+            description.append(ctx.translate("LEVELING_MEMBER_HAS_BEEN_UNBANNED", member=member))
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_UNBANNED", channel=channel.mention))
 

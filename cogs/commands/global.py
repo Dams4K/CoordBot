@@ -161,7 +161,7 @@ class GlobalCog(Cog):
         member_data = MemberData(member.id, ctx.guild.id)
 
         xp_goal = member_data.get_xp_goal(leveling_config.formula)
-        embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member.display_name))
+        embed = NormalEmbed(title=ctx.translate("PROFIL_OF", member=member))
         embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(member_data.level))
         embed.add_field(name=ctx.translate("XP_NAME"), value=f"{member_data.xp}/{xp_goal}")
         embed.add_field(name=ctx.translate("MONEY_NAME"), value=str(member_data.money))
@@ -189,7 +189,7 @@ class GlobalCog(Cog):
         
         description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects) or ctx.translate("INVENTORY_EMPTY")
 
-        embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member.display_name))
+        embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member))
         embed.description = description
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)

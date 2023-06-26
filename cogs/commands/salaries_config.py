@@ -44,7 +44,7 @@ class SalariesConfigCog(Cog):
 
         embed = NormalEmbed(title=ctx.translate("SALARY_FORCED_PAY"))
         if guild_salaries.pay_member(member):
-            embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member.mention)
+            embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member)
         if guild_salaries.pay_role(role):
             members = [member.mention for member in role.members]
 

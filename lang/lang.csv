@@ -1,11 +1,11 @@
 KEYS,en,fr
 TEST_MSG,This message is in english,Ce message est en français
 WARNING,WARNING,ATTENTION
-RESET_MEMBER_CONFIRMATION,Do you really want to reset {member}?,Voulez-vous vraiment réinitialiser {member} ?
+RESET_MEMBER_CONFIRMATION,Do you really want to reset {member.display_name}?,Voulez-vous vraiment réinitialiser {member.display_name} ?
 RESET_DONE,Reset done,Réinitialiser effectué
 RESET_CANCELED,Reset canceled,Réinitialiser annulé
-MEMBER_HAS_BEEN_RESET,{member} has been reset,{member} a été réinitialisé
-MEMBER_HAS_NOT_BEEN_RESET,{member} has not been reset,{member} n'a pas été réinitialisé
+MEMBER_HAS_BEEN_RESET,{member.display_name} has been reset,{member.display_name} a été réinitialisé
+MEMBER_HAS_NOT_BEEN_RESET,{member.display_name} has not been reset,{member.display_name} n'a pas été réinitialisé
 ARTICLE_NAME,Article,Article
 ARTICLES,{LANG_KEY:ARTICLE_NAME}s,{LANG_KEY:ARTICLE_NAME}s
 ARTICLE_CREATED,{LANG_KEY:ARTICLE_NAME} created,{LANG_KEY:ARTICLE_NAME} créé
@@ -46,7 +46,7 @@ OBJECT_DELETION_PERFORMED,The deletion of the {LANG_KEY:OBJECT_NAME:casefold} {o
 OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
 INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
 INVENTORY_EMPTY,*empty*,*vide*
-INVENTORY_OF,Inventory of {member},Inventaire de {member}
+INVENTORY_OF,Inventory of {member.display_name},Inventaire de {member.display_name}
 DEFAULT_MEMBER_XP_CHANGED,Members' default {LANG_KEY:XP_NAME:casefold} is now {amount},L'{LANG_KEY:XP_NAME:casefold} par défaut des membres est désormais de {amount}
 DEFAULT_MEMBER_LEVEL_CHANGED,Members' default {LANG_KEY:LEVEL_NAME:casefold} is now {amount},Le {LANG_KEY:LEVEL_NAME:casefold} par défaut des membres est désormais de {amount}
 DEFAULT_MEMBER_MONEY_CHANGED,Members' default {LANG_KEY:LEVEL_NAME:casefold} quantity is now {amount},La quantité d'{LANG_KEY:MONEY_NAME:casefold} par défaut des membres est désormais de {amount}
@@ -81,9 +81,9 @@ TRANSLATION_HAS_BEEN_MODIFIED,The translation with the key `{key}` has been modi
 TRANSLATION_HAS_BEEN_RESET,The translation with the key `{key}` has been reset,La traduction avec la clé `{key}` a été réinitialisée
 ENABLE_LEVELING,The {LANG_KEY:LEVEL_NAME:casefold} system is now enabled,Le système de {LANG_KEY:LEVEL_NAME:casefold} est maintenant activé
 DISABLE_LEVELING,The {LANG_KEY:LEVEL_NAME:casefold} system is now disabled,Le système de {LANG_KEY:LEVEL_NAME:casefold} est maintenant désactivé
-LEVELING_MEMBER_HAS_BEEN_BANNED,{member} has been banned from the {LANG_KEY:LEVEL_NAME:casefold} system,{member} a été banni du système de {LANG_KEY:LEVEL_NAME:casefold}
+LEVELING_MEMBER_HAS_BEEN_BANNED,{member.mention} has been banned from the {LANG_KEY:LEVEL_NAME:casefold} system,{member.mention} a été banni du système de {LANG_KEY:LEVEL_NAME:casefold}
 LEVELING_CHANNEL_HAS_BEEN_BANNED,The channel {channel} has been banned from the {LANG_KEY:LEVEL_NAME:casefold} system,Le salon {channel} a été banni du système de {LANG_KEY:LEVEL_NAME:casefold}
-LEVELING_MEMBER_HAS_BEEN_UNBANNED,{member} has been unbanned from the {LANG_KEY:LEVEL_NAME:casefold} system,{member} a été débanni du système de {LANG_KEY:LEVEL_NAME:casefold}
+LEVELING_MEMBER_HAS_BEEN_UNBANNED,{member.mention} has been unbanned from the {LANG_KEY:LEVEL_NAME:casefold} system,{member.mention} a été débanni du système de {LANG_KEY:LEVEL_NAME:casefold}
 LEVELING_CHANNEL_HAS_BEEN_UNBANNED,The channel {channel} has been unbanned from the {LANG_KEY:LEVEL_NAME:casefold} system,Le salon {channel} a été débanni du système de {LANG_KEY:LEVEL_NAME:casefold}
 XP_NAME,Experience,Expérience
 XP_ADDED,You have increased the {LANG_KEY:XP_NAME:casefold} of {member} by `{amount}`,Vous avez augmenté l'{LANG_KEY:XP_NAME:casefold} de {member} de `{amount}`
@@ -100,7 +100,7 @@ MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME:casefold} to `{amount}`
 LEVEL_RANKING,Top 15 levels,Top 15 meilleurs niveaux
 MONEY_RANKING,Top 15 richest,Top 15 des plus riches
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
-PROFIL_OF,Profil of {member},Profil de {member}
+PROFIL_OF,Profil of {member.display_name},Profil de {member.display_name}
 ACTIVATION,Activation,Activation
 DEACTIVATION,Deactivation,Désactivation
 NOTHING_SELECTED,Nothing has been selected,Rien n'a été sélectionné
@@ -136,7 +136,7 @@ SALARIES,Salaries,{LANG_KEY:SALARY_NAME:capitalize}s
 SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle {role} a été supprimé des salaires
 SALARY_ROLE_ADDED,The role {role} has been added to the salaries,Le rôle {role} a été ajouté dans les salaires
 SALARY_FORCED_PAY,Forced payment performed,Rémunération forcée exécutée
-SALARY_MEMBER_FORCED_PAY,{member} has been paid,{member} a été payé
+SALARY_MEMBER_FORCED_PAY,{member.mention} has been paid,{member.mention} a été payé
 SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid,Tous les membres ayant le rôle {role} ont été payés
 PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
