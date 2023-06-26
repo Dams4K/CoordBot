@@ -16,7 +16,7 @@ class GlobalCog(Cog):
         self.bot = bot
 
     about = BotSlashCommandGroup("about", guild_only=True)
-    list_grp = BotSlashCommandGroup("list", guild_only=True)
+    list = BotSlashCommandGroup("list", guild_only=True)
 
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
@@ -62,18 +62,22 @@ class GlobalCog(Cog):
         await ctx.respond(embed=embed)
 
     #TODO: for v4.1 search if there isn't a way to refactor all this code and not having the same code for 3 commands
-    @list_grp.command(name="objects")
+    @list.command(name="objects")
     async def list_objects(self, ctx):
         objects = GuildObject.list_objects(ctx.guild.id)
-        sorted_objects = sorted(objects, key=attrgetter("_object_id"))
+        object_names = [obj.name for obj in objects]
 
         embed_pages = []
         object_descriptions = []
-        for i in range(len(sorted_objects)):
-            obj = sorted_objects[i]
-            object_descriptions.append(f"{obj.name} ({obj._object_id})")
+        page_size = 20
 
-            if (i+1) % 20 == 0 or i+1 == len(sorted_objects):
+        for i, obj in enumerate(objects, 1):
+            if object_names.count(obj.name) > 1:
+                object_descriptions.append(f"{obj.name} ({obj._object_id})")
+            else:
+                object_descriptions.append(f"{obj.name}")
+
+            if i % 20 == 0 or i == len(object_names):
                 embed = NormalEmbed(title=ctx.translate("OBJECTS"))
                 embed.description = "\n".join(object_descriptions)
                 embed_pages.append(embed)
@@ -87,47 +91,50 @@ class GlobalCog(Cog):
         paginator = Paginator(pages=embed_pages, show_disabled=False)
         await paginator.respond(ctx.interaction)
 
-    @list_grp.command(name="articles")
+    @list.command(name="articles")
     async def list_articles(self, ctx):
         articles = GuildArticle.list_articles(ctx.guild.id)
-        sorted_articles = sorted(articles, key=attrgetter("_article_id"))
+        article_names = [article.name for article in articles]
 
         embed_pages = []
         articles_description = []
-        for i in range(len(sorted_articles)):
-            article = sorted_articles[i]
-            articles_description.append(f"{article.name} ({article._article_id})")
+        page_size = 20
+        
+        for i, article in enumerate(articles, 1):
+            if article_names.count(article.name) > 1:
+                articles_description.append(f"{article.name} ({article._article_id})")
+            else:
+                articles_description.append(f"{article.name}")
 
-            if (i+1) % 20 == 0 or i+1 == len(sorted_articles):
+            if i % page_size == 0 or i == len(article_names):
                 embed = NormalEmbed(title=ctx.translate("ARTICLES"))
                 embed.description = "\n".join(articles_description)
                 embed_pages.append(embed)
                 articles_description.clear()
-        
+
         if embed_pages == []:
             embed = WarningEmbed(title=ctx.translate("NO_ARTICLES_EXISTS"))
             await ctx.respond(embed=embed)
-            return
-        
-        paginator = Paginator(pages=embed_pages, show_disabled=False)
-        await paginator.respond(ctx.interaction)
+        else:
+            paginator = Paginator(pages=embed_pages, show_disabled=False)
+            await paginator.respond(ctx.interaction)
 
-    @list_grp.command(name="salaries")
+    @list.command(name="salaries")
     async def list_salaries(self, ctx):
         salaries: tuple = await (GuildSalaries(ctx.guild.id).fetch_salaries(ctx.guild)) # ([roles], [pays])
 
         embeds = []
         description = []
-        i = 0
-        for role, pay in zip(*salaries):
+        page_size = 20
+        
+        for i, (role, pay) in enumerate(zip(*salaries), 1):
             description.append(f"{role.mention} : {pay}")
-            if len(description) >= 20 or i+1 == len(salaries[0]):
+            if i % page_size == 0 or i == len(salaries[0]):
                 embed = NormalEmbed(title="Salaries")
                 embed.description = "\n".join(description)
                 embeds.append(embed)
                 description.clear()
-            i += 1
-
+        
         if embeds == []:
             embed = WarningEmbed(title=ctx.translate("NO_SALARIES_EXISTS"))
             await ctx.respond(embed=embed)
