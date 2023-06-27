@@ -286,7 +286,7 @@ class GuildArticle(Saveable):
         for role_id in self.role_ids:
             role = ctx.guild.get_role(role_id)
             if role == None:
-                raise errors.RoleDidNotExist
+                raise errors.RoleDidNotExist(ctx.guild_config.language)
             else:
                 await ctx.author.add_roles(role)
     
@@ -294,7 +294,7 @@ class GuildArticleConverter(Converter):
     @staticmethod
     def get_article(ctx, name: str) -> GuildArticle:
         if not isinstance(name, str):
-            raise Article.NotFound()
+            raise Article.NotFound(ctx.guild_config.language)
         
         pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
         result = re.search(pattern, name)
@@ -311,7 +311,7 @@ class GuildArticleConverter(Converter):
         if article := GuildArticle.from_name(ctx.guild.id, name):
             return article
         
-        raise Article.NotFound()
+        raise Article.NotFound(ctx.guild_config.language)
 
     async def convert(self, ctx, article_name: str) -> GuildArticle:
         return GuildArticleConverter.get_article(ctx, article_name)
@@ -320,7 +320,7 @@ class GuildObjectConverter(Converter):
     @staticmethod
     def get_object(ctx, name: str) -> GuildObject:
         if not isinstance(name, str):
-            raise Object.NotFound()
+            raise Object.NotFound(ctx.guild_config.language)
         
         pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
         result = re.search(pattern, name)
@@ -337,7 +337,7 @@ class GuildObjectConverter(Converter):
         if obj := GuildObject.from_name(ctx.guild.id, name):
             return obj
         
-        raise Object.NotFound()
+        raise Object.NotFound(ctx.guild_config.language)
 
     async def convert(self, ctx, object_name: str) -> GuildObject:
         return GuildObjectConverter.get_object(ctx, object_name)
