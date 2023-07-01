@@ -56,14 +56,16 @@ class BackupCog(Cog):
         return f"{path}.zip"
 
 
-    async def send_backup_file(self, user, backup_path):
-        if not user.can_send():
+    async def send_backup_file(self, user, backup_path) -> bool:
+        try:
+            with open(backup_path, "rb") as f:
+                file = File(f, backup_path.split("/")[-1])
+                await user.send(file=file)
+                return True
+        except errors.Forbidden as e:
+            self.logger.error(f"Can't send backup file to {user.display_name}: {e}")
             return False
-
-        with open(backup_path, "rb") as f:
-            file = File(f, backup_path.split("/")[-1])
-            await user.send(file=file)
-        return True
+        return False
         
 
 def setup(bot):
