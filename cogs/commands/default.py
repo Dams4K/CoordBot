@@ -44,7 +44,7 @@ class DefaultCog(Cog):
         default_member = DefaultMemberData(ctx.guild.id)
 
         xp_goal = default_member.get_xp_goal(leveling_config.formula)
-        embed = InformativeEmbed(title=ctx.translate("PROFIL_OF", member="*username#0000*"))
+        embed = InformativeEmbed(title=ctx.translate("PROFIL_OF", member=ctx.author))
         embed.add_field(name=ctx.translate("LEVEL_NAME"), value=str(default_member.level))
         embed.add_field(name=ctx.translate("XP_NAME"), value=f"{default_member.xp}/{xp_goal}")
         embed.add_field(name=ctx.translate("MONEY_NAME"), value=str(default_member.money))
