@@ -63,7 +63,7 @@ class BackupCog(Cog):
                 await user.send(file=file)
                 return True
         except errors.Forbidden as e:
-            self.logger.error(f"Can't send backup file to {user.display_name}: {e}")
+            self.bot.logger.error(f"Can't send backup file to {user.display_name}: {e}")
             return False
         return False
         
