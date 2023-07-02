@@ -242,10 +242,12 @@ class GlobalCog(Cog):
             level_after = ctx.author_data.refresh_level(leveling_config.formula)
 
             if level_before < level_after:
-                if m := leveling_config.get_message(ctx.author, level_before, level_after):
+                earned_money = randint(*sorted([leveling_config.min_gain, leveling_config.max_gain]))
+                ctx.author_data.add_money(earned_money)
+
+                if m := leveling_config.get_message(member=ctx.author, level_before=level_before, level_after=level_after, earned_money=earned_money):
                     # Send message only if it's not empty
                     await ctx.send(m)
-                ctx.author_data.add_money(randint(*sorted([leveling_config.min_gain, leveling_config.max_gain])))
 
 def setup(bot):
     bot.add_cog(GlobalCog(bot))

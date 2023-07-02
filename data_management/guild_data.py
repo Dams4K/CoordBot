@@ -5,6 +5,10 @@ from ddm import *
 from utils.references import References
 
 
+class FormatDict(dict):
+    def __missing__(self, key):
+        return "{" + key + "}"
+
 class GuildConfig(Saveable):
     def __init__(self, guild_id):
         self._guild_id = guild_id
@@ -140,7 +144,7 @@ class GuildLevelingConfig(Saveable):
         self._guild_id = guild_id
         
         self.enabled = True
-        self.message = "GG {member.mention} ! You just level up from `{level_before}` to `{level_after}`!!"
+        self.message = "GG {member.mention} ! You've just reached level `{level_after}` and earned {earned_money} coins!!"
         self.formula = "20*({level}+1)"
         self.banned_channels = []
         self.banned_members = []
@@ -161,8 +165,8 @@ class GuildLevelingConfig(Saveable):
     def set_message(self, value: str):
         self.message = value[:512]
     
-    def get_message(self, member, before, after):
-        return self.message.format(member=member, level_before=before, level_after=after)
+    def get_message(self, **kwargs):
+        return self.message.format_map(FormatDict(kwargs))
 
 
     @Saveable.update()
