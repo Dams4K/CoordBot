@@ -180,7 +180,7 @@ class LevelConfigCog(Cog):
         await ctx.respond(text_key="GAIN_RANGE_MODIFIED", text_args={"min": min, "max": max})
     
     @set.command(name="message")
-    @option("message", type=str, min_length=1, max_length=512)
+    @option("message", type=str, max_length=512)
     async def set_message(self, ctx, message: str):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.set_message(message)

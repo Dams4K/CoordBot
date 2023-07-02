@@ -161,7 +161,7 @@ class GuildLevelingConfig(Saveable):
     def set_message(self, value: str):
         self.message = value[:512]
     
-    def send_message(self, member, before, after):
+    def get_message(self, member, before, after):
         return self.message.format(member=member, level_before=before, level_after=after)
 
 

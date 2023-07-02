@@ -22,21 +22,23 @@ class GuildConfigCog(Cog):
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
-    @bridge.bridge_group(invoke_without_command=True, guild_only=True)
-    @bridge.map_to("current")
-    async def prefix(self, ctx: BotBridgeContext):
-        await ctx.respond(text_key="PREFIX_CURRENT", text_args={"prefix": ctx.guild_config.prefix})
-
-    @prefix.command(name="set")
-    @option("new_prefix", type=str, required=True)
-    async def prefix_set(self, ctx, new_prefix: str):
-        ctx.guild_config.set_prefix(new_prefix)
-        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": new_prefix})
+    # May be useless because there is no global commands who use prefix
     
-    @prefix.command(name="reset")
-    async def prefix_reset(self, ctx):
-        ctx.guild_config.set_prefix = References.BOT_PREFIX
-        await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": References.BOT_PREFIX})
+    # @bridge.bridge_group(invoke_without_command=True, guild_only=True)
+    # @bridge.map_to("current")
+    # async def prefix(self, ctx: BotBridgeContext):
+    #     await ctx.respond(text_key="PREFIX_CURRENT", text_args={"prefix": ctx.guild_config.prefix})
+
+    # @prefix.command(name="set")
+    # @option("new_prefix", type=str, required=True)
+    # async def prefix_set(self, ctx, new_prefix: str):
+    #     ctx.guild_config.set_prefix(new_prefix)
+    #     await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": new_prefix})
+    
+    # @prefix.command(name="reset")
+    # async def prefix_reset(self, ctx):
+    #     ctx.guild_config.set_prefix = References.BOT_PREFIX
+    #     await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": References.BOT_PREFIX})
 
 
     @language.command(name="change")

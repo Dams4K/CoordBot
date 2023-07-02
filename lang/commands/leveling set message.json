@@ -1,0 +1,20 @@
+{
+    "description": "Set the message for the new level reached",
+    "name_localizations": {
+        "fr": "message"
+    },
+    "description_localizations": {
+        "fr": "Définir le message pour le nouveau niveau atteint"
+    },
+    "options": {
+        "message": {
+            "description": "Message to send",
+            "name_localizations": {
+                "fr": "message"
+            },
+            "description_localizations": {
+                "fr": "Message à envoyer"
+            }
+        }
+    }
+}

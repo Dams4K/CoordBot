@@ -1,0 +1,29 @@
+{
+    "description": "Change the waiting time between 2 purchases",
+    "name_localizations": {
+        "fr": "délai"
+    },
+    "description_localizations": {
+        "fr": "Modifie le temps d'attente entre 2 achats"
+    },
+    "options": {
+        "article": {
+            "description": "Targeted article",
+            "name_localizations": {
+                "fr": "article"
+            },
+            "description_localizations": {
+                "fr": "Article ciblé"
+            }
+        },
+        "seconds": {
+            "description": "Waiting time",
+            "name_localizations": {
+                "fr": "secondes"
+            },
+            "description_localizations": {
+                "fr": "Temps d'attente"
+            }
+        }
+    }
+}
