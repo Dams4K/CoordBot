@@ -208,8 +208,11 @@ class GlobalCog(Cog):
             await ctx.respond("????") # Wtf are you trying to buy????
             return
 
-        await article.buy(ctx, quantity)
-        await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
+        quantity = await article.buy(ctx, quantity)
+        if quantity == 1:
+            await ctx.respond(text_key="ARTICLE_PURCHASED", text_args={"article": article.name})
+        else:
+            await ctx.respond(text_key="ARTICLE_PURCHASED_X_TIMES", text_args={"article": article.name, "quantity": quantity})
 
     @Cog.listener()
     async def on_message(self, message):

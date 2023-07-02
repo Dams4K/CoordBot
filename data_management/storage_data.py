@@ -241,9 +241,13 @@ class GuildArticle(Saveable):
     def get_quantity(self, object: GuildObject):
         return self.object_ids.get(str(object._object_id), 0)
 
-    async def buy(self, ctx, quantity: int):
+    async def buy(self, ctx, quantity: int) -> int:
         author_data = ctx.author_data
         author_id: str = str(ctx.author.id)
+
+        if self.cooldown > 0: # We can only buy one article so
+            quantity = 1
+        # Calculates the total price
         price: int = self.price * quantity
 
         #- PERFORM ALL CHECKS
@@ -289,6 +293,9 @@ class GuildArticle(Saveable):
                 raise errors.RoleDidNotExist(ctx.guild_config.language)
             else:
                 await ctx.author.add_roles(role)
+        
+        # Return the quantity bought
+        return quantity
     
 class GuildArticleConverter(Converter):
     @staticmethod
