@@ -144,3 +144,6 @@ WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})
 PRICE,Price,Prix
 ARE_UNDER_COOLDOWN,You will be able to buy this article <t:{end_timestamp}:R>,Vous pourrez acheter cet article <t:{end_timestamp}:R>
+COOLDOWN_MODIFIED,Cooldown modified,Délai modifié
+ARTICLE_COOLDOWN_MODIFIED,The cooldown of the {article} article is now {seconds} seconds,Le délai d'achat de l'article {article} est désormais de {seconds} secondes.
+LEVEL_UP_MESSAGE_MODIFIED,Level up message has been modified,Le message de mise à niveau a été modifié

@@ -75,7 +75,6 @@ class RankingFormatter:
         return "\n".join(str_list[:15]) # 15 max number of competitors shown
 
 
-
 class RankingCog(Cog):
     def __init__(self, bot):
         self.bot = bot
