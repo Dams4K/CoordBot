@@ -1,12 +1,12 @@
 import asyncio
 import logging
 import os
+from datetime import datetime
 
 import discord
 from discord.ext import bridge
 
 from data_management import GuildConfig
-from datetime import datetime
 from utils.bot_contexts import *
 from utils.help_command import BotHelpCommand
 from utils.references import References
@@ -41,6 +41,8 @@ class CoordBot(bridge.Bot):
         print("\n  - ".join([""] + self.extensions_path()))
         
         await self.change_presence(status=discord.Status.idle)
+
+        await self.start_listening()
 
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
