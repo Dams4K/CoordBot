@@ -42,9 +42,6 @@ class CoordBot(bridge.Bot):
         
         await self.change_presence(status=discord.Status.idle)
 
-        await self.start_listening()
-
-
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
 
