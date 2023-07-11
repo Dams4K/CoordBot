@@ -17,7 +17,7 @@ def get_articles(self, ctx):
 
     return result
 
-#TODO: optimised
+#TODO: optimize
 def get_objects(self, ctx):
     guild_id = ctx.interaction.guild.id
     object_names = [obj.name for obj in GuildObject.list_objects(guild_id)]

@@ -9,7 +9,7 @@ class ConfirmView(discord.ui.View):
 
         self.confirmed = None
 
-    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.green)
+    @discord.ui.button(label="✔ Confirm", style=discord.ButtonStyle.green)
     async def confirm_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
         if self.author and interaction.user.id != self.author.id:
             return
@@ -18,7 +18,7 @@ class ConfirmView(discord.ui.View):
         self.confirmed = True
         self.stop()
 
-    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.red)
+    @discord.ui.button(label="✗ Cancel", style=discord.ButtonStyle.red)
     async def cancel_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
         if self.author and interaction.user.id != self.author.id:
             return

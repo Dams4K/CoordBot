@@ -5,8 +5,7 @@ from time import time
 import discord
 from discord.ext.commands import Converter
 
-from data_management import errors
-from data_management.errors import *
+from data_management import errors as derrors
 from ddm import *
 from utils.references import References
 
@@ -254,11 +253,11 @@ class GuildArticle(Saveable):
         # Check if the author is under cooldown
         current_time = time()
         if self.under_cooldown.get(author_id, 0) + self.cooldown > current_time:
-            raise errors.UnderCooldown(ctx.guild_config.language, end_timestamp=self.under_cooldown.get(author_id, 0) + self.cooldown)
+            raise derrors.UnderCooldown(ctx.guild_config.language, end_timestamp=self.under_cooldown.get(author_id, 0) + self.cooldown)
 
         # Check if the member has enough money
         if author_data.money < price:
-            raise errors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
+            raise derrors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
         
         author_inventory: Inventory = author_data.get_inventory()
 
@@ -269,7 +268,7 @@ class GuildArticle(Saveable):
             
             author_quantity = author_inventory.get_object_amount(object_id)
             if author_quantity < abs(object_amount * quantity):
-                raise errors.NotEnoughObjects(ctx.guild_config.language)
+                raise derrors.NotEnoughObjects(ctx.guild_config.language)
 
 
         #- MAKE THE PURCHASE
@@ -290,7 +289,7 @@ class GuildArticle(Saveable):
         for role_id in self.role_ids:
             role = ctx.guild.get_role(role_id)
             if role == None:
-                raise errors.RoleNotFound(ctx.guild_config.language)
+                raise derrors.RoleNotFound(ctx.guild_config.language)
             else:
                 await ctx.author.add_roles(role)
         
@@ -301,7 +300,7 @@ class GuildArticleConverter(Converter):
     @staticmethod
     def get_article(ctx, name: str) -> GuildArticle:
         if not isinstance(name, str):
-            raise Article.NotFound(ctx.guild_config.language)
+            raise derrors.Article.NotFound(ctx.guild_config.language)
         
         pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
         result = re.search(pattern, name)
@@ -318,7 +317,7 @@ class GuildArticleConverter(Converter):
         if article := GuildArticle.from_name(ctx.guild.id, name):
             return article
         
-        raise Article.NotFound(ctx.guild_config.language)
+        raise derrors.Article.NotFound(ctx.guild_config.language)
 
     async def convert(self, ctx, article_name: str) -> GuildArticle:
         return GuildArticleConverter.get_article(ctx, article_name)
@@ -327,7 +326,7 @@ class GuildObjectConverter(Converter):
     @staticmethod
     def get_object(ctx, name: str) -> GuildObject:
         if not isinstance(name, str):
-            raise Object.NotFound(ctx.guild_config.language)
+            raise derrors.Object.NotFound(ctx.guild_config.language)
         
         pattern = r"\((\d+)\)$" # Detect the last digit in parentheses and if their is nothing after
         result = re.search(pattern, name)
@@ -344,11 +343,10 @@ class GuildObjectConverter(Converter):
         if obj := GuildObject.from_name(ctx.guild.id, name):
             return obj
         
-        raise Object.NotFound(ctx.guild_config.language)
+        raise derrors.Object.NotFound(ctx.guild_config.language)
 
     async def convert(self, ctx, object_name: str) -> GuildObject:
         return GuildObjectConverter.get_object(ctx, object_name)
-        
     
 
 class Inventory(Data):
