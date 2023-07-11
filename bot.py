@@ -8,14 +8,13 @@ from discord.ext import bridge
 
 from data_management import GuildConfig
 from utils.bot_contexts import *
-from utils.help_command import BotHelpCommand
 from utils.references import References
 
 class CoordBot(bridge.Bot):
     def __init__(self):
         super().__init__(
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
-            debug_guilds=References.BETA_GUILDS, help_command=BotHelpCommand()
+            debug_guilds=References.BETA_GUILDS, help_command=None
         )
 
         if not os.path.exists(References.LOGS_FOLDER):
