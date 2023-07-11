@@ -290,7 +290,7 @@ class GuildArticle(Saveable):
         for role_id in self.role_ids:
             role = ctx.guild.get_role(role_id)
             if role == None:
-                raise errors.RoleDidNotExist(ctx.guild_config.language)
+                raise errors.RoleNotFound(ctx.guild_config.language)
             else:
                 await ctx.author.add_roles(role)
         

@@ -13,23 +13,24 @@ class ErrorHandler(Cog):
     
     @Cog.listener()
     async def on_application_command_error(self, ctx, exception: errors.ApplicationCommandInvokeError):
-        await ctx.respond(embed=await self.errors(ctx, exception))
+        if embed := await self.errors(ctx, exception):
+            await ctx.respond(embed=embed)
+    
     @Cog.listener()
     async def on_command_error(self, ctx, exception):
-        embed = await self.errors(ctx, exception)
-        if embed:
+        if embed := await self.errors(ctx, exception):
             await ctx.send(embed=embed)
 
 
     async def errors(self, ctx, exception):
-        exception_message = str(exception)
+        original_exception = getattr(exception, "original", None)
+        
+        # Ignore all "Command not found" errors
         if isinstance(exception, commands.errors.CommandNotFound):
             return None
 
-        if hasattr(exception, "original"):
-            exception_message = str(exception.original)
-
-        embed = DangerEmbed(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
+        exception_message = str(exception or original_exception)
+        embed = getattr(exception.original, "EMBED", DangerEmbed)(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
         
         return embed
 
