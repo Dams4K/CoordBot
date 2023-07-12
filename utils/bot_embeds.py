@@ -31,7 +31,18 @@ class InformativeEmbed(BotEmbed):
         self.color = discord.Colour.blurple()
 
 def get_text_footer():
-    texts   =   [ "go outside", "have you heard about CPS Display?",    "play minecraft.",    None,   '*watch "person of interest"',    "Tunic is a masterpiece",   "FMA is a masterpiece too!",    "good bye.",   "as your wish",  "secrets are everywhere",   "[ Fourth wall is shaking ]" ]
-    weights =   [ 10,           3,                                      4,                    30,     3,                                3,                          3,                              15,             15,             9,                          6 ]
+    texts = {
+        None: 80,
+        "go outside": 10,
+        "have you heard about CPS Display?": 3,
+        "play minecraft.": 4,
+        '*watch "person of interest"': 3,
+        "FMA is a masterpiece too!": 3,
+        "Tunic is a masterpiece": 4,
+        "good bye.": 15,
+        "as you wish": 15,
+        "secrets are everywhere": 9,
+        "[ Fourth wall is shaking ]": 6
+    }
     
-    return choices(texts, weights=weights)[0] 
+    return choices(list(texts.keys()), weights=list(texts.values()))[0] 
