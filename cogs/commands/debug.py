@@ -1,7 +1,8 @@
 import discord
-from discord.ext import commands
-from discord.ext import bridge
+from discord.ext import bridge, commands
+
 from utils.bot_embeds import NormalEmbed
+
 
 # Debug class, only available when utils.References.DEBUG_MODE is True
 class DebugCog(commands.Cog):

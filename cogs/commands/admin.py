@@ -1,10 +1,14 @@
-import os, shutil
+import os
+import shutil
+
 from discord import *
+
 from data_management import MemberData
+from utils.bot_commands import *
 from utils.bot_embeds import DangerEmbed, NormalEmbed
 from utils.bot_views import ConfirmView
-from utils.bot_commands import *
 from utils.references import References
+
 
 class AdminCog(Cog):
     def __init__(self, bot):

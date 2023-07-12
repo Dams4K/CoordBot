@@ -1,11 +1,10 @@
-import json
 from discord import *
-from data_management import GuildConfig
-from lang.lang import Lang
-from utils.references import References
-from utils.bot_embeds import *
+
+from utils.bot_commands import bot_message_command, bot_slash_command
 from utils.bot_contexts import *
-from utils.bot_commands import bot_slash_command, bot_message_command
+from utils.bot_embeds import *
+from utils.references import References
+
 
 def get_suggests_channel(bot):
     return bot.get_channel(References.SUGGESTS_CHANNEL_ID)

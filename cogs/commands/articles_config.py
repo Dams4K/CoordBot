@@ -1,10 +1,11 @@
 from discord import *
+
 from data_management import *
-from utils.bot_embeds import *
 from utils.bot_autocompletes import *
-from utils.bot_views import ConfirmView
 from utils.bot_commands import BotSlashCommandGroup
-from operator import attrgetter
+from utils.bot_embeds import *
+from utils.bot_views import ConfirmView
+
 
 class ArticlesConfigCog(Cog):
     def __init__(self, bot):

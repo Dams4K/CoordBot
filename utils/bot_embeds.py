@@ -32,7 +32,7 @@ class InformativeEmbed(BotEmbed):
 
 def get_text_footer():
     texts = {
-        None: 80,
+        None: 180,
         "go outside": 10,
         "have you heard about CPS Display?": 3,
         "play minecraft.": 4,
@@ -41,8 +41,9 @@ def get_text_footer():
         "Tunic is a masterpiece": 4,
         "good bye.": 15,
         "as you wish": 15,
-        "secrets are everywhere": 9,
+        "secrets are everywhere": 4,
         "[ Fourth wall is shaking ]": 6
     }
-    
-    return choices(list(texts.keys()), weights=list(texts.values()))[0] 
+    r = choices(list(texts.keys()), weights=list(texts.values()))
+    print(r)
+    return r[0] 

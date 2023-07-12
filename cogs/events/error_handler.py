@@ -2,7 +2,6 @@ from discord import *
 from discord.ext import commands
 
 from data_management.errors import *
-from lang import Lang
 from utils.bot_embeds import DangerEmbed
 from utils.references import References
 

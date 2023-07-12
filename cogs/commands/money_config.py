@@ -1,6 +1,8 @@
 from discord import *
-from utils.bot_commands import BotSlashCommandGroup
+
 from data_management import MemberData
+from utils.bot_commands import BotSlashCommandGroup
+
 
 class MoneyConfigCog(Cog):
     def __init__(self, bot):

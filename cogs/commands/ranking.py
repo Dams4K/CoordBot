@@ -1,9 +1,12 @@
-from discord import *
-from data_management import *
 from operator import attrgetter
+
+from discord import *
 from prefixed import Float
-from utils.bot_embeds import NormalEmbed
+
+from data_management import *
 from utils.bot_commands import BotSlashCommandGroup
+from utils.bot_embeds import NormalEmbed
+
 
 class FormatterDict(dict):
     def __missing__(self, key):

@@ -1,12 +1,10 @@
 from discord import *
-from discord.ext import bridge
 
 from data_management import *
 from lang import Lang
 from utils.bot_commands import *
 from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
 from utils.bot_embeds import *
-from utils.references import References
 
 
 class GuildConfigCog(Cog):
@@ -21,25 +19,6 @@ class GuildConfigCog(Cog):
         return guild_language.get_keys()
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
-
-    # May be useless because there is no global commands who use prefix
-    
-    # @bridge.bridge_group(invoke_without_command=True, guild_only=True)
-    # @bridge.map_to("current")
-    # async def prefix(self, ctx: BotBridgeContext):
-    #     await ctx.respond(text_key="PREFIX_CURRENT", text_args={"prefix": ctx.guild_config.prefix})
-
-    # @prefix.command(name="set")
-    # @option("new_prefix", type=str, required=True)
-    # async def prefix_set(self, ctx, new_prefix: str):
-    #     ctx.guild_config.set_prefix(new_prefix)
-    #     await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": new_prefix})
-    
-    # @prefix.command(name="reset")
-    # async def prefix_reset(self, ctx):
-    #     ctx.guild_config.set_prefix = References.BOT_PREFIX
-    #     await ctx.respond(text_key="PREFIX_CHANGED", text_args={"prefix": References.BOT_PREFIX})
-
 
     @language.command(name="change")
     @option("language", type=str, autocomplete=get_languages)

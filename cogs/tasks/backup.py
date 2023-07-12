@@ -1,6 +1,6 @@
+import datetime
 import os
 import shutil
-import datetime
 
 from discord import *
 from discord.ext import commands, tasks
@@ -27,7 +27,7 @@ class BackupCog(Cog):
 
             app_info = await self.bot.application_info()
             team = app_info.team
-            owner: discord.User = await self.bot.fetch_user(team.owner.id) if team else app_info.owner
+            owner: User = await self.bot.fetch_user(team.owner.id) if team else app_info.owner
             if await self.send_backup_file(owner, backup_path):
                 self.bot.logger.info(f"Weekly backup file sent to {owner}")
 

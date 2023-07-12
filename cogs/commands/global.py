@@ -1,5 +1,4 @@
 import datetime
-from operator import attrgetter
 from random import randint
 
 from discord import *
