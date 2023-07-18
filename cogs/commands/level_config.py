@@ -160,7 +160,7 @@ class LevelConfigCog(Cog):
     async def banlist_channels(self, ctx):
         title = ctx.translate("LEVELING_BANLIST_CHANNELS")
 
-        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingConfig(ctx.guild.id).channels_banned]
+        channels = [ctx.guild.get_channel_or_thread(channel_id) for channel_id in GuildLevelingConfig(ctx.guild.id).banned_channels]
         embeds = [NormalEmbed(title=title, description="\n".join([channel.mention for channel in channels[i:i+20] if channel is not None])) for i in range(0, len(channels), 20)]
     
         if embeds == []:
