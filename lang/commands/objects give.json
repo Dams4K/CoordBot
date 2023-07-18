@@ -7,10 +7,10 @@
         "fr": "Donner un objet"
     },
     "options": {
-        "member": {
+        "to": {
             "description": "Member who will receive",
             "name_localizations": {
-                "fr": "membre"
+                "fr": "à"
             },
             "description_localizations": {
                 "fr": "Membre qui recevra"

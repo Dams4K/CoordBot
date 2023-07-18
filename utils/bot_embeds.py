@@ -36,7 +36,7 @@ def get_text_footer():
         "go outside": 10,
         "have you heard about CPS Display?": 3,
         "play minecraft.": 4,
-        '*watch "person of interest"': 3,
+        "watch __person of interest__": 3,
         "FMA is a masterpiece too!": 3,
         "Tunic is a masterpiece": 4,
         "good bye.": 15,

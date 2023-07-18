@@ -67,7 +67,7 @@ class ObjectsConfigCog(Cog):
 
     @objects.command(name="give")
     @default_permissions(administrator=True)
-    @option("member", type=Member)
+    @option("to", parameter_name="member", type=Member)
     @option("object", type=GuildObjectConverter, autocomplete=get_objects)
     @option("amount", type=int, default=1)
     async def give_object(self, ctx, member: Member, object: GuildObject, amount: int = 1):

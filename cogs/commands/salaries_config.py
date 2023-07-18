@@ -54,7 +54,7 @@ class SalariesConfigCog(Cog):
                 members = members[:MAX]
                 members.append(f"...{remaining}")
             
-            embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.mention), value="\n".join(members))
+            embed.add_field(name=ctx.translate("SALARY_ROLE_FORCED_PAY", role=role.name), value="\n".join(members))
 
         await ctx.respond(embed=embed)
 

@@ -385,6 +385,9 @@ class Inventory(Data):
 
         self.object_ids.setdefault(object_id, 0)
         self.object_ids[object_id] += amount
+
+        if self.object_ids[object_id] == 0:
+            self.object_ids.pop(object_id)
     
     def remove_object(self, object_id: str, amount: int):
         if amount == -1:

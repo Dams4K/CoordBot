@@ -44,8 +44,8 @@ OBJECT_NAME_CHANGED,The name of the {LANG_KEY:OBJECT_NAME:casefold} has been cha
 OBJECT_DOES_NOT_EXIST,This {LANG_KEY:OBJECT_NAME:casefold} does not exist,Cet {LANG_KEY:OBJECT_NAME:casefold} n'existe pas
 OBJECT_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:OBJECT_NAME:casefold} {object},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:OBJECT_NAME:casefold} {object}
 OBJECT_DELETION_PERFORMED,The deletion of the {LANG_KEY:OBJECT_NAME:casefold} {object} has been performed,La suppression de l'{LANG_KEY:OBJECT_NAME:casefold} {object} a été effectuée
-OBJECT_GIVED,{member} has received {amount} {object_name},{member} a reçu {amount} {object_name}
-INVENTORY_FULL,Inventory of {member} is full,L'inventaire de {membre} est complet
+OBJECT_GIVED,{member.display_name} has received {amount} {object_name},{member.display_name} a reçu {amount} {object_name}
+INVENTORY_FULL,Inventory of {member.display_name} is full,L'inventaire de {membre} est complet
 INVENTORY_EMPTY,*empty*,*vide*
 INVENTORY_OF,Inventory of {member.display_name},Inventaire de {member.display_name}
 DEFAULT_MEMBER_XP_CHANGED,Members' default {LANG_KEY:XP_NAME:casefold} is now {amount},L'{LANG_KEY:XP_NAME:casefold} par défaut des membres est désormais de {amount}
@@ -87,17 +87,17 @@ LEVELING_CHANNEL_HAS_BEEN_BANNED,The channel {channel} has been banned from the 
 LEVELING_MEMBER_HAS_BEEN_UNBANNED,{member.mention} has been unbanned from the {LANG_KEY:LEVEL_NAME:casefold} system,{member.mention} a été débanni du système de {LANG_KEY:LEVEL_NAME:casefold}
 LEVELING_CHANNEL_HAS_BEEN_UNBANNED,The channel {channel} has been unbanned from the {LANG_KEY:LEVEL_NAME:casefold} system,Le salon {channel} a été débanni du système de {LANG_KEY:LEVEL_NAME:casefold}
 XP_NAME,Experience,Expérience
-XP_ADDED,You have increased the {LANG_KEY:XP_NAME:casefold} of {member} by `{amount}`,Vous avez augmenté l'{LANG_KEY:XP_NAME:casefold} de {member} de `{amount}`
-XP_REMOVED,You have decreased the {LANG_KEY:XP_NAME:casefold} of {member} by `{amount}`,Vous avez diminué l'{LANG_KEY:XP_NAME:casefold} de {member} de `{amount}`
-XP_SET,You have set the {member} {LANG_KEY:XP_NAME:casefold} to `{amount}`,Vous avez définit l'{LANG_KEY:XP_NAME:casefold} de {member} à `{amount}`
+XP_ADDED,You have increased the {LANG_KEY:XP_NAME:casefold} of {member.display_name} by `{amount}`,Vous avez augmenté l'{LANG_KEY:XP_NAME:casefold} de {member.display_name} de `{amount}`
+XP_REMOVED,You have decreased the {LANG_KEY:XP_NAME:casefold} of {member.display_name} by `{amount}`,Vous avez diminué l'{LANG_KEY:XP_NAME:casefold} de {member.display_name} de `{amount}`
+XP_SET,You have set the {member.display_name} {LANG_KEY:XP_NAME:casefold} to `{amount}`,Vous avez définit l'{LANG_KEY:XP_NAME:casefold} de {member.display_name} à `{amount}`
 LEVEL_NAME,Level,Niveau
-LEVEL_ADDED,You have increased the {LANG_KEY:LEVEL_NAME:casefold} of {member} by `{amount}`,Vous avez augmenté le {LANG_KEY:LEVEL_NAME:casefold} de {member} de `{amount}`
-LEVEL_REMOVED,You have decreased the {LANG_KEY:LEVEL_NAME:casefold} of {member} by `{amount}`,Vous avez diminué le {LANG_KEY:LEVEL_NAME:casefold} de {member} de `{amount}`
-LEVEL_SET,You have set the {member} {LANG_KEY:LEVEL_NAME:casefold} to `{amount}`,Vous avez définit le {LANG_KEY:LEVEL_NAME:casefold} de {member} à `{amount}`
+LEVEL_ADDED,You have increased the {LANG_KEY:LEVEL_NAME:casefold} of {member.display_name} by `{amount}`,Vous avez augmenté le {LANG_KEY:LEVEL_NAME:casefold} de {member.display_name} de `{amount}`
+LEVEL_REMOVED,You have decreased the {LANG_KEY:LEVEL_NAME:casefold} of {member.display_name} by `{amount}`,Vous avez diminué le {LANG_KEY:LEVEL_NAME:casefold} de {member.display_name} de `{amount}`
+LEVEL_SET,You have set the {member.display_name} {LANG_KEY:LEVEL_NAME:casefold} to `{amount}`,Vous avez définit le {LANG_KEY:LEVEL_NAME:casefold} de {member.display_name} à `{amount}`
 MONEY_NAME,Money,Argent
-MONEY_ADDED,You have added `{amount}` {LANG_KEY:MONEY_NAME:casefold} to {member},Vous avez ajouté `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member}
-MONEY_REMOVED,You have removed `{amount}` {LANG_KEY:MONEY_NAME:casefold} from {member},Vous avez retiré `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member}
-MONEY_SET,You have set the {member} {LANG_KEY:MONEY_NAME:casefold} to `{amount}`,Vous avez définit la {LANG_KEY:MONEY_NAME:casefold} de {member} à `{amount}`
+MONEY_ADDED,You have added `{amount}` {LANG_KEY:MONEY_NAME:casefold} to {member.display_name},Vous avez ajouté `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member.display_name}
+MONEY_REMOVED,You have removed `{amount}` {LANG_KEY:MONEY_NAME:casefold} from {member.display_name},Vous avez retiré `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member.display_name}
+MONEY_SET,You have set the {member.display_name} {LANG_KEY:MONEY_NAME:casefold} to `{amount}`,Vous avez définit la {LANG_KEY:MONEY_NAME:casefold} de {member.display_name} à `{amount}`
 LEVEL_RANKING,Top 15 levels,Top 15 meilleurs niveaux
 MONEY_RANKING,Top 15 richest,Top 15 des plus riches
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
