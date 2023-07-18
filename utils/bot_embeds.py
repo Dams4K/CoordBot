@@ -44,6 +44,5 @@ def get_text_footer():
         "secrets are everywhere": 4,
         "[ Fourth wall is shaking ]": 6
     }
-    r = choices(list(texts.keys()), weights=list(texts.values()))
-    print(r)
-    return r[0] 
+
+    return choices(list(texts.keys()), weights=list(texts.values()))[0] 

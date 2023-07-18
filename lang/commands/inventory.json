@@ -7,10 +7,10 @@
         "fr": "Afficher le contenu de d'un inventaire"
     },
     "options": {
-        "member": {
+        "of": {
             "description": "Targeted member",
             "name_localizations": {
-                "fr": "membre"
+                "fr": "de"
             },
             "description_localizations": {
                 "fr": "Membre ciblé"

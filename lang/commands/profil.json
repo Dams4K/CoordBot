@@ -7,10 +7,10 @@
         "fr": "Afficher le profil d'un membre"
     },
     "options": {
-        "member": {
+        "of": {
             "description": "Targeted member",
             "name_localizations": {
-                "fr": "membre"
+                "fr": "de"
             },
             "description_localizations": {
                 "fr": "Membre ciblé"

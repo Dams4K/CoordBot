@@ -145,9 +145,9 @@ class GlobalCog(Cog):
 
     @bot_slash_command(name="profil")
     @guild_only()
-    @option("member", type=Member, required=False, default=None)
-    async def slash_profil(self, ctx, member = None):
-        member = ctx.author if member == None else member
+    @option("of", type=Member, required=False, default=None)
+    async def slash_profil(self, ctx, of = None):
+        member = ctx.author if of == None else of
         await self.show_profil(ctx, member)
     
     @bot_user_command(name="profil")
@@ -173,9 +173,10 @@ class GlobalCog(Cog):
         await self.show_inventory(ctx, member, ephemeral=True)
 
     @bot_slash_command(name="inventory")
-    @option("member", type=Member, required=False)
-    async def slash_show_inventory(self, ctx, member=None):
-        member = ctx.author if member == None else member
+    @guild_only()
+    @option("of", type=Member, required=False)
+    async def slash_show_inventory(self, ctx, of=None):
+        member = ctx.author if of == None else of
         await self.show_inventory(ctx, member)
     
     async def show_inventory(self, ctx, member, ephemeral=False):
