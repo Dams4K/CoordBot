@@ -11,7 +11,7 @@ class MoneyConfigCog(Cog):
     money = BotSlashCommandGroup("money", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
     @money.command(name="add")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def add_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -20,7 +20,7 @@ class MoneyConfigCog(Cog):
         
 
     @money.command(name="remove")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def remove_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -29,7 +29,7 @@ class MoneyConfigCog(Cog):
     
 
     @money.command(name="set")
-    @option("member", type=Member, required=True)
+    @option("for", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def set_money(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)

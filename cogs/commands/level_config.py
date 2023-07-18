@@ -17,7 +17,7 @@ class LevelConfigCog(Cog):
     set = leveling.create_subgroup("set")
 
     @experience.command(name="add")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_add(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -26,7 +26,7 @@ class LevelConfigCog(Cog):
         
 
     @experience.command(name="remove")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_remove(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -35,7 +35,7 @@ class LevelConfigCog(Cog):
     
 
     @experience.command(name="set")
-    @option("member", type=Member, required=True)
+    @option("for", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def xp_set(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -44,7 +44,7 @@ class LevelConfigCog(Cog):
 
 
     @level.command(name="add")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_add(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -53,7 +53,7 @@ class LevelConfigCog(Cog):
         
 
     @level.command(name="remove")
-    @option("member", type=Member, required=True)
+    @option("to", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_remove(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)
@@ -62,7 +62,7 @@ class LevelConfigCog(Cog):
     
 
     @level.command(name="set")
-    @option("member", type=Member, required=True)
+    @option("for", parameter_name="member", type=Member, required=True)
     @option("amount", type=int, required=True)
     async def level_set(self, ctx, member, amount):
         member_data = MemberData(member.id, ctx.guild.id)

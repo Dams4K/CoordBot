@@ -7,10 +7,10 @@
         "fr": "Défini l'expérience d'une personne"
     },
     "options": {
-        "member": {
+        "for": {
             "description": "Targeted member",
             "name_localizations": {
-                "fr": "membre"
+                "fr": "pour"
             },
             "description_localizations": {
                 "fr": "Membre ciblé"

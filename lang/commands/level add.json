@@ -7,10 +7,10 @@
         "fr": "Ajoute des niveaux à quelqu'un"
     },
     "options": {
-        "member": {
+        "to": {
             "description": "Targeted member",
             "name_localizations": {
-                "fr": "membre"
+                "fr": "à"
             },
             "description_localizations": {
                 "fr": "Membre ciblé"
