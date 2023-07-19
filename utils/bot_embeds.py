@@ -32,7 +32,7 @@ class InformativeEmbed(BotEmbed):
 
 def get_text_footer():
     texts = {
-        None: 180,
+        None: 200,
         "go outside": 10,
         "have you heard about CPS Display?": 3,
         "play minecraft.": 4,

@@ -16,7 +16,7 @@ class _References:
                 version = input("Bot version > ")
                 cogs_folder = input("Cogs folder > ")
                 logs_folder = input("Logs folder > ")
-                debug_mode = True if input("Enable debug mode (y|N) > ").lower() in ["true", "t", "false", "f", "y", "n", "yes", "no", "oui", "non"] else False
+                debug_mode = True if input("Enable debug mode (y|N) > ").lower() in ["true", "t", "y", "yes", "oui"] else False
                 suggests_channel_id = input("suggests_channel_id > ")
                 reports_channel_id = input("reports_channel_id > ")
 
