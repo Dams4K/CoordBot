@@ -15,9 +15,9 @@ class FormatterDict(dict):
 
 class RankingFormatter:
     EMOJIS = {
-        1: "<:first:1131985785369923726>",
-        2: "<:second:1131986100395720847>",
-        3: "<:third:1131986793517027428>"
+        1: "<:first:1132001952889327657>",
+        2: "<:second:1132001951228375070>",
+        3: "<:third:1132001948229447780>"
     }
 
     def __init__(self, competitors, sort_attrs: list):
