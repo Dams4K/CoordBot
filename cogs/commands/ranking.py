@@ -93,6 +93,7 @@ class RankingCog(Cog):
 
         ranking_formatter = RankingFormatter(members_data, ("level", "xp"))
 
+        # WTF is going on????
         get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members).display_name)
         get_level = lambda d: f"{Float(d['competitor'].level):.2h}" if len(str(d["competitor"].level)) > 3 else d["competitor"].level
         get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
@@ -112,6 +113,7 @@ class RankingCog(Cog):
         
         ranking_formatter = RankingFormatter(members_data, ("money",))
 
+        # WTF is going on????
         get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d['competitor']._member_id, ctx.guild.members).display_name)
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
