@@ -138,7 +138,7 @@ SALARY_ROLE_REMOVED,The role {role} has been removed from the salaries,Le rôle 
 SALARY_ROLE_ADDED,The role {role} has been added to the salaries,Le rôle {role} a été ajouté dans les salaires
 SALARY_FORCED_PAY,Forced payment performed,Rémunération forcée exécutée
 SALARY_MEMBER_FORCED_PAY,{member.mention} has been paid,{member.mention} a été payé
-SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid,Tous les membres ayant le rôle {role} ont été payés
+SALARY_ROLE_FORCED_PAY,All members with the role {role} have been paid:,Tous les membres ayant le rôle {role} ont été payés :
 PER_UNIT,Per unit,Par unité
 WHERE_TO_BUY,Where to buy,Où acheter
 WHERE_TO_BUY_TEMPLATE,{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold}),{article} ({unit_price} {LANG_KEY:MONEY_NAME:casefold} {LANG_KEY:PER_UNIT:casefold})

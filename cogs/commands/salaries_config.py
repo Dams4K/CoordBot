@@ -1,4 +1,5 @@
 from discord import *
+from discord.utils import escape_markdown
 
 from data_management import GuildSalaries
 from utils.bot_commands import BotSlashCommandGroup
@@ -46,7 +47,7 @@ class SalariesConfigCog(Cog):
         if guild_salaries.pay_member(member):
             embed.description = ctx.translate("SALARY_MEMBER_FORCED_PAY", member=member)
         if guild_salaries.pay_role(role):
-            members = [member.mention for member in role.members]
+            members = [escape_markdown(member.display_name) for member in role.members]
 
             MAX = 20
             if len(members) > MAX:
