@@ -14,8 +14,8 @@ class FormatterDict(dict):
 
 class RankingFormatter:
     EMOJIS = {
-        1: "<:First:798229195549179915>",
-        2: "<:Second:798266104761024582>",
+        1: "<:first:1131985785369923726>",
+        2: "<:second:1131986100395720847>",
         3: "<:Third:798229194743611434> "
     }
 
