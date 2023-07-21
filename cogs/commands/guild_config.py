@@ -3,20 +3,14 @@ from discord import *
 from data_management import *
 from lang import Lang
 from utils.bot_commands import *
-from utils.bot_contexts import BotAutocompleteContext, BotBridgeContext
+from utils.bot_contexts import BotBridgeContext
 from utils.bot_embeds import *
+from utils.bot_autocompletes import get_languages, get_translation_keys, get_custom_translations
 
 
 class GuildConfigCog(Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    async def get_languages(self, ctx: BotAutocompleteContext):
-        return [Lang.get_text("CHANGE_LANGUAGE_TO", lang) for lang in Lang.get_languages()]
-
-    async def get_custom_translations(self, ctx):
-        guild_language = GuildLanguage(ctx.interaction.guild.id)
-        return guild_language.get_keys()
 
     language = BotSlashCommandGroup("language", default_member_permissions=Permissions(administrator=True), guild_only=True)
 
@@ -32,7 +26,7 @@ class GuildConfigCog(Cog):
             await ctx.respond(text_key="LANGUAGE_CHANGED")
 
     @language.command(name="customize")
-    @option("key", type=str, required=True)
+    @option("key", type=str, required=True, autocomplete=get_translation_keys)
     @option("translation", type=str, required=True)
     async def language_customize(self, ctx: BotBridgeContext, key, translation):
         guild_language = GuildLanguage(ctx.guild.id)

@@ -23,9 +23,9 @@ class ArticlesConfigCog(Cog):
     async def article_create(self, ctx, name, price, description):
         article = GuildArticle.new(ctx.guild.id, name).set_price(price).set_description(description)
 
-        title = ctx.translate("ARTICLE_CREATED")
-        description = ctx.translate("ARTICLE_CREATED_DESC", article=article.name)
-        embed = NormalEmbed(title=title, description=description)
+        embed = NormalEmbed(
+                title=ctx.translate("ARTICLE_CREATED"),
+                description=ctx.translate("ARTICLE_CREATED_DESC", article=article.name))
         await ctx.respond(embed=embed)
 
     
@@ -36,9 +36,9 @@ class ArticlesConfigCog(Cog):
         old_name = article.name
         article.set_name(name)
 
-        title = ctx.translate("NAME_MODIFIED")
-        description = ctx.translate("ARTICLE_NAME_MODIFIED", article=old_name, new_name=name)
-        embed = WarningEmbed(title=title, description=description)
+        embed = WarningEmbed(
+                title=ctx.translate("NAME_MODIFIED"),
+                description=ctx.translate("ARTICLE_NAME_MODIFIED", article=old_name, new_name=name))
         await ctx.respond(embed=embed)
 
     @change.command(name="description")
@@ -47,9 +47,9 @@ class ArticlesConfigCog(Cog):
     async def change_description(self, ctx, article: GuildArticle, description: str):
         article.set_description(description)
 
-        title = ctx.translate("DESCRIPTION_MODIFIED")
-        description = ctx.translate("ARTICLE_DESCRIPTION_MODIFIED", article=article.name, new_description=description)
-        embed = WarningEmbed(title=title, description=description)
+        embed = WarningEmbed(
+                title=ctx.translate("DESCRIPTION_MODIFIED"),
+                description=ctx.translate("ARTICLE_DESCRIPTION_MODIFIED", article=article.name, new_description=description))
         await ctx.respond(embed=embed)
     
     @change.command(name="price")
@@ -58,9 +58,9 @@ class ArticlesConfigCog(Cog):
     async def change_price(self, ctx, article: GuildArticle, price: int):
         article.set_price(price)
 
-        title = ctx.translate("PRICE_MODIFIED")
-        description = ctx.translate("ARTICLE_PRICE_MODIFIED", article=article.name, new_price=price)
-        embed = WarningEmbed(title=title, description=description)
+        embed = WarningEmbed(
+                title=ctx.translate("PRICE_MODIFIED"),
+                description=ctx.translate("ARTICLE_PRICE_MODIFIED", article=article.name, new_price=price))
         await ctx.respond(embed=embed)
     
     @change.command(name="cooldown")
@@ -69,9 +69,9 @@ class ArticlesConfigCog(Cog):
     async def change_cooldown(self, ctx, article: GuildArticle, seconds: int):
         article.set_cooldown(seconds)
 
-        title = ctx.translate("COOLDOWN_MODIFIED")
-        description = ctx.translate("ARTICLE_COOLDOWN_MODIFIED", article=article.name, cooldown=seconds)
-        embed = WarningEmbed(title=title, description=description)
+        embed = WarningEmbed(
+                title=ctx.translate("COOLDOWN_MODIFIED"),
+                description=ctx.translate("ARTICLE_COOLDOWN_MODIFIED", article=article.name, cooldown=seconds))
         await ctx.respond(embed=embed)
 
     @add.command(name="object")
@@ -81,9 +81,9 @@ class ArticlesConfigCog(Cog):
     async def add_object(self, ctx, article: GuildArticle, object: GuildObject, quantity):
         article.add_object(object, quantity)
 
-        title = ctx.translate("OBJECT_ADDED")
-        description = ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=object.name, article=article.name)
-        embed = NormalEmbed(title=title, description=description)
+        embed = NormalEmbed(
+                title=ctx.translate("OBJECT_ADDED"),
+                description=ctx.translate("ARTICLE_OBJECT_ADDED", quantity=quantity, object=object.name, article=article.name))
         await ctx.respond(embed=embed)
     
     @remove.command(name="object")
@@ -93,9 +93,9 @@ class ArticlesConfigCog(Cog):
     async def remove_object(self, ctx, article: GuildArticle, object: GuildObject, quantity=1):
         article.remove_object(object, quantity)
         
-        title = ctx.translate("OBJECT_REMOVED")
-        description = ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=object.name, article=article.name)
-        embed = DangerEmbed(title=title, description=description)
+        embed = DangerEmbed(
+                title=ctx.translate("OBJECT_REMOVED"),
+                description=ctx.translate("ARTICLE_OBJECT_REMOVED", quantity=quantity, object=object.name, article=article.name))
         await ctx.respond(embed=embed)
 
     @add.command(name="role")
@@ -104,9 +104,9 @@ class ArticlesConfigCog(Cog):
     async def add_role(self, ctx, article: GuildArticle, role: Role):
         article.add_role(role)
 
-        title = ctx.translate("ROLE_ADDED")
-        description = ctx.translate("ARTICLE_ROLE_ADDED", role=role.mention, article=article.name)
-        embed = NormalEmbed(title=title, description=description)
+        embed = NormalEmbed(
+                title=ctx.translate("ROLE_ADDED"),
+                description=ctx.translate("ARTICLE_ROLE_ADDED", role=role.mention, article=article.name))
         await ctx.respond(embed=embed)
     
     @remove.command(name="role")
@@ -115,9 +115,9 @@ class ArticlesConfigCog(Cog):
     async def remove_role(self, ctx, article: GuildArticle, role: Role):
         article.remove_role(role)
 
-        title = ctx.translate("ROLE_REMOVED")
-        description = ctx.translate("ARTICLE_ROLE_REMOVED", role=role.mention, article=article.name)
-        embed = DangerEmbed(title=title, description=description)
+        embed = DangerEmbed(
+                title=ctx.translate("ROLE_REMOVED"),
+                description=ctx.translate("ARTICLE_ROLE_REMOVED", role=role.mention, article=article.name))
         await ctx.respond(embed=embed)
 
     @articles.command(name="delete")

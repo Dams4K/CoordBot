@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="2.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     showguides="false"
+     inkscape:zoom="1.125871"
+     inkscape:cx="163.42903"
+     inkscape:cy="230.93232"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask738">
+      <path
+         id="path740"
+         style="fill:#939dac;stroke:none;stroke-width:16;stroke-linecap:round;stroke-miterlimit:0;paint-order:markers stroke fill"
+         d="m 241.15236,-21.668815 -83.06408,67.973211 88.13722,390.168974 83.06409,-67.97321 z m 124.85408,-28.203911 -83.06409,67.973211 88.13722,390.168975 83.06409,-67.97321 z" />
+    </mask>
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask748">
+      <path
+         id="path750"
+         style="fill:#939dac;stroke:none;stroke-width:16;stroke-linecap:round;stroke-miterlimit:0;paint-order:markers stroke fill"
+         d="m 241.15236,-21.668815 -83.06408,67.973211 88.13722,390.168974 83.06409,-67.97321 z m 124.85408,-28.203911 -83.06409,67.973211 88.13722,390.168975 83.06409,-67.97321 z" />
+    </mask>
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path233"
+       style="fill:#939dac;stroke:none;stroke-width:16;stroke-linecap:round;stroke-miterlimit:0;paint-order:markers stroke fill"
+       d="M 240 32 L 144 80 L 144 480 L 240 432 L 240 32 z M 368 32 L 272 80 L 272 480 L 368 432 L 368 32 z " />
+    <rect
+       style="fill:#ececec;stroke:none;stroke-width:40.99;stroke-linecap:round;stroke-miterlimit:0;paint-order:markers stroke fill"
+       id="rect630"
+       width="547.30164"
+       height="89.151215"
+       x="14.589567"
+       y="46.370762"
+       transform="rotate(12.729183)"
+       mask="url(#mask738)" />
+    <rect
+       style="fill:#6f7c91;stroke:none;stroke-width:40.99;stroke-linecap:round;stroke-miterlimit:0;paint-order:markers stroke fill"
+       id="rect742"
+       width="547.30164"
+       height="89.151215"
+       x="57.291363"
+       y="352.78433"
+       transform="rotate(12.729183)"
+       mask="url(#mask748)" />
+  </g>
+</svg>

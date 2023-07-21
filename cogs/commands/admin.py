@@ -39,24 +39,26 @@ class AdminCog(Cog):
     @server.command(name="reset")
     async def server_reset(self, ctx):
         confirm_view = ConfirmView(ctx.author)
-        confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
-        confirm_embed.description = ctx.translate("SERVER_DELETION_CONFIRMATION")
+        confirm_embed = DangerEmbed(
+            title=ctx.translate("WARNING"),
+            description=ctx.translate("SERVER_DELETION_CONFIRMATION")
+        )
 
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()
         
-        embed = NormalEmbed()
         if confirm_view.confirmed:
             path = References.get_guild_folder(str(ctx.guild.id))
             if os.path.exists(path):
                 shutil.rmtree(path)
 
-            embed.title = ctx.translate("DELETION_PERFORMED")
-            embed.description = ctx.translate("SERVER_DATA_HAS_BEEN_DELETED")
-
+            embed = NormalEmbed(
+                    title=ctx.translate("DELETION_PERFORMED"),
+                    description=ctx.translate("SERVER_DATA_HAS_BEEN_DELETED"))
         else:
-            embed.title = ctx.translate("DELETION_CANCELED")
-            embed.description = ctx.translate("SERVER_DATA_HAS_NOT_BEEN_DELETED")
+            embed = DangerEmbed(
+                    title=ctx.translate("DELETION_CANCELED"),
+                    description=ctx.translate("SERVER_DATA_HAS_NOT_BEEN_DELETED"))
         
         await ctx.respond(embed=embed)
 
@@ -90,23 +92,24 @@ class AdminCog(Cog):
 
     async def reset_member(self, ctx, member: Member, ephemeral=False):
         confirm_view = ConfirmView(ctx.author)
-        confirm_embed = DangerEmbed(title=ctx.translate("WARNING"))
-        confirm_embed.description = ctx.translate("RESET_MEMBER_CONFIRMATION", member=member)
+        confirm_embed = DangerEmbed(
+                title=ctx.translate("WARNING"),
+                description=ctx.translate("RESET_MEMBER_CONFIRMATION", member=member))
 
         await ctx.respond(embed=confirm_embed, view=confirm_view, ephemeral=ephemeral)
         await confirm_view.wait()
-        
-        embed = NormalEmbed()
+
         if confirm_view.confirmed:
             member_data = MemberData(member.id, ctx.guild.id)
             member_data.delete()
-            
-            embed.title = ctx.translate("RESET_DONE")
-            embed.description = ctx.translate("MEMBER_HAS_BEEN_RESET", member=member)
 
+            embed = NormalEmbed(
+                    title=ctx.translate("RESET_DONE"),
+                    description=ctx.translate("MEMBER_HAS_BEEN_RESET", member=member))
         else:
-            embed.title = ctx.translate("RESET_CANCELED")
-            embed.description = ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member)
+            embed = DangerEmbed(
+                    title=ctx.translate("RESET_CANCELED"),
+                    description=ctx.translate("MEMBER_HAS_NOT_BEEN_RESET", member=member))
         
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 

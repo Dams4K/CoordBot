@@ -33,3 +33,13 @@ def get_objects(self, ctx):
         result.append(formatted)
 
     return result
+
+def get_languages(self, ctx):
+    return [Lang.get_text("CHANGE_LANGUAGE_TO", lang) for lang in Lang.get_languages() if lang.startswith(ctx.value)]
+
+def get_translation_keys(self, ctx):
+    return [key for key in Lang.get_keys() if key.startswith(ctx.value)]
+
+async def get_custom_translations(self, ctx):
+    guild_language = GuildLanguage(ctx.interaction.guild.id)
+    return [key for key in guild_language.get_keys() if key.startswith(ctx.value)]

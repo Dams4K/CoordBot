@@ -39,6 +39,7 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
         kwargs.setdefault("name_localizations", self.loc_name_localizations)
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
 
+        # Useless but i always prefer returning the original value, i dunno man
         return SlashCommandGroup.__init__(self, name, description, guild_ids, parent, **kwargs)
 
 

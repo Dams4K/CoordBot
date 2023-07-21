@@ -20,12 +20,12 @@ class GuildConfig(Saveable):
 
     #- SETTERS
     @Saveable.update()
-    def set_prefix(self, new_prefix: str):
-        self.prefix = new_prefix
+    def set_prefix(self, value: str):
+        self.prefix = value
     
     @Saveable.update()
-    def set_language(self, new_language):
-        self.language = new_language
+    def set_language(self, value):
+        self.language = value
 
 
 class GuildLanguage(Saveable):

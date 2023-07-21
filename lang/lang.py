@@ -83,7 +83,7 @@ class _Lang:
             parameters = set(s[1].split(";")) # get all parameters
         return (key, parameters)
 
-    def get_rows(self, custom_rows: dict) -> dict:
+    def get_rows(self, custom_rows: dict = {}) -> dict:
         if not custom_rows:
             return self.rows
         
@@ -98,6 +98,9 @@ class _Lang:
             else:
                 rows.append(row)
         return rows
+
+    def get_keys(self):
+        return [row[0] for row in self.get_rows()]
 
     def apply_parameters(self, text, parameters: list) -> str:
         for parameter in parameters:

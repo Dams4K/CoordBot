@@ -9,8 +9,6 @@ class DebugCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-        # self.bot.add_application_command(self.a)
-    
     @bridge.bridge_command(name="hello")
     async def hello(self, ctx):
         embed = NormalEmbed(title="Test")
