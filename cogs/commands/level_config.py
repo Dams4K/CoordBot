@@ -96,7 +96,7 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
 
         embed = InformativeEmbed(
-                title=ctx.translate("LEVELING_STATUS")
+                title=ctx.translate("LEVELING_STATUS"),
                 description=ctx.translate("LEVELING_CURRENTLY_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_CURRENTLY_DISABLED"))
 
         embed.add_field(name=ctx.translate("LEVELING_MESSAGE"), value=leveling_config.message, inline=False)

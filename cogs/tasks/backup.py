@@ -9,7 +9,7 @@ from discord.ext import commands, tasks
 class BackupCog(Cog):
     BACKUPS_FOLDER = "datas/backups"
     MAX_BACKUPS = 14
-    BACKUP_DAYS = [0, 1, 2, 3, 4, 5, 6] # 0 = monday; 1 = tuesday 2 = ...
+    BACKUP_DAYS = [0, 1, 2, 3, 4, 5, 6] # 0 = monday; 1 = tuesday; 2 = ...
     BACKUP_TIMES = [datetime.time(hour=8)] # utc time
 
     def __init__(self, bot):

@@ -18,6 +18,8 @@ class BotSlashCommand(SlashCommand, CommandLocalization):
         kwargs.setdefault("name_localizations", self.loc_name_localizations)
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
 
+        SlashCommand.__init__(self, func, *args, **kwargs)
+
 
     def _validate_parameters(self):
         super()._validate_parameters()
@@ -38,6 +40,8 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
         description = description or self.loc_description
         kwargs.setdefault("name_localizations", self.loc_name_localizations)
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
+
+        SlashCommandGroup.__init__(self, name, description, guild_ids, parent, **kwargs)
 
 
     def command(self, cls = BotSlashCommand, **kwargs):
@@ -113,6 +117,8 @@ class BotUserCommand(UserCommand, CommandLocalization):
 
         kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
 
+        UserCommand.__init__(self, func, *args, **kwargs)
+
 
 class BotMessageCommand(MessageCommand, CommandLocalization):
     def __init__(self, func: callable, *args, **kwargs):
@@ -125,7 +131,9 @@ class BotMessageCommand(MessageCommand, CommandLocalization):
             capitalized_loc_name_localizations = {key: value.capitalize() for key, value in self.loc_name_localizations.items()}
 
         kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
-
+        
+        MessageCommand.__init__(self, func, *args, **kwargs)
+    
 
 def bot_user_command(**kwargs):
     """Decorator for user commands that invokes :func:`application_command`.
