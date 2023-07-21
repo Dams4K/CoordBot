@@ -75,7 +75,9 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.enable()
 
-        embed = NormalEmbed(title=ctx.translate("ACTIVATION"), description=ctx.translate("ENABLE_LEVELING"))
+        embed = NormalEmbed(
+                title=ctx.translate("ACTIVATION"),
+                description=ctx.translate("ENABLE_LEVELING"))
         await ctx.respond(embed=embed)
 
 
@@ -84,15 +86,18 @@ class LevelConfigCog(Cog):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
         leveling_config.disable()
 
-        embed = DangerEmbed(title=ctx.translate("DEACTIVATION"), description=ctx.translate("DISABLE_LEVELING"))
+        embed = DangerEmbed(
+                title=ctx.translate("DEACTIVATION"),
+                description=ctx.translate("DISABLE_LEVELING"))
         await ctx.respond(embed=embed)
 
     @leveling.command(name="status")
     async def leveling_status(self, ctx):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
 
-        embed = InformativeEmbed(title=ctx.translate("LEVELING_STATUS"))
-        embed.description = ctx.translate("LEVELING_CURRENTLY_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_CURRENTLY_DISABLED")
+        embed = InformativeEmbed(
+                title=ctx.translate("LEVELING_STATUS")
+                description=ctx.translate("LEVELING_CURRENTLY_ENABLED") if leveling_config.enabled else ctx.translate("LEVELING_CURRENTLY_DISABLED"))
 
         embed.add_field(name=ctx.translate("LEVELING_MESSAGE"), value=leveling_config.message, inline=False)
         embed.add_field(name=ctx.translate("LEVELING_GAIN_RANGE"), value=ctx.translate("LEVELING_GAIN_RANGE_TEXT", min=leveling_config.min_gain, max=leveling_config.max_gain), inline=False)
@@ -104,7 +109,9 @@ class LevelConfigCog(Cog):
     @option("channel", type=discord.TextChannel, required=False, default=None)
     async def leveling_ban(self, ctx, member=None, channel=None):
         if member is None and channel is None:
-            embed = WarningEmbed(title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            embed = WarningEmbed(
+                    title=ctx.translate("WARNING"),
+                    description=ctx.translate("NOTHING_SELECTED"))
             await ctx.respond(embed=embed)
             return
 
@@ -126,7 +133,9 @@ class LevelConfigCog(Cog):
     @option("channel", type=discord.TextChannel, required=False, default=None)
     async def leveling_unban(self, ctx, member=None, channel=None):
         if member is None and channel is None:
-            embed = WarningEmbed(title=ctx.translate("WARNING"), description=ctx.translate("NOTHING_SELECTED"))
+            embed = WarningEmbed(
+                    title=ctx.translate("WARNING"),
+                    description=ctx.translate("NOTHING_SELECTED"))
             await ctx.respond(embed=embed)
             return
         
@@ -140,7 +149,9 @@ class LevelConfigCog(Cog):
         if not channel is None:
             description.append(ctx.translate("LEVELING_CHANNEL_HAS_BEEN_UNBANNED", channel=channel.mention))
 
-        embed = DangerEmbed(title=ctx.translate("UNBANNING"), description="\n".join(description))
+        embed = DangerEmbed(
+                title=ctx.translate("UNBANNING"),
+                description="\n".join(description))
         await ctx.respond(embed=embed)
 
     @banlist.command(name="members")

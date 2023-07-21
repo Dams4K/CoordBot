@@ -54,7 +54,9 @@ class ObjectsConfigCog(Cog):
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     async def delete_object(self, ctx, object: GuildObject):
         confirm_view = ConfirmView(ctx.author)
-        confirm_embed = DangerEmbed(title=ctx.translate("DELETION"), description=ctx.translate("OBJECT_DELETION_CONFIRMATION", object=object.name))
+        confirm_embed = DangerEmbed(
+                title=ctx.translate("DELETION"),
+                description=ctx.translate("OBJECT_DELETION_CONFIRMATION", object=object.name))
         
         await ctx.respond(embed=confirm_embed, view=confirm_view)
         await confirm_view.wait()

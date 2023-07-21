@@ -19,8 +19,8 @@ class SalariesConfigCog(Cog):
         salaries.add_salary(role, pay)
 
         embed = NormalEmbed(
-            title=ctx.translate("ROLE_ADDED"),
-            description=ctx.translate("SALARY_ROLE_ADDED", role=role.mention))
+                title=ctx.translate("ROLE_ADDED"),
+                description=ctx.translate("SALARY_ROLE_ADDED", role=role.mention))
 
         await ctx.respond(embed=embed)
     
@@ -31,8 +31,8 @@ class SalariesConfigCog(Cog):
         salaries.remove_salary(role)
         
         embed = DangerEmbed(
-            title=ctx.translate("ROLE_REMOVED"),
-            description=ctx.translate("SALARY_ROLE_REMOVED", role=role.mention))
+                title=ctx.translate("ROLE_REMOVED"),
+                description=ctx.translate("SALARY_ROLE_REMOVED", role=role.mention))
 
         await ctx.respond(embed=embed)
 
