@@ -11,10 +11,9 @@ class BotBridgeContext(BridgeContext):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        if self.guild is None:
-            self.guild_config = None
-            self.author_data = None
-        else:
+        self.guild_config = None
+        self.author_data = None
+        if self.guild:
             self.guild_config = GuildConfig(self.guild.id)
             self.author_data = MemberData(self.user.id if hasattr(self, "user") else self.author.id, self.guild.id)
 
@@ -61,10 +60,9 @@ class BotAutocompleteContext(AutocompleteContext):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        if self.interaction.guild is None:
-            self.guild_config = None
-            self.author_data = None
-        else:
+        self.guild_config = None
+        self.author_data = None
+        if self.interaction.guild:
             self.guild_config = GuildConfig(self.interaction.guild.id)
             self.author_data = MemberData(self.interaction.user.id, self.interaction.guild.id)
     

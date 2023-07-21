@@ -13,15 +13,15 @@ class BotSlashCommand(SlashCommand, CommandLocalization):
             filename = f"{parent} {name}"
         
         CommandLocalization.__init__(self, filename)
-           
+        # Add localization
         kwargs.setdefault("description", self.loc_description)
         kwargs.setdefault("name_localizations", self.loc_name_localizations)
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
 
-        return SlashCommand.__init__(self, func, *args, **kwargs)
-    
+
     def _validate_parameters(self):
         super()._validate_parameters()
+        # Add options localization
         for option in self.options:
             option_localization = self.get_option_localization(option.name)
             option_localization.add_localization(option)
@@ -34,18 +34,16 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
             filename = f"{parent} {name}"
         CommandLocalization.__init__(self, filename)
         
+        # Add localization
         description = description or self.loc_description
-
         kwargs.setdefault("name_localizations", self.loc_name_localizations)
         kwargs.setdefault("description_localizations", self.loc_description_localizations)
-
-        # Useless but i always prefer returning the original value, i dunno man
-        return SlashCommandGroup.__init__(self, name, description, guild_ids, parent, **kwargs)
 
 
     def command(self, cls = BotSlashCommand, **kwargs):
         return super().command(cls, **kwargs)
     
+
     def create_subgroup(
         self,
         name: str,
@@ -115,7 +113,6 @@ class BotUserCommand(UserCommand, CommandLocalization):
 
         kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
 
-        return UserCommand.__init__(self, func, *args, **kwargs)
 
 class BotMessageCommand(MessageCommand, CommandLocalization):
     def __init__(self, func: callable, *args, **kwargs):
@@ -129,13 +126,9 @@ class BotMessageCommand(MessageCommand, CommandLocalization):
 
         kwargs.setdefault("name_localizations", capitalized_loc_name_localizations)
 
-        return MessageCommand.__init__(self, func, *args, **kwargs)
-    
 
 def bot_user_command(**kwargs):
     """Decorator for user commands that invokes :func:`application_command`.
-
-    .. versionadded:: 2.0
 
     Returns
     -------
@@ -147,8 +140,6 @@ def bot_user_command(**kwargs):
 def bot_message_command(**kwargs):
     """Decorator for message commands that invokes :func:`application_command`.
 
-    .. versionadded:: 2.0
-
     Returns
     -------
     Callable[..., :class:`.MessageCommand`]
@@ -158,8 +149,6 @@ def bot_message_command(**kwargs):
 
 def bot_slash_command(**kwargs):
     """Decorator for slash commands that invokes :func:`application_command`.
-
-    .. versionadded:: 2.0
 
     Returns
     -------

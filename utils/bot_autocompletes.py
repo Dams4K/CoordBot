@@ -40,6 +40,6 @@ def get_languages(self, ctx):
 def get_translation_keys(self, ctx):
     return [key for key in Lang.get_keys() if key.startswith(ctx.value)]
 
-async def get_custom_translations(self, ctx):
+def get_custom_translations(self, ctx):
     guild_language = GuildLanguage(ctx.interaction.guild.id)
     return [key for key in guild_language.get_keys() if key.startswith(ctx.value)]
