@@ -1,6 +1,7 @@
 from operator import attrgetter
 
 from discord import *
+from discord.utils import escape_markdown, find
 from prefixed import Float
 
 from data_management import *
@@ -16,7 +17,7 @@ class RankingFormatter:
     EMOJIS = {
         1: "<:first:1131985785369923726>",
         2: "<:second:1131986100395720847>",
-        3: "<:Third:798229194743611434> "
+        3: "<:third:1131986793517027428>"
     }
 
     def __init__(self, competitors, sort_attrs: list):
@@ -92,12 +93,12 @@ class RankingCog(Cog):
 
         ranking_formatter = RankingFormatter(members_data, ("level", "xp"))
 
-        get_competitor_name = lambda d: discord.utils.find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members)
+        get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members).display_name)
         get_level = lambda d: f"{Float(d['competitor'].level):.2h}" if len(str(d["competitor"].level)) > 3 else d["competitor"].level
         get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
         
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.mention}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
         embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING"))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
@@ -111,11 +112,11 @@ class RankingCog(Cog):
         
         ranking_formatter = RankingFormatter(members_data, ("money",))
 
-        get_competitor_name = lambda d: discord.utils.find(lambda m: m.id == d['competitor']._member_id, ctx.guild.members)
+        get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d['competitor']._member_id, ctx.guild.members).display_name)
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}."
 
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name.mention}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
+        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
 
         embed = NormalEmbed(title=ctx.translate("MONEY_RANKING"))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
