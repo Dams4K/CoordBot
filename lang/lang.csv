@@ -98,8 +98,8 @@ MONEY_NAME,Money,Argent
 MONEY_ADDED,You have added `{amount}` {LANG_KEY:MONEY_NAME:casefold} to {member.display_name},Vous avez ajouté `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member.display_name}
 MONEY_REMOVED,You have removed `{amount}` {LANG_KEY:MONEY_NAME:casefold} from {member.display_name},Vous avez retiré `{amount}` {LANG_KEY:MONEY_NAME:casefold} à {member.display_name}
 MONEY_SET,You have set the {member.display_name} {LANG_KEY:MONEY_NAME:casefold} to `{amount}`,Vous avez définit la {LANG_KEY:MONEY_NAME:casefold} de {member.display_name} à `{amount}`
-LEVEL_RANKING,Top 15 levels,Top 15 meilleurs niveaux
-MONEY_RANKING,Top 15 richest,Top 15 des plus riches
+LEVEL_RANKING,Top {competitors_number} levels,Top {competitors_number} meilleurs niveaux
+MONEY_RANKING,Top {competitors_number} richest,Top {competitors_number} des plus riches
 NOBODY_IN_RANKING,*Nobody is in the ranking*,*Personne est dans le classement*
 PROFIL_OF,Profil of {member.display_name},Profil de {member.display_name}
 ACTIVATION,Activation,Activation
