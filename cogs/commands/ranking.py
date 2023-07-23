@@ -52,6 +52,7 @@ class RankingFormatter:
         str_list: list = []
         
         previous_competitor = None
+        competitors_number = 0
         for i in range(len(ranking.keys())):
             position = list(ranking.keys())[i]
             if position > last_position: # Last position reached, we got all the competitor we need
@@ -99,13 +100,14 @@ class RankingFormatter:
                 format_dict.update({k: (v(format_dict) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
 
                 str_list.append(str_format.format_map(FormatterDict(format_dict)))
-
+                competitors_number += 1
+            
                 previous_competitor = competitor
             
             if len(str_list) >= max_competitor:
                     break
                 
-        return "\n".join(str_list)
+        return "\n".join(str_list), competitors_number
 
 
 class RankingCog(Cog):
@@ -128,9 +130,9 @@ class RankingCog(Cog):
         get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
         
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
-        embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING", competitors_number=len(ranking_str)))
+        embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
         await ctx.respond(embed=embed)
     
@@ -147,9 +149,9 @@ class RankingCog(Cog):
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
 
-        ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
         
-        embed = NormalEmbed(title=ctx.translate("MONEY_RANKING", competitors_number=len(ranking_str)))
+        embed = NormalEmbed(title=ctx.translate("MONEY_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
         await ctx.respond(embed=embed)
 
