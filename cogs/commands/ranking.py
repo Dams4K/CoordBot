@@ -63,28 +63,34 @@ class RankingFormatter:
 
             next_competitor = ranking[next_position][0] if next_position != None else None
             
+            # Big regression because something is off and i am too tired
+            same_level_previous = previous_competitor != None and previous_competitor.level == competitors[0].level
+            same_level_next = next_position != None and next_competitor.level == competitors[0].level
+
+            show_optionals = len(competitors) > 1 or same_level_previous or same_level_next
             # TODO: optimize
-            previous_competitor_same_required = None
-            next_competitor_same_required = None
-            for sort_attr in self.sort_attrs:
-                if sort_attr in optionals:
-                    continue
+            # previous_competitor_same_required = None
+            # next_competitor_same_required = None
+            # for sort_attr in self.sort_attrs:
+            #     if sort_attr in optionals:
+            #         continue
                 
-                previous_competitor_attr = getattr(previous_competitor, sort_attr) if not previous_competitor is None else False
-                competitor_attr = getattr(competitors[0], sort_attr)
-                next_competitor_attr = getattr(next_competitor, sort_attr) if not next_position is None else False
+            #     previous_competitor_attr = getattr(previous_competitor, sort_attr) if not previous_competitor is None else False
+            #     competitor_attr = getattr(competitors[0], sort_attr)
+            #     next_competitor_attr = getattr(next_competitor, sort_attr) if not next_position is None else False
 
-                if previous_competitor_same_required is None:
-                    previous_competitor_same_required = previous_competitor_attr == competitor_attr
-                else:
-                    previous_competitor_same_required = previous_competitor_same_required and previous_competitor_attr == competitor_attr
+            #     if previous_competitor_same_required is None:
+            #         previous_competitor_same_required = previous_competitor_attr == competitor_attr
+            #     else:
+            #         previous_competitor_same_required = previous_competitor_same_required and previous_competitor_attr == competitor_attr
 
-                if next_competitor_same_required is None:
-                    next_competitor_same_required = next_competitor_attr == competitor_attr
-                else:
-                    next_competitor_same_required = next_competitor_same_required and next_competitor_attr == competitor_attr
+            #     if next_competitor_same_required is None:
+            #         next_competitor_same_required = next_competitor_attr == competitor_attr
+            #     else:
+            #         next_competitor_same_required = next_competitor_same_required and next_competitor_attr == competitor_attr
             
-            show_optionals = len(competitors) > 1 or previous_competitor_same_required or next_competitor_same_required
+            # show_optionals = len(competitors) > 1 or previous_competitor_same_required or next_competitor_same_required
+            # print(show_optionals)
 
             for competitor in competitors:
                 if len(str_list) >= max_competitor:
@@ -130,7 +136,7 @@ class RankingCog(Cog):
         get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
         
-        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optional={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optionals={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
         embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
