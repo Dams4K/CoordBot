@@ -148,7 +148,7 @@ class RankingCog(Cog):
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
 
         ranking_str = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
-        print(ranking_str)
+        
         embed = NormalEmbed(title=ctx.translate("MONEY_RANKING"))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
         await ctx.respond(embed=embed)
