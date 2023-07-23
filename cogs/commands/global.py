@@ -101,9 +101,9 @@ class GlobalCog(Cog):
         
         for i, article in enumerate(articles, 1):
             if article_names.count(article.name) > 1:
-                articles_description.append(f"{article.name} ({article._article_id})")
+                articles_description.append(f"{article.name} ({article._article_id}): **{article.price}**" + ctx.translate("MONEY_NAME:casefold")[0]) # TODO: replace by LANG_KEY
             else:
-                articles_description.append(f"{article.name}")
+                articles_description.append(f"{article.name}: **{article.price}**" + ctx.translate("MONEY_NAME:casefold")[0])
 
             if i % page_size == 0 or i == len(article_names):
                 embed = NormalEmbed(title=ctx.translate("ARTICLES"))
@@ -187,7 +187,7 @@ class GlobalCog(Cog):
         player_objects = {GuildObject(object_id, ctx.guild.id): inventory.get_object_amount(object_id) for object_id in object_ids} # dict {object: quantity of that object}
         if None in player_objects: player_objects.pop(None)
         
-        description = "\n".join(f"{obj.name} | {player_objects[obj]}" for obj in player_objects) or ctx.translate("INVENTORY_EMPTY")
+        description = "\n".join(f"{obj.name} x{player_objects[obj]}" for obj in player_objects) or ctx.translate("INVENTORY_EMPTY")
 
         embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member))
         embed.description = description

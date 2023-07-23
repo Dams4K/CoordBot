@@ -26,7 +26,7 @@ ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_K
 ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
 ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
 ARTICLE_PURCHASED_X_TIMES,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought `{quantity}` times,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté `{quantity}` fois
-ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold},{price} {LANG_KEY:MONEY_NAME:casefold}
+ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold}s,{price} {LANG_KEY:MONEY_NAME:casefold}s
 NAME_MODIFIED,Name modified,Nom modifié
 DESCRIPTION_MODIFIED,Description modified,Descriptif modifié
 PRICE_MODIFIED,Price modified,Prix modifié
