@@ -71,7 +71,7 @@ class ArticlesConfigCog(Cog):
 
         embed = WarningEmbed(
                 title=ctx.translate("COOLDOWN_MODIFIED"),
-                description=ctx.translate("ARTICLE_COOLDOWN_MODIFIED", article=article.name, cooldown=seconds))
+                description=ctx.translate("ARTICLE_COOLDOWN_MODIFIED", article=article.name, seconds=seconds))
         await ctx.respond(embed=embed)
 
     @add.command(name="object")
