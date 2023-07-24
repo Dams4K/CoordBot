@@ -46,74 +46,58 @@ class RankingFormatter:
 
         return ranking
     
-    def get_ranking_string(self, str_format: str, optionals: set = {}, max_competitor = 15, last_position: int = 10, **kwargs: dict) -> str:
+    def get_ranking_string(self, str_format: str, max_competitors = 15, last_position: int = 10, differentiators: set = {}, optionals: set = {}, **kwargs: dict) -> str:
         ranking: dict = self.get_ranking_list()
+        total_competitors = 0
 
         str_list: list = []
-        
-        previous_competitor = None
-        competitors_number = 0
-        for i in range(len(ranking.keys())):
-            position = list(ranking.keys())[i]
-            if position > last_position: # Last position reached, we got all the competitor we need
+
+        previous_show_optionals = False
+        for i, (position, competitors) in enumerate(ranking.items()):
+            # Last position is reached?
+            if position > last_position:
                 break
-
-            next_position = list(ranking.keys())[i+1] if i < len(ranking)-1 else None
-            competitors = ranking[position]
-
-            next_competitor = ranking[next_position][0] if next_position != None else None
             
-            # Big regression because something is off and i am too tired
-            same_level_previous = previous_competitor != None and previous_competitor.level == competitors[0].level
-            same_level_next = next_position != None and next_competitor.level == competitors[0].level
-
-            show_optionals = len(competitors) > 1 or same_level_previous or same_level_next
-            # TODO: optimize
-            # previous_competitor_same_required = None
-            # next_competitor_same_required = None
-            # for sort_attr in self.sort_attrs:
-            #     if sort_attr in optionals:
-            #         continue
-                
-            #     previous_competitor_attr = getattr(previous_competitor, sort_attr) if not previous_competitor is None else False
-            #     competitor_attr = getattr(competitors[0], sort_attr)
-            #     next_competitor_attr = getattr(next_competitor, sort_attr) if not next_position is None else False
-
-            #     if previous_competitor_same_required is None:
-            #         previous_competitor_same_required = previous_competitor_attr == competitor_attr
-            #     else:
-            #         previous_competitor_same_required = previous_competitor_same_required and previous_competitor_attr == competitor_attr
-
-            #     if next_competitor_same_required is None:
-            #         next_competitor_same_required = next_competitor_attr == competitor_attr
-            #     else:
-            #         next_competitor_same_required = next_competitor_same_required and next_competitor_attr == competitor_attr
-            
-            # show_optionals = len(competitors) > 1 or previous_competitor_same_required or next_competitor_same_required
-            # print(show_optionals)
+            # Get next pos competitor
+            next_pos_competitor = next_pos_competitor_attrs = None
+            next_pos_competitor_differentiating_attrs = {}
+            if i+1 < len(ranking):
+                next_pos_competitor = list(ranking.values())[i+1][0]
+                next_pos_competitor_attrs = self.get_competitor_attrs(next_pos_competitor)
+                next_pos_competitor_differentiating_attrs = {k: v for k, v in next_pos_competitor_attrs.items() if k in differentiators}
 
             for competitor in competitors:
-                if len(str_list) >= max_competitor:
+                if total_competitors >= max_competitors:
                     str_list.append("...")
                     break
 
-                format_dict = {attr_name: getattr(competitor, attr_name) for attr_name in self.sort_attrs}
-                format_dict.update({
+                competitor_attrs = self.get_competitor_attrs(competitor)
+                competitor_attrs.update({
                     "competitor": competitor,
                     "pos": position
                 })
-                can_be_shown = lambda k, v: callable(v) and (not k in optionals or (k in optionals and show_optionals))
-                format_dict.update({k: (v(format_dict) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
 
-                str_list.append(str_format.format_map(FormatterDict(format_dict)))
-                competitors_number += 1
-            
-                previous_competitor = competitor
-            
-            if len(str_list) >= max_competitor:
+                competitor_differentiating_attrs = {k: v for k, v in competitor_attrs.items() if k in differentiators}
+
+                show_optionals = next_pos_competitor_differentiating_attrs == competitor_differentiating_attrs
+
+                format_dict = {}
+                can_be_shown = lambda k, v: callable(v) and (not k in optionals or (k in optionals and (show_optionals or previous_show_optionals)))
+                format_dict.update({k: (v(competitor_attrs) if can_be_shown(k, v) else "") for k, v in kwargs.items()})
+
+                previous_show_optionals = show_optionals
+
+                str_list.append(str_format.format_map(FormatDict(format_dict)))
+                total_competitors += 1
+
+            if total_competitors >= max_competitors:
                     break
-                
-        return "\n".join(str_list), competitors_number
+
+        return "\n".join(str_list), total_competitors or last_position
+    
+    
+    def get_competitor_attrs(self, competitor):
+        return {attr_name: getattr(competitor, attr_name) for attr_name in self.sort_attrs}
 
 
 class RankingCog(Cog):
@@ -132,11 +116,12 @@ class RankingCog(Cog):
 
         # WTF is going on????
         get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members).display_name)
-        get_level = lambda d: f"{Float(d['competitor'].level):.2h}" if len(str(d["competitor"].level)) > 3 else d["competitor"].level
-        get_xp = lambda d: f"({Float(d['competitor'].xp):.2h})" if len(str(d["competitor"].xp)) > 3 else f"({d['competitor'].xp})"
+        get_level = lambda d: f"{Float(d['level']):.2h}" if len(str(d["level"])) > 3 else d["level"]
+        get_xp = lambda d: f"({Float(d['xp']):.2h})" if len(str(d["xp"])) > 3 else f"({d['xp']})"
+        # get_xp = lambda d: print(d)
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
         
-        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", optionals={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", differentiators={"level"}, optionals={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
         
         embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
@@ -155,7 +140,7 @@ class RankingCog(Cog):
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
         get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
 
-        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", competitor_name=get_competitor_name, money=get_money, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", differentiators={"money"}, competitor_name=get_competitor_name, money=get_money, pos=get_pos)
         
         embed = NormalEmbed(title=ctx.translate("MONEY_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
