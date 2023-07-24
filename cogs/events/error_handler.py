@@ -28,7 +28,7 @@ class ErrorHandler(Cog):
         if isinstance(exception, commands.errors.CommandNotFound):
             return None
 
-        exception_message = str(exception or original_exception)
+        exception_message = str(original_exception or exception)
         embed = getattr(exception.original, "EMBED", DangerEmbed)(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
         
         return embed
