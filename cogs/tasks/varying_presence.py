@@ -1,14 +1,18 @@
 from discord import *
 from discord.ext import tasks
 
+
 class VaryingPresence(Cog):
-    # I added the URLs for whoever wants to hear these songs
+    @staticmethod
+    def create_button(label: str, url: str):
+        return {"label": label, "url": url}
+
     ACTIVITIES = [
-        Activity(name="OMORI - It Means Everything [lofi hiphop/chillhop remix]", type=ActivityType.listening, url="https://www.youtube.com/watch?v=88DcHP-wEyY"),
-        Activity(name="Machinarium Soundtrack 00 - By the Wall", type=ActivityType.listening, url="https://www.youtube.com/watch?v=jex5rtwx94k"),
-        Activity(name="Senbeï & Proleter - Lady Vengeance", type=ActivityType.listening, url="https://www.youtube.com/watch?v=DkzH3RflIPQ"),
-        Activity(name="Imaginary Interlude - C418", type=ActivityType.listening, url="https://www.youtube.com/watch?v=ImCFqNNvXTs"),
-        Activity(name="Monodrama - Ignant Benches", type=ActivityType.listening, url="https://www.youtube.com/watch?v=vL0OtwGHGXE&ab_channel=IgnantBenches-Topic"),
+        Activity(name="OMORI - It Means Everything [lofi hiphop/chillhop remix]", type=ActivityType.listening),
+        Activity(name="Machinarium Soundtrack 00 - By the Wall", type=ActivityType.listening),
+        Activity(name="Senbeï & Proleter - Lady Vengeance", type=ActivityType.listening),
+        Activity(name="Imaginary Interlude - C418", type=ActivityType.listening),
+        Activity(name="Monodrama - Ignant Benches", type=ActivityType.listening),
         Game(name="Tunic"),
     ]
 
