@@ -29,7 +29,13 @@ class ErrorHandler(Cog):
             return None
 
         exception_message = str(original_exception or exception)
-        embed = getattr(exception.original, "EMBED", DangerEmbed)(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
+        if getattr(original_exception, "KEY", None) is None:
+            print("Unknown error has occured, see logs for more informations")
+            self.bot.logger.error(str(exception))
+            exception_message = "Unknown error has occured - Report has been sent"
+
+            # exception is not known
+        embed = getattr(original_exception, "EMBED", DangerEmbed)(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
         
         return embed
 

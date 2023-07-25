@@ -23,7 +23,7 @@ class SuggestModal(ui.Modal):
     
     async def callback(self, interaction):
         channel = get_suggests_channel(self.bot)
-        embed = NormalEmbed(title=f"- {self.children[0].value} -", description=self.children[1].value)
+        embed = NormalEmbed(title=self.children[0].value, description=self.children[1].value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
         await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
