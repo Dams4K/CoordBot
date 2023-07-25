@@ -14,12 +14,6 @@ class FormatterDict(dict):
         return "{" + key + "}"
 
 class RankingFormatter:
-    EMOJIS = {
-        1: "<:first:1132001952889327657>",
-        2: "<:second:1132001951228375070>",
-        3: "<:third:1132001948229447780>"
-    }
-
     def __init__(self, competitors, sort_attrs: list):
         self.competitors = competitors
         self.sort_attrs = sort_attrs
@@ -101,8 +95,25 @@ class RankingFormatter:
 
 
 class RankingCog(Cog):
+    EMOJIS = {
+        1: "<:first:1132001952889327657>",
+        2: "<:second:1132001951228375070>",
+        3: "<:third:1132001948229447780>"
+    }
+
     def __init__(self, bot):
         self.bot = bot
+
+    def get_competitor_name(self, ctx, data: dict) -> str:
+        competitor: MemberData = data["competitor"]
+        if competitor._member_id == ctx.author.id:
+            return ctx.author.mention
+        return escape_markdown(find(lambda m: m.id == competitor._member_id, ctx.guild.members).display_name)
+
+    @staticmethod
+    def get_pos(data: dict) -> str:
+        position = data["pos"]
+        return RankingCog.EMOJIS.get(position, f"{position}\.")
 
     ranking = BotSlashCommandGroup("ranking", guild_only=True)
 
@@ -115,13 +126,11 @@ class RankingCog(Cog):
         ranking_formatter = RankingFormatter(members_data, ("level", "xp"))
 
         # WTF is going on????
-        get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d["competitor"]._member_id, ctx.guild.members).display_name)
+        get_competitor_name = lambda d: self.get_competitor_name(ctx=ctx, data=d)
         get_level = lambda d: f"{Float(d['level']):.2h}" if len(str(d["level"])) > 3 else d["level"]
         get_xp = lambda d: f"({Float(d['xp']):.2h})" if len(str(d["xp"])) > 3 else f"({d['xp']})"
-        # get_xp = lambda d: print(d)
-        get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
         
-        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", differentiators={"level"}, optionals={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {level} {xp}", differentiators={"level"}, optionals={"xp"}, competitor_name=get_competitor_name, level=get_level, xp=get_xp, pos=self.get_pos)
         
         embed = NormalEmbed(title=ctx.translate("LEVEL_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
@@ -136,14 +145,14 @@ class RankingCog(Cog):
         ranking_formatter = RankingFormatter(members_data, ("money",))
 
         # WTF is going on????
-        get_competitor_name = lambda d: escape_markdown(find(lambda m: m.id == d['competitor']._member_id, ctx.guild.members).display_name)
+        get_competitor_name = lambda d: self.get_competitor_name(ctx=ctx, data=d)
         get_money = lambda d: f"{Float(d['competitor'].money):.2h}" if len(str(d['competitor'].money)) > 3 else d['competitor'].money
-        get_pos = lambda d: RankingFormatter.EMOJIS[d['pos']] if d["pos"] in RankingFormatter.EMOJIS else f"{d['pos']}\."
 
-        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", differentiators={"money"}, competitor_name=get_competitor_name, money=get_money, pos=get_pos)
+        ranking_str, competitors_number = ranking_formatter.get_ranking_string("{pos} {competitor_name}: {money}", differentiators={"money"}, competitor_name=get_competitor_name, money=get_money, pos=self.get_pos)
         
         embed = NormalEmbed(title=ctx.translate("MONEY_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
+
         await ctx.respond(embed=embed)
 
 def setup(bot):
