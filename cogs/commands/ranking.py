@@ -166,7 +166,8 @@ class RankingCog(Cog):
         embed = NormalEmbed(title=ctx.translate("MONEY_RANKING", competitors_number=competitors_number))
         embed.description = ranking_str if ranking_str != "" else ctx.translate("NOBODY_IN_RANKING")
 
-        embed.description += f"\n\n" + ctx.translate("TOP_YOUR_POSITION", pos=self.get_pos({'pos': author_position}))
+        if author_position > 0:
+            embed.description += f"\n\n" + ctx.translate("TOP_YOUR_POSITION", pos=self.get_pos({'pos': author_position}))
 
         await ctx.respond(embed=embed)
 
