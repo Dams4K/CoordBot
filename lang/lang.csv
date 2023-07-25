@@ -149,3 +149,4 @@ COOLDOWN_MODIFIED,Cooldown modified,Délai modifié
 ARTICLE_COOLDOWN_MODIFIED,The cooldown of the {article} article is now {seconds} seconds,Le délai d'achat de l'article {article} est désormais de {seconds} secondes.
 LEVEL_UP_MESSAGE_MODIFIED,Level up message has been modified,Le message de mise à niveau a été modifié
 ROLE_NOT_FOUND,Role not found,Rôle introuvable
+TOP_YOUR_POSITION,Your position: {pos},Ta position : {pos}
