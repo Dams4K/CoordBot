@@ -150,3 +150,5 @@ ARTICLE_COOLDOWN_MODIFIED,The cooldown of the {article} article is now {seconds}
 LEVEL_UP_MESSAGE_MODIFIED,Level up message has been modified,Le message de mise à niveau a été modifié
 ROLE_NOT_FOUND,Role not found,Rôle introuvable
 TOP_YOUR_POSITION,Your position: {pos},Ta position : {pos}
+UNKNOWN_ERROR,Unknown error,Erreur inconnue
+UNKNOWN_ERROR_OCCURRED,Unknown error has occurred - A report has been sent,Une erreur inconnue s'est produite - Un rapport a été envoyé

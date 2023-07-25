@@ -6,12 +6,6 @@ from utils.bot_embeds import *
 from utils.references import References
 
 
-def get_suggests_channel(bot):
-    return bot.get_channel(References.SUGGESTS_CHANNEL_ID)
-def get_reports_channel(bot):
-    return bot.get_channel(References.REPORTS_CHANNEL_ID)
-
-
 class SuggestModal(ui.Modal):
     def __init__(self, bot, ctx: BotBridgeContext):
         super().__init__(title=ctx.translate("SUGGEST_MODAL"))
@@ -22,7 +16,7 @@ class SuggestModal(ui.Modal):
         self.add_item(ui.InputText(label=ctx.translate("SUGGEST_EXPLANATION"), style=InputTextStyle.paragraph))
     
     async def callback(self, interaction):
-        channel = get_suggests_channel(self.bot)
+        channel = self.bot.get_channel(References.SUGGESTS_CHANNEL_ID)
         embed = NormalEmbed(title=self.children[0].value, description=self.children[1].value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
@@ -47,7 +41,7 @@ class ReportModal(ui.Modal):
     async def callback(self, interaction):
         guild = interaction.guild
 
-        channel = get_reports_channel(self.bot)
+        channel = self.bot.get_channel(References.REPORTS_CHANNEL_ID)
         embed = DangerEmbed(title=self.ctx.translate("NEW_REPORT"), description=self.message_input.value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 

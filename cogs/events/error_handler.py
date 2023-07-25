@@ -1,3 +1,7 @@
+import io
+import time
+import traceback
+
 from discord import *
 from discord.ext import commands
 
@@ -31,8 +35,18 @@ class ErrorHandler(Cog):
         exception_message = str(original_exception or exception)
         if getattr(original_exception, "KEY", None) is None:
             print("Unknown error has occured, see logs for more informations")
-            self.bot.logger.error(str(exception))
-            exception_message = "Unknown error has occured - Report has been sent"
+            detailed_exception = "".join(traceback.format_exception(exception))
+
+            self.bot.logger.error(detailed_exception)
+            exception_message = ctx.translate("UNKNOWN_ERROR_OCCURRED")
+
+            report_channel = self.bot.get_channel(References.REPORTS_CHANNEL_ID)
+
+            if len(detailed_exception) > 200:
+                file = File(io.StringIO(detailed_exception), filename="detailed_exception-{time.time()}.txt")
+                await report_channel.send(file=file)
+            else:
+                await report_channel.send(embed=DangerEmbed(title=ctx.translate("UNKNOWN_ERROR"), description=detailed_exception))
 
             # exception is not known
         embed = getattr(original_exception, "EMBED", DangerEmbed)(title=ctx.translate("ERROR_OCCURED"), description=exception_message)
