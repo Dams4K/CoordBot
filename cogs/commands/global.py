@@ -122,6 +122,7 @@ class GlobalCog(Cog):
     async def list_salaries(self, ctx):
         salaries: tuple = await (GuildSalaries(ctx.guild.id).fetch_salaries(ctx.guild)) # ([roles], [pays])
 
+        footer_text = ctx.translate("SALARIES_PAYMENT_DATE")
         embeds = []
         description = []
         page_size = 20
@@ -130,15 +131,17 @@ class GlobalCog(Cog):
             description.append(f"{role.mention} : {pay}")
             if i % page_size == 0 or i == len(salaries[0]):
                 embed = NormalEmbed(title="Salaries")
+                embed.set_footer(text=footer_text)
                 embed.description = "\n".join(description)
                 embeds.append(embed)
                 description.clear()
         
         if embeds == []:
             embed = WarningEmbed(title=ctx.translate("NO_SALARIES_EXISTS"))
+            embed.set_footer(text=footer_text)
             await ctx.respond(embed=embed)
             return
-            
+
         paginator = Paginator(pages=embeds, show_disabled=False)
         await paginator.respond(ctx.interaction)
 
