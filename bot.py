@@ -39,10 +39,7 @@ class CoordBot(bridge.Bot):
         print("extensions:", end="")
         print("\n  - ".join([""] + self.extensions_path()))
         
-        # rick_acitvity = discord.Streaming(name="blablabla", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-        
-        omori_activity = discord.Activity(name="lofi omori", type=discord.ActivityType.streaming, url="https://youtu.be/88DcHP-wEyY")
-        await self.change_presence(status=discord.Status.online, activity=omori_activity)
+        await self.change_presence(status=discord.Status.online)
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
