@@ -69,7 +69,7 @@ RESPONSE,Response,Réponse
 RESPOND,Respond,Répondre
 SEE_RESPONSE,See response,Voir la réponse
 DEVELOPER_RESPONSE,Developer response,Réponse du développeur
-NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'as pas le droit de voir la réponse
+NOT_ALLOW_SEE_RESPONSE,Your are not allowed to see the answer,Tu n'es pas autorisé à voir la réponse
 NO_OBJECTS_EXISTS,There are no {LANG_KEY:OBJECTS:casefold},Il n'y a aucun {LANG_KEY:OBJECTS:casefold}
 NO_ARTICLES_EXISTS,There are no {LANG_KEY:ARTICLES:casefold},Il n'y a pas d'{LANG_KEY:ARTICLES:casefold}
 NO_SALARIES_EXISTS,There are no {LANG_KEY:SALARIES:casefold},Il n'y a pas de {LANG_KEY:SALARIES:casefold}

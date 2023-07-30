@@ -39,7 +39,7 @@ class _References:
 
             self.BOT_TOKEN = data["bot_token"]
             self.BOT_PREFIX = data.get("default_prefix", "!")
-            self.VERSION = data.get("version", "4.0.3")
+            self.VERSION = data.get("version", "4.0.4")
             
             self.COGS_FOLDER = data.get("cogs_folder", "cogs")
             self.LOGS_FOLDER = data.get("logs_folder", "datas/logs")

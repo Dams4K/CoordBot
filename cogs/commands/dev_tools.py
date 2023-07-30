@@ -1,5 +1,6 @@
 from discord import *
 
+from lang import Lang
 from utils.bot_commands import bot_message_command, bot_slash_command
 from utils.bot_contexts import *
 from utils.bot_embeds import *
@@ -41,8 +42,13 @@ class ReportModal(ui.Modal):
     async def callback(self, interaction):
         guild = interaction.guild
 
-        channel = self.bot.get_channel(References.REPORTS_CHANNEL_ID)
-        embed = DangerEmbed(title=self.ctx.translate("NEW_REPORT"), description=self.message_input.value)
+        channel: TextChannel = self.bot.get_channel(References.REPORTS_CHANNEL_ID)
+        #Todo: put language attr in GuildLanguage
+        guild_config = GuildConfig(channel.guild.id)
+        guild_language = GuildLanguage(channel.guild.id)
+        translate_func = lambda k: Lang.get_text(k, guild_config.language, guild_language.rows)
+
+        embed = DangerEmbed(title=translate_func("NEW_REPORT"), description=self.message_input.value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
         attached_message = None
@@ -69,7 +75,7 @@ class ReportModal(ui.Modal):
                     return
  
         
-        msg = await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
+        msg = await channel.send(embed=embed, view=ResponseSender(self.bot, translate_func))
 
         if attached_message is not None:
             files = [await attachement.to_file() for attachement in attached_message.attachments]
@@ -83,13 +89,13 @@ class ReportModal(ui.Modal):
 
 
 class ResponseModal(ui.Modal):
-    def __init__(self, bot, ctx: BotBridgeContext, user, channel, response_channel_origin):
+    def __init__(self, bot, ctx: BotBridgeContext, user, channel, response_channel_id):
         super().__init__(title=ctx.translate("RESPONSE_MENU"))
         self.bot = bot
         self.ctx = ctx
         self.user = user
-        self.channel = channel
-        self.response_channel_origin = response_channel_origin
+        self.source_channel: TextChannel = channel
+        self.response_channel_id = response_channel_id
 
         self.add_item(ui.InputText(label=ctx.translate("RESPONSE"), style=InputTextStyle.paragraph))
     
@@ -99,20 +105,25 @@ class ResponseModal(ui.Modal):
         await interaction.response.send_message(response)
         response_message = await interaction.original_response()
 
-        response_receive_text = self.ctx.translate("SUGGEST_RESPONSE_RECEIVED") if self.channel.id == References.SUGGESTS_CHANNEL_ID else self.ctx.translate("REPORT_RESPONSE_RECEIVED")
-        embed = NormalEmbed(title=self.ctx.translate("RESPONSE"), description=response_receive_text)
-        embed.set_footer(text=f"{self.response_channel_origin}, {response_message.id}")
-        await self.channel.send(self.user.mention, embed=embed, view=ResponseViewer(self.bot, self.ctx))
+        source_guild_id = self.source_channel.guild.id
+        source_guild_config = GuildConfig(source_guild_id)
+        source_guild_language = GuildLanguage(source_guild_id)
+        translate = lambda k: Lang.get_text(k, source_guild_config.language, source_guild_language.rows)
+
+        response_receive_text = translate("SUGGEST_RESPONSE_RECEIVED") if self.response_channel_id == References.SUGGESTS_CHANNEL_ID else translate("REPORT_RESPONSE_RECEIVED")
+        embed = NormalEmbed(title=translate("RESPONSE"), description=response_receive_text)
+        embed.set_footer(text=f"{self.response_channel_id}, {response_message.id}")
+        await self.source_channel.send(self.user.mention, embed=embed, view=ResponseViewer(self.bot, translate))
 
 
 class ResponseSender(ui.View):
-    def __init__(self, bot, ctx: BotBridgeContext = None):
+    def __init__(self, bot, translate_func: callable = None):
         super().__init__(timeout=None)
         self.bot = bot
 
-        if ctx is not None:
+        if translate_func is not None:
             for child in self.children:
-                child.label = ctx.translate(child.label)
+                child.label = translate_func(child.label)
     
     @ui.button(label="RESPOND", custom_id="respond-button", style=ButtonStyle.green)
     async def button_callback(self, button, interaction):
@@ -129,21 +140,20 @@ class ResponseSender(ui.View):
 
 
 class ResponseViewer(ui.View):
-    def __init__(self, bot, ctx: BotBridgeContext = None):
+    def __init__(self, bot, translate_func: callable = None):
         self.bot = bot
         super().__init__(timeout=None)
 
-        if ctx is not None:
+        if translate_func is not None:
             for child in self.children:
-                child.label = ctx.translate(child.label)
+                child.label = translate_func(child.label)
 
     @ui.button(label="SEE_RESPONSE", custom_id="see-response", style=ButtonStyle.primary)
     async def button_callback(self, button, interaction):
         ctx = await self.bot.get_context(interaction.message)
-        member_mention = interaction.message.content
+        mentions = interaction.message.mentions
 
-        author_id = member_mention[member_mention.find("<@")+2:member_mention.find(">")]
-        if author_id.isnumeric() and int(author_id) == interaction.user.id:
+        if interaction.user in mentions:
             response_embed = interaction.message.embeds[0]
             channel_id, message_id = response_embed.footer.text.split(",")
 
