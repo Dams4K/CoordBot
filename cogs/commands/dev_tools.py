@@ -18,10 +18,14 @@ class SuggestModal(ui.Modal):
     
     async def callback(self, interaction):
         channel = self.bot.get_channel(References.SUGGESTS_CHANNEL_ID)
+        guild_config = GuildConfig(channel.guild.id)
+        guild_language = GuildLanguage(channel.guild.id)
+        translate_func = lambda k: Lang.get_text(k, guild_config.language, guild_language.rows)
+
         embed = NormalEmbed(title=self.children[0].value, description=self.children[1].value)
         embed.set_footer(text=f"{interaction.user.id}, {interaction.channel_id}")
 
-        await channel.send(embed=embed, view=ResponseSender(self.bot, self.ctx))
+        await channel.send(embed=embed, view=ResponseSender(self.bot, translate_func))
         await interaction.response.send_message(self.ctx.translate("SUGGEST_SENT"), ephemeral=True)
 
 
