@@ -1,5 +1,6 @@
 import datetime
 from random import randint
+from importlib.metadata import version
 
 from discord import *
 from discord.ext.pages import Paginator
@@ -8,6 +9,7 @@ from data_management import *
 from utils.bot_autocompletes import *
 from utils.bot_commands import *
 from utils.bot_embeds import *
+from utils.references import References
 
 
 class GlobalCog(Cog):
@@ -235,10 +237,16 @@ class GlobalCog(Cog):
         if self.bot.user in message.mentions:
             if randint(0, 99) == 0: # Little easteregg lol
                 await message.reply("Yo, it's me")
-            if len(message.raw_mentions) == 1 and message.content == f"<@{message.raw_mentions[0]}>":
-                # The message only mention the bot
-                # await message.reply("Stats")
-                pass
+            if self.bot.user.mention == message.content:
+                app_info = await self.bot.application_info()
+                team = app_info.team
+                developers = team.members if team else [app_info.owner]
+                
+                embed = InformativeEmbed(title=ctx.translate("ABOUT_BOT"))
+                embed.add_field(name="Py-cord", value=f"v{version('py-cord')}")
+                embed.add_field(name=self.bot.user.display_name, value=f"v{References.VERSION}", inline=False)
+                embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
+                await message.reply(embed=embed)
 
         leveling_config = GuildLevelingConfig(ctx.guild.id)
         author_is_banned = leveling_config.is_member_ban(message.author)

@@ -152,3 +152,5 @@ ROLE_NOT_FOUND,Role not found,Rôle introuvable
 TOP_YOUR_POSITION,Your position: {pos},Ta position : {pos}
 UNKNOWN_ERROR,Unknown error,Erreur inconnue
 UNKNOWN_ERROR_OCCURRED,Unknown error has occurred - A report has been sent,Une erreur inconnue s'est produite - Un rapport a été envoyé
+ABOUT_BOT,About the bot,À propos du bot
+BOT_DEVELOPERS,Developers,Développeurs

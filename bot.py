@@ -2,6 +2,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime
+from importlib.metadata import version
 
 import discord
 from discord.ext import bridge
@@ -9,6 +10,7 @@ from discord.ext import bridge
 from data_management import GuildConfig
 from utils.bot_contexts import *
 from utils.references import References
+
 
 class CoordBot(bridge.Bot):
     def __init__(self):
@@ -35,7 +37,7 @@ class CoordBot(bridge.Bot):
         os.system("clear||cls")
         print(self.user, "is now ready")
         print("bot version:", References.VERSION)
-        print("py-cord version:", discord.__version__)
+        print("py-cord version:", version("py-cord"))
         print("extensions:", end="")
         print("\n  - ".join([""] + self.extensions_path()))
         
