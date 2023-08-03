@@ -94,7 +94,6 @@ class LevelConfigCog(Cog):
     @leveling.command(name="status")
     async def leveling_status(self, ctx):
         leveling_config = GuildLevelingConfig(ctx.guild.id)
-        print(leveling_config.__slots__)
 
         embed = InformativeEmbed(
                 title=ctx.translate("LEVELING_STATUS"),
