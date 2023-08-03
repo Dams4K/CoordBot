@@ -11,6 +11,8 @@ from utils.references import References
 
 
 class GuildObject(Saveable):
+    __slots__ = ("_object_id", "_guild_id", "name", "description", "refundable", "refund_price")
+
     FOLDER: str = "%s/objects"
     FILENAME: str = "%s.json"
 
@@ -79,6 +81,8 @@ class GuildObject(Saveable):
         return self
 
 class GuildArticle(Saveable):
+    __slots__ = ("_article_id", "_guild_id", "name", "description", "price", "cooldown", "under_cooldown", "object_ids", "role_ids")
+
     FOLDER: str = "%s/articles"
     FILENAME: str = "%s.json"
 
@@ -229,7 +233,6 @@ class GuildArticle(Saveable):
         
         return roles
 
-
     @Saveable.update()
     def save_purchase_time(self, author_id: str, time: int):
         self.under_cooldown[str(author_id)] = round(time)
@@ -350,6 +353,7 @@ class GuildObjectConverter(Converter):
     
 
 class Inventory(Data):
+    __slots__ = ("max_size", "object_ids")
     _dversion = 2
 
     def __init__(self):

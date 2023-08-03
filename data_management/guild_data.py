@@ -10,6 +10,8 @@ class FormatDict(dict):
         return "{" + key + "}"
 
 class GuildConfig(Saveable):
+    __slots__ = ("_guild_id", "prefix", "language")
+
     def __init__(self, guild_id):
         self._guild_id = guild_id
         self.prefix = References.BOT_PREFIX
@@ -29,6 +31,8 @@ class GuildConfig(Saveable):
 
 
 class GuildLanguage(Saveable):
+    __slots__ = ("_guild_id", "rows")
+
     def __init__(self, guild_id):
         self._guild_id = guild_id
 
@@ -50,6 +54,7 @@ class GuildLanguage(Saveable):
 
 
 class GuildSalaries(Saveable):
+    __slots__ = ("_guild_id", "salaries")
     def __init__(self, guild_id):
         self._guild_id = guild_id
         self.salaries = {}
@@ -140,6 +145,8 @@ class GuildSalaries(Saveable):
         return True
 
 class GuildLevelingConfig(Saveable):
+    __slots__ = ("_guild_id", "enabled", "message", "formula", "banned_channels", "banned_members", "min_gain", "max_gain")
+
     def __init__(self, guild_id: int):
         self._guild_id = guild_id
         
