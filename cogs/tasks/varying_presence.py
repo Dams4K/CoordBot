@@ -24,7 +24,7 @@ class VaryingPresence(Cog):
     async def on_ready(self):
         self.change_presence.start()
 
-    @tasks.loop(minutes=2, seconds=30)
+    @tasks.loop(minutes=6)
     async def change_presence(self):
         if self.activity_index+1 >= len(self.ACTIVITIES):
             self.activity_index = 0
