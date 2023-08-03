@@ -190,10 +190,15 @@ class GlobalCog(Cog):
         player_objects = {GuildObject(object_id, ctx.guild.id): inventory.get_object_amount(object_id) for object_id in object_ids} # dict {object: quantity of that object}
         if None in player_objects: player_objects.pop(None)
         
-        description = "\n".join(f"{obj.name} x{player_objects[obj]}" for obj in player_objects) or ctx.translate("INVENTORY_EMPTY")
+        description: list = []
+        for object, amount in player_objects.items():
+            if amount > 1:
+                description.append(f"{object.name} x{amount}")
+            else:
+                description.append(f"{object.name}")
 
         embed = NormalEmbed(title=ctx.translate("INVENTORY_OF", member=member))
-        embed.description = description
+        embed.description = "\n".join(description) or ctx.translate("INVENTORY_EMPTY")
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
