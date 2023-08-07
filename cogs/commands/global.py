@@ -103,7 +103,7 @@ class GlobalCog(Cog):
         
         for i, article in enumerate(articles, 1):
             if article_names.count(article.name) > 1:
-                articles_description.append(f"{article.name} ({article._article_id}): **{article.price}" + ctx.translate("MONEY_NAME:casefold")[0] + "**") # TODO: replace by LANG_KEY
+                articles_description.append(f"{article.name} ({article._article_id}): **{article.price}" + ctx.translate("MONEY_NAME:casefold")[0] + "**")
             else:
                 articles_description.append(f"{article.name}: **{article.price}" + ctx.translate("MONEY_NAME:casefold")[0] + "**")
 

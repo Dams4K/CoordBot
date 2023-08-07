@@ -95,7 +95,6 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
         """
 
         if self.parent is not None:
-            # TODO: Improve this error message
             raise Exception("a subgroup cannot have a subgroup")
 
         sub_command_group = BotSlashCommandGroup(
