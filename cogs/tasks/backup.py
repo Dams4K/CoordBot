@@ -2,6 +2,8 @@ import datetime
 import os
 import shutil
 
+from time import time
+
 from discord import *
 from discord.ext import commands, tasks
 
@@ -15,6 +17,7 @@ class BackupCog(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.backup_task.start()
+        self.remove_dead_guilds_data()
     
     def cog_check(self, ctx):
         return self.bot.is_owner(ctx.author)
@@ -42,7 +45,8 @@ class BackupCog(Cog):
     async def create_backup(self):
         filename = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         path = os.path.join(self.BACKUPS_FOLDER, filename)
-        
+
+        self.remove_dead_guilds_data()
         shutil.make_archive(path, "zip", "datas/guilds")
 
         backups = os.listdir(self.BACKUPS_FOLDER)
@@ -64,9 +68,17 @@ class BackupCog(Cog):
                 return True
         except errors.Forbidden as e:
             self.bot.logger.error(f"Can't send backup file to {user.display_name}: {e}")
-            return False
-        return False
         
+        return False
+    
+    def remove_dead_guilds_data(self):
+        guild_ids = [guild.id for guild in self.bot.guilds]
+        for guild_id in os.listdir("datas/guilds"):
+            
+            folder_path = os.path.join("datas/guilds", guild_id)
+            if not int(guild_id) in guild_ids and time()-os.path.getmtime(folder_path) > 1296000: # 15days
+                shutil.rmtree(folder_path)
+
 
 def setup(bot):
     bot.add_cog(BackupCog(bot))
