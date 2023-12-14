@@ -1,6 +1,6 @@
 import datetime
-from random import randint
 from importlib.metadata import version
+from random import randint
 
 from discord import *
 from discord.ext.pages import Paginator
@@ -245,7 +245,10 @@ class GlobalCog(Cog):
                 embed = InformativeEmbed(title=ctx.translate("ABOUT_BOT"))
                 embed.add_field(name="Py-cord", value=f"v{version('py-cord')}")
                 embed.add_field(name=self.bot.user.display_name, value=f"v{References.VERSION}", inline=False)
-                embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
+                if len(developers) > 1:
+                    embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
+                elif len(developers) == 1:
+                    embed.add_field(name=ctx.translate("BOT_DEVELOPER"), value=f"{developers[0].name}")
                 await message.reply(embed=embed)
 
         leveling_config = GuildLevelingConfig(ctx.guild.id)
