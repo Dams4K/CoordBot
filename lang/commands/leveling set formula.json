@@ -1,0 +1,20 @@
+{
+    "description": "Set the formula for the total xp for the next level",
+    "name_localizations": {
+        "fr": "formule"
+    },
+    "description_localizations": {
+        "fr": "Définir la formule pour le nombre total d'xp pour le prochain niveau"
+    },
+    "options": {
+        "formula": {
+            "description": "(variables: level)",
+            "name_localizations": {
+                "fr": "formule"
+            },
+            "description_localizations": {
+                "fr": "(variables: level)"
+            }
+        }
+    }
+}

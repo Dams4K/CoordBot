@@ -154,3 +154,9 @@ UNKNOWN_ERROR,Unknown error,Erreur inconnue
 UNKNOWN_ERROR_OCCURRED,Unknown error has occurred - A report has been sent,Une erreur inconnue s'est produite - Un rapport a été envoyé
 ABOUT_BOT,About the bot,À propos du bot
 BOT_DEVELOPERS,Developers,Développeurs
+FORMULA_CHANGED,Formula changed,Formule changé
+FORMULA_DESCRIPTION_CHANGED,"The leveling formula was changed in
+
+{new_formula}","Le formule des niveaux a été changé en :
+
+{new_formula}"

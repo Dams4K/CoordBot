@@ -175,6 +175,9 @@ class GuildLevelingConfig(Saveable):
     def get_message(self, **kwargs):
         return self.message.format_map(FormatDict(kwargs))
 
+    @Saveable.update()
+    def set_formula(self, value):
+        self.formula = value
 
     @Saveable.update()
     def ban_channel(self, channel: discord.TextChannel):

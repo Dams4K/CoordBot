@@ -2,6 +2,7 @@ from discord import *
 from discord.ext.pages import Paginator
 
 from data_management import *
+from utils.bot_autocompletes import get_leveling_formula
 from utils.bot_commands import BotSlashCommandGroup
 from utils.bot_embeds import *
 
@@ -197,6 +198,18 @@ class LevelConfigCog(Cog):
         leveling_config.set_message(message)
 
         await ctx.respond(text_key="LEVEL_UP_MESSAGE_MODIFIED")
+
+
+    @set.command(name="formula")
+    @option("formula", type=str, autocomplete=get_leveling_formula)
+    async def formula(self, ctx, formula):
+        leveling_config = GuildLevelingConfig(ctx.guild.id)
+        leveling_config.set_formula(formula)
+
+        embed = WarningEmbed(
+                title=ctx.translate("FORMULA_CHANGED"),
+                description=ctx.translate("FORMULA_DESCRIPTION_CHANGED", new_formula=formula))
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
