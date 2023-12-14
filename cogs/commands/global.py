@@ -78,7 +78,7 @@ class GlobalCog(Cog):
             else:
                 object_descriptions.append(f"{obj.name}")
 
-            if i % 20 == 0 or i == len(object_names):
+            if i % page_size == 0 or i == len(object_names):
                 embed = NormalEmbed(title=ctx.translate("OBJECTS"))
                 embed.description = "\n".join(object_descriptions)
                 embed_pages.append(embed)
