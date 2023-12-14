@@ -1,5 +1,6 @@
 import copy
-import os
+
+from simpleeval import simple_eval
 
 from ddm import *
 from utils.references import References
@@ -51,7 +52,7 @@ class MemberData(DefaultMemberData):
         Saveable.__init__(self, References.get_guild_folder(f"{self._guild_id}/members/{self._member_id}.json"))
     
     def get_xp_goal(self, formula):
-        return eval(formula.format(level=self.level)) #TODO: check if `formula` have only number and {level} inside, else python injection can be done
+        return simple_eval(formula, names={"level": self.level})
 
     def refresh_level(self, formula) -> int:
         xp_needed = self.get_xp_goal(formula)

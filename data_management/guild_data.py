@@ -152,7 +152,7 @@ class GuildLevelingConfig(Saveable):
         
         self.enabled = True
         self.message = "GG {member.mention} ! You've just reached level `{level_after}` and earned {earned_money} coins!!"
-        self.formula = "20*({level}+1)"
+        self.formula = "20*(level+1)"
         self.banned_channels = []
         self.banned_members = []
 
