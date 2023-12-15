@@ -1,7 +1,6 @@
 import datetime
 import os
 import shutil
-
 from time import time
 
 from discord import *
@@ -74,7 +73,6 @@ class BackupCog(Cog):
     def remove_dead_guilds_data(self):
         guild_ids = [guild.id for guild in self.bot.guilds]
         for guild_id in os.listdir("datas/guilds"):
-            
             folder_path = os.path.join("datas/guilds", guild_id)
             if not int(guild_id) in guild_ids and time()-os.path.getmtime(folder_path) > 1296000: # 15days
                 shutil.rmtree(folder_path)
