@@ -241,10 +241,12 @@ class GlobalCog(Cog):
                 app_info = await self.bot.application_info()
                 team = app_info.team
                 developers = team.members if team else [app_info.owner]
-                
+                bot_version = f"v{References.VERSION}" # TODO (idea): add "-dev" when we are using a non released version
+
+
                 embed = InformativeEmbed(title=ctx.translate("ABOUT_BOT"))
                 embed.add_field(name="Py-cord", value=f"v{version('py-cord')}")
-                embed.add_field(name=self.bot.user.display_name, value=f"v{References.VERSION}", inline=False)
+                embed.add_field(name=self.bot.user.display_name, value=bot_version, inline=False)
                 if len(developers) > 1:
                     embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
                 elif len(developers) == 1:
