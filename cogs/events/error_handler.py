@@ -14,6 +14,11 @@ class ErrorHandler(Cog):
         self.bot = bot
     
     @Cog.listener()
+    async def on_event_error(self, event_name, exc, msg, *args, **kwargs):
+        ctx = await self.bot.get_context(msg)
+        await self.errors(ctx, exc)
+    
+    @Cog.listener()
     async def on_application_command_error(self, ctx, exception: errors.ApplicationCommandInvokeError):
         if embed := await self.errors(ctx, exception):
             await ctx.respond(embed=embed)

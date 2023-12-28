@@ -1,13 +1,13 @@
-import asyncio
 import logging
 import os
+import sys
 from datetime import datetime
 from importlib.metadata import version
 
 import discord
 from discord.ext import bridge
 
-from data_management import GuildConfig
+from data_management import GuildConfig, GuildLevelingConfig, Inventory
 from utils.bot_contexts import *
 from utils.references import References
 
@@ -42,6 +42,9 @@ class CoordBot(bridge.Bot):
         print("\n  - ".join([""] + self.extensions_path()))
         
         await self.change_presence(status=discord.Status.online)
+
+    async def on_error(self, event_name, *args, **kwargs):
+        self.dispatch("event_error", event_name, sys.exception(), *args, **kwargs) # on_error is only dispatched to `Client.event()` so a new event is dispatched for cogs
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)

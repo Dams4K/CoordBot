@@ -146,6 +146,21 @@ class GuildSalaries(Saveable):
 
 class GuildLevelingConfig(Saveable):
     __slots__ = ("_guild_id", "enabled", "message", "formula", "banned_channels", "banned_members", "min_gain", "max_gain")
+    __dversion = 2
+
+    @staticmethod
+    def convert_version(data):
+        dversion = data.get("__dversion", 1)
+        if dversion == 1:
+            print("qsd")
+            data["__dversion"] = 2
+            
+            if formula := data.get("formula"):
+                data["formula"] = formula.replace("{level}", "level")
+        # if dversion == 2:
+        #   ...
+                
+        return data
 
     def __init__(self, guild_id: int):
         self._guild_id = guild_id

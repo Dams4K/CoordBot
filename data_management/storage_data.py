@@ -354,7 +354,7 @@ class GuildObjectConverter(Converter):
 
 class Inventory(Data):
     __slots__ = ("max_size", "object_ids")
-    _dversion = 2
+    __dversion = 2
 
     def __init__(self):
         self.max_size = -1

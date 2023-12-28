@@ -203,13 +203,24 @@ class LevelConfigCog(Cog):
     @set.command(name="formula")
     @option("formula", type=str, autocomplete=get_leveling_formula)
     async def formula(self, ctx, formula):
-        leveling_config = GuildLevelingConfig(ctx.guild.id)
-        leveling_config.set_formula(formula)
+        try:
+            ctx.author_data.get_xp_goal(formula)
 
-        embed = WarningEmbed(
+            leveling_config = GuildLevelingConfig(ctx.guild.id)
+            leveling_config.set_formula(formula)
+            
+            embed = WarningEmbed(
                 title=ctx.translate("FORMULA_CHANGED"),
                 description=ctx.translate("FORMULA_DESCRIPTION_CHANGED", new_formula=formula))
-        await ctx.respond(embed=embed)
+
+            await ctx.respond(embed=embed)
+        except:
+            embed = DangerEmbed(
+                title=ctx.translate("ERROR_OCCURED"),
+                description=ctx.translate("FORMULA_SYNTAX_ERROR")
+            )
+
+            await ctx.respond(embed=embed)
 
 
 def setup(bot):
