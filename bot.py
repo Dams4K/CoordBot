@@ -7,7 +7,7 @@ from importlib.metadata import version
 import discord
 from discord.ext import bridge
 
-from data_management import GuildConfig, GuildLevelingConfig, Inventory
+from data_management import GuildConfig
 from utils.bot_contexts import *
 from utils.references import References
 
