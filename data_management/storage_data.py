@@ -1,4 +1,3 @@
-import random
 import re
 from time import time
 
@@ -354,7 +353,7 @@ class GuildObjectConverter(Converter):
 
 class Inventory(Data):
     __slots__ = ("max_size", "object_ids")
-    __dversion = 2
+    dversion = 2
 
     def __init__(self):
         self.max_size = -1

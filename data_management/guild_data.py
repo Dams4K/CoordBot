@@ -78,7 +78,6 @@ class GuildSalaries(Saveable):
 
         dead_role_ids = []
 
-        dead_roles = []
         guild_roles = {str(role.id): role for role in await guild.fetch_roles()}
 
         for role_id, pay in self.salaries.items():
@@ -146,14 +145,13 @@ class GuildSalaries(Saveable):
 
 class GuildLevelingConfig(Saveable):
     __slots__ = ("_guild_id", "enabled", "message", "formula", "banned_channels", "banned_members", "min_gain", "max_gain")
-    __dversion = 2
+    dversion = 2
 
     @staticmethod
     def convert_version(data):
         dversion = data.get("__dversion", 1)
         if dversion == 1:
-            print("qsd")
-            data["__dversion"] = 2
+            # data["__dversion"] = 2
             
             if formula := data.get("formula"):
                 data["formula"] = formula.replace("{level}", "level")
