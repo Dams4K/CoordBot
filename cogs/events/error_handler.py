@@ -14,9 +14,15 @@ class ErrorHandler(Cog):
         self.bot = bot
     
     @Cog.listener()
-    async def on_event_error(self, event_name, exc, msg, *args, **kwargs):
-        ctx = await self.bot.get_context(msg)
-        await self.errors(ctx, exc)
+    async def on_event_error(self, event_name, exc, *args, **kwargs):
+        """WARNING
+        If there is any errors in this function, everything will break because this function will be called again.
+        """
+        if isinstance(args[0], Message):
+            ctx = await self.bot.get_context(args[0])
+            await self.errors(ctx, exc)
+        else:
+            print(event_name, exc, args, kwargs)
     
     @Cog.listener()
     async def on_application_command_error(self, ctx, exception: errors.ApplicationCommandInvokeError):
