@@ -1,9 +1,7 @@
 from discord import *
 
-from cogs.commands.dev_tools import DevTools
-from data_management.global_data import StatsData
+from data_management import StatsData
 from utils.bot_contexts import BotApplicationContext, BotContext
-
 
 class StatsCog(Cog):
     def __init__(self, bot):
@@ -22,5 +20,4 @@ class StatsCog(Cog):
         
 
 def setup(bot):
-
     bot.add_cog(StatsCog(bot))

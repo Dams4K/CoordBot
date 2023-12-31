@@ -1,4 +1,3 @@
-import discord
 from discord.commands.context import AutocompleteContext
 from discord.ext.bridge import (BridgeApplicationContext, BridgeContext,
                                 BridgeExtContext)
@@ -21,7 +20,7 @@ class BotBridgeContext(BridgeContext):
         if self.guild_config is None:
             return Lang.get_text(text_key, "en", *args, **kwargs)
         else:
-            custom_translations = GuildLanguage(self.guild.id)
+            custom_translations = GuildLanguage(self.guild.id) # Maybe do something different because it loads the file way too frequently
             return Lang.get_text(text_key, self.guild_config.language, custom_rows=custom_translations.rows, *args, **kwargs)
     
     async def translate_message(self, *args, **kwargs):
