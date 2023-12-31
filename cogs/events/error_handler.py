@@ -22,7 +22,8 @@ class ErrorHandler(Cog):
             ctx = await self.bot.get_context(args[0])
             await self.errors(ctx, exc)
         else:
-            print(event_name, exc, args, kwargs)
+            detailed_exception = "".join(traceback.format_exception(exc))
+            print(detailed_exception)
     
     @Cog.listener()
     async def on_application_command_error(self, ctx, exception: errors.ApplicationCommandInvokeError):
