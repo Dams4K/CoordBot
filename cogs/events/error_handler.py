@@ -18,7 +18,7 @@ class ErrorHandler(Cog):
         """WARNING
         If there is any errors in this function, everything will break because this function will be called again.
         """
-        if isinstance(args[0], Message):
+        if len(args) > 0 and isinstance(args[0], Message):
             ctx = await self.bot.get_context(args[0])
             await self.errors(ctx, exc)
         else:
