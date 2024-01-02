@@ -32,6 +32,8 @@ class CoordBot(bridge.Bot):
         self.handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         self.logger.addHandler(self.handler)
 
+        self.available_extensions = list(self.extensions.keys())
+
     
     async def on_ready(self):
         os.system("clear||cls")
@@ -57,8 +59,11 @@ class CoordBot(bridge.Bot):
 
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
-            if "debug" in cog_file and not References.DEBUG_MODE: continue
-            err = self.load_extension(cog_file.replace("/", ".")[:-3])
+            extension = cog_file.replace("/", ".")[:-3]
+            self.available_extensions.append(extension)
+
+            if not "debug" in cog_file or References.DEBUG_MODE:
+                self.load_extension(extension)
 
     def reload_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
