@@ -1,6 +1,12 @@
-class Group:
+class Cog:
     def __init__(self) -> None:
         self.commands = {}
+        
+        for method_name in dir(self):
+            method = getattr(self, method_name)
+            if isinstance(method, Command):
+                method.cog = self
+                self.add_command(method)
 
     def add_command(self, command):
         if not isinstance(command, Command):
@@ -39,14 +45,15 @@ class Command:
     
     async def __call__(self, *args, **kwargs):
         if self.cog is not None:
-            await self.callback(self, *args, **kwargs) # cog is self
-        await self.callback(*args, **kwargs)
+            await self.callback(self.cog, *args, **kwargs) # cog is self
+        else:
+            await self.callback(*args, **kwargs)
 
 import asyncio
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
-class Terminal(Group):
+class Terminal(Cog):
     def __init__(self) -> None:
         super().__init__()
 
@@ -78,6 +85,16 @@ class Terminal(Group):
 
             if cmd := self.commands.get(cmd_name):
                 await cmd(*cmd_args)
+
+def command(name = None, cls = None, *args, **kwargs):
+    if cls == None:
+        cls = Command
+    
+    def decorator(func: callable):
+        command = cls(func, name=name, **kwargs)
+        return command
+
+    return decorator
 
 if __name__ == "__main__":
     terminal = Terminal(None)

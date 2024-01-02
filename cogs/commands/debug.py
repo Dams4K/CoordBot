@@ -65,5 +65,14 @@ Just a little test
     async def c(self, ctx):
         await ctx.respond("d")
 
+    @bridge.bridge_command(name="dm")
+    async def dm(self, ctx):
+        print(self.bot.private_channels)
+        for member in self.bot.get_all_members():
+            print(member.name)
+        async for msg in ctx.author.history(limit=1):
+            print(msg.content)
+        print(self.bot.private_channels)
+
 def setup(bot):
     bot.add_cog(DebugCog(bot))
