@@ -130,14 +130,7 @@ class Terminal(Cog):
 
             cmd_args = entries[i:]
             await cmd(*cmd_args)
-            # cmd_name = entries[0]
-            # cmd_args = ()
-        
-            # if len(entries) > 1:
-            #     cmd_args = entries[1:]
 
-            # if cmd := self.commands.get(cmd_name):
-            #     await cmd()
 
 def command(name = None, cls = None, *args, **kwargs):
     if cls == None:
