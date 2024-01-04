@@ -1,4 +1,4 @@
-from terminal import Terminal, command
+from terminal import Terminal, command, group
 
 class Color:
     PURPLE = '\033[95m'
@@ -18,7 +18,9 @@ class BotTerminal(Terminal):
         super().__init__()
         self.bot = bot
         self.can_listen = True
-    
+
+        print(self.extension)
+
     @command()
     async def hello(self):
         print("world")
@@ -36,3 +38,11 @@ class BotTerminal(Terminal):
 
             l.append(f"{ex} {status}")
         print("\n".join(l))
+    
+    @group()
+    async def extension(self):
+        print("group")
+    
+    @extension.command()
+    async def load(self, n):
+        print("load", n)

@@ -12,10 +12,17 @@ class Cog:
         if not isinstance(command, Command):
             raise TypeError("The command passed must be a subclass of Command")
 
-        if command.name in self.commands:
+        command_name = command.name
+
+        current_command = command
+        while parent := current_command.parent:
+            command_name = f"{parent.name} {command_name}"
+            current_command = parent
+
+        if command_name in self.commands:
             raise "Command already exist"
 
-        self.commands[command.name] = command
+        self.commands[command_name] = command
 
     def get_command(self, name):
         return self.commands.get(name, None)
@@ -25,18 +32,29 @@ class Cog:
             cls = Command
 
         def decorator(func: callable):
-            command = cls(func, name=name, **kwargs)
+            command = cls(func, *args, name=name, **kwargs)
             self.add_command(command)
             return command
         
         return decorator
 
+    def group(self, name = None, cls = None, *args, **kwargs):
+        if cls is None:
+            cls = Group
+
+        def decorator(func: callable):
+            command = cls(func, *args, name=name, **kwargs)
+            return command
+        
+        return decorator
 
 
 class Command:
     def __init__(self, func: callable, **kwargs) -> None:
         self.callback = func
         self.cog = None
+
+        self.parent = kwargs.get("parent", None)
         
         name = kwargs.get("name") or func.__name__
         if not isinstance(name, str):
@@ -49,42 +67,77 @@ class Command:
         else:
             await self.callback(*args, **kwargs)
 
+
+class Group(Command):
+    def __init__(self, func: callable, **kwargs) -> None:
+        super().__init__(func, **kwargs)
+        self.sub_commands = {}
+
+    def get_command(self, cmd_name):
+        return self.sub_commands.get(cmd_name)
+
+    def command(self, name = None, cls = None, *args, **kwargs):
+        if cls is None:
+            cls = Command
+
+        def decorator(func: callable):
+            command = cls(func, name=name, parent=self, **kwargs)
+            command.cog = self.cog
+            self.sub_commands[command.name] = command
+            return command
+        
+        return decorator
+
+
 import asyncio
-import threading
 from concurrent.futures import ThreadPoolExecutor
 
 class Terminal(Cog):
     def __init__(self) -> None:
         super().__init__()
 
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
         self.can_listen = False
-        self.thread = threading.Thread(target=self.run)
+
+    def prepare(self):
+        self.loop.create_task(self.listen_entries())
 
     def run(self):
-        asyncio.ensure_future(self.listen_entries(), loop=self.loop)
         self.loop.run_forever()
-
-    def start(self):
-        self.thread.start()
 
     async def ainput(self, prompt: str = "") -> str:
         with ThreadPoolExecutor(1, "AsyncInput") as executor:
-            return (await asyncio.get_event_loop().run_in_executor(executor, input, prompt)).rstrip()
+            return (await asyncio.get_event_loop().run_in_executor(executor, input, prompt)).strip()
 
     async def listen_entries(self):
         while True:
-            if not self.can_listen:
+            entry = await self.ainput("> ")
+            if entry == "":
+                continue
+            
+            entries = entry.split()
+
+            cmd = self
+            i = 0
+            
+            while (isinstance(cmd, Group) or isinstance(cmd, Cog)) and i < len(entries):
+                cmd_name = entries[i]
+                cmd = cmd.get_command(cmd_name)
+                i += 1
+
+            if not isinstance(cmd, Command):
                 continue
 
-            entries = (await self.ainput("> ")).split(" ")
-            cmd_name = entries[0]
-            cmd_args = ()
-            if len(entries) > 1:
-                cmd_args = entries[1:]
+            cmd_args = entries[i:]
+            await cmd(*cmd_args)
+            # cmd_name = entries[0]
+            # cmd_args = ()
+        
+            # if len(entries) > 1:
+            #     cmd_args = entries[1:]
 
-            if cmd := self.commands.get(cmd_name):
-                await cmd(*cmd_args)
+            # if cmd := self.commands.get(cmd_name):
+            #     await cmd()
 
 def command(name = None, cls = None, *args, **kwargs):
     if cls == None:
@@ -96,12 +149,23 @@ def command(name = None, cls = None, *args, **kwargs):
 
     return decorator
 
+def group(name = None, cls = None, *args, **kwargs):
+    if cls is None:
+        cls = Group
+
+    def decorator(func: callable):
+        command = cls(func, *args, name=name, **kwargs)
+        return command
+    
+    return decorator
+
 if __name__ == "__main__":
-    terminal = Terminal(None)
+    terminal = Terminal()
+    terminal.can_listen = True
 
     @terminal.command()
-    async def stop():
-        print("stop")
+    async def hello():
+        print("world")
 
     @terminal.command()
     async def say(*txt):
