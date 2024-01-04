@@ -129,8 +129,10 @@ class Terminal(Cog):
                 continue
 
             cmd_args = entries[i:]
-            await cmd(*cmd_args)
-
+            try:
+                await cmd(*cmd_args)
+            except Exception as e:
+                print(e)
 
 def command(name = None, cls = None, *args, **kwargs):
     if cls == None:

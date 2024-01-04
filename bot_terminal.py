@@ -19,8 +19,6 @@ class BotTerminal(Terminal):
         self.bot = bot
         self.can_listen = True
 
-        print(self.extension)
-
     @command()
     async def hello(self):
         print("world")
@@ -41,8 +39,29 @@ class BotTerminal(Terminal):
     
     @group()
     async def extension(self):
-        print("group")
+        subcommands = "\t".join(self.extension.sub_commands.keys())
+        print(f"Subcommands: {subcommands}")
     
     @extension.command()
-    async def load(self, n):
-        print("load", n)
+    async def unload(self, extension):
+        if extension in self.bot.available_extensions:
+            self.bot.unload_extension(extension)
+            print("extension unloaded")
+        else:
+            print("unknown extension")
+
+    @extension.command()
+    async def load(self, extension):
+        if extension in self.bot.available_extensions:
+            self.bot.load_extension(extension)
+            print("extension loaded")
+        else:
+            print("unknown extension")
+    
+    @extension.command()
+    async def reload(self, extension):
+        if extension in self.bot.available_extensions:
+            self.bot.reload_extension(extension)
+            print("extension reloaded")
+        else:
+            print("unknown extension")
