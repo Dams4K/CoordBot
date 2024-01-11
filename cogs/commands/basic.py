@@ -12,7 +12,7 @@ from utils.bot_embeds import *
 from utils.references import References
 
 
-class GlobalCog(Cog):
+class BasicCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -271,4 +271,4 @@ class GlobalCog(Cog):
                     await ctx.send(m)
 
 def setup(bot):
-    bot.add_cog(GlobalCog(bot))
+    bot.add_cog(BasicCog(bot))
