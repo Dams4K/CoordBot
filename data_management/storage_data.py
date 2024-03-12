@@ -49,7 +49,7 @@ class GuildObject(Saveable):
     def __new__(cls, object_id: int, guild_id: int, create: bool = False):
         path = References.get_guild_folder(os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id))
         if os.path.exists(path) or create:
-            return super(Saveable, cls).__new__(cls)
+            return super(GuildObject, cls).__new__(cls) # We want to create the instance with the __new__ function of Saveable
         return None
 
     def __init__(self, object_id: int, guild_id: int, create: bool = False):
