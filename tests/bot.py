@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from bot import CoordBot
-from utils.bot_contexts import BotApplicationContext
+from utils.bot_contexts import BotApplicationContext, BotContext
 
 class TestInteraction(discord.Interaction):
     pass
@@ -15,14 +15,25 @@ class TestApplicationContext(BotApplicationContext):
         super().__init__()
 
     async def respond(self, *args, **kwargs):
-        # print(args, kwargs)
-        pass
+        print(args, kwargs)
 
     async def send(self, *args, **kwargs):
-        pass
+        print(args, kwargs)
+
+class TestContext(BotContext):
+    async def send(self, *args, **kwargs):
+        args, kwargs = await self.translate_message(*args, **kwargs)
+        print(*args, **kwargs)
+    
+    async def respond(self, *args, **kwargs):
+        args, kwargs = await self.translate_message(*args, **kwargs)
+        print(*args, **kwargs)
 
 class TestBot(CoordBot):
+    RUNNING = False
+
     def __init__(self):
+        TestBot.RUNNING = True
         super().__init__()
 
     async def on_ready(self):
@@ -33,11 +44,11 @@ class TestBot(CoordBot):
 
         await self.change_presence(status=discord.Status.dnd)
 
-    async def on_application_command(self, ctx):
-        print(type(ctx))
-
-    async def get_application_context(self, interaction, cls = TestApplicationContext):
+    async def get_application_context(self, interaction, cls=TestApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
+
+    async def get_context(self, message, *, cls=TestContext):
+        return await super().get_context(message, cls=cls)
 
 class TestCog(discord.Cog):
     def __init__(self, bot) -> None:
@@ -45,6 +56,9 @@ class TestCog(discord.Cog):
 
     @commands.command(name="tests")
     async def tests(self, ctx):
-        print(len(self.bot.application_commands))
-        print(len(self.bot.commands))
-        print(len(self.bot.all_commands))
+        for cmd in self.bot.commands:
+            if cmd.name == "say":
+                await cmd(ctx)
+        # print(len(self.bot.application_commands))
+        # print(len(self.bot.commands))
+        # print(len(self.bot.all_commands))
