@@ -3,6 +3,7 @@ from discord.ext import bridge, commands
 
 from utils.bot_embeds import NormalEmbed
 
+from tests import test_options
 
 # Debug class, only available when utils.References.DEBUG_MODE is True
 class DebugCog(commands.Cog):
@@ -24,6 +25,11 @@ class DebugCog(commands.Cog):
     async def only_command(self, ctx):
         await ctx.send(ctx.guild_config.prefix)
     
+    @test_options(msg="le message à envoyer")
+    @commands.command(name="say")
+    async def say(self, ctx, *, msg):
+        await ctx.send(msg)
+
     @commands.slash_command(name="only_slash")
     async def only_slash(self, ctx):
         await ctx.respond(ctx.guild_config.prefix)
