@@ -42,7 +42,7 @@ def get_text_footer():
         "good bye.": 15,
         "as you wish": 15,
         "secrets are everywhere": 4,
-        "[ Fourth wall is shaking ]": 20
+        "[ The Fourth wall has shattered ]": 10
     }
 
     return choices(list(texts.keys()), weights=list(texts.values()))[0] 

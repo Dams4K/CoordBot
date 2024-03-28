@@ -14,6 +14,13 @@ class VaryingPresence(Cog):
         Activity(name="Imaginary Interlude - C418", type=ActivityType.listening),
         Activity(name="Monodrama - Ignant Benches", type=ActivityType.listening),
         Game(name="Tunic"),
+        Game(name="Hyper Light Drifter"),
+        Game(name="Outer Wilds"),
+        Game(name="Fez"),
+        Game(name="Omori"),
+        Activity(name="The Great Review", type=ActivityType.watching),
+        Activity(name="FMA B", type=ActivityType.watching),
+        Activity(name="Omniscient Reader's Viewpoint", type=ActivityType.watching),
     ]
 
     def __init__(self, bot) -> None:
