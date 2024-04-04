@@ -15,6 +15,7 @@ class TestApplicationContext(BotApplicationContext):
         super().__init__()
 
     async def respond(self, *args, **kwargs):
+        print('----')
         print(args, kwargs)
 
     async def send(self, *args, **kwargs):
@@ -56,9 +57,5 @@ class TestCog(discord.Cog):
 
     @commands.command(name="tests")
     async def tests(self, ctx):
-        for cmd in self.bot.commands:
-            if cmd.name == "say":
-                await cmd(ctx)
-        # print(len(self.bot.application_commands))
-        # print(len(self.bot.commands))
-        # print(len(self.bot.all_commands))
+        for cmd in self.bot.all_commands:
+            await cmd(ctx)
