@@ -51,8 +51,8 @@ class BotSlashCommandGroup(SlashCommandGroup, CommandLocalization):
     def create_subgroup(
         self,
         name: str,
-        description: str | None = None,
-        guild_ids: list[int] | None = None,
+        description: str = None,
+        guild_ids: list[int] = None,
         **kwargs,
     ):
         """
