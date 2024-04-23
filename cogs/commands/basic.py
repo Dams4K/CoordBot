@@ -11,8 +11,6 @@ from utils.bot_commands import *
 from utils.bot_embeds import *
 from utils.references import References
 
-from tests import test_options
-
 class BasicCog(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -20,7 +18,6 @@ class BasicCog(Cog):
     about = BotSlashCommandGroup("about", guild_only=True)
     list = BotSlashCommandGroup("list", guild_only=True)
 
-    @test_options(object=GuildObject(-1, -1))
     @about.command(name="object")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
     async def about_object(self, ctx, object: GuildObject):
