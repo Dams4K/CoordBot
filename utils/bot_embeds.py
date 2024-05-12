@@ -13,7 +13,7 @@ class BotEmbed(discord.Embed):
 class NormalEmbed(BotEmbed):
     def __init__(self, guild_config = None, **kwargs):
         super().__init__(guild_config, **kwargs)
-        self.color = discord.Colour.brand_green()
+        self.color = discord.Colour.dark_magenta()
 
 class WarningEmbed(BotEmbed):
     def __init__(self, guild_config = None, **kwargs):
