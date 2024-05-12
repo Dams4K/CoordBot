@@ -37,6 +37,13 @@ class BasicCog(Cog):
         embed = NormalEmbed(title=object.name, description=object.description)
         if description:
             embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
+
+        sellable = str(object.sell_price) + " " + ctx.translate("MONEY_NAME:casefold") if object.sellable else ctx.translate("NO")
+        donable = ctx.translate("YES") if object.donation else ctx.translate("NO")
+        features = ctx.translate("OBJECT_FEATURES_V", sellable=sellable, donable=donable)
+
+        embed.add_field(name=ctx.translate("OBJECT_FEATURES"), value=features)
+
         embed.set_footer(text=f"id: {object._object_id}")
         await ctx.respond(embed=embed)
 
@@ -203,9 +210,27 @@ class BasicCog(Cog):
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
-    # @bot_slash_command(name="sell") # TODO: v4.1
-    # async def sell(self, ctx):
-    #     await ctx.respond("sell object")
+    @bot_slash_command(name="sell")
+    @guild_only()
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("amount", type=int, required=False)
+    async def sell(self, ctx, object: GuildObject, amount: int = 1):
+        if not object.sellable:
+            await ctx.respond(text_key="CANNOT_SELL_OBJECT")
+            return
+
+        author_inv: Inventory = ctx.author_data.get_inventory()
+        if author_inv.get_object_amount(object._object_id) < amount:
+            await ctx.respond(text_key="NOT_ENOUGH_OBJECTS")
+            return
+
+        author_inv.remove_object_id(object._object_id, amount)
+        ctx.author_data.set_inventory(author_inv)
+
+        money_earned = object.sell_price * amount
+        ctx.author_data.add_money(money_earned)
+
+        await ctx.respond(text_key="OBJECT_SOLD", text_args={"object": object.name, "amount": amount, "money": money_earned})
 
     @bot_slash_command(name="donate")
     @guild_only()

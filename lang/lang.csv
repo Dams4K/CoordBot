@@ -165,4 +165,12 @@ FORMULA_DESCRIPTION_CHANGED,"The leveling formula was changed in
 
 {new_formula}",
 FORMULA_SYNTAX_ERROR,Syntax error,Erreur de syntaxe
-CANNOT_DONATE_OBJECT,This object can't be donated,Cet object ne peut être donné
+CANNOT_DONATE_OBJECT,This object can't be donated,Cet objet ne peut être donné
+CANNOT_SELL_OBJECT,This object can't be sell,Cet objet ne peut être donné
+OBJECT_SOLD,The object {object} has been sold {amount} time for a total of {money} {LANG_KEY:MONEY_NAME:casefold} earned,L'object {object} a été vendu {amount} fois pour un total de {money} {LANG_KEY:MONEY_NAME:casefold} de gagné
+OBJECT_FEATURES,Features:,Caractéristiques :
+YES,Yes,Oui
+NO,No,Non
+OBJECT_FEATURES_V,"**Donable:** {donable}
+**Sellable:** {sellable}","**Donable :** {donable}
+**Vendable :** {sellable}"
