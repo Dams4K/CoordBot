@@ -15,15 +15,16 @@ class AnalyzerCog(Cog):
 
     @tasks.loop(seconds=0.01)
     async def analyze(self):
-        # print(self.get_total_data_size(GuildConfig, GuildLanguage, GuildSalaries, GuildLevelingConfig, MemberData, GuildArticle, GuildObject))
-        pass
+        size = self.get_total_data_size(GuildConfig, GuildLanguage, GuildSalaries, GuildLevelingConfig, MemberData, GuildArticle, GuildObject)
+        self.bot.MEM_USAGE = size
+        if size > self.bot.MAX_MEM_USAGE:
+            self.bot.MAX_MEM_USAGE = size
 
     def get_total_data_size(self, *data_classes):
         total = 0
         for clazz in data_classes:
-            # print(clazz, clazz is Saveable)
-            # if not isinstance(clazz, Saveable):
-            #     continue
+            if not issubclass(clazz, Saveable):
+                continue
             total += asizeof(clazz.instances)
 
         return total

@@ -1,3 +1,8 @@
+import discord
+import os, sys
+
+from cogs.tasks.analyzer import AnalyzerCog
+
 from terminal import Terminal, command, group
 
 class Color:
@@ -16,12 +21,22 @@ class Color:
 class BotTerminal(Terminal):
     def __init__(self, bot) -> None:
         super().__init__()
-        self.bot = bot
+        self.bot: discord.Bot = bot
         self.can_listen = True
 
     @command()
-    async def hello(self):
-        print("world")
+    async def help(self):
+        print(
+f"""{Color.BOLD}=== HELP PAGE ==={Color.END}
+
+extensions
+extension
+    unload  {{path}}
+    load    {{path}}
+    reload  {{path}}
+stop
+memory
+""")
      
     @command()
     async def extensions(self):
@@ -65,3 +80,14 @@ class BotTerminal(Terminal):
             print("extension reloaded")
         else:
             print("unknown extension")
+
+    @command()
+    async def stop(self):
+        await self.bot.close()
+    
+    @command()
+    async def memory(self):
+        print(f"""Memory Usage
+Current: {self.bot.MEM_USAGE}
+Max: {self.bot.MAX_MEM_USAGE}
+""")

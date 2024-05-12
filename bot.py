@@ -13,6 +13,9 @@ from utils.references import References
 
 
 class CoordBot(bridge.Bot):
+    MEM_USAGE = -1
+    MAX_MEM_USAGE = -1
+
     def __init__(self):
         super().__init__(
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
