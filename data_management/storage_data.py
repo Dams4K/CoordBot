@@ -10,7 +10,8 @@ from utils.references import References
 
 
 class GuildObject(Saveable):
-    __slots__ = ("_object_id", "_guild_id", "name", "description", "refundable", "refund_price", "donation")
+    __slots__ = ("_object_id", "_guild_id", "name", "description", "sellable", "sell_price", "donation")
+    dversion = 2
 
     FOLDER: str = "%s/objects"
     FILENAME: str = "%s.json"
@@ -57,13 +58,24 @@ class GuildObject(Saveable):
         self._guild_id = guild_id
         self.name = "NoName"
         self.description = ""
-        self.refundable = False
-        self.refund_price = 0
+        self.sellable = False
+        self.sell_price = 0
         self.donation = True
 
         path = os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id)
         super().__init__(References.get_guild_folder(path))
     
+    @staticmethod
+    def convert_version(data):
+        data_version = data.get("__dversion", 1)
+        
+        if data_version == 1:
+            data["__dversion"] = 2
+            data["sellable"] = data.get("refundable", False)
+            data["sell_price"] = data.get("refund_price", 0)
+
+        return data
+
     @Saveable.update()
     def set_name(self, new_name):
         self.name = new_name[:32]
@@ -75,9 +87,9 @@ class GuildObject(Saveable):
         return self
 
     @Saveable.update()
-    def set_refundable(self, is_refundable, refund_price):
-        self.refundable = is_refundable
-        self.refund_price = refund_price
+    def set_sellable(self, is_sellable, price):
+        self.sellable = is_sellable
+        self.sell_price = price
         return self
 
     @Saveable.update()
