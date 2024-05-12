@@ -4,7 +4,7 @@
         "fr": "remboursement"
     },
     "description_localizations": {
-        "fr": "MModifier la capacité de remboursement de l'objet"
+        "fr": "Modifier la capacité de remboursement de l'objet"
     },
     "options": {
         "object": {
