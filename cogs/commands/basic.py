@@ -207,6 +207,32 @@ class BasicCog(Cog):
     # async def sell(self, ctx):
     #     await ctx.respond("sell object")
 
+    @bot_slash_command(name="donate")
+    @guild_only()
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("to", type=Member)
+    @option("amount", type=int, required=False)
+    async def donate(self, ctx, object: GuildObject, to: Member, amount: int = 1):
+        if not object.donation:
+            await ctx.respond(text_key="CANNOT_DONATE_OBJECT")
+            return
+
+        to_data = MemberData(to.id, ctx.guild.id)
+        author_inv: Inventory = ctx.author_data.get_inventory()
+        to_inv: Inventory = to_data.get_inventory()
+
+        if author_inv.get_object_amount(object._object_id) < amount:
+            await ctx.respond(text_key="NOT_ENOUGH_OBJECTS")
+            return
+
+        author_inv.remove_object_id(object._object_id, amount)
+        to_inv.add_object_id(object._object_id, amount)
+
+        ctx.author_data.set_inventory(author_inv)
+        to_data.set_inventory(to_inv)
+
+        await ctx.respond(text_key="OBJECT_DONATED", text_args={"amount": amount, "object": object.name, "member": to})
+
 
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)

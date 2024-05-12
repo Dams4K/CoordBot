@@ -120,8 +120,11 @@ SERVER_DELETION_CONFIRMATION,Do you really want to delete all server data,Voulez
 SERVER_DATA_HAS_BEEN_DELETED,Server data has been deleted,Les données du serveur ont été supprimées
 SERVER_DATA_HAS_NOT_BEEN_DELETED,Server data hasn't been deleted,Les données du serveur n'ont pas été supprimées
 GAIN_RANGE_MODIFIED,Members will earn between {min} and {max} {LANG_KEY:MONEY_NAME:casefold} after reaching a higher level,Les membres gagneront entre {min} et {max} d'{LANG_KEY:MONEY_NAME:casefold} après avoir atteint un niveau supérieur
-OBJECT_IS_NOT_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is no longer refundable,L'{LANG_KEY:OBJECT_NAME:casefold} {object} n'est plus remboursable
-OBJECT_IS_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is now refundable for {price},L'{LANG_KEY:OBJECT_NAME:casefold} {object} est désormais remboursable pour {price}
+OBJECT_IS_NOT_REFUNDABLE,The {LANG_KEY:OBJECT_NAME:casefold} {object} is no longer refundable,L'{LANG_KEY:OBJECT_NAME:casefold} {object} n'est plus remboursable
+OBJECT_IS_REFUNDABLE,The {LANG_KEY:OBJECT_NAME:casefold} {object} is now refundable for {price},L'{LANG_KEY:OBJECT_NAME:casefold} {object} est désormais remboursable pour {price}
+OBJECT_CAN_BE_DONATED,The {LANG_KEY:OBJECT_NAME:casefold} {object} can be donated to another member,L'{LANG_KEY:OBJECT_NAME:casefold} {object} peut être donné à un autre membre
+OBJECT_CANNOT_BE_DONATED,The {LANG_KEY:OBJECT_NAME:casefold} {object} can't be donated to another member,L'{LANG_KEY:OBJECT_NAME:casefold} {object} peut pas être donné à un autre membre
+OBJECT_DONATED,You have donated {amount} {object} to {member.display_name},Tu as donné {amount} {object} à {member.display_name}
 LEVELING_STATUS,{LANG_KEY:LEVEL_NAME:capitalize} system status,Statut du système de {LANG_KEY:LEVEL_NAME:casefold}
 LEVELING_MESSAGE,Level up message,Message de montée en niveau
 LEVELING_GAIN_RANGE,Gain range after level up,Plage de gain après élévation du niveau
@@ -162,3 +165,4 @@ FORMULA_DESCRIPTION_CHANGED,"The leveling formula was changed in
 
 {new_formula}",
 FORMULA_SYNTAX_ERROR,Syntax error,Erreur de syntaxe
+CANNOT_DONATE_OBJECT,This object can't be donated,Cet object ne peut être donné

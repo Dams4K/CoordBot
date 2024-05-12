@@ -10,7 +10,7 @@ from utils.references import References
 
 
 class GuildObject(Saveable):
-    __slots__ = ("_object_id", "_guild_id", "name", "description", "refundable", "refund_price")
+    __slots__ = ("_object_id", "_guild_id", "name", "description", "refundable", "refund_price", "donation")
 
     FOLDER: str = "%s/objects"
     FILENAME: str = "%s.json"
@@ -59,6 +59,7 @@ class GuildObject(Saveable):
         self.description = ""
         self.refundable = False
         self.refund_price = 0
+        self.donation = True
 
         path = os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id)
         super().__init__(References.get_guild_folder(path))
@@ -77,6 +78,11 @@ class GuildObject(Saveable):
     def set_refundable(self, is_refundable, refund_price):
         self.refundable = is_refundable
         self.refund_price = refund_price
+        return self
+
+    @Saveable.update()
+    def set_donation(self, allowed: bool):
+        self.donation = allowed
         return self
 
 class GuildArticle(Saveable):
@@ -392,7 +398,7 @@ class Inventory(Data):
         if self.object_ids[object_id] == 0:
             self.object_ids.pop(object_id)
     
-    def remove_object(self, object_id: str, amount: int):
+    def remove_object_id(self, object_id: str, amount: int):
         if amount == -1:
             self.object_ids[object_id] = 0
         else:

@@ -49,6 +49,15 @@ class ObjectsConfigCog(Cog):
         else:
             await ctx.respond(text_key="OBJECT_IS_NOT_REFUNDABLE", text_args={"object": object.name})
 
+    @change.command(name="donate")
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("allowed", type=bool)
+    async def change_donable(self, ctx, object: GuildObject, allowed: bool):
+        object.set_donation(allowed)
+        if allowed:
+            await ctx.respond(text_key="OBJECT_CAN_BE_DONATED", text_args={"object": object.name})
+        else:
+            await ctx.respond(text_key="OBJECT_CANNOT_BE_DONATED", text_args={"object": object.name})
 
     @objects.command(name="delete")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)
