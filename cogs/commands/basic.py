@@ -296,6 +296,7 @@ class BasicCog(Cog):
                 embed = InformativeEmbed(title=ctx.translate("ABOUT_BOT"))
                 embed.add_field(name="Py-cord", value=f"v{version('py-cord')}")
                 embed.add_field(name=self.bot.user.display_name, value=bot_version, inline=False)
+                embed.add_field(name=ctx.translate("SUPPORT_DISCORD"), value=f"[{ctx.translate('CLICK_HERE')}](https://discord.gg/KMA8NADHqQ)", inline=False)
                 if len(developers) > 1:
                     embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
                 elif len(developers) == 1:
