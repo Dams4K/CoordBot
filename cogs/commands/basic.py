@@ -38,14 +38,13 @@ class BasicCog(Cog):
         if description:
             embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
 
-        sellable = str(object.sell_price) + " " + ctx.translate("MONEY_NAME:casefold") if object.sellable else ctx.translate("NO")
-        donable = ctx.translate("YES") if object.donation else ctx.translate("NO")
-        features = ctx.translate("OBJECT_FEATURES_V", sellable=sellable, donable=donable)
-
-        embed.add_field(name=ctx.translate("OBJECT_FEATURES"), value=features)
-
+        if object.sellable:
+            embed.add_field(name=ctx.translate("OBJECT_SELL_PRICE"), value=f"{object.sell_price} {ctx.translate('MONEY_NAME:casefold')}")
+        if object.donation:
+            embed.add_field(name=ctx.translate("OBJECT_CAN_BE_DONATED_SHORT"), value=" ", inline=False)
         embed.set_footer(text=f"id: {object._object_id}")
         await ctx.respond(embed=embed)
+
 
     @about.command(name="article")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)

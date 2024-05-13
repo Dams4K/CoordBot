@@ -171,6 +171,5 @@ OBJECT_SOLD,The object {object} has been sold {amount} time for a total of {mone
 OBJECT_FEATURES,Features:,Caractéristiques :
 YES,Yes,Oui
 NO,No,Non
-OBJECT_FEATURES_V,"**Donable:** {donable}
-**Sellable:** {sellable}","**Donable :** {donable}
-**Vendable :** {sellable}"
+OBJECT_SELL_PRICE,Sell price,Prix de vente
+OBJECT_CAN_BE_DONATED_SHORT,This object can be donated,Cet objet peut être donné
