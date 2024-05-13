@@ -1,4 +1,4 @@
-import datetime
+from datetime import timedelta
 from importlib.metadata import version
 from random import randint
 
@@ -63,7 +63,7 @@ class BasicCog(Cog):
         
         # Show cooldown
         if article.cooldown > 0:
-            embed.set_footer(text=f"Cooldown: {datetime.timedelta(seconds=article.cooldown)} | id: {article._article_id}")
+            embed.set_footer(text=f"Cooldown: {timedelta(seconds=article.cooldown)} | id: {article._article_id}")
 
         await ctx.respond(embed=embed)
 
@@ -260,12 +260,17 @@ class BasicCog(Cog):
 
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    # @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
+    @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
     @guild_only()
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
             await ctx.respond("????") # Wtf are you trying to buy????
             return
+
+        if article.cooldown > 0 and quantity > 1:
+            quantity = 1
+            embed = WarningEmbed(title=ctx.translate("ARTICLE_HAS_COOLDOWN"), description=ctx.translate("BUY_QUANTITY_SET_TO_X", number=quantity))
+            await ctx.respond(embed=embed)
 
         quantity = await article.buy(ctx, quantity)
         if quantity == 1:

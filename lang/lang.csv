@@ -175,3 +175,5 @@ OBJECT_SELL_PRICE,Sell price,Prix de vente
 OBJECT_CAN_BE_DONATED_SHORT,This object can be donated,Cet objet peut être donné
 CLICK_HERE,Click here,Clique ici
 SUPPORT_DISCORD,Support server,Serveur de support
+ARTICLE_HAS_COOLDOWN,The article has a cooldown,L'article a un délai d'attente
+BUY_QUANTITY_SET_TO_X,The quantity to be purchased was forcibly fixed at **{number}**,La quantité à acheter a été fixée de force à **{number}**
