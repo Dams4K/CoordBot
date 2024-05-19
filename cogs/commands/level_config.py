@@ -204,7 +204,7 @@ class LevelConfigCog(Cog):
     @option("formula", type=str, autocomplete=get_leveling_formula)
     async def formula(self, ctx, formula):
         try:
-            ctx.author_data.get_xp_goal(formula)
+            ctx.author_data.get_xp_goal(formula) # check if formula is working
 
             leveling_config = GuildLevelingConfig(ctx.guild.id)
             leveling_config.set_formula(formula)
