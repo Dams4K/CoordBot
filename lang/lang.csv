@@ -113,7 +113,7 @@ LEVELING_BANLIST_MEMBERS_EMPTY,*empty*,*vide*
 LEVELING_BANLIST_CHANNELS_EMPTY,*empty*,*vide*
 MESSAGE_NOT_FOUND,No message found,Aucun message trouvé
 ACCESS_FORBIDDEN,Access forbidden,Accès interdit
-ERROR_OCCURED,An error has occured,Une erreur est survenue
+ERROR_OCCURED,Oh no!,Oh non !
 DELETION_PERFORMED,Deletion performed,Suppression effectuée
 DELETION_CANCELED,Deletion canceled,Suppression annulée
 SERVER_DELETION_CONFIRMATION,Do you really want to delete all server data,Voulez-vous réellement supprimer toutes les données du serveur
