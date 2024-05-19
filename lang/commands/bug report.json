@@ -1,9 +1,0 @@
-{
-    "description": "Send a bug report to the bot developer",
-    "name_localizations": {
-        "fr": "Rapport de bogue"
-    },
-    "description_localizations": {
-        "fr": "Envoi un rapport de bogue au développeur du bot"
-    }
-}

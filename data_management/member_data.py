@@ -21,6 +21,9 @@ class DefaultMemberData(Saveable):
 
         super().__init__(References.get_guild_folder(f"{self._guild_id}/members/default.json"))
 
+    def get_xp_goal(self, formula):
+        return simple_eval(formula, names={"level": self.level})
+
     @Saveable.update()
     def set_xp(self, amount: int):
         self.xp = amount
@@ -50,9 +53,6 @@ class MemberData(DefaultMemberData):
 
         DefaultMemberData.__init__(self, guild_id)
         Saveable.__init__(self, References.get_guild_folder(f"{self._guild_id}/members/{self._member_id}.json"))
-    
-    def get_xp_goal(self, formula):
-        return simple_eval(formula, names={"level": self.level})
 
     def refresh_level(self, formula) -> int:
         xp_needed = self.get_xp_goal(formula)
