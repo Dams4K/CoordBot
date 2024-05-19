@@ -13,7 +13,7 @@ class BotEmbed(discord.Embed):
 class NormalEmbed(BotEmbed):
     def __init__(self, guild_config = None, **kwargs):
         super().__init__(guild_config, **kwargs)
-        self.color = discord.Colour.brand_green()
+        self.color = discord.Colour.dark_magenta()
 
 class WarningEmbed(BotEmbed):
     def __init__(self, guild_config = None, **kwargs):
@@ -42,7 +42,7 @@ def get_text_footer():
         "good bye.": 15,
         "as you wish": 15,
         "secrets are everywhere": 4,
-        "[ Fourth wall is shaking ]": 20
+        "[ The Fourth wall has shattered ]": 10
     }
 
     return choices(list(texts.keys()), weights=list(texts.values()))[0] 

@@ -21,7 +21,7 @@ class AdminCog(Cog):
     @server.command(name="retrieve")
     async def server_retrieve(self, ctx):
         # We do not want anyone else than the author to see the file
-        # We defer it because it can take a will
+        # We defer it because it can take a while
         await ctx.defer(ephemeral=True)
 
         guild_folder = References.get_guild_folder(str(ctx.guild.id))
@@ -68,7 +68,7 @@ class AdminCog(Cog):
     @option("member", type=Member)
     async def member_retrieve(self, ctx, member):
         # We do not want anyone else than the author to see the file
-        # We defer it because it can take a will
+        # We defer it because it can take a while
         await ctx.defer(ephemeral=True)
 
         member_data = MemberData(member.id, ctx.guild.id)

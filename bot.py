@@ -1,6 +1,6 @@
-import asyncio
 import logging
 import os
+import sys
 from datetime import datetime
 from importlib.metadata import version
 
@@ -13,6 +13,9 @@ from utils.references import References
 
 
 class CoordBot(bridge.Bot):
+    MEM_USAGE = -1
+    MAX_MEM_USAGE = -1
+
     def __init__(self):
         super().__init__(
             self.get_prefix, case_insensitive=True, intents=discord.Intents.all(),
@@ -32,6 +35,8 @@ class CoordBot(bridge.Bot):
         self.handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         self.logger.addHandler(self.handler)
 
+        self.available_extensions = list(self.extensions.keys())
+
     
     async def on_ready(self):
         os.system("clear||cls")
@@ -42,6 +47,10 @@ class CoordBot(bridge.Bot):
         print("\n  - ".join([""] + self.extensions_path()))
         
         await self.change_presence(status=discord.Status.online)
+
+    async def on_error(self, event_name, *args, **kwargs):
+        # sys.exc_info() return the tuple tuple[type[BaseException], BaseException, TracebackType]
+        self.dispatch("event_error", event_name, sys.exc_info()[1], *args, **kwargs) # on_error is only dispatched to `Client.event()` so a new event is dispatched for cogs
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)
@@ -54,8 +63,11 @@ class CoordBot(bridge.Bot):
 
     def load_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):
-            if "debug" in cog_file and not References.DEBUG_MODE: continue
-            err = self.load_extension(cog_file.replace("/", ".")[:-3])
+            extension = cog_file.replace("/", ".")[:-3]
+            self.available_extensions.append(extension)
+
+            if not "debug" in cog_file or References.DEBUG_MODE:
+                self.load_extension(extension)
 
     def reload_cogs(self, path: str):
         for cog_file in self.get_cogs_file(path):

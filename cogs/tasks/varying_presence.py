@@ -16,6 +16,8 @@ class VaryingPresence(Cog):
         Game(name="Tunic"),
         Game(name="Hyper Light Drifter"),
         Game(name="Outer Wilds"),
+        Game(name="Fez"),
+        Game(name="Omori"),
         Activity(name="The Great Review", type=ActivityType.watching),
         Activity(name="FMA B", type=ActivityType.watching),
         Activity(name="Omniscient Reader's Viewpoint", type=ActivityType.watching),

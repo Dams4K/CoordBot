@@ -22,8 +22,8 @@ ARTICLE_OBJECT_ADDED,You have added {quantity} {object} to {article},Tu as rajou
 ARTICLE_ROLE_ADDED,You have added {role} to {article},Tu as ajouté {role} à {article}
 ARTICLE_OBJECT_REMOVED,You have removed {quantity} {object} from {article},Tu as retiré {quantity} {object} de {article}
 ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role} de {article}
-ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME} {article}
-ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
+ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME:casefold} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME:casefold} {article}
+ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME:casefold} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été effectuée
 ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
 ARTICLE_PURCHASED_X_TIMES,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought `{quantity}` times,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté `{quantity}` fois
 ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold}s,{price} {LANG_KEY:MONEY_NAME:casefold}s
@@ -113,15 +113,19 @@ LEVELING_BANLIST_MEMBERS_EMPTY,*empty*,*vide*
 LEVELING_BANLIST_CHANNELS_EMPTY,*empty*,*vide*
 MESSAGE_NOT_FOUND,No message found,Aucun message trouvé
 ACCESS_FORBIDDEN,Access forbidden,Accès interdit
-ERROR_OCCURED,An error has occured,Une erreur est survenue
+ERROR_OCCURED,Oh no!,Oh non !
+ROLE_NOT_ASSIGNABLE,One role can't be assigned,Un rôle ne peut pas être attribué
 DELETION_PERFORMED,Deletion performed,Suppression effectuée
 DELETION_CANCELED,Deletion canceled,Suppression annulée
 SERVER_DELETION_CONFIRMATION,Do you really want to delete all server data,Voulez-vous réellement supprimer toutes les données du serveur
 SERVER_DATA_HAS_BEEN_DELETED,Server data has been deleted,Les données du serveur ont été supprimées
 SERVER_DATA_HAS_NOT_BEEN_DELETED,Server data hasn't been deleted,Les données du serveur n'ont pas été supprimées
 GAIN_RANGE_MODIFIED,Members will earn between {min} and {max} {LANG_KEY:MONEY_NAME:casefold} after reaching a higher level,Les membres gagneront entre {min} et {max} d'{LANG_KEY:MONEY_NAME:casefold} après avoir atteint un niveau supérieur
-OBJECT_IS_NOT_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is no longer refundable,L'{LANG_KEY:OBJECT_NAME:casefold} {object} n'est plus remboursable
-OBJECT_IS_REFUNDABLE,The {object} {LANG_KEY:OBJECT_NAME:casefold} is now refundable for {price},L'{LANG_KEY:OBJECT_NAME:casefold} {object} est désormais remboursable pour {price}
+OBJECT_IS_NOT_SELLABLE,The {LANG_KEY:OBJECT_NAME:casefold} {object} is no longer sellable,L'{LANG_KEY:OBJECT_NAME:casefold} {object} n'est plus vendable
+OBJECT_IS_SELLABLE,The {LANG_KEY:OBJECT_NAME:casefold} {object} is now sellable for {price},L'{LANG_KEY:OBJECT_NAME:casefold} {object} est désormais vendable pour {price}
+OBJECT_CAN_BE_DONATED,The {LANG_KEY:OBJECT_NAME:casefold} {object} can be donated to another member,L'{LANG_KEY:OBJECT_NAME:casefold} {object} peut être donné à un autre membre
+OBJECT_CANNOT_BE_DONATED,The {LANG_KEY:OBJECT_NAME:casefold} {object} can't be donated to another member,L'{LANG_KEY:OBJECT_NAME:casefold} {object} peut pas être donné à un autre membre
+OBJECT_DONATED,You have donated {amount} {object} to {member.display_name},Tu as donné {amount} {object} à {member.display_name}
 LEVELING_STATUS,{LANG_KEY:LEVEL_NAME:capitalize} system status,Statut du système de {LANG_KEY:LEVEL_NAME:casefold}
 LEVELING_MESSAGE,Level up message,Message de montée en niveau
 LEVELING_GAIN_RANGE,Gain range after level up,Plage de gain après élévation du niveau
@@ -154,3 +158,24 @@ UNKNOWN_ERROR,Unknown error,Erreur inconnue
 UNKNOWN_ERROR_OCCURRED,Unknown error has occurred - A report has been sent,Une erreur inconnue s'est produite - Un rapport a été envoyé
 ABOUT_BOT,About the bot,À propos du bot
 BOT_DEVELOPERS,Developers,Développeurs
+BOT_DEVELOPER,Developer,Développeur
+FORMULA_CHANGED,Formula changed,Formule changé
+FORMULA_DESCRIPTION_CHANGED,"The leveling formula was changed in
+
+{new_formula}","Le formule des niveaux a été changé en :
+
+{new_formula}",
+FORMULA_SYNTAX_ERROR,Syntax error,Erreur de syntaxe
+CANNOT_DONATE_OBJECT,This object can't be donated,Cet objet ne peut être donné
+CANNOT_SELL_OBJECT,This object can't be sell,Cet objet ne peut être donné
+OBJECT_SOLD,The object {object} has been sold {amount} time for a total of {money} {LANG_KEY:MONEY_NAME:casefold} earned,L'object {object} a été vendu {amount} fois pour un total de {money} {LANG_KEY:MONEY_NAME:casefold} de gagné
+OBJECT_FEATURES,Features:,Caractéristiques :
+YES,Yes,Oui
+NO,No,Non
+OBJECT_SELL_PRICE,Sell price,Prix de vente
+OBJECT_CAN_BE_DONATED_SHORT,This object can be donated,Cet objet peut être donné
+CLICK_HERE,Click here,Clique ici
+SUPPORT_DISCORD,Support server,Serveur de support
+ARTICLE_HAS_COOLDOWN,The article has a cooldown,L'article a un délai d'attente
+BUY_QUANTITY_SET_TO_X,The quantity to be purchased was forcibly fixed at **{number}**,La quantité à acheter a été fixée de force à **{number}**,
+LOG_BOUGHT_ARTICLE,{article} bought,{article} acheté

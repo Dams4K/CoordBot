@@ -10,7 +10,7 @@ files = {
         "cogs_folder": "cogs",
         "logs_folder": "datas/logs",
         "beta_guilds": None,
-        "debug_mode": True
+        "debug_mode": False
     }
 }
 

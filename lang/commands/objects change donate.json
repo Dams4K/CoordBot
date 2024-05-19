@@ -1,0 +1,29 @@
+{
+    "description": "Authorize (or not) members to donate objects they own",
+    "name_localizations": {
+        "fr": "donnation"
+    },
+    "description_localizations": {
+        "fr": "Authorise (ou non) les membres à donner les objets qu'ils possèdent"
+    },
+    "options": {
+        "object": {
+            "description": "Targeted object",
+            "name_localizations": {
+                "fr": "objet"
+            },
+            "description_localizations": {
+                "fr": "Objet ciblé"
+            }
+        },
+        "allowed": {
+            "description": "Can the object be donated?",
+            "name_localizations": {
+                "fr": "autorisé"
+            },
+            "description_localizations": {
+                "fr": "L'objet peut-il être donné ?"
+            }
+        }
+    }
+}

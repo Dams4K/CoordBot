@@ -1,6 +1,6 @@
-import datetime
-from random import randint
+from datetime import timedelta
 from importlib.metadata import version
+from random import randint
 
 from discord import *
 from discord.ext.pages import Paginator
@@ -11,8 +11,7 @@ from utils.bot_commands import *
 from utils.bot_embeds import *
 from utils.references import References
 
-
-class GlobalCog(Cog):
+class BasicCog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -38,8 +37,14 @@ class GlobalCog(Cog):
         embed = NormalEmbed(title=object.name, description=object.description)
         if description:
             embed.add_field(name=ctx.translate("WHERE_TO_BUY"), value="\n".join(description))
+
+        if object.sellable:
+            embed.add_field(name=ctx.translate("OBJECT_SELL_PRICE"), value=f"{object.sell_price} {ctx.translate('MONEY_NAME:casefold')}")
+        if object.donation:
+            embed.add_field(name=ctx.translate("OBJECT_CAN_BE_DONATED_SHORT"), value=" ", inline=False)
         embed.set_footer(text=f"id: {object._object_id}")
         await ctx.respond(embed=embed)
+
 
     @about.command(name="article")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
@@ -58,11 +63,11 @@ class GlobalCog(Cog):
         
         # Show cooldown
         if article.cooldown > 0:
-            embed.set_footer(text=f"Cooldown: {datetime.timedelta(seconds=article.cooldown)} | id: {article._article_id}")
+            embed.set_footer(text=f"Cooldown: {timedelta(seconds=article.cooldown)} | id: {article._article_id}")
 
         await ctx.respond(embed=embed)
 
-    #TODO: for v4.1 search if there isn't a way to refactor all this code and not having the same code for 3 commands
+    #TODO: for v4.2 search if there isn't a way to refactor all this code and not having the same code for 3 commands
     @list.command(name="objects")
     async def list_objects(self, ctx):
         objects = GuildObject.list_objects(ctx.guild.id)
@@ -78,7 +83,7 @@ class GlobalCog(Cog):
             else:
                 object_descriptions.append(f"{obj.name}")
 
-            if i % 20 == 0 or i == len(object_names):
+            if i % page_size == 0 or i == len(object_names):
                 embed = NormalEmbed(title=ctx.translate("OBJECTS"))
                 embed.description = "\n".join(object_descriptions)
                 embed_pages.append(embed)
@@ -204,19 +209,68 @@ class GlobalCog(Cog):
 
         await ctx.respond(embed=embed, ephemeral=ephemeral)
 
-    # @bot_slash_command(name="sell") # TODO: v4.1
-    # async def sell(self, ctx):
-    #     await ctx.respond("sell object")
+    @bot_slash_command(name="sell")
+    @guild_only()
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("amount", type=int, required=False)
+    async def sell(self, ctx, object: GuildObject, amount: int = 1):
+        if not object.sellable:
+            await ctx.respond(text_key="CANNOT_SELL_OBJECT")
+            return
+
+        author_inv: Inventory = ctx.author_data.get_inventory()
+        if author_inv.get_object_amount(object._object_id) < amount:
+            await ctx.respond(text_key="NOT_ENOUGH_OBJECTS")
+            return
+
+        author_inv.remove_object_id(object._object_id, amount)
+        ctx.author_data.set_inventory(author_inv)
+
+        money_earned = object.sell_price * amount
+        ctx.author_data.add_money(money_earned)
+
+        await ctx.respond(text_key="OBJECT_SOLD", text_args={"object": object.name, "amount": amount, "money": money_earned})
+
+    @bot_slash_command(name="donate")
+    @guild_only()
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("to", type=Member)
+    @option("amount", type=int, required=False)
+    async def donate(self, ctx, object: GuildObject, to: Member, amount: int = 1):
+        if not object.donation:
+            await ctx.respond(text_key="CANNOT_DONATE_OBJECT")
+            return
+
+        to_data = MemberData(to.id, ctx.guild.id)
+        author_inv: Inventory = ctx.author_data.get_inventory()
+        to_inv: Inventory = to_data.get_inventory()
+
+        if author_inv.get_object_amount(object._object_id) < amount:
+            await ctx.respond(text_key="NOT_ENOUGH_OBJECTS")
+            return
+
+        author_inv.remove_object_id(object._object_id, amount)
+        to_inv.add_object_id(object._object_id, amount)
+
+        ctx.author_data.set_inventory(author_inv)
+        to_data.set_inventory(to_inv)
+
+        await ctx.respond(text_key="OBJECT_DONATED", text_args={"amount": amount, "object": object.name, "member": to})
 
 
     @bot_slash_command(name="buy")
     @option("article", type=GuildArticleConverter, required=True, autocomplete=get_articles)
-    # @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
+    @option("quantity", type=int, default=1, max_value=999, required=False) #TODO: Can buy more than one bypassing cooldown
     @guild_only()
     async def buy_article(self, ctx, article: GuildArticle, quantity: int = 1):
         if quantity <= 0:
             await ctx.respond("????") # Wtf are you trying to buy????
             return
+
+        if article.cooldown > 0 and quantity > 1:
+            quantity = 1
+            embed = WarningEmbed(title=ctx.translate("ARTICLE_HAS_COOLDOWN"), description=ctx.translate("BUY_QUANTITY_SET_TO_X", number=quantity))
+            await ctx.respond(embed=embed)
 
         quantity = await article.buy(ctx, quantity)
         if quantity == 1:
@@ -241,11 +295,17 @@ class GlobalCog(Cog):
                 app_info = await self.bot.application_info()
                 team = app_info.team
                 developers = team.members if team else [app_info.owner]
-                
+                bot_version = f"v{References.VERSION}" # TODO (idea): add "-dev" when we are using a non released version
+
+
                 embed = InformativeEmbed(title=ctx.translate("ABOUT_BOT"))
-                embed.add_field(name="Py-cord", value=f"v{version('py-cord')}")
-                embed.add_field(name=self.bot.user.display_name, value=f"v{References.VERSION}", inline=False)
-                embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers))
+                embed.add_field(name="Py-cord", value=f"v{version('py-cord')}", inline=False)
+                embed.add_field(name=self.bot.user.display_name, value=bot_version, inline=False)
+                embed.add_field(name=ctx.translate("SUPPORT_DISCORD"), value=f"[{ctx.translate('CLICK_HERE')}](https://discord.gg/KMA8NADHqQ)", inline=False)
+                if len(developers) > 1:
+                    embed.add_field(name=ctx.translate("BOT_DEVELOPERS"), value="\n".join(f"`{developer.name}`" for developer in developers), inline=False)
+                elif len(developers) == 1:
+                    embed.add_field(name=ctx.translate("BOT_DEVELOPER"), value=f"{developers[0].name}", inline=False)
                 await message.reply(embed=embed)
 
         leveling_config = GuildLevelingConfig(ctx.guild.id)
@@ -266,4 +326,4 @@ class GlobalCog(Cog):
                     await ctx.send(m)
 
 def setup(bot):
-    bot.add_cog(GlobalCog(bot))
+    bot.add_cog(BasicCog(bot))

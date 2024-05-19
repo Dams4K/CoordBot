@@ -38,17 +38,26 @@ class ObjectsConfigCog(Cog):
         object.set_description(description)
         await ctx.respond(text_key="OBJECT_DESCRIPTION_CHANGED", text_args={"before": before_description, "after": description})
 
-    @change.command(name="refund")
+    @change.command(name="sell")
     @option("object", type=GuildObjectConverter, autocomplete=get_objects)
-    @option("is_refundable", type=bool)
-    @option("refund_price", type=int)
-    async def change_refund(self, ctx, object: GuildObject, is_refundable, refund_price):
-        object.set_refundable(is_refundable, refund_price)
-        if is_refundable:
-            await ctx.respond(text_key="OBJECT_IS_REFUNDABLE", text_args={"object": object.name, "price": refund_price})
+    @option("is_sellable", type=bool)
+    @option("price", type=int)
+    async def change_sell(self, ctx, object: GuildObject, is_sellable, price):
+        object.set_sellable(is_sellable, price)
+        if is_sellable:
+            await ctx.respond(text_key="OBJECT_IS_SELLABLE", text_args={"object": object.name, "price": price})
         else:
-            await ctx.respond(text_key="OBJECT_IS_NOT_REFUNDABLE", text_args={"object": object.name})
+            await ctx.respond(text_key="OBJECT_IS_NOT_SELLABLE", text_args={"object": object.name})
 
+    @change.command(name="donate")
+    @option("object", type=GuildObjectConverter, autocomplete=get_objects)
+    @option("allowed", type=bool)
+    async def change_donable(self, ctx, object: GuildObject, allowed: bool):
+        object.set_donation(allowed)
+        if allowed:
+            await ctx.respond(text_key="OBJECT_CAN_BE_DONATED", text_args={"object": object.name})
+        else:
+            await ctx.respond(text_key="OBJECT_CANNOT_BE_DONATED", text_args={"object": object.name})
 
     @objects.command(name="delete")
     @option("object", type=GuildObjectConverter, required=True, autocomplete=get_objects)

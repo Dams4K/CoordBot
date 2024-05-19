@@ -3,9 +3,10 @@ from discord.ext import bridge, commands
 
 from utils.bot_embeds import NormalEmbed
 
-
 # Debug class, only available when utils.References.DEBUG_MODE is True
 class DebugCog(commands.Cog):
+    ALLOW_STATS = False
+    
     def __init__(self, bot):
         self.bot = bot
         
@@ -22,6 +23,10 @@ class DebugCog(commands.Cog):
     async def only_command(self, ctx):
         await ctx.send(ctx.guild_config.prefix)
     
+    @commands.command(name="say")
+    async def say(self, ctx, *, msg):
+        await ctx.send(msg)
+
     @commands.slash_command(name="only_slash")
     async def only_slash(self, ctx):
         await ctx.respond(ctx.guild_config.prefix)
@@ -62,6 +67,7 @@ Just a little test
     @b.command()
     async def c(self, ctx):
         await ctx.respond("d")
+
 
 def setup(bot):
     bot.add_cog(DebugCog(bot))

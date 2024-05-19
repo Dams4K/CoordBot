@@ -1,5 +1,6 @@
 from data_management import *
 
+
 def get_articles(self, ctx):
     guild_id = ctx.interaction.guild.id
     article_names = [article.name for article in GuildArticle.list_articles(guild_id)]
@@ -43,3 +44,8 @@ def get_translation_keys(self, ctx):
 def get_custom_translations(self, ctx):
     guild_language = GuildLanguage(ctx.interaction.guild.id)
     return [key for key in guild_language.get_keys() if key.startswith(ctx.value)]
+
+def get_leveling_formula(self, ctx):
+    default_leveling_config = GuildLevelingConfig(-1)
+    leveling_config = GuildLevelingConfig(ctx.interaction.guild.id)
+    return list({leveling_config.formula, default_leveling_config.formula})

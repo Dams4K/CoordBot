@@ -78,7 +78,6 @@ class GuildSalaries(Saveable):
 
         dead_role_ids = []
 
-        dead_roles = []
         guild_roles = {str(role.id): role for role in await guild.fetch_roles()}
 
         for role_id, pay in self.salaries.items():
@@ -146,13 +145,27 @@ class GuildSalaries(Saveable):
 
 class GuildLevelingConfig(Saveable):
     __slots__ = ("_guild_id", "enabled", "message", "formula", "banned_channels", "banned_members", "min_gain", "max_gain")
+    dversion = 2
+
+    @staticmethod
+    def convert_version(data):
+        dversion = data.get("__dversion", 1)
+        if dversion == 1:
+            # data["__dversion"] = 2
+            
+            if formula := data.get("formula"):
+                data["formula"] = formula.replace("{level}", "level")
+        # if dversion == 2:
+        #   ...
+                
+        return data
 
     def __init__(self, guild_id: int):
         self._guild_id = guild_id
         
         self.enabled = True
         self.message = "GG {member.mention} ! You've just reached level `{level_after}` and earned {earned_money} coins!!"
-        self.formula = "20*({level}+1)"
+        self.formula = "20*(level+1)"
         self.banned_channels = []
         self.banned_members = []
 
@@ -175,6 +188,9 @@ class GuildLevelingConfig(Saveable):
     def get_message(self, **kwargs):
         return self.message.format_map(FormatDict(kwargs))
 
+    @Saveable.update()
+    def set_formula(self, value):
+        self.formula = value
 
     @Saveable.update()
     def ban_channel(self, channel: discord.TextChannel):

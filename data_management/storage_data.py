@@ -1,4 +1,3 @@
-import random
 import re
 from time import time
 
@@ -11,7 +10,8 @@ from utils.references import References
 
 
 class GuildObject(Saveable):
-    __slots__ = ("_object_id", "_guild_id", "name", "description", "refundable", "refund_price")
+    __slots__ = ("_object_id", "_guild_id", "name", "description", "sellable", "sell_price", "donation")
+    dversion = 2
 
     FOLDER: str = "%s/objects"
     FILENAME: str = "%s.json"
@@ -50,7 +50,7 @@ class GuildObject(Saveable):
     def __new__(cls, object_id: int, guild_id: int, create: bool = False):
         path = References.get_guild_folder(os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id))
         if os.path.exists(path) or create:
-            return super(Saveable, cls).__new__(cls)
+            return super(GuildObject, cls).__new__(cls) # We want to create the instance with the __new__ function of Saveable
         return None
 
     def __init__(self, object_id: int, guild_id: int, create: bool = False):
@@ -58,12 +58,24 @@ class GuildObject(Saveable):
         self._guild_id = guild_id
         self.name = "NoName"
         self.description = ""
-        self.refundable = False
-        self.refund_price = 0
+        self.sellable = False
+        self.sell_price = 0
+        self.donation = True
 
         path = os.path.join(GuildObject.FOLDER % guild_id, GuildObject.FILENAME % object_id)
         super().__init__(References.get_guild_folder(path))
     
+    @staticmethod
+    def convert_version(data):
+        data_version = data.get("__dversion", 1)
+        
+        if data_version == 1:
+            data["__dversion"] = 2
+            data["sellable"] = data.get("refundable", False)
+            data["sell_price"] = data.get("refund_price", 0)
+
+        return data
+
     @Saveable.update()
     def set_name(self, new_name):
         self.name = new_name[:32]
@@ -75,9 +87,14 @@ class GuildObject(Saveable):
         return self
 
     @Saveable.update()
-    def set_refundable(self, is_refundable, refund_price):
-        self.refundable = is_refundable
-        self.refund_price = refund_price
+    def set_sellable(self, is_sellable, price):
+        self.sellable = is_sellable
+        self.sell_price = price
+        return self
+
+    @Saveable.update()
+    def set_donation(self, allowed: bool):
+        self.donation = allowed
         return self
 
 class GuildArticle(Saveable):
@@ -262,6 +279,20 @@ class GuildArticle(Saveable):
         if author_data.money < price:
             raise derrors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
         
+        # Check if bot can add roles
+        roles = []
+        for role_id in self.role_ids:
+            role: discord.Role = ctx.guild.get_role(role_id)
+            if role == None:
+                raise derrors.RoleNotFound(ctx.guild_config.language)
+            if not role.is_assignable():
+                raise derrors.RoleNotAssignable(ctx.guild_config.language)
+            
+            roles.append(role)
+        
+        # Add roles
+        await ctx.author.add_roles(*roles, reason=ctx.translate("LOG_BOUGHT_ARTICLE", article=self.name))
+
         author_inventory: Inventory = author_data.get_inventory()
 
 
@@ -288,13 +319,6 @@ class GuildArticle(Saveable):
                 author_inventory.add_object_id(object_id, amount)
 
         author_data.set_inventory(author_inventory)
-        
-        for role_id in self.role_ids:
-            role = ctx.guild.get_role(role_id)
-            if role == None:
-                raise derrors.RoleNotFound(ctx.guild_config.language)
-            else:
-                await ctx.author.add_roles(role)
         
         # Return the quantity bought
         return quantity
@@ -354,7 +378,7 @@ class GuildObjectConverter(Converter):
 
 class Inventory(Data):
     __slots__ = ("max_size", "object_ids")
-    _dversion = 2
+    dversion = 2
 
     def __init__(self):
         self.max_size = -1
@@ -393,7 +417,7 @@ class Inventory(Data):
         if self.object_ids[object_id] == 0:
             self.object_ids.pop(object_id)
     
-    def remove_object(self, object_id: str, amount: int):
+    def remove_object_id(self, object_id: str, amount: int):
         if amount == -1:
             self.object_ids[object_id] = 0
         else:
