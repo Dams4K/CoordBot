@@ -114,6 +114,7 @@ LEVELING_BANLIST_CHANNELS_EMPTY,*empty*,*vide*
 MESSAGE_NOT_FOUND,No message found,Aucun message trouvé
 ACCESS_FORBIDDEN,Access forbidden,Accès interdit
 ERROR_OCCURED,Oh no!,Oh non !
+ROLE_NOT_ASSIGNABLE,One role can't be assigned,Un rôle ne peut pas être attribué
 DELETION_PERFORMED,Deletion performed,Suppression effectuée
 DELETION_CANCELED,Deletion canceled,Suppression annulée
 SERVER_DELETION_CONFIRMATION,Do you really want to delete all server data,Voulez-vous réellement supprimer toutes les données du serveur
@@ -176,4 +177,5 @@ OBJECT_CAN_BE_DONATED_SHORT,This object can be donated,Cet objet peut être donn
 CLICK_HERE,Click here,Clique ici
 SUPPORT_DISCORD,Support server,Serveur de support
 ARTICLE_HAS_COOLDOWN,The article has a cooldown,L'article a un délai d'attente
-BUY_QUANTITY_SET_TO_X,The quantity to be purchased was forcibly fixed at **{number}**,La quantité à acheter a été fixée de force à **{number}**
+BUY_QUANTITY_SET_TO_X,The quantity to be purchased was forcibly fixed at **{number}**,La quantité à acheter a été fixée de force à **{number}**,
+LOG_BOUGHT_ARTICLE,{article} bought,{article} acheté

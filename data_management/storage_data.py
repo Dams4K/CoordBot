@@ -279,6 +279,20 @@ class GuildArticle(Saveable):
         if author_data.money < price:
             raise derrors.NotEnoughMoney(ctx.guild_config.language, money=author_data.money, price=price)
         
+        # Check if bot can add roles
+        roles = []
+        for role_id in self.role_ids:
+            role: discord.Role = ctx.guild.get_role(role_id)
+            if role == None:
+                raise derrors.RoleNotFound(ctx.guild_config.language)
+            if not role.is_assignable():
+                raise derrors.RoleNotAssignable(ctx.guild_config.language)
+            
+            roles.append(role)
+        
+        # Add roles
+        await ctx.author.add_roles(*roles, reason=ctx.translate("LOG_BOUGHT_ARTICLE", article=self.name))
+
         author_inventory: Inventory = author_data.get_inventory()
 
 
@@ -305,13 +319,6 @@ class GuildArticle(Saveable):
                 author_inventory.add_object_id(object_id, amount)
 
         author_data.set_inventory(author_inventory)
-        
-        for role_id in self.role_ids:
-            role = ctx.guild.get_role(role_id)
-            if role == None:
-                raise derrors.RoleNotFound(ctx.guild_config.language)
-            else:
-                await ctx.author.add_roles(role)
         
         # Return the quantity bought
         return quantity

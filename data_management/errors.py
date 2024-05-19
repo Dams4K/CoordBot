@@ -22,6 +22,9 @@ class NotEnoughMoney(BotException):
 class NotEnoughObjects(BotException):
     KEY = "NOT_ENOUGH_OBJECTS"
     EMBED = WarningEmbed
+class RoleNotAssignable(BotException):
+    KEY = "ROLE_NOT_ASSIGNABLE"
+    EMBED = DangerEmbed
 
 class UnderCooldown(BotException):
     KEY = "ARE_UNDER_COOLDOWN"
