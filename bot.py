@@ -49,7 +49,8 @@ class CoordBot(bridge.Bot):
         await self.change_presence(status=discord.Status.online)
 
     async def on_error(self, event_name, *args, **kwargs):
-        self.dispatch("event_error", event_name, sys.exception(), *args, **kwargs) # on_error is only dispatched to `Client.event()` so a new event is dispatched for cogs
+        # sys.exc_info() return the tuple tuple[type[BaseException], BaseException, TracebackType]
+        self.dispatch("event_error", event_name, sys.exc_info()[1], *args, **kwargs) # on_error is only dispatched to `Client.event()` so a new event is dispatched for cogs
 
     async def get_application_context(self, interaction, cls = BotApplicationContext):
         return await super().get_application_context(interaction, cls=cls)

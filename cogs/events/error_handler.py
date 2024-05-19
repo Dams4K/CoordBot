@@ -22,7 +22,8 @@ class ErrorHandler(Cog):
             ctx = await self.bot.get_context(args[0])
             await self.errors(ctx, exc)
         else:
-            detailed_exception = "".join(traceback.format_exception(exc))
+            detailed_exception = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+            self.bot.logger.error(detailed_exception)
             print(detailed_exception)
     
     @Cog.listener()
@@ -46,7 +47,7 @@ class ErrorHandler(Cog):
         exception_message = str(original_exception or exception)
         if getattr(original_exception, "KEY", None) is None:
             print("Unknown error has occured, see logs for more informations")
-            detailed_exception = "".join(traceback.format_exception(exception))
+            detailed_exception = "".join(traceback.format_exception(type(exception), exception, exception.__traceback__))
 
             self.bot.logger.error(detailed_exception)
             exception_message = ctx.translate("UNKNOWN_ERROR_OCCURRED")
