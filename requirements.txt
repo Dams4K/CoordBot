@@ -11,4 +11,5 @@ psutil==5.9.7
 py-cord==2.5.0
 Pympler==1.0.1
 simpleeval==0.9.13
+typing_extensions==4.12.0rc1
 yarl==1.8.2
