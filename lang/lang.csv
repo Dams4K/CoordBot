@@ -23,7 +23,7 @@ ARTICLE_ROLE_ADDED,You have added {role} to {article},Tu as ajouté {role} à {a
 ARTICLE_OBJECT_REMOVED,You have removed {quantity} {object} from {article},Tu as retiré {quantity} {object} de {article}
 ARTICLE_ROLE_REMOVED,You have removed {role} from {article},Tu as retiré {role} de {article}
 ARTICLE_DELETION_CONFIRMATION,Are you really sure you want to delete the {LANG_KEY:ARTICLE_NAME:casefold} {article},Êtes-vous vraiment sûr de vouloir supprimer l'{LANG_KEY:ARTICLE_NAME:casefold} {article}
-ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME} {article} a été effectuée
+ARTICLE_DELETION_PERFORMED,The deletion of the {LANG_KEY:ARTICLE_NAME:casefold} {article} has been performed,La suppression de l'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été effectuée
 ARTICLE_PURCHASED,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté
 ARTICLE_PURCHASED_X_TIMES,The {LANG_KEY:ARTICLE_NAME:casefold} {article} has been bought `{quantity}` times,L'{LANG_KEY:ARTICLE_NAME:casefold} {article} a été acheté `{quantity}` fois
 ARTICLE_PRICE,{price} {LANG_KEY:MONEY_NAME:casefold}s,{price} {LANG_KEY:MONEY_NAME:casefold}s
