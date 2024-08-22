@@ -71,7 +71,7 @@ class BackupCog(Cog):
         return False
     
     def remove_dead_guilds_data(self):
-        # For some reasons `self.bot.guilds` return an empty array, so this function is know disabled
+        # For some reasons `self.bot.guilds` return an empty array, so this function is now disabled
         # TODO: fix this ahaha
 
         # OLD CODE
